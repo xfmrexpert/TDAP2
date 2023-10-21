@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:TDAP_GUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TDAP_GUI.Views.DetailsView">
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainViewModel />
+	</Design.DataContext>
+	<UserControl.DataTemplates>
+		<DataTemplate DataType="{x:Type vm:TransformerViewModel}">
+			<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="10">Number of Phases:</TextBlock>
+				<ComboBox Grid.Row="0" Grid.Column="1" SelectedIndex="{Binding NumPhasesIdx}">
+					<ComboBoxItem>Single</ComboBoxItem>
+					<ComboBoxItem>Three</ComboBoxItem>
+				</ComboBox>
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Distance Winding to Tank:</TextBlock>
+				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Dist_WdgTank}"/>
+				<Button Grid.Row="2" Grid.Column="0">Add Winding</Button>
+				<Button Grid.Row="3">Remove Winding</Button>
+			</Grid>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:WindingViewModel}">
+			<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="10">Self-Cooled MVA:</TextBlock>
+				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding MVA}" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Voltage, l-l:</TextBlock>
+				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Voltage}"/>
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="10">Current Direction:</TextBlock>
+				<Button Grid.Row="3" Grid.Column="0">Add Segment</Button>
+				<Button Grid.Row="4">Remove Segment</Button>
+			</Grid>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:SegmentViewModel}">
+			<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="10">Segment ID:</TextBlock>
+				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SegmentID}" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Turns per Section:</TextBlock>
+				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding turns_per_section}"/>
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="10">Number of Sections:</TextBlock>
+				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding n_sections}"/>
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="10">Inner Radius:</TextBlock>
+				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding radius_inner}"/>
+				<TextBlock Grid.Row="4" Grid.Column="0" Margin="10">Strands per Turn:</TextBlock>
+				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding strands_per_turn}"/>
+				<TextBlock Grid.Row="5" Grid.Column="0" Margin="10">Height Above Yoke:</TextBlock>
+				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding h_abv_yoke}"/>
+				<TextBlock Grid.Row="6" Grid.Column="0" Margin="10">Conductor Thickness:</TextBlock>
+				<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding t_cond}"/>
+				<TextBlock Grid.Row="7" Grid.Column="0" Margin="10">Conductor Height:</TextBlock>
+				<TextBox Grid.Row="7" Grid.Column="1" Text="{Binding h_cond}"/>
+				<TextBlock Grid.Row="8" Grid.Column="0" Margin="10">Insulation Thickness:</TextBlock>
+				<TextBox Grid.Row="8" Grid.Column="1" Text="{Binding t_ins}"/>
+				<TextBlock Grid.Row="9" Grid.Column="0" Margin="10">Conductor Corner Radius:</TextBlock>
+				<TextBox Grid.Row="9" Grid.Column="1" Text="{Binding r_cond_corner}"/>
+				<TextBlock Grid.Row="10" Grid.Column="0" Margin="10">Radial Spacer Height:</TextBlock>
+				<TextBox Grid.Row="10" Grid.Column="1" Text="{Binding h_spacer}"/>
+			</Grid>
+		</DataTemplate>
+	</UserControl.DataTemplates>
+	<ContentControl Content="{Binding SelectedItem}" Margin="10"/>
+</UserControl>

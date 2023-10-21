@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:TDAP_GUI.ViewModels"
+			 xmlns:views="clr-namespace:TDAP_GUI.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TDAP_GUI.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+	<StackPanel Orientation="Horizontal">
+		<TreeView ItemsSource="{Binding TfmrVM}" SelectedItem="{Binding SelectedItem}" SelectionMode="Single">
+			<TreeView.DataTemplates>
+				<TreeDataTemplate DataType="vm:TransformerViewModel" ItemsSource="{Binding WindingVMs}">
+					<TextBlock Text="Transformer" />
+				</TreeDataTemplate>
+				<TreeDataTemplate DataType="vm:WindingViewModel" ItemsSource="{Binding SegmentVMs}">
+					<TextBlock Text="{Binding WindingID}" />
+				</TreeDataTemplate>
+				<TreeDataTemplate DataType="vm:SegmentViewModel">
+					<TextBlock Text="{Binding SegmentID}" />
+				</TreeDataTemplate>
+			</TreeView.DataTemplates>
+		</TreeView>
+		<views:DetailsView />
+	</StackPanel>
+</UserControl>

@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDAP", "TDAP2\TDAP.csproj", "{3C8504A3-2544-497C-BDB7-FA5857443E8B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDAP_GUI", "TDAP_GUI\TDAP_GUI.csproj", "{0B271BA3-C673-4522-B0DB-C7AF3935C703}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDAP_GUI.Desktop", "TDAP_GUI.Desktop\TDAP_GUI.Desktop.csproj", "{27A7ACA1-20A2-4687-A86D-19AAF5422222}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C8504A3-2544-497C-BDB7-FA5857443E8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C8504A3-2544-497C-BDB7-FA5857443E8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C8504A3-2544-497C-BDB7-FA5857443E8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C8504A3-2544-497C-BDB7-FA5857443E8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B271BA3-C673-4522-B0DB-C7AF3935C703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B271BA3-C673-4522-B0DB-C7AF3935C703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B271BA3-C673-4522-B0DB-C7AF3935C703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B271BA3-C673-4522-B0DB-C7AF3935C703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A7ACA1-20A2-4687-A86D-19AAF5422222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A7ACA1-20A2-4687-A86D-19AAF5422222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A7ACA1-20A2-4687-A86D-19AAF5422222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A7ACA1-20A2-4687-A86D-19AAF5422222}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC8FAC90-BF21-4460-AF2F-8C4B603BA889}
+	EndGlobalSection
+EndGlobal
