@@ -1,3 +1,6 @@
+// Copyright 2023, T. C. Raymond
+// SPDX-License-Identifier: MIT
+
 namespace TDAP
 {
     public class Segment
@@ -21,15 +24,16 @@ namespace TDAP
         {
             get
             {
-                return turns_per_section * (t_cond + 2 * t_ins);
+                return radius_inner + turns_per_section * (t_cond + 2 * t_ins);
             }
         }
 
+        // for now, anyway, height ignores spacers above top disc and below bottom disc
         public double height
         {
             get
             {
-                return n_sections * (h_cond + 2 * t_ins) + (n_sections + 1) * h_spacer;
+                return n_sections * (h_cond + 2 * t_ins) + (n_sections - 1) * h_spacer;
             }
         }
 

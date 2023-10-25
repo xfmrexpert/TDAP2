@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2023, T. C. Raymond
+// SPDX-License-Identifier: MIT
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,7 +15,7 @@ namespace TDAP_GUI.ViewModels
     {
         public enum NumPhasesEnum { Single, Three};
 
-        private Transformer Model;
+        public Transformer Model { get; set; }
 
         public ObservableCollection<WindingViewModel> WindingVMs { get; set; } = new ObservableCollection<WindingViewModel>(); 
         

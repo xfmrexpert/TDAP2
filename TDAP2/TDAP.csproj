@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\tcraymond\source\repos\TDAP2\TDAP2\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\tcraymond\source\repos\TDAP2\TDAP2\.editorconfig" />
+  </ItemGroup>
+
 </Project>

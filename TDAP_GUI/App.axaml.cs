@@ -1,4 +1,7 @@
-﻿using Avalonia;
+﻿// Copyright 2023, T. C. Raymond
+// SPDX-License-Identifier: MIT
+
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;

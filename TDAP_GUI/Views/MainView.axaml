@@ -26,6 +26,9 @@
 				</TreeDataTemplate>
 			</TreeView.DataTemplates>
 		</TreeView>
-		<views:DetailsView />
+		<views:DetailsView MaxWidth="400" />
+		<Border BorderBrush="Red" BorderThickness="0" MinWidth="200" MinHeight="300" Margin="10">
+			<views:PlotControl  Tfmr="{Binding Tfmr}"/>
+		</Border>
 	</StackPanel>
 </UserControl>

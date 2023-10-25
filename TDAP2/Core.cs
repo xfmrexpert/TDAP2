@@ -1,3 +1,6 @@
+// Copyright 2023, T. C. Raymond
+// SPDX-License-Identifier: MIT
+
 using System.Collections.Generic;
 using System;
 

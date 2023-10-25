@@ -1,4 +1,7 @@
-﻿using Avalonia.Controls;
+﻿// Copyright 2023, T. C. Raymond
+// SPDX-License-Identifier: MIT
+
+using Avalonia.Controls;
 using TDAP_GUI.ViewModels;
 
 namespace TDAP_GUI.Views;

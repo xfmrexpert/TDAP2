@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace TDAP_GUI.Views
 {
-    public partial class DetailsView : UserControl
+    public partial class PlotView : UserControl
     {
-        public DetailsView()
+        public PlotView()
         {
             InitializeComponent();
         }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2023, T. C. Raymond
+// SPDX-License-Identifier: MIT
+
+using System;
 
 using Avalonia;
 
