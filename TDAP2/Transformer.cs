@@ -15,6 +15,10 @@ namespace TDAP
         
         public List<Winding> Windings {get; set;} = new List<Winding>();
 
+        private Mesh mesh = new Mesh();
+
+        public Mesh Mesh { get { return mesh;}}
+
         public Transformer() {}
 
         public Winding AddNewWinding()
@@ -113,6 +117,15 @@ namespace TDAP
                 }
             }
             sw.Close();
+        }
+
+        public void RunCalculations()
+        {
+            writeTransformerGmsh("test.geo");
+            WriteAttributes("test.att");
+            FEProg fea = new FEProg();
+            mesh = fea.run_FEA("test", 1);
+            Console.WriteLine(mesh.numNodes());
         }
     }
 }

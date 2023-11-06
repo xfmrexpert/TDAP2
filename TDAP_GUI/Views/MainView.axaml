@@ -12,23 +12,31 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
-	<StackPanel Orientation="Horizontal">
-		<TreeView ItemsSource="{Binding TfmrVM}" SelectedItem="{Binding SelectedItem}" SelectionMode="Single">
-			<TreeView.DataTemplates>
-				<TreeDataTemplate DataType="vm:TransformerViewModel" ItemsSource="{Binding WindingVMs}">
-					<TextBlock Text="Transformer" />
-				</TreeDataTemplate>
-				<TreeDataTemplate DataType="vm:WindingViewModel" ItemsSource="{Binding SegmentVMs}">
-					<TextBlock Text="{Binding WindingID}" />
-				</TreeDataTemplate>
-				<TreeDataTemplate DataType="vm:SegmentViewModel">
-					<TextBlock Text="{Binding SegmentID}" />
-				</TreeDataTemplate>
-			</TreeView.DataTemplates>
-		</TreeView>
-		<views:DetailsView MaxWidth="400" />
-		<Border BorderBrush="Red" BorderThickness="0" MinWidth="200" MinHeight="300" Margin="10">
-			<views:PlotControl  Tfmr="{Binding Tfmr}"/>
-		</Border>
-	</StackPanel>
+	<DockPanel>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="File">
+			</MenuItem>
+			<MenuItem Header="Run" Command="{Binding RunAnalysisCommand}"/>
+			<MenuItem Header="Refesh Plot" Click="RefreshClick" />
+		</Menu>
+		<DockPanel LastChildFill="True">
+			<TreeView DockPanel.Dock="Left" ItemsSource="{Binding TfmrVM}" SelectedItem="{Binding SelectedItem}" SelectionMode="Single" Width="175">
+					<TreeView.DataTemplates>
+						<TreeDataTemplate DataType="vm:TransformerViewModel" ItemsSource="{Binding WindingVMs}">
+							<TextBlock Text="Transformer" />
+						</TreeDataTemplate>
+						<TreeDataTemplate DataType="vm:WindingViewModel" ItemsSource="{Binding SegmentVMs}">
+							<TextBlock Text="{Binding WindingID}" />
+						</TreeDataTemplate>
+						<TreeDataTemplate DataType="vm:SegmentViewModel">
+							<TextBlock Text="{Binding SegmentID}" />
+						</TreeDataTemplate>
+					</TreeView.DataTemplates>
+				</TreeView>
+			<views:DetailsView MaxWidth="400" />
+			<Border DockPanel.Dock="Right" BorderBrush="Red" BorderThickness="0" MinWidth="200" MinHeight="300" Margin="10">
+				<views:PlotControl x:Name="plotCtl" Tfmr="{Binding Tfmr}"/>
+			</Border>
+		</DockPanel>
+	</DockPanel>
 </UserControl>

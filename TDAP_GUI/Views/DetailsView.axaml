@@ -12,7 +12,12 @@
 	</Design.DataContext>
 	<UserControl.DataTemplates>
 		<DataTemplate DataType="{x:Type vm:TransformerViewModel}">
-			<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+			<DockPanel>
+				<StackPanel Orientation="Vertical" DockPanel.Dock="Bottom">
+					<Button Grid.Row="2" Grid.Column="0" Margin="5" Width="130" HorizontalContentAlignment="Center">Add Winding</Button>
+					<Button Grid.Row="3" Margin="5" Width="130" HorizontalContentAlignment="Center">Remove Winding</Button>
+				</StackPanel>
+			<Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="10">Number of Phases:</TextBlock>
 				<ComboBox Grid.Row="0" Grid.Column="1" SelectedIndex="{Binding NumPhasesIdx}">
 					<ComboBoxItem>Single</ComboBoxItem>
@@ -20,9 +25,10 @@
 				</ComboBox>
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Distance Winding to Tank:</TextBlock>
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Dist_WdgTank}"/>
-				<Button Grid.Row="2" Grid.Column="0">Add Winding</Button>
-				<Button Grid.Row="3">Remove Winding</Button>
+				
 			</Grid>
+				
+			</DockPanel>
 		</DataTemplate>
 		<DataTemplate DataType="{x:Type vm:WindingViewModel}">
 			<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
@@ -38,27 +44,27 @@
 		<DataTemplate DataType="{x:Type vm:SegmentViewModel}">
 			<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="10">Segment ID:</TextBlock>
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SegmentID}" />
+				<TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding SegmentID}" />
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Turns per Section:</TextBlock>
-				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding turns_per_section}"/>
+				<TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding turns_per_section}"/>
 				<TextBlock Grid.Row="2" Grid.Column="0" Margin="10">Number of Sections:</TextBlock>
-				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding n_sections}"/>
+				<TextBox Grid.Row="2" Grid.Column="1" Margin="5" Text="{Binding n_sections}"/>
 				<TextBlock Grid.Row="3" Grid.Column="0" Margin="10">Inner Radius:</TextBlock>
-				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding radius_inner}"/>
+				<TextBox Grid.Row="3" Grid.Column="1" Margin="5" Text="{Binding radius_inner}"/>
 				<TextBlock Grid.Row="4" Grid.Column="0" Margin="10">Strands per Turn:</TextBlock>
-				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding strands_per_turn}"/>
+				<TextBox Grid.Row="4" Grid.Column="1" Margin="5" Text="{Binding strands_per_turn}"/>
 				<TextBlock Grid.Row="5" Grid.Column="0" Margin="10">Height Above Yoke:</TextBlock>
-				<TextBox Grid.Row="5" Grid.Column="1" Text="{Binding h_abv_yoke}"/>
+				<TextBox Grid.Row="5" Grid.Column="1" Margin="5" Text="{Binding h_abv_yoke}"/>
 				<TextBlock Grid.Row="6" Grid.Column="0" Margin="10">Conductor Thickness:</TextBlock>
-				<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding t_cond}"/>
+				<TextBox Grid.Row="6" Grid.Column="1" Margin="5" Text="{Binding t_cond}"/>
 				<TextBlock Grid.Row="7" Grid.Column="0" Margin="10">Conductor Height:</TextBlock>
-				<TextBox Grid.Row="7" Grid.Column="1" Text="{Binding h_cond}"/>
+				<TextBox Grid.Row="7" Grid.Column="1" Margin="5" Text="{Binding h_cond}"/>
 				<TextBlock Grid.Row="8" Grid.Column="0" Margin="10">Insulation Thickness:</TextBlock>
-				<TextBox Grid.Row="8" Grid.Column="1" Text="{Binding t_ins}"/>
+				<TextBox Grid.Row="8" Grid.Column="1" Margin="5" Text="{Binding t_ins}"/>
 				<TextBlock Grid.Row="9" Grid.Column="0" Margin="10">Conductor Corner Radius:</TextBlock>
-				<TextBox Grid.Row="9" Grid.Column="1" Text="{Binding r_cond_corner}"/>
+				<TextBox Grid.Row="9" Grid.Column="1" Margin="5" Text="{Binding r_cond_corner}"/>
 				<TextBlock Grid.Row="10" Grid.Column="0" Margin="10">Radial Spacer Height:</TextBlock>
-				<TextBox Grid.Row="10" Grid.Column="1" Text="{Binding h_spacer}"/>
+				<TextBox Grid.Row="10" Grid.Column="1" Margin="5" Text="{Binding h_spacer}"/>
 			</Grid>
 		</DataTemplate>
 	</UserControl.DataTemplates>

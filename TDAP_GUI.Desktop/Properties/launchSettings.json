@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TDAP_GUI.Desktop": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

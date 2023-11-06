@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 namespace TDAP
@@ -21,12 +22,83 @@ namespace TDAP
 
         public void gmshRectangle(double ll_x, double ll_y, double ur_x, double ur_y)
         {
-
+            GmshPoint ll = new GmshPoint(ll_x, ll_y, 0);
+            GmshPoint lr = new GmshPoint(ur_x, ll_y, 0);
+            GmshPoint ur = new GmshPoint(ur_x, ur_y, 0);
+            GmshPoint ul = new GmshPoint(ll_x, ur_y, 0);
+            points.Add(ll);
+            points.Add(lr);
+            points.Add(ur);
+            points.Add(ul);
+            GmshLine bottom = new GmshLine(ll, lr);
+            GmshLine right = new GmshLine(lr, ur);
+            GmshLine top = new GmshLine(ur, ul);
+            GmshLine left = new GmshLine(ul, ll);
+            lines.Add(bottom);
+            lines.Add(right);
+            lines.Add(top);
+            lines.Add(left);
+            List<GmshLine> rect_lines = new List<GmshLine>();
+            rect_lines.Add(bottom);
+            rect_lines.Add(right);
+            rect_lines.Add(top);
+            rect_lines.Add(left);
+            GmshLineLoop rect = new GmshLineLoop(rect_lines);
+            line_loops.Add(rect);
         }
 
         public void writeFile()
         {
+            StreamWriter sw = File.CreateText(Filename);
+            sw.WriteLine("lc = 0.02;");
+            sw.WriteLine("Mesh.ElementOrder = " + ElementOrder + ";");
 
+            int point_ID = 0;
+            foreach(GmshPoint point in points){
+                point_ID++;
+                point.ID = point_ID;
+                point.Write(sw);
+            }
+
+            int line_ID = 0;
+            foreach(GmshLine line in lines){
+                line_ID++;
+                line.ID = line_ID;
+                line.Write(sw);
+            }
+
+            int line_loop_ID = 0;
+            foreach(GmshLineLoop line_loop in line_loops){
+                line_loop_ID++;
+                line_loop.ID = line_loop_ID;
+                line_loop.Write(sw);
+            }
+
+            sw.Write("Plane Surface (1) = {1, ");
+            for (int i = 2; i <= line_loop_ID; i++)
+            {
+                sw.Write("{0}", i);
+                if (i < line_loop_ID)
+                {
+                    sw.Write(", ");
+                }
+            }
+            sw.WriteLine("};");
+
+            for (int i = 2; i <= line_loop_ID; i++)
+            {
+                sw.WriteLine("Plane Surface ({0}) = {{{1}}};", i, i);
+            }
+
+            sw.WriteLine("Physical Point (1) = {1};");
+
+            for (int i = 1; i <= line_loop_ID; i++)
+            {
+                sw.WriteLine("Physical Surface ({0}) = {{{1}}};", i + 1, i);
+            }
+
+            sw.WriteLine("Mesh.MshFileVersion = 2;");
+            sw.Close();
         }
 
         

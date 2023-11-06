@@ -1,6 +1,8 @@
 ﻿// Copyright 2023, T. C. Raymond
 // SPDX-License-Identifier: MIT
 
+using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using TDAP;
 
@@ -28,9 +30,17 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel()
     {
         var tfmr = mockTransformer();
+        tfmr.writeTransformerGmsh("test.geo");
         TransformerViewModel tfmrVM = new TransformerViewModel(tfmr);
         TfmrVM.Add(tfmrVM);
         _selectedItem = tfmrVM;
+    }
+
+    [RelayCommand]
+    private void RunAnalysis()
+    {
+        Tfmr.RunCalculations();
+        Console.WriteLine("Calc complete");
     }
 
     private Transformer mockTransformer()
@@ -41,6 +51,9 @@ public partial class MainViewModel : ViewModelBase
         tfmr.Dist_WdgTank = in_to_m(10);
         Winding wdg = tfmr.AddNewWinding();
         wdg.WindingID = "Winding 1";
+        wdg.CurrentDirection = +1;
+        wdg.MVA = 100;
+        wdg.Voltage = 230;
         Segment seg = wdg.AddNewSegment();
         seg.SegmentID = "Segment 1";
         seg.radius_inner = in_to_m(4.75);
@@ -53,6 +66,9 @@ public partial class MainViewModel : ViewModelBase
         seg.h_abv_yoke = in_to_m(5);
         wdg = tfmr.AddNewWinding();
         wdg.WindingID = "Winding 2";
+        wdg.CurrentDirection = -1;
+        wdg.MVA = 100;
+        wdg.Voltage = 69;
         seg = wdg.AddNewSegment();
         seg.SegmentID = "Segment 2";
         seg.radius_inner = in_to_m(4.75+1.27+6.98);
