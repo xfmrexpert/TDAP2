@@ -55,7 +55,7 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private void RunAnalysis()
     {
-        Tfmr.RunCalculations();
+        Tfmr.RunCalculations(TfmrVM[0].Filename);
         Console.WriteLine("Calc complete");
     }
 
@@ -112,17 +112,6 @@ public partial class MainViewModel : ViewModelBase
             TfmrVM[0].LoadFromFile();
         }
     }
-
-    private OpenFileDialogSettings GetSettings(bool multiple) => new OpenFileDialogSettings
-    {
-        Title = multiple ? "Open multiple files" : "Open single file",
-        InitialDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-        Filters = new List<FileFilter>()
-            {
-                new FileFilter("Text Documents", "txt"),
-                new FileFilter("All Files", "*")
-            }
-    };
 
     private Transformer mockTransformer()
     {

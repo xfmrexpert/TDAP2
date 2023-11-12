@@ -14,9 +14,13 @@ namespace TDAP
         public double Voltage {get; set;}
         public int CurrentDirection {get; set;}
 
-
+        [JsonProperty]
         public Transformer Tfmr {get; private set;}
+
         public List<Segment> Segments {get; set;} = new List<Segment>();
+
+        [JsonConstructor]
+        private Winding() { }
 
         public Winding(Transformer tfmr)
         {

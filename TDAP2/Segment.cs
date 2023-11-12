@@ -70,15 +70,9 @@ namespace TDAP
             }
         }
 
-        //[JsonConstructor] // This will work from .NET 8.0
-        //private Segment()
-        //{
-        //}
-
-        [JsonConstructor]
-        public Segment(Winding parentWdg)
+        public Segment(Winding parentwdg)
         {
-            this.parentWdg = parentWdg;
+            parentWdg = parentwdg;
         }
 
         public void WriteSegmentGmsh(GmshFile outFile)

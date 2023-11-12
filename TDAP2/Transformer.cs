@@ -3,6 +3,7 @@
 
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace TDAP
@@ -121,13 +122,25 @@ namespace TDAP
             sw.Close();
         }
 
-        public void RunCalculations()
+        public void RunCalculations(string filename)
         {
-            writeTransformerGmsh("test.geo");
-            WriteAttributes("test.att");
+            writeTransformerGmsh(Path.ChangeExtension(filename, "geo"));
+            GenerateMesh(Path.ChangeExtension(filename, "geo"));
+            WriteAttributes(Path.ChangeExtension(filename, "att"));
             FEProg fea = new FEProg();
-            mesh = fea.run_FEA("test", 1);
+            mesh = fea.run_FEA(Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename), 1);
             Console.WriteLine(mesh.numNodes());
+        }
+
+        private void GenerateMesh(string filename)
+        {
+            var psi = new ProcessStartInfo(@"gmsh.exe")
+            {
+                Arguments = $"{filename} -2",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            Process.Start(psi);
         }
     }
 }

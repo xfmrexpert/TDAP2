@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using TDAP;
 using static TDAP_GUI.ViewModels.MainViewModel;
+using Newtonsoft.Json.Serialization;
 
 namespace TDAP_GUI.ViewModels
 {
@@ -83,8 +84,11 @@ namespace TDAP_GUI.ViewModels
         public void LoadFromFile()
         {
             string jsonString = File.ReadAllText(Filename!);
-            
-            Model = JsonConvert.DeserializeObject<Transformer>(jsonString)!;
+            Model = JsonConvert.DeserializeObject<Transformer>(jsonString, new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
+            })!;
         }
 
         public void StoreToFile()
