@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 using Avalonia.Controls.Shapes;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
@@ -110,6 +111,7 @@ public partial class MainViewModel : ViewModelBase
             string filename = result.LocalPath;
             TfmrVM[0].Filename = filename;
             TfmrVM[0].LoadFromFile();
+            OnPropertyChanged("Tfmr");
         }
     }
 

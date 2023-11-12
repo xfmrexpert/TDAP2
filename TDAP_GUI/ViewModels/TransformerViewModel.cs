@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using TDAP;
 using static TDAP_GUI.ViewModels.MainViewModel;
 using Newtonsoft.Json.Serialization;
+using System.Reflection;
 
 namespace TDAP_GUI.ViewModels
 {
@@ -89,6 +90,13 @@ namespace TDAP_GUI.ViewModels
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects,
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             })!;
+
+            WindingVMs = new ObservableCollection<WindingViewModel>();
+            foreach (var wdg in Model.Windings)
+            {
+                WindingVMs.Add(new WindingViewModel(wdg, this));
+            }
+
         }
 
         public void StoreToFile()
