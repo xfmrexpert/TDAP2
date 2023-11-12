@@ -8,14 +8,13 @@
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-		<vm:MainViewModel />
+		<!--<vm:MainViewModel />-->
 	</Design.DataContext>
 	<UserControl.DataTemplates>
 		<DataTemplate DataType="{x:Type vm:TransformerViewModel}">
 			<DockPanel>
 				<StackPanel Orientation="Vertical" DockPanel.Dock="Bottom">
-					<Button Grid.Row="2" Grid.Column="0" Margin="5" Width="130" HorizontalContentAlignment="Center">Add Winding</Button>
-					<Button Grid.Row="3" Margin="5" Width="130" HorizontalContentAlignment="Center">Remove Winding</Button>
+					<Button Grid.Row="2" Grid.Column="0" Margin="5" Width="130" HorizontalContentAlignment="Center" Command="{Binding AddWindingCommand}">Add Winding</Button>
 				</StackPanel>
 			<Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="10">Number of Phases:</TextBlock>
@@ -37,12 +36,12 @@
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Voltage, l-l:</TextBlock>
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Voltage}"/>
 				<TextBlock Grid.Row="2" Grid.Column="0" Margin="10">Current Direction:</TextBlock>
-				<Button Grid.Row="3" Grid.Column="0">Add Segment</Button>
-				<Button Grid.Row="4">Remove Segment</Button>
+				<Button Grid.Row="3" Grid.Column="0" Command="{Binding AddSegmentCommand}">Add Segment</Button>
+				<Button Grid.Row="4" Command="{Binding DeleteWindingCommand}">Remove Winding</Button>
 			</Grid>
 		</DataTemplate>
 		<DataTemplate DataType="{x:Type vm:SegmentViewModel}">
-			<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+			<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="10">Segment ID:</TextBlock>
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding SegmentID}" />
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Turns per Section:</TextBlock>
@@ -65,6 +64,7 @@
 				<TextBox Grid.Row="9" Grid.Column="1" Margin="5" Text="{Binding r_cond_corner}"/>
 				<TextBlock Grid.Row="10" Grid.Column="0" Margin="10">Radial Spacer Height:</TextBlock>
 				<TextBox Grid.Row="10" Grid.Column="1" Margin="5" Text="{Binding h_spacer}"/>
+				<Button Grid.Row="11" Command="{Binding DeleteSegmentCommand}">Remove Segment</Button>
 			</Grid>
 		</DataTemplate>
 	</UserControl.DataTemplates>

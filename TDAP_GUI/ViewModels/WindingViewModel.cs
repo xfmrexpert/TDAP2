@@ -1,8 +1,10 @@
 ﻿// Copyright 2023, T. C. Raymond
 // SPDX-License-Identifier: MIT
 
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,11 +13,13 @@ using TDAP;
 
 namespace TDAP_GUI.ViewModels
 {
-    public class WindingViewModel : ViewModelBase
+    public partial class WindingViewModel : ViewModelBase
     {
         private Winding Model;
 
-        public List<SegmentViewModel> SegmentVMs { get; set; }
+        private TransformerViewModel parentTfmrVM;
+
+        public ObservableCollection<SegmentViewModel> SegmentVMs { get; set; }
 
         public string WindingID
         {
@@ -41,19 +45,28 @@ namespace TDAP_GUI.ViewModels
             set => Model.CurrentDirection = value;
         }
 
-        public void AddNewSegment()
+        [RelayCommand]
+        public void AddSegment()
         {
-            SegmentVMs.Add(new SegmentViewModel(Model.AddNewSegment()));
+            SegmentVMs.Add(new SegmentViewModel(Model.AddNewSegment(), this));
         }
 
-        public WindingViewModel(Winding model)
+        public WindingViewModel(Winding model, TransformerViewModel parentTfmrVM)
         {
             Model = model;
-            SegmentVMs = new List<SegmentViewModel>();
+            this.parentTfmrVM = parentTfmrVM;
+            SegmentVMs = new ObservableCollection<SegmentViewModel>();
             foreach (var segment in model.Segments) 
             {
-                SegmentVMs.Add(new SegmentViewModel(segment));
+                SegmentVMs.Add(new SegmentViewModel(segment, this));
             }
+        }
+
+        [RelayCommand]
+        public void DeleteWinding()
+        {
+            Model.Tfmr.Windings.Remove(Model);
+            parentTfmrVM.WindingVMs.Remove(this);
         }
     }
 }

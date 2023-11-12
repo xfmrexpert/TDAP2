@@ -1,6 +1,7 @@
 ﻿// Copyright 2023, T. C. Raymond
 // SPDX-License-Identifier: MIT
 
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.CodeAnalysis.Emit;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ using TDAP;
 
 namespace TDAP_GUI.ViewModels
 {
-    public class SegmentViewModel : ViewModelBase
+    public partial class SegmentViewModel : ViewModelBase
     {
         private Segment Model;
+
+        private WindingViewModel parentWdgVM;
 
         public string SegmentID
         {
@@ -80,9 +83,17 @@ namespace TDAP_GUI.ViewModels
             set => Model.h_spacer = value;
         }
 
-        public SegmentViewModel(Segment model)
+        public SegmentViewModel(Segment model, WindingViewModel parentWdgVM)
         {
             Model = model;
+            this.parentWdgVM = parentWdgVM;
+        }
+
+        [RelayCommand]
+        public void DeleteSegment()
+        {
+            Model.parentWdg.Segments.Remove(Model);
+            parentWdgVM.SegmentVMs.Remove(this);
         }
     }
 }

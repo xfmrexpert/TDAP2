@@ -18,11 +18,11 @@ namespace TDAP_GUI.ViewModels
 {
     public partial class TransformerViewModel : ViewModelBase
     {
-        public enum NumPhasesEnum { Single, Three};
+        public enum NumPhasesEnum { Single, Three };
 
         public Transformer Model { get; set; }
 
-        public ObservableCollection<WindingViewModel> WindingVMs { get; set; } = new ObservableCollection<WindingViewModel>(); 
+        public ObservableCollection<WindingViewModel> WindingVMs { get; set; } = new ObservableCollection<WindingViewModel>();
 
         public string? Filename { get; set; }
         
@@ -65,9 +65,9 @@ namespace TDAP_GUI.ViewModels
         }
 
         [RelayCommand]
-        public void AddNewWinding()
+        public void AddWinding()
         {
-            WindingVMs.Add(new WindingViewModel(Model.AddNewWinding()));
+            WindingVMs.Add(new WindingViewModel(Model.AddNewWinding(), this));
         }
 
         public TransformerViewModel(Transformer model)
@@ -76,7 +76,7 @@ namespace TDAP_GUI.ViewModels
             WindingVMs = new ObservableCollection<WindingViewModel>();
             foreach (var wdg in model.Windings)
             {
-                WindingVMs.Add(new WindingViewModel(wdg));
+                WindingVMs.Add(new WindingViewModel(wdg, this));
             }
         }
 
