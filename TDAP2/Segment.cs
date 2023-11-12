@@ -1,11 +1,13 @@
 // Copyright 2023, T. C. Raymond
 // SPDX-License-Identifier: MIT
 
+using Newtonsoft.Json;
+
 namespace TDAP
 {
     public class Segment
     {
-        private Winding parentWdg;
+        public Winding parentWdg { get; private set; }
 
         public string SegmentID { get; set; } = "Segment";
 
@@ -18,8 +20,9 @@ namespace TDAP
         public double h_cond {get; set;}
         public double t_ins {get; set;}
         public double r_cond_corner {get; set;}
-        public double h_spacer {get; set;} 
-       
+        public double h_spacer {get; set;}
+
+        [JsonIgnore]
         public double radius_outer
         {
             get
@@ -29,6 +32,7 @@ namespace TDAP
         }
 
         // for now, anyway, height ignores spacers above top disc and below bottom disc
+        [JsonIgnore]
         public double height
         {
             get
@@ -37,6 +41,7 @@ namespace TDAP
             }
         }
 
+        [JsonIgnore]
         public double Area
         {
             get
@@ -45,6 +50,7 @@ namespace TDAP
             }
         }
 
+        [JsonIgnore]
         public int Turns
         {
             get
@@ -53,6 +59,7 @@ namespace TDAP
             }
         }
 
+        [JsonIgnore]
         public double CurrentDensity
         {
             get
@@ -63,9 +70,15 @@ namespace TDAP
             }
         }
 
-        public Segment(Winding parent)
+        //[JsonConstructor] // This will work from .NET 8.0
+        //private Segment()
+        //{
+        //}
+
+        [JsonConstructor]
+        public Segment(Winding parentWdg)
         {
-            parentWdg = parent;
+            this.parentWdg = parentWdg;
         }
 
         public void WriteSegmentGmsh(GmshFile outFile)

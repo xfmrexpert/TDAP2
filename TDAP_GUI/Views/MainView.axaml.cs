@@ -3,6 +3,7 @@
 
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using TDAP_GUI.ViewModels;
 
 namespace TDAP_GUI.Views;
@@ -12,7 +13,7 @@ public partial class MainView : UserControl
     public MainView()
     {
         InitializeComponent();
-        DataContext = new MainViewModel();
+        DataContext = Ioc.Default.GetRequiredService<MainViewModel>();
     }
 
     private void RefreshClick(object sender, RoutedEventArgs e)

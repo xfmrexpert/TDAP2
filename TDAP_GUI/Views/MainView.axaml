@@ -10,11 +10,14 @@
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
+    <!--<vm:MainViewModel />-->
   </Design.DataContext>
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="File">
+				<MenuItem Header="Open..." Command="{Binding OpenFileAsyncCommand}"/>
+				<MenuItem Header="Save" Command="{Binding SaveFileCommand}"/>
+				<MenuItem Header="Save As..." Command="{Binding SaveFileAsAsyncCommand}"/>
 			</MenuItem>
 			<MenuItem Header="Run" Command="{Binding RunAnalysisCommand}"/>
 			<MenuItem Header="Refesh Plot" Click="RefreshClick" />

@@ -1,6 +1,7 @@
 // Copyright 2023, T. C. Raymond
 // SPDX-License-Identifier: MIT
 
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
@@ -17,6 +18,7 @@ namespace TDAP
 
         private Mesh mesh = new Mesh();
 
+        [JsonIgnore]
         public Mesh Mesh { get { return mesh;}}
 
         public Transformer() {}

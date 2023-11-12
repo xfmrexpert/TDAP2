@@ -1,9 +1,18 @@
 ﻿// Copyright 2023, T. C. Raymond
 // SPDX-License-Identifier: MIT
 
+using Avalonia.Controls.Shapes;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
+using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.Avalonia;
+using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text.Json;
 using TDAP;
 
 namespace TDAP_GUI.ViewModels;
@@ -14,6 +23,10 @@ public partial class MainViewModel : ViewModelBase
 
     public Transformer Tfmr
     {
+        private set
+        {
+            TfmrVM[0].Model = value;
+        }
         get
         {
             return TfmrVM[0].Model;
@@ -27,8 +40,11 @@ public partial class MainViewModel : ViewModelBase
         private set => SetProperty(ref _selectedItem, value);
     }
 
-    public MainViewModel()
+    private readonly IDialogService DialogService;
+
+    public MainViewModel(IDialogService dialogService)
     {
+        DialogService = dialogService;
         var tfmr = mockTransformer();
         tfmr.writeTransformerGmsh("test.geo");
         TransformerViewModel tfmrVM = new TransformerViewModel(tfmr);
@@ -42,6 +58,71 @@ public partial class MainViewModel : ViewModelBase
         Tfmr.RunCalculations();
         Console.WriteLine("Calc complete");
     }
+
+    [RelayCommand]
+    private void SaveFile()
+    {
+        TfmrVM[0].StoreToFile();
+    }
+
+    [RelayCommand]
+    private async void SaveFileAsAsync()
+    {
+        var settings = new SaveFileDialogSettings
+        {
+            Title = "Save TDAP file",
+            InitialDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+            Filters = new List<FileFilter>()
+            {
+                new FileFilter("TDAP Files", "tdap"),
+                new FileFilter("All Files", "*")
+            }
+        };
+
+        var result = await DialogService.ShowSaveFileDialogAsync(null, settings);
+
+        if (result != null)
+        {
+            string filename = result.LocalPath;
+            TfmrVM[0].Filename = filename;
+            TfmrVM[0].StoreToFile();
+        }
+    }
+
+    [RelayCommand]
+    private async void OpenFileAsync()
+    {
+        var settings = new OpenFileDialogSettings
+        {
+            Title = "Open TDAP file",
+            InitialDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+            Filters = new List<FileFilter>()
+            {
+                new FileFilter("TDAP Files", "tdap"),
+                new FileFilter("All Files", "*")
+            }
+        };
+
+        var result = await DialogService.ShowOpenFileDialogAsync(null, settings);
+        
+        if (result != null)
+        {
+            string filename = result.LocalPath;
+            TfmrVM[0].Filename = filename;
+            TfmrVM[0].LoadFromFile();
+        }
+    }
+
+    private OpenFileDialogSettings GetSettings(bool multiple) => new OpenFileDialogSettings
+    {
+        Title = multiple ? "Open multiple files" : "Open single file",
+        InitialDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+        Filters = new List<FileFilter>()
+            {
+                new FileFilter("Text Documents", "txt"),
+                new FileFilter("All Files", "*")
+            }
+    };
 
     private Transformer mockTransformer()
     {

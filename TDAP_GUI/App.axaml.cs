@@ -5,10 +5,13 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-
+using CommunityToolkit.Mvvm.DependencyInjection;
+using HanumanInstitute.MvvmDialogs.Avalonia;
+using HanumanInstitute.MvvmDialogs;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using TDAP_GUI.ViewModels;
 using TDAP_GUI.Views;
-
 namespace TDAP_GUI;
 
 public partial class App : Application
@@ -16,6 +19,19 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+
+        var loggerFactory = LoggerFactory.Create(builder => builder.AddFilter(logLevel => true));
+
+        // Register services
+        Ioc.Default.ConfigureServices(
+            new ServiceCollection()
+                .AddSingleton<IDialogService>(new DialogService(
+                                                new DialogManager(
+                                                    viewLocator: new ViewLocator(),
+                                                    logger: loggerFactory.CreateLogger<DialogManager>()),
+                                                    viewModelFactory: x => Ioc.Default.GetService(x)))
+                .AddTransient<MainViewModel>()
+                .BuildServiceProvider());
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -28,14 +44,14 @@ public partial class App : Application
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = Ioc.Default.GetRequiredService<MainViewModel>()
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = new MainViewModel()
+                DataContext = Ioc.Default.GetRequiredService<MainViewModel>()
             };
         }
 

@@ -1,23 +1,30 @@
 ﻿// Copyright 2023, T. C. Raymond
 // SPDX-License-Identifier: MIT
 
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 using TDAP;
+using static TDAP_GUI.ViewModels.MainViewModel;
 
 namespace TDAP_GUI.ViewModels
 {
-    public class TransformerViewModel : ViewModelBase
+    public partial class TransformerViewModel : ViewModelBase
     {
         public enum NumPhasesEnum { Single, Three};
 
         public Transformer Model { get; set; }
 
         public ObservableCollection<WindingViewModel> WindingVMs { get; set; } = new ObservableCollection<WindingViewModel>(); 
+
+        public string? Filename { get; set; }
         
         public NumPhasesEnum NumPhases
         {
@@ -57,11 +64,7 @@ namespace TDAP_GUI.ViewModels
             set => Model.Dist_WdgTank = value;
         }
 
-        private void LoadFromFile(string filename)
-        {
-
-        }
-
+        [RelayCommand]
         public void AddNewWinding()
         {
             WindingVMs.Add(new WindingViewModel(Model.AddNewWinding()));
@@ -75,6 +78,23 @@ namespace TDAP_GUI.ViewModels
             {
                 WindingVMs.Add(new WindingViewModel(wdg));
             }
+        }
+
+        public void LoadFromFile()
+        {
+            string jsonString = File.ReadAllText(Filename!);
+            
+            Model = JsonConvert.DeserializeObject<Transformer>(jsonString)!;
+        }
+
+        public void StoreToFile()
+        {
+            
+            string jsonString = JsonConvert.SerializeObject(Model, Formatting.Indented, new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            });
+            File.WriteAllText(Filename!, jsonString);
         }
 
     }

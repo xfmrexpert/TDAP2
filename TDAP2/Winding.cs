@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System;
+using Newtonsoft.Json;
 
 namespace TDAP
 {
@@ -13,7 +14,8 @@ namespace TDAP
         public double Voltage {get; set;}
         public int CurrentDirection {get; set;}
 
-        public Transformer Tfmr {get; set;}
+
+        public Transformer Tfmr {get; private set;}
         public List<Segment> Segments {get; set;} = new List<Segment>();
 
         public Winding(Transformer tfmr)
@@ -36,6 +38,7 @@ namespace TDAP
             }
         }
 
+        [JsonIgnore]
         public double TotalArea
         {
             get
@@ -49,6 +52,7 @@ namespace TDAP
             }
         }
 
+        [JsonIgnore]
         public int TotalTurns
         {
             get
@@ -62,6 +66,7 @@ namespace TDAP
             }
         }
 
+        [JsonIgnore]
         public double Current
         {
             get
