@@ -16,6 +16,8 @@ using Microsoft.CodeAnalysis;
 using static System.Collections.Specialized.BitVector32;
 using System.Numerics;
 using System.Xml.Linq;
+using CommunityToolkit.Mvvm.Messaging;
+using TDAP_GUI.ViewModels;
 
 namespace TDAP_GUI.Views
 {
@@ -28,7 +30,10 @@ namespace TDAP_GUI.Views
 
         public PlotControl()
         {
-            
+            WeakReferenceMessenger.Default.Register<MainViewModel.RefreshPlotMessage>(this, (r, m) =>
+            {
+                this.InvalidateVisual();
+            });
         }
 
         public static readonly StyledProperty<Transformer> TfmrProperty =

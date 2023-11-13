@@ -58,6 +58,7 @@ public partial class MainViewModel : ViewModelBase
     {
         Tfmr.RunCalculations(TfmrVM[0].Filename);
         Console.WriteLine("Calc complete");
+        WeakReferenceMessenger.Default.Send(new RefreshPlotMessage());
     }
 
     [RelayCommand]
@@ -168,4 +169,6 @@ public partial class MainViewModel : ViewModelBase
     {
         return x * 0.0254;
     }
+
+    public class RefreshPlotMessage { }
 }
