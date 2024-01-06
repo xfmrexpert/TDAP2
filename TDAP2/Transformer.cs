@@ -5,9 +5,17 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System;
+using System.Runtime.InteropServices;
 
 namespace TDAP
 {
+    public class TransMFEM
+    {
+        [DllImport("TransMFEM.dll", CharSet = CharSet.Auto)]
+        public static extern int run_calcs();
+    }
+
     public class Transformer
     {
         public int NumPhases {get; set;} = 1;
@@ -67,30 +75,23 @@ namespace TDAP
             outFile.points.Add(ur);
             outFile.points.Add(ul);
             GmshLine bottom = new GmshLine(ll, lr);
-            //gmshLine^ right = gcnew gmshLine(lr, ur);
             GmshLine right_lower = new GmshLine(lr, bc);
             GmshLine right_upper = new GmshLine(bc, ur);
             GmshLine top = new GmshLine(ur, ul);
-            //gmshLine^ left_upper = gcnew gmshLine(ul, bc);
-            //gmshLine^ left_lower = gcnew gmshLine(bc, ll);
             GmshLine left = new GmshLine(ul, ll);
             outFile.lines.Add(bottom);
-            //outFile->lines->Add(right);
             outFile.lines.Add(right_lower);
             outFile.lines.Add(right_upper);
             outFile.lines.Add(top);
-            //outFile->lines->Add(left_upper);
-            //outFile->lines->Add(left_lower);
             outFile.lines.Add(left);
-            List<GmshLine> rect_lines = new List<GmshLine>();
-            rect_lines.Add(bottom);
-            //rect_lines->Add(right);
-            rect_lines.Add(right_lower);
-            rect_lines.Add(right_upper);
-            rect_lines.Add(top);
-            //rect_lines->Add(left_upper);
-            //rect_lines->Add(left_lower);
-            rect_lines.Add(left);
+            List<GmshLine> rect_lines = new List<GmshLine>
+            {
+                bottom,
+                right_lower,
+                right_upper,
+                top,
+                left
+            };
             GmshLineLoop rect = new GmshLineLoop(rect_lines);
             outFile.line_loops.Add(rect);
 
@@ -124,6 +125,7 @@ namespace TDAP
 
         public void RunCalculations(string filename)
         {
+            TransMFEM.run_calcs();
             writeTransformerGmsh(Path.ChangeExtension(filename, "geo"));
             GenerateMesh(Path.ChangeExtension(filename, "geo"));
             WriteAttributes(Path.ChangeExtension(filename, "att"));
