@@ -136,6 +136,7 @@ public partial class MainViewModel : ViewModelBase
         seg.t_cond = in_to_m(0.2175);
         seg.h_cond = in_to_m(0.925625);
         seg.t_ins = in_to_m(0.05);
+        seg.r_cond_corner = in_to_m(0.01);
         seg.h_abv_yoke = in_to_m(5);
         wdg = tfmr.AddNewWinding();
         wdg.WindingID = "Winding 2";
@@ -151,6 +152,7 @@ public partial class MainViewModel : ViewModelBase
         seg.t_cond = in_to_m(0.2175);
         seg.h_cond = in_to_m(1.0125);
         seg.t_ins = in_to_m(0.05);
+        seg.r_cond_corner = in_to_m(0.01);
         seg.h_abv_yoke = in_to_m(5+12.25+2*10.7);
         seg = wdg.AddNewSegment();
         seg.SegmentID = "Segment 3";
@@ -161,6 +163,7 @@ public partial class MainViewModel : ViewModelBase
         seg.t_cond = in_to_m(0.2175);
         seg.h_cond = in_to_m(1.0125);
         seg.t_ins = in_to_m(0.05);
+        seg.r_cond_corner = in_to_m(0.01);
         seg.h_abv_yoke = in_to_m(5);
         return tfmr;
     }

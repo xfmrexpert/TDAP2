@@ -20,5 +20,6 @@ public partial class MainView : UserControl
     {
         //do something on click
         plotCtl.InvalidateVisual();
+        //plotCtl.DrawTfmr();
     }
 }

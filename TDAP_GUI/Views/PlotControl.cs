@@ -18,6 +18,9 @@ using System.Numerics;
 using System.Xml.Linq;
 using CommunityToolkit.Mvvm.Messaging;
 using TDAP_GUI.ViewModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Avalonia.Input;
+using Avalonia.Visuals.Platform;
 
 namespace TDAP_GUI.Views
 {
@@ -34,6 +37,13 @@ namespace TDAP_GUI.Views
             {
                 this.InvalidateVisual();
             });
+
+            PointerWheelChanged += OnWheel;
+        }
+
+        protected void OnWheel(object sender, PointerWheelEventArgs e) {
+            scale = scale * (1 + 0.1 * e.Delta.Y / Math.Abs(e.Delta.Y));
+            this.InvalidateVisual();
         }
 
         public static readonly StyledProperty<Transformer> TfmrProperty =
@@ -42,19 +52,18 @@ namespace TDAP_GUI.Views
         public Transformer Tfmr
         {
             get => GetValue(TfmrProperty);
-            set => SetValue(TfmrProperty, value);
+            set
+            {
+                SetValue(TfmrProperty, value);
+                SetInitialScale();
+            }
         }
 
         private double scale = 1.0;
         private double height = 1.0;
 
-        public override void Render(DrawingContext drawingContext)
+        public void SetInitialScale()
         {
-            if (double.IsNaN(Bounds.Height) || double.IsNaN(Bounds.Width)) return;
-
-            var pen = new Pen(Brushes.Green, 20, lineCap: PenLineCap.Square);
-            var boundPen = new Pen(Brushes.Red);
-
             double maxRadius = 0;
             foreach (var wdg in Tfmr.Windings)
             {
@@ -77,25 +86,80 @@ namespace TDAP_GUI.Views
                 scale = Bounds.Height / height;
                 //scale = Bounds.Width / width;
             }
+        }
 
-            drawingContext.DrawRectangle(boundPen, new Rect(0, 0, width*scale, height*scale));
+        public override void Render(DrawingContext drawingContext)
+        {
+            if (scale == 1.0) SetInitialScale();
+            if (double.IsNaN(Bounds.Height) || double.IsNaN(Bounds.Width)) return;
 
+            var pen = new Pen(Brushes.Green, 1, lineCap: PenLineCap.Square);
+            var boundPen = new Pen(Brushes.Red);
+
+            double maxRadius = 0;
+            foreach (var wdg in Tfmr.Windings)
+            {
+                foreach (var seg in wdg.Segments)
+                {
+                    if (seg.radius_outer > maxRadius) maxRadius = seg.radius_outer;
+                }
+            }
+            var width = maxRadius + Tfmr.Dist_WdgTank - Tfmr.Core.LegRadius;
+            drawingContext.FillRectangle(Brushes.Black, new Rect(0, 0, width * scale, height * scale));
+            drawingContext.DrawRectangle(boundPen, new Rect(0, 0, width * scale, height * scale));
+            
+            bool simple = false;
             if (Tfmr != null)
             {
-                foreach (var wdg in Tfmr.Windings)
+                if (simple)
                 {
-                    foreach (var seg in wdg.Segments)
+                    foreach (var wdg in Tfmr.Windings)
                     {
-                        Point ul = new Point(seg.radius_inner - Tfmr.Core.LegRadius, height - (seg.h_abv_yoke + seg.height));
-                        Point lr = new Point(seg.radius_outer - Tfmr.Core.LegRadius, height - seg.h_abv_yoke);
-                        Rect rect = new Rect(ul*scale, lr*scale);
-                        drawingContext.DrawRectangle(boundPen, rect);
+                        foreach (var seg in wdg.Segments)
+                        {
+                            Point ul = new Point(seg.radius_inner - Tfmr.Core.LegRadius, height - (seg.h_abv_yoke + seg.height));
+                            Point lr = new Point(seg.radius_outer - Tfmr.Core.LegRadius, height - seg.h_abv_yoke);
+                            Rect rect = new Rect(ul * scale, lr * scale);
+                            drawingContext.DrawRectangle(boundPen, rect);
+                        }
+                    }
+                    if (Tfmr.Mesh.Nodes.Count > 0)
+                    {
+                        RenderLeakageFlux(drawingContext);
                     }
                 }
-                if (Tfmr.Mesh.Nodes.Count > 0)
+                else
                 {
-                    RenderLeakageFlux(drawingContext);
+                    RenderDetailedModel(drawingContext);
                 }
+            }
+            
+            
+            
+        }
+
+        private void RenderDetailedModel(DrawingContext drawingContext)
+        {
+            var model = new DetailedModel(Tfmr);
+            model.GenerateGeometry();
+            var pen = new Pen(Brushes.Green, 1, lineCap: PenLineCap.Square);
+            TDAP.Geometry geom = model.Geometry;
+            height = Tfmr.Core.WindowHeight;
+            foreach (var line in geom.Lines)
+            {
+                drawingContext.DrawLine(pen, new Point(line.pt1.x * scale, (height - line.pt1.y) * scale), new Point(line.pt2.x * scale, (height - line.pt2.y) * scale));
+            }
+            foreach (var arc in geom.Arcs)
+            {
+                var sg = new StreamGeometry();
+                using (var sgc = sg.Open())
+                {
+                    sgc.BeginFigure(new Point(arc.StartPt.x * scale, (height - arc.StartPt.y) * scale), false);
+                    sgc.ArcTo(new Point(arc.EndPt.x * scale, (height - arc.EndPt.y) * scale), new Size(arc.Radius * scale, arc.Radius * scale), arc.SweepAngle, false, SweepDirection.Clockwise);
+                    sgc.EndFigure(false);
+                    drawingContext.DrawGeometry(Brushes.Red, pen, sg);
+                }
+                
             }
         }
 

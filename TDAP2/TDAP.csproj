@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TransFE_Wrapper\TransFE_Wrapper.csproj" />
-    <ProjectReference Include="..\TransMFEM\TransMFEM.vcxproj" />
   </ItemGroup>
 
 </Project>
