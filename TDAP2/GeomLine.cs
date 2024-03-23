@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TDAP
 {
-    public class GeomLine
+    public class GeomLine : GeomEntity
     {
         public GeomPoint pt1 { get; set; }
         public GeomPoint pt2 { get; set; }

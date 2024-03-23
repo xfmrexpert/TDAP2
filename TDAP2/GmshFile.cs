@@ -13,7 +13,9 @@ namespace TDAP
         public string Filename {get; set;}
         public List<GmshPoint> points = new List<GmshPoint>();
         public List<GmshLine> lines = new List<GmshLine>();
-        public List<GmshLineLoop> line_loops = new List<GmshLineLoop>();
+        public List<GmshCurveLoop> curve_loops = new List<GmshCurveLoop>();
+        public List<GmshPlaneSurface> plane_surfaces = new List<GmshPlaneSurface>();
+        public List<GmshPhysicalSurface> physical_surfaces = new List<GmshPhysicalSurface>();
 
         public GmshFile(string filename)
         {
@@ -43,8 +45,9 @@ namespace TDAP
             rect_lines.Add(right);
             rect_lines.Add(top);
             rect_lines.Add(left);
-            GmshLineLoop rect = new GmshLineLoop(rect_lines);
-            line_loops.Add(rect);
+            GmshCurveLoop rect = new GmshCurveLoop(rect_lines);
+            curve_loops.Add(rect);
+            //TODO: Create plane and physical surfaces?  Maybe with a flag?
         }
 
         public void writeFile()
@@ -67,32 +70,32 @@ namespace TDAP
                 line.Write(sw);
             }
 
-            int line_loop_ID = 0;
-            foreach(GmshLineLoop line_loop in line_loops){
-                line_loop_ID++;
-                line_loop.ID = line_loop_ID;
-                line_loop.Write(sw);
+            int curve_loop_ID = 0;
+            foreach(GmshCurveLoop curve_loop in curve_loops){
+                curve_loop_ID++;
+                curve_loop.ID = curve_loop_ID;
+                curve_loop.Write(sw);
             }
 
             sw.Write("Plane Surface (1) = {1, ");
-            for (int i = 2; i <= line_loop_ID; i++)
+            for (int i = 2; i <= curve_loop_ID; i++)
             {
                 sw.Write("{0}", i);
-                if (i < line_loop_ID)
+                if (i < curve_loop_ID)
                 {
                     sw.Write(", ");
                 }
             }
             sw.WriteLine("};");
 
-            for (int i = 2; i <= line_loop_ID; i++)
+            for (int i = 2; i <= curve_loop_ID; i++)
             {
                 sw.WriteLine("Plane Surface ({0}) = {{{1}}};", i, i);
             }
 
             sw.WriteLine("Physical Point (1) = {1};");
 
-            for (int i = 1; i <= line_loop_ID; i++)
+            for (int i = 1; i <= curve_loop_ID; i++)
             {
                 sw.WriteLine("Physical Surface ({0}) = {{{1}}};", i + 1, i);
             }
@@ -140,17 +143,17 @@ namespace TDAP
 
     }
 
-    public class GmshLineLoop
+    public class GmshCurveLoop
     {
         public List<GmshLine> lines;
         public int ID;
 
-        public GmshLineLoop(List<GmshLine> in_lines){
+        public GmshCurveLoop(List<GmshLine> in_lines){
             lines = in_lines;
         }
 
         public void Write(StreamWriter sw){
-            sw.Write("Line Loop ({0}) = {{", ID);
+            sw.Write("Curve Loop ({0}) = {{", ID);
             bool firstLine = true;
             foreach (var line in lines) {
                 if(!firstLine){
@@ -163,6 +166,30 @@ namespace TDAP
             sw.WriteLine("};");
         }
         
+    }
+
+    public class GmshPlaneSurface
+    {
+        public int ID;
+        public GmshCurveLoop boundary;
+        public List<GmshCurveLoop> holes;
+
+        public void Write(StreamWriter sw)
+        {
+            sw.Write("Plane Surface ({0}) = {{{1}, {2}}};", ID, boundary.ID, String.Join(",", holes.Select(x => x.ID)));
+        }
+    }
+
+    public class GmshPhysicalSurface
+    {
+        public int ID;
+        public List<GmshPhysicalSurface> surfaces;
+
+        public void Write(StreamWriter sw)
+        {
+            sw.Write("Physical Surface ({0}) = {{{1}}};", ID, String.Join(",", surfaces.Select(x => x.ID)));
+        }
+
     }
 
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TDAP
 {
-    public class GeomArc
+    public class GeomArc : GeomEntity
     {
         public GeomPoint StartPt { get; set; }
         public GeomPoint EndPt { get; set; }

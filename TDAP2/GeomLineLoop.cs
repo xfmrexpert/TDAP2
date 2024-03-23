@@ -9,15 +9,13 @@ using System.Threading.Tasks;
 
 namespace TDAP
 {
-    public class GeomPoint : GeomEntity
+    public class GeomLineLoop : GeomEntity
     {
-        public double x { get; set; }
-        public double y { get; set; }
+        public List<GeomEntity> Boundary { get; set; } = new List<GeomEntity>();
 
-        public GeomPoint(double x, double y)
+        public GeomLineLoop(List<GeomEntity> boundary)
         {
-            this.x = x;
-            this.y = y;
+            Boundary = boundary;
         }
     }
 }
