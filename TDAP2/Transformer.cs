@@ -84,7 +84,7 @@ namespace TDAP
             outFile.lines.Add(right_upper);
             outFile.lines.Add(top);
             outFile.lines.Add(left);
-            List<GmshLine> rect_lines = new List<GmshLine>
+            List<GmshCurvilinearEntity> rect_lines = new List<GmshCurvilinearEntity>
             {
                 bottom,
                 right_lower,
@@ -92,8 +92,8 @@ namespace TDAP
                 top,
                 left
             };
-            GmshLineLoop rect = new GmshLineLoop(rect_lines);
-            outFile.line_loops.Add(rect);
+            GmshCurveLoop rect = new GmshCurveLoop(rect_lines);
+            outFile.curve_loops.Add(rect);
 
             WriteWindingsGmsh(outFile);
             outFile.writeFile();

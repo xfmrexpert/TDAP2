@@ -15,10 +15,10 @@ namespace TDAP
 
         public List<GeomLineLoop>? Holes { get; set; } = new List<GeomLineLoop>();
 
-        public GeomSurface(GeomLineLoop boundary, List<GeomLineLoop>? holes = null)
+        public GeomSurface(GeomLineLoop boundary, params GeomLineLoop[] holes)
         {
             Boundary = boundary;
-            Holes = holes;
+            Holes = holes.ToList();
         }
     }
 }

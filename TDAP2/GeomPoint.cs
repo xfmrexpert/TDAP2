@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TDAP
 {
-    public class GeomPoint : GeomEntity
+    public class GeomPoint : GeomEntity, IEquatable<GeomPoint>
     {
         public double x { get; set; }
         public double y { get; set; }
@@ -18,6 +18,19 @@ namespace TDAP
         {
             this.x = x;
             this.y = y;
+        }
+
+        public bool Equals(GeomPoint? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (x.AboutEquals(other.x) && y.AboutEquals(other.y))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

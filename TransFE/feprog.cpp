@@ -39,7 +39,7 @@
 
 using namespace std;
 
-DLL_API FEProg::FEProg(){
+FEProg::FEProg(){
 	theAnalysis = new MagAxiStaticAnalysis(0);
 }
 
@@ -47,7 +47,7 @@ FEProg::~FEProg(){
 	delete theAnalysis;
 }
 
-DLL_API shared_ptr<Mesh> FEProg::run_FEA(const std::string& filename, int formulation)
+shared_ptr<Mesh> FEProg::run_FEA(const std::string& filename, int formulation)
 {  
 	if(theAnalysis!=NULL){
 		delete theAnalysis;

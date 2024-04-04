@@ -73,7 +73,7 @@ public partial class MainViewModel : ViewModelBase
         var settings = new SaveFileDialogSettings
         {
             Title = "Save TDAP file",
-            InitialDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+            //InitialDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             Filters = new List<FileFilter>()
             {
                 new FileFilter("TDAP Files", "tdap"),
@@ -97,7 +97,7 @@ public partial class MainViewModel : ViewModelBase
         var settings = new OpenFileDialogSettings
         {
             Title = "Open TDAP file",
-            InitialDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+            //InitialDirectory = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
             Filters = new List<FileFilter>()
             {
                 new FileFilter("TDAP Files", "tdap"),

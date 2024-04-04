@@ -2,6 +2,7 @@
 #define MATRIXHEADERDEF
 #include "vector.h"
 #include <ostream>
+#include <cassert>
 
 template <typename T>
 class Matrix

@@ -39,6 +39,7 @@ namespace MTLTestApp
         static double h_cond = in_to_m(0.3);
         static double t_ins = in_to_m(0.018);
         static double h_spacer = in_to_m(0.188);
+        static double r_cond_corner = 0.1 * t_cond;
         static int num_discs = 14;
         static int turns_per_disc = 20;
         static double eps_oil = 1.0; //2.2;
@@ -68,52 +69,11 @@ namespace MTLTestApp
 
             Console.WriteLine("Hello, World!");
             int numturns = turns_per_disc * num_discs;
-            // Define geometry
-            //int numturns = 9;
-            //double d_c = 6.35; //turn diameter in mm
-            //double h_cg = 97; //height above ground plane, mm
-            //double t_cwall = 0.0285 * 25.4; //conductor thickness, mm
-            //double[] d_t = { 641.5, 603.5, 566, 527, 478.5, 431, 392.5, 354, 315 };
 
-            //double r_c = d_c / 2.0;
+            //GenerateGeometry();
 
             Matrix<double> L_matrix_analytic = Calc_Lmatrix_analytic();
             Matrix<double> C_matrix_analytic = Calc_Cmatrix_analytic();
-            
-            //Matrix<double> L_matrix_analytic = Calc_Lmatrix_old(d_t, h_cg, r_c);
-            //Matrix<double> C_matrix_analytic = Calc_Cmatrix_old(d_t, h_cg, r_c);
-
-            double[,] C_array = new double[,]{  { 445.7, -396.3, -3.4, -1.2, -0.6, -0.7, -0.1, 0.0, -0.1, -0.8, -3.3, -14.4},
-                                                { -396.3, 809.8, -393.9, -2.6, -0.8, -0.7, -0.1, -0.1, -0.6, -2.6, -4.7, -3.3},
-                                                { -3.4, -393.9, 809.8, -393.9, -2.6, -1.3, -0.2, -0.6, -2.6, -4.7, -2.6, -0.8},
-                                                { -1.2, -2.6, -393.9, 809.9, -393.9, -3.6, -0.8, -2.7, -4.7, -2.6, -0.6, -0.1},
-                                                { -0.6, -0.8, -2.6, -393.9, 809.8, -396.7, -3.5, -4.7, -2.7, -0.6, -0.1, 0.0},
-                                                { -0.7, -0.7, -1.3, -3.6, -396.7, 441.8, -16.7, -3.5, -0.8, -0.2, -0.1, -0.1},
-                                                { -0.1, -0.1, -0.2, -0.8, -3.5, -16.7, 441.8, -396.7, -3.6, -1.3, -0.7, -0.7},
-                                                { 0.0, -0.1, -0.6, -2.7, -4.7, -3.5, -396.7, 809.8, -393.9, -2.6, -0.8, -0.6},
-                                                { -0.1, -0.6, -2.6, -4.7, -2.7, -0.8, -3.6, -393.9, 809.8, -393.9, -2.6, -1.2},
-                                                { -0.8, -2.6, -4.7, -2.6, -0.6, -0.2, -1.3, -2.6, -393.9, 809.9, -393.9, -3.4},
-                                                { -3.3, -4.7, -2.6, -0.6, -0.1, -0.1, -0.7, -0.8, -2.6, -393.9, 809.7, -396.3},
-                                                { -14.4, -3.3, -0.8, -0.1, 0.0, -0.1, -0.7, -0.6, -1.2, -3.4, -396.3, 445.7} };
-
-            double[,] L_array = new double[,]
-                                {
-                                    {352.5, 305.5, 270.2, 242.8, 221.3, 204.9, 151.2, 156.5, 160.9, 163.7, 164.1, 161.1},
-                                    {305.5, 344.7, 301.9, 269.7, 244.8, 226.1, 160.7, 165.8, 169.5, 171.0, 169.3, 164.1},
-                                    {270.2, 301.9, 344.6, 304.4, 274.6, 252.4, 169.6, 173.9, 176.2, 175.3, 171.0, 163.7},
-                                    {242.8, 269.7, 304.4, 349.5, 311.8, 284.9, 176.9, 179.9, 179.8, 176.2, 169.5, 160.9},
-                                    {221.3, 244.8, 274.6, 311.8, 359.6, 325.3, 181.8, 182.7, 179.9, 173.9, 165.8, 156.5},
-                                    {204.9, 226.0, 252.4, 284.9, 325.3, 377.5, 183.2, 181.8, 176.9, 169.6, 160.7, 151.2},
-                                    {151.1, 160.7, 169.6, 176.9, 181.7, 183.1, 377.5, 325.4, 285.0, 252.5, 226.1, 204.9},
-                                    {156.4, 165.7, 173.9, 179.8, 182.6, 181.7, 325.4, 359.7, 311.9, 274.6, 244.9, 221.4},
-                                    {160.9, 169.4, 176.1, 179.7, 179.8, 176.9, 284.9, 311.9, 349.6, 304.5, 269.7, 242.8},
-                                    {163.7, 170.9, 175.3, 176.1, 173.9, 169.6, 252.5, 274.6, 304.5, 344.7, 302.0, 270.2},
-                                    {164.0, 169.2, 170.9, 169.4, 165.7, 160.7, 226.1, 244.9, 269.7, 302.0, 344.8, 305.5},
-                                    {161.0, 164.0, 163.7, 160.8, 156.4, 151.1, 204.9, 221.4, 242.8, 270.2, 305.5, 352.6},
-                                };
-
-            //C_matrix_analytic = M_d.DenseOfArray(C_array) * 1e-12;
-            //L_matrix_analytic = M_d.DenseOfArray(L_array) * 1e-9;
 
             DisplayMatrixAsTable(C_matrix_analytic / 1e-12); //pF/m
             DisplayMatrixAsTable(L_matrix_analytic / 1e-9); //nH/m
@@ -209,6 +169,36 @@ namespace MTLTestApp
                 .WithLayout(layout)
                 .WithSize(800, 600)
                 .Show();
+        }
+
+        public static void GenerateGeometry()
+        {
+            double bdry_radius = 1000; //radius of outer boundary of finite element model
+
+            var geometry = new Geometry();
+
+            var conductor_bdrys = new GeomLineLoop[num_discs * turns_per_disc];
+
+            for (int i = 0; i < num_discs * turns_per_disc; i++)
+            {
+                (double r, double z) = GetTurnMidpoint(i);
+                var conductor_bdry = geometry.AddRoundedRectangle(r, z, h_cond, t_cond, r_cond_corner);
+                var insulation_bdry = geometry.AddRoundedRectangle(r, z, h_cond + 2*t_ins, t_cond + 2*t_ins, r_cond_corner + t_ins);
+                var conductor_surface = geometry.AddSurface(conductor_bdry);
+                var insulation_surface = geometry.AddSurface(insulation_bdry, conductor_bdry);
+                conductor_bdrys[i] = insulation_bdry;
+            }
+
+            var pt_origin = geometry.AddPoint(0, 0);
+            var pt_axis_top = geometry.AddPoint(0, bdry_radius);
+            var pt_axis_bottom = geometry.AddPoint(0, -bdry_radius);
+            var axis_upper = geometry.AddLine(pt_origin, pt_axis_top);
+            var axis_lower = geometry.AddLine(pt_axis_bottom, pt_origin);
+            var right_bdry = geometry.AddArc(pt_axis_top, pt_axis_bottom, bdry_radius, Math.PI);
+
+            var outer_bdry = geometry.AddLineLoop(axis_lower, axis_upper, right_bdry);
+
+            var interior_surface = geometry.AddSurface(outer_bdry, conductor_bdrys);
         }
 
         //PUL Inductances
@@ -468,7 +458,6 @@ namespace MTLTestApp
 
         }
 
-
         // The following follows the axisymmetric MTL calulation outline in the Fattal paper
         // HA is lower left-hand quadrant of left-hand side matrix
         // HB is lower right-hand quadrant of the LHS matric
@@ -603,7 +592,6 @@ namespace MTLTestApp
 
             return V_response;
         }
-
         
         private static double in_to_m(double x_in)
         {

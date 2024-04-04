@@ -12,5 +12,7 @@ namespace TDAP
     public abstract class GeomEntity
     {
         public GeomEntity() { }
+
+        public int AttribID { get; set; } = -1;
     }
 }

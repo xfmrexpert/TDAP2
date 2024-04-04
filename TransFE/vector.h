@@ -3,6 +3,7 @@
 
 #include <string>
 #include <ostream>
+#include <cassert>
 
 template <typename T>
 class Vector

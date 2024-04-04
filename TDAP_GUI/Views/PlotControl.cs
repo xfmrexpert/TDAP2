@@ -18,7 +18,6 @@ using System.Numerics;
 using System.Xml.Linq;
 using CommunityToolkit.Mvvm.Messaging;
 using TDAP_GUI.ViewModels;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Avalonia.Input;
 using Avalonia.Visuals.Platform;
 
