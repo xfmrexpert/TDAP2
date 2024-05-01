@@ -24,6 +24,8 @@ namespace TDAP
         public List<GmshPhysicalCurve> physical_curves = new List<GmshPhysicalCurve>();
         public List<GmshPhysicalSurface> physical_surfaces = new List<GmshPhysicalSurface>();
 
+        public double lc { get; set; } = 0.1;
+
         private int nextGeoID = 1;
         private int nextPhysID = 1;
 
@@ -357,7 +359,7 @@ namespace TDAP
         public void writeFile()
         {
             StreamWriter sw = File.CreateText(Filename);
-            sw.WriteLine("lc = 0.1;");
+            sw.WriteLine($"lc = {lc};");
             sw.WriteLine("Mesh.ElementOrder = " + ElementOrder + ";");
             if (false)
             {

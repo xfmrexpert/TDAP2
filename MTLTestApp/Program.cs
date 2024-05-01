@@ -4,17 +4,19 @@ using Plotly.NET;
 using System.Numerics;
 using TDAP;
 using System;
-using Plotly.NET;
-using Plotly.NET.LayoutObjects;
 using MathNet.Numerics;
-using Microsoft.FSharp.Collections;
+using MathNet.Numerics.Data.Text;
+//using Microsoft.FSharp.Collections;
 using MatrixExponential;
-using Microsoft.FSharp.Data.UnitSystems.SI.UnitNames;
+//using Microsoft.FSharp.Data.UnitSystems.SI.UnitNames;
 using MathNet.Numerics.LinearAlgebra;
 using System.Diagnostics;
 using System.Text;
-using Microsoft.FSharp.Core;
-using MathNet.Numerics.Distributions;
+//using Microsoft.FSharp.Core;
+//using MathNet.Numerics.Distributions;
+using Microsoft.Data.Analysis;
+using System.Text.RegularExpressions;
+//using System.Collections.Immutable;
 
 namespace MTLTestApp
 {
@@ -44,6 +46,9 @@ namespace MTLTestApp
         static int turns_per_disc = 20;
         static double eps_oil = 1.0; //2.2;
         static double eps_paper = 2.2; //3.5;
+        static double rho_c = 1.68e-8; //ohm-m;
+        static Complex Rs = Complex.Zero;
+        static Complex Rl = Complex.Zero;
 
         //static double dist_wdg_tank_right = 40.0 / 1000.0;
         //static double dist_wdg_tank_top = 40.0 / 1000.0;
@@ -62,12 +67,65 @@ namespace MTLTestApp
 
         static int num_freqs = 1000;
         static double min_freq = 10e3;
-        static double max_freq = 1e6;
+        static double max_freq = 50e6;
+
+        private static double in_to_m(double x_in)
+        {
+            return x_in * 25.4 / 1000;
+        }
 
         static void Main(string[] args)
         {
 
             Console.WriteLine("Hello, World!");
+
+            string directoryPath = @"C:\Users\tcraymond\source\repos\TDAP2\MTLTestApp\bin\Debug\net8.0"; // Specify the directory path
+            List<(string FileName, double NumericValue)> filesWithValues = new List<(string FileName, double NumericValue)>();
+
+            // Get all files in the directory
+            string[] files = Directory.GetFiles(directoryPath);
+
+            // Regex to extract the numeric value from the filename
+            Regex regex = new Regex(@"L_getdp_(\d+\.\d+E\d+)", RegexOptions.IgnoreCase);
+
+            foreach (string file in files)
+            {
+                string fileName = Path.GetFileName(file);
+
+                // Check if the filename starts with 'L_getdp'
+                if (fileName.StartsWith("L_getdp", StringComparison.OrdinalIgnoreCase))
+                {
+                    Match match = regex.Match(fileName);
+                    if (match.Success)
+                    {
+                        // Convert the extracted string to a double
+                        double value = double.Parse(match.Groups[1].Value, System.Globalization.NumberStyles.Float);
+
+                        // Add both the filename and the numeric value to the list
+                        filesWithValues.Add((fileName, value));
+                    }
+                }
+            }
+
+            // Sort the list by the numeric value
+            filesWithValues.Sort((a, b) => a.NumericValue.CompareTo(b.NumericValue));
+
+            List<(double Freq, Matrix<double> L_matrix)> L_matrices_getdp = new List<(double Freq, Matrix<double> L_matrix)>();
+
+            // Output the sorted filenames and their values
+            foreach (var file in filesWithValues)
+            {
+                Console.WriteLine($"{file.FileName} - {file.NumericValue}");
+                L_matrices_getdp.Add((file.NumericValue, DelimitedReader.Read<double>(file.FileName, false, ",", false)));
+            }
+
+            List<DataFrame> measuredData = new List<DataFrame>();
+            for (int j = 1; j <= 6; j++)
+            {
+                measuredData.Add(ReadCSVToDF($"26DEC2023_Rough_NoCore/SDS0000{j}_bode.csv"));
+            }
+            
+
             int numturns = turns_per_disc * num_discs;
 
             //GenerateGeometry();
@@ -75,19 +133,25 @@ namespace MTLTestApp
             Matrix<double> L_matrix_analytic = Calc_Lmatrix_analytic();
             Matrix<double> C_matrix_analytic = Calc_Cmatrix_analytic();
 
-            DisplayMatrixAsTable(C_matrix_analytic / 1e-12); //pF/m
-            DisplayMatrixAsTable(L_matrix_analytic / 1e-9); //nH/m
+            //DisplayMatrixAsTable(C_matrix_analytic / 1e-12); //pF/m
+            //DisplayMatrixAsTable(L_matrix_analytic / 1e-9); //nH/m
+
+            Matrix<double> C_matrix_getdp = DelimitedReader.Read<double>("C_getdp.csv", false, ",", false);
+            Matrix<double> L_matrix_getdp = DelimitedReader.Read<double>("L_getdp.csv", false, ",", false);
+
+            //DisplayMatrixAsTable(C_matrix_getdp / 1e-12); //pF/m
+            //DisplayMatrixAsTable(L_matrix_getdp / 1e-9);
 
             double[] R_t = new double[numturns];
             for (int t = 0; t < numturns; t++)
             {
-                R_t[t] = R_c(h_cond, t_cond)*1000;
+                R_t[t] = R_c(h_cond, t_cond);
                 //R_t[t] = R_c_old(r_c, t_cwall);
             }
 
             //TODO: Factor in skin effect mo' better
             double[] K_t = new double[numturns];
-            double rho_c = 1.68e-8; //ohm-m
+            
             for (int t = 0; t < numturns; t++)
             {
                 K_t[t] = 0;
@@ -113,9 +177,9 @@ namespace MTLTestApp
                 }
             }
 
-            var V_response_analytic = CalcResponseMTL(L_matrix_analytic, C_matrix_analytic, V_d.Dense(R_t), V_d.Dense(K_t), V_d.Dense(d_t));
+            var V_response_analytic = CalcResponseMTL(L_matrices_getdp, C_matrix_getdp, V_d.Dense(R_t), V_d.Dense(K_t), V_d.Dense(d_t));
 
-            var V_response_lumped = CalcResponseLumped(L_matrix_analytic, C_matrix_analytic, V_d.Dense(R_t), V_d.Dense(d_t), numturns);
+            //var V_response_lumped = CalcResponseLumped(L_matrix_analytic, C_matrix_getdp, V_d.Dense(R_t), V_d.Dense(d_t), numturns);
 
             //var freqs = Generate.LinearSpaced(num_freqs, min_freq, max_freq);
             var freqs = Generate.LogSpaced(num_freqs, Math.Log10(min_freq), Math.Log10(max_freq));
@@ -136,39 +200,57 @@ namespace MTLTestApp
             layout.SetValue("yaxis", yAxis);
             layout.SetValue("showlegend", true);
 
-            var traces = new List<Plotly.NET.Trace>();
-            for (int t = 40; t < numturns - 1; t=t+40)
-            {
-                Plotly.NET.Trace trace = new Plotly.NET.Trace("scatter");
-                trace.SetValue("x", freqs);
-                trace.SetValue("y", V_response_analytic[t]);
-                trace.SetValue("mode", "lines");
-                trace.SetValue("name", $"Turn {t + 1}");
-                traces.Add(trace);
-            }
-
-            GenericChart
-                .ofTraceObjects(true, ListModule.OfSeq(traces))
-                .WithLayout(layout)
-                .WithSize(800, 600)
-                .Show();
-
-            traces = new List<Plotly.NET.Trace>();
+            var charts = new List<GenericChart.GenericChart>();
+            int i = 0;
             for (int t = 40; t < numturns - 1; t = t + 40)
             {
-                Plotly.NET.Trace trace = new Plotly.NET.Trace("scatter");
-                trace.SetValue("x", freqs);
-                trace.SetValue("y", V_response_lumped[t]);
-                trace.SetValue("mode", "lines");
-                trace.SetValue("name", $"Turn {t + 1}");
-                traces.Add(trace);
+                //var traces = new List<Plotly.NET.Trace>();
+                var chart1 = Chart2D.Chart.Line<double, double, string>(x: freqs, y: V_response_analytic[t], Name: "Calculated", LineColor: Color.fromString("Red")).WithLayout(layout);
+                //trace.SetValue("x", freqs);
+                //trace.SetValue("y", V_response_analytic[t]);
+                //trace.SetValue("mode", "lines");
+                //trace.SetValue("name", $"Turn {t + 1}");
+                
+                //var trace2 = new Plotly.NET.Trace("scatter");
+                
+                var chart2 = Chart2D.Chart.Line<double, double, string>(x: measuredData[i]["Frequency(Hz)"].Cast<double>().ToList(), y: measuredData[i]["CH2 Amplitude(dB)"].Cast<double>().ToList(), Name: "Measured", LineColor: Color.fromString("Blue")).WithLayout(layout);
+                //trace2.SetValue("x", measuredData[i]["Frequency(Hz)"]);
+                //trace2.SetValue("y", measuredData[i]["CH2 Amplitude(dB)"]);
+                //trace2.SetValue("mode", "lines");
+                //trace2.SetValue("name", $"Turn {t + 1}");
+                
+                i++;
+
+                //FSharpList<Plotly.NET.Trace> traces = ListModule.OfSeq<Plotly.NET.Trace>([trace, trace2]);
+
+                charts.Add(Chart.Combine([chart1, chart2]).WithTitle($"Turn {t}"));
+                //charts.Add(chart2);
+
             }
 
-            GenericChart
-                .ofTraceObjects(true, ListModule.OfSeq(traces))
-                .WithLayout(layout)
-                .WithSize(800, 600)
-                .Show();
+            var subplotGrid = Chart.Grid<IEnumerable<GenericChart.GenericChart>>(3, 2).Invoke(charts).WithSize(1600, 1200);
+
+            // Show the combined chart with subplots
+            subplotGrid.Show();
+        }
+
+        private static Matrix<double> InterpolateInductance(List<(double Freq, Matrix<double> L_matrix)> L_matrices, double freq)
+        {
+            if (freq <= L_matrices[0].Freq) return L_matrices[0].L_matrix;
+            if (freq >= L_matrices[L_matrices.Count - 1].Freq) return L_matrices[L_matrices.Count - 1].L_matrix;
+            for (int i = 0; i < L_matrices.Count - 1; i++)
+            {
+                if (freq >= L_matrices[i].Freq && freq <= L_matrices[i+1].Freq)
+                {
+                    double f1 = L_matrices[i].Freq;
+                    double f2 = L_matrices[i + 1].Freq;
+                    var L1 = L_matrices[i].L_matrix;
+                    var L2 = L_matrices[i + 1].L_matrix;
+
+                    return L1 + (L2 - L1) * (freq - f1) / (f2 - f1);
+                }
+            }
+            return null;
         }
 
         public static void GenerateGeometry()
@@ -382,7 +464,6 @@ namespace MTLTestApp
 
         public static double R_c(double h_m, double w_m)
         {
-            double rho_c = 1.68e-8; //ohm-m
             return rho_c / (h_m * w_m);
         }
 
@@ -483,7 +564,7 @@ namespace MTLTestApp
         public static Matrix_c CalcHB(int n, double f)
         {
             Matrix_c HB11 = M_c.Dense(n, n);
-            HB11[0, 0] = 0.0; //Rs
+            HB11[0, 0] = Rs; //Source impedance
             Matrix_c HB12 = M_c.Dense(n, n);
             Matrix_c HB21 = M_c.Dense(n, n);
             for (int t = 0; t < (n - 1); t++)
@@ -491,7 +572,7 @@ namespace MTLTestApp
                 HB21[t, t + 1] = 1.0;
             }
             Matrix_c HB22 = -1.0 * M_c.DenseIdentity(n);
-            HB22[n - 1, n - 1] = 0; //Impedance to ground Complex.ImaginaryOne * 2d * Math.PI * f; //Had a * 0 on the end?
+            HB22[n - 1, n - 1] = Rl; //Impedance to ground
             Matrix_c HB1 = HB11.Append(HB12);
             Matrix_c HB2 = HB21.Append(HB22);
             Matrix_c HB = HB1.Stack(HB2);
@@ -504,9 +585,16 @@ namespace MTLTestApp
 
             Matrix_c B2 = HA.ToComplex().Append(HB);
 
+            double mu_c = 4 * Math.PI * 1e-7;
+            double sigma_c = 1 / rho_c;
+            Complex eta = Complex.Sqrt(2d * Math.PI * f * mu_c * sigma_c * Complex.ImaginaryOne) * t_cond / 2d;
+            double R_skin = (1 / (sigma_c * h_cond * t_cond) * eta * Complex.Cosh(eta) / Complex.Sinh(eta)).Real;
+            Console.WriteLine($"R_skin: {R_skin}");
+            var R_f = R + Matrix_d.Build.DenseIdentity(n,n)*R_skin;
+
             // A = [           0              -Gamma*(R+j*2*pi*f*L)]
             //     [ -Gamma*(G+j*2*pi*f*C)                0        ]
-            Matrix_c A12 = -Gamma.ToComplex() * (R.ToComplex() + K.ToComplex() * Math.Sqrt(f) + Complex.ImaginaryOne * 2d * Math.PI * f * L.ToComplex());
+            Matrix_c A12 = -Gamma.ToComplex() * (R_f.ToComplex() + K.ToComplex() * Math.Sqrt(f) + Complex.ImaginaryOne * 2d * Math.PI * f * L.ToComplex());
             Matrix_c A21 = -Gamma.ToComplex() * (Complex.ImaginaryOne * 2 * Math.PI * f * C.ToComplex());
             Matrix_c A1 = M_c.Dense(n, n).Append(A12);
             Matrix_c A2 = A21.Append(M_c.Dense(n, n));
@@ -525,7 +613,7 @@ namespace MTLTestApp
 
         // Returns a List of the turn responses (vector of complex gains for each turn) at each frequency.  E.g., if there are 10 turns at 1,000 frequency points, then it will return a list
         // with 1,000 entries of vectors of length 10.
-        public static List<Vector_c> CalcResponse(Vector_d r, Matrix_d R, Matrix_d K, Matrix_d L, Matrix_d C, int n)
+        public static List<Vector_c> CalcResponse(Vector_d r, Matrix_d R, Matrix_d K, List<(double Freq, Matrix_d L)> L_f, Matrix_d C, int n)
         {
             // Gamma is the diagonal matrix of conductors radii (eq. 2)
             Matrix_d Gamma = M_d.DenseOfDiagonalVector(2d * Math.PI * r);
@@ -541,6 +629,8 @@ namespace MTLTestApp
             foreach (var f in freqs)
             {
                 Console.WriteLine($"Calculating at {f / 1e6}MHz");
+                Matrix_d L = InterpolateInductance(L_f, f);
+                Console.WriteLine($"L[0, 0]: {L[0,0]/1e-9}");
                 var vi_vec = CalcResponseAtFreq(f, Gamma, HA, R, K, L, C, n);
                 var gain_at_freq = vi_vec.SubVector(n, n) / vi_vec[0];
                 V_turn.Add(gain_at_freq); //[n: 2 * n]
@@ -552,7 +642,7 @@ namespace MTLTestApp
 
         // Impedances passed here are per unit length
         // C matrix should be in self/mutual form, not Maxwell form
-        public static List<double[]> CalcResponseMTL(Matrix_d L_matrix, Matrix_d C_matrix, Vector_d R_t, Vector_d K_t, Vector_d d_t)
+        public static List<double[]> CalcResponseMTL(List<(double Freq, Matrix_d L_matrix)> L_matrices, Matrix_d C_matrix, Vector_d R_t, Vector_d K_t, Vector_d d_t)
         {
             int numturns = d_t.Count;
             Matrix_d R_array = M_d.Dense(numturns, numturns);
@@ -569,9 +659,9 @@ namespace MTLTestApp
             // r is vector of turn radii in meters
             // d (given above) is turn diameters in m
             var r = d_t / 2d;
-            var V_resp = CalcResponse(r, R_array, K_array, L_matrix, C_matrix, numturns);
+            var V_resp = CalcResponse(r, R_array, K_array, L_matrices, C_matrix, numturns);
 
-            int num_freq_steps = V_resp.Count();
+            int num_freq_steps = V_resp.Count;
 
             var V_response = new List<double[]>();
             for (int t = 0; t < numturns; t++)
@@ -591,11 +681,6 @@ namespace MTLTestApp
             }
 
             return V_response;
-        }
-        
-        private static double in_to_m(double x_in)
-        {
-            return x_in * 25.4 / 1000;
         }
 
         private static (double r, double z) GetTurnMidpoint(int n)
@@ -725,6 +810,38 @@ namespace MTLTestApp
             return V_r;
         }
 
-        
+        public static DataFrame ReadCSVToDF(string filename)
+        {
+            // Read all lines from the file
+            string[] allLines = File.ReadAllLines(filename);
+
+            // Skip the first 24 lines
+            var dataLines = allLines[24..];
+
+            // Assuming the first non-skipped line contains headers
+            string[] headers = dataLines[0].Split(',');
+
+            // Prepare lists to hold data for each column
+            List<DoubleDataFrameColumn> columns = new List<DoubleDataFrameColumn>();
+            foreach (var header in headers)
+            {
+                columns.Add(new DoubleDataFrameColumn(header, 0));
+            }
+
+            // Parse each line and fill the columns
+            foreach (var line in dataLines[1..]) // Skipping header line in dataLines
+            {
+                var values = line.Split(',');
+                for (int i = 0; i < values.Length; i++)
+                {
+                    columns[i].Append(Double.Parse(values[i]));
+                }
+            }
+
+            // Create the DataFrame
+            DataFrame df = new DataFrame(columns);
+
+            return df;
+        }
     }
 }
