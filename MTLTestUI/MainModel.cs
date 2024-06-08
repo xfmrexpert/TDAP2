@@ -16,11 +16,12 @@ using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 //using static System.Net.WebRequestMethods;
 
 namespace MTLTestUI
 {
-    internal class MainModel
+    public class MainModel
     {
         double dist_wdg_tank_right = 4;
         double dist_wdg_tank_top = 2;
@@ -31,10 +32,10 @@ namespace MTLTestUI
         double t_ins = in_to_m(0.018);
         double h_spacer = in_to_m(0.188);
         double r_cond_corner;
-        int num_discs = 14;
-        int turns_per_disc = 20;
+        public int num_discs = 14;
+        public int turns_per_disc = 20;
         double eps_oil = 1.0; //2.2;
-        double eps_paper = 2.2; //3.5;
+        double eps_paper = 3.5; //2.8; //3.5;
 
         int phyAir;
         int phyExtBdry;
@@ -50,11 +51,13 @@ namespace MTLTestUI
 
         public Geometry GenerateGeometry()
         {
-            double bdry_radius = 1; //radius of outer boundary of finite element model
+            bool include_ins = true;
+
+            double bdry_radius = 5; //radius of outer boundary of finite element model
 
             double z_offset = (num_discs * (h_cond + 2 * t_ins) + (num_discs - 1) * h_spacer + dist_wdg_tank_bottom + dist_wdg_tank_top) / 2;
 
-            r_cond_corner = 0.1 * t_cond;
+            r_cond_corner = 0.3 * t_cond;
 
             var geometry = new Geometry();
 
@@ -64,25 +67,35 @@ namespace MTLTestUI
 
             phyTurnsCond = new int[num_discs * turns_per_disc];
             phyTurnsCondBdry = new int[num_discs * turns_per_disc];
-            phyTurnsIns = new int[num_discs * turns_per_disc];
+            if (include_ins)
+            {
+                phyTurnsIns = new int[num_discs * turns_per_disc];
+            }
 
             for (int i = 0; i < num_discs * turns_per_disc; i++)
             {
                 (double r, double z) = GetTurnMidpoint(i);
                 z = z - z_offset;
-                var conductor_bdry = geometry.AddRoundedRectangle(r, z, h_cond, t_cond, r_cond_corner);
+                var conductor_bdry = geometry.AddRoundedRectangle(r, z, h_cond, t_cond, r_cond_corner, 0.0004);
                 conductor_bdry.AttribID = phyTurnsCondBdry[i] = i + 2 * num_discs * turns_per_disc + 4;
-                var insulation_bdry = geometry.AddRoundedRectangle(r, z, h_cond + 2 * t_ins, t_cond + 2 * t_ins, r_cond_corner + t_ins);
+                if (include_ins)
+                {
+                    var insulation_bdry = geometry.AddRoundedRectangle(r, z, h_cond + 2 * t_ins, t_cond + 2 * t_ins, r_cond_corner + t_ins, 0.003);
+                    var insulation_surface = geometry.AddSurface(insulation_bdry, conductor_bdry);
+                    insulation_surface.AttribID = phyTurnsIns[i] = i + num_discs * turns_per_disc + 4;
+                    conductorins_bdrys[i] = insulation_bdry;
+                }
                 var conductor_surface = geometry.AddSurface(conductor_bdry);
                 conductor_surface.AttribID = phyTurnsCond[i] = i + 4;
-                var insulation_surface = geometry.AddSurface(insulation_bdry, conductor_bdry);
-                insulation_surface.AttribID = phyTurnsIns[i] = i + num_discs * turns_per_disc + 4;
-                conductorins_bdrys[i] = insulation_bdry;
+                if (!include_ins)
+                {
+                    conductorins_bdrys[i] = conductor_bdry;
+                }
             }
 
-            var pt_origin = geometry.AddPoint(0, 0);
-            var pt_axis_top = geometry.AddPoint(0, bdry_radius);
-            var pt_axis_bottom = geometry.AddPoint(0, -bdry_radius);
+            var pt_origin = geometry.AddPoint(0, 0, 0.1);
+            var pt_axis_top = geometry.AddPoint(0, bdry_radius, 0.1);
+            var pt_axis_bottom = geometry.AddPoint(0, -bdry_radius, 0.1);
             var axis = geometry.AddLine(pt_axis_bottom, pt_axis_top);
             //var axis_lower = geometry.AddLine(pt_axis_bottom, pt_origin);
             axis.AttribID = phyAxis = 3;
@@ -96,14 +109,14 @@ namespace MTLTestUI
             interior_surface.AttribID = phyAir = 1;
 
             GmshFile gmshFile = new GmshFile("case.geo");
-            gmshFile.lc = 0.2;
+            gmshFile.lc = 0.1;
             gmshFile.CreateFromGeometry(geometry);
             gmshFile.writeFile();
 
             return geometry;
         }
 
-        private (double r, double z) GetTurnMidpoint(int n)
+        public (double r, double z) GetTurnMidpoint(int n)
         {
             double r, z;
             int disc = (int)Math.Floor((double)n / (double)turns_per_disc);
@@ -125,9 +138,9 @@ namespace MTLTestUI
             return (r, z);
         }
 
-        public void CalcMesh()
+        public void CalcMesh(double meshscale = 1.0, int meshorder = 1)
         {
-            string onelab_dir = "C:\\Users\\tcraymond\\Downloads\\onelab-Windows64\\onelab-Windows64\\";
+            string onelab_dir = "C:\\Users\\tcraymond\\Downloads\\onelab-Windows64\\";
             string gmshPath = onelab_dir + "gmsh.exe";
             string model_prefix = "./";
 
@@ -140,7 +153,7 @@ namespace MTLTestUI
             Process p = new Process();
 
             p.StartInfo.FileName = gmshPath;
-            p.StartInfo.Arguments = model_geo + " -2 -order 2";
+            p.StartInfo.Arguments = $"{model_geo} -2 -order {meshorder} -clscale {meshscale} -v 3";
 
             p.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
 
@@ -298,7 +311,7 @@ namespace MTLTestUI
 
             f.Close();
 
-            string onelab_dir = "C:\\Users\\tcraymond\\Downloads\\onelab-Windows64\\onelab-Windows64\\";
+            string onelab_dir = "C:\\Users\\tcraymond\\Downloads\\onelab-Windows64\\";
             string mygetdp = onelab_dir + "getdp.exe";
             string model_prefix = $"./Results/{proc}/";
 
@@ -390,7 +403,7 @@ namespace MTLTestUI
             DelimitedWriter.Write("C_getdp.csv", C_getdp, ",");
         }
 
-        public double CalcInductance(int posTurn, int negTurn, double freq)
+        public Vector<double> CalcInductance(int posTurn, int negTurn, double freq, int order = 1)
         {
 
             string dir = posTurn.ToString();
@@ -404,22 +417,34 @@ namespace MTLTestUI
 
             var f = File.CreateText($"Results/{dir}/case.pro");
 
+            f.WriteLine($"FE_Order = {order};");
+
             f.WriteLine("Group{");
-            f.Write($"Air = Region[{{{phyAir}, ");
-            bool firstTurn = true;
-            for (int i = 0; i < num_discs * turns_per_disc; i++)
+
+            bool firstTurn;
+
+            if (false)
             {
-                if (!firstTurn)
-                {
-                    f.Write(", ");
-                }
-                else
-                {
-                    firstTurn = false;
-                }
-                f.Write($"{phyTurnsIns[i]}");
+                f.WriteLine($"Air = Region[{{{phyAir}}}];");
             }
-            f.WriteLine("}];");
+            else
+            {
+                f.Write($"Air = Region[{{{phyAir}, ");
+                firstTurn = true;
+                for (int i = 0; i < num_discs * turns_per_disc; i++)
+                {
+                    if (!firstTurn)
+                    {
+                        f.Write(", ");
+                    }
+                    else
+                    {
+                        firstTurn = false;
+                    }
+                    f.Write($"{phyTurnsIns[i]}");
+                }
+                f.WriteLine("}];");
+            }
 
             f.WriteLine($"TurnPos = Region[{phyTurnsCond[posTurn]}];");
             if (negTurn >= 0)
@@ -459,7 +484,7 @@ namespace MTLTestUI
             f.WriteLine("Include \"../../L_s_inf.pro\";");
             f.Close();
 
-            string onelab_dir = "C:\\Users\\tcraymond\\Downloads\\onelab-Windows64\\onelab-Windows64\\";
+            string onelab_dir = "C:\\Users\\tcraymond\\Downloads\\onelab-Windows64\\";
             string mygetdp = onelab_dir + "getdp.exe";
             
 
@@ -470,7 +495,7 @@ namespace MTLTestUI
             Process p = new Process();
 
             //p.StartInfo.FileName = "cmd.exe";
-            //p.StartInfo.Arguments = "/k " + mygetdp + " " + model_pro + " -msh " + model_msh + $" -setstring modelPath Results/{proc}/ -setnumber freq " + freq.ToString() + " -solve Magnetodynamics2D_av -pos dyn -v 5";
+            //p.StartInfo.Arguments = "/k " + mygetdp + " " + model_pro + " -msh " + model_msh + $" -setstring modelPath Results/{dir}/ -setnumber freq " + freq.ToString() + " -solve Magnetodynamics2D_av -pos dyn -v 5";
 
             p.StartInfo.FileName = mygetdp;
             p.StartInfo.Arguments = model_pro + " -msh " + model_msh + $" -setstring modelPath Results/{dir}/ -setnumber freq " + freq.ToString() + " -solve Magnetodynamics2D_av -pos dyn -v 5";
@@ -492,14 +517,21 @@ namespace MTLTestUI
             //    ind = float(line.split()[1])
             //return 2 * math.pi * ind
 
+            //var resultFile = File.OpenText(model_prefix + "out.txt");
+            //string line = resultFile.ReadLine();
+            //var ind = double.Parse(line.Split()[2]);
+            //resultFile.Close();
+            //return ind;
+
             var resultFile = File.OpenText(model_prefix + "out.txt");
             string line = resultFile.ReadLine();
-            var ind = double.Parse(line.Split()[2]);
+            var L_array = Array.ConvertAll(line.Split().Skip(1).Where((value, index) => index % 2 == 1).ToArray(), Double.Parse);
+            var L = Vector<double>.Build.Dense(L_array);
             resultFile.Close();
-            return ind;
+            return L;
         }
 
-        public void CalcInductanceMatrix(double freq)
+        public void CalcInductanceMatrix(double freq, int order = 2)
         {
             int n_turns = num_discs * turns_per_disc;
             Matrix<double> L_getdp = Matrix<double>.Build.Dense(n_turns, n_turns);
@@ -507,29 +539,29 @@ namespace MTLTestUI
             Console.WriteLine($"Frequency: {freq.ToString("0.##E0")}");
             //CalcMesh();
 
-            Parallel.For(0, n_turns, t =>
-            //for (int t = 0; t < n_turns; t++)
+            //Parallel.For(0, n_turns, t =>
+            for (int t = 0; t < n_turns; t++)
             {
-                L_getdp[t, t] = CalcInductance(t, -1, freq);
+                L_getdp.SetRow(t, CalcInductance(t, -1, freq, order));
                 (double r, double z) = GetTurnMidpoint(t);
                 Console.WriteLine($"Self inductance for turn {t}: {L_getdp[t, t] / r / 1e-9}");
             }
-            );
+            //);
 
-            Parallel.For(0, n_turns, t1 =>
-            //for (int t1 = 0; t1 < n_turns; t1++)
-            {
-                Parallel.For(t1 + 1, n_turns, t2 =>
-                //for (int t2 = t1 + 1; t2 < n_turns; t2++)
-                {
-                    double W = CalcInductance(t1, t2, freq) / 2;
-                    L_getdp[t1, t2] = L_getdp[t2, t1] = (2 * W - (L_getdp[t1, t1] + L_getdp[t2, t2]))/2/-1;
-                    (double r, double z) = GetTurnMidpoint(t1);
-                    Console.WriteLine($"Mutual inductance between turn {t1} & {t2}: {L_getdp[t1, t2] / r / 1e-9}");
-                }
-                );
-            }
-            );
+            //Parallel.For(0, n_turns, t1 =>
+            ////for (int t1 = 0; t1 < n_turns; t1++)
+            //{
+            //    Parallel.For(t1 + 1, n_turns, t2 =>
+            //    //for (int t2 = t1 + 1; t2 < n_turns; t2++)
+            //    {
+            //        double W = CalcInductance(t1, t2, freq, order) / 2;
+            //        L_getdp[t1, t2] = L_getdp[t2, t1] = (2 * W - (L_getdp[t1, t1] + L_getdp[t2, t2]))/2/-1;
+            //        (double r, double z) = GetTurnMidpoint(t1);
+            //        Console.WriteLine($"Mutual inductance between turn {t1} & {t2}: {L_getdp[t1, t2] / r / 1e-9}");
+            //    }
+            //    );
+            //}
+            //);
 
             for (int t1 = 0; t1 < n_turns; t1++)
             {

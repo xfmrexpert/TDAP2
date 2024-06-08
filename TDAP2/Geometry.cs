@@ -35,6 +35,13 @@ namespace TDAP
             return pt;
         }
 
+        public GeomPoint AddPoint(double x, double y, double lc)
+        {
+            var pt = AddPoint(x, y);
+            pt.lc = lc;
+            return pt;
+        }
+
         public GeomLine AddLine(GeomPoint pt1,  GeomPoint pt2) 
         {
             GeomLine? line = Lines.Find(l => (l.pt1 == pt1 && l.pt2 == pt2) || (l.pt1 == pt2 && l.pt2 == pt1));
@@ -74,23 +81,23 @@ namespace TDAP
             return surface;
         }
 
-        public GeomLineLoop AddRoundedRectangle(double x_center, double y_center, double h, double w, double corner_radius=0)
+        public GeomLineLoop AddRoundedRectangle(double x_center, double y_center, double h, double w, double corner_radius=0, double lc=0.4)
         {
             if (corner_radius == 0)
             {
-                return AddRectangle(x_center, y_center, h, w);
+                return AddRectangle(x_center, y_center, h, w, lc);
             }
 
             double ll_x = x_center - w / 2d;
             double ll_y = y_center - h / 2d;
-            var LL1 = AddPoint(ll_x + corner_radius, ll_y);
-            var LL2 = AddPoint(ll_x, ll_y + corner_radius);
-            var UL1 = AddPoint(ll_x, ll_y + h - corner_radius);
-            var UL2 = AddPoint(ll_x + corner_radius, ll_y + h);
-            var UR1 = AddPoint(ll_x + w - corner_radius, ll_y + h);
-            var UR2 = AddPoint(ll_x + w, ll_y + h - corner_radius);
-            var LR1 = AddPoint(ll_x + w, ll_y + corner_radius);
-            var LR2 = AddPoint(ll_x + w - corner_radius, ll_y);
+            var LL1 = AddPoint(ll_x + corner_radius, ll_y, lc);
+            var LL2 = AddPoint(ll_x, ll_y + corner_radius, lc);
+            var UL1 = AddPoint(ll_x, ll_y + h - corner_radius, lc);
+            var UL2 = AddPoint(ll_x + corner_radius, ll_y + h, lc);
+            var UR1 = AddPoint(ll_x + w - corner_radius, ll_y + h, lc);
+            var UR2 = AddPoint(ll_x + w, ll_y + h - corner_radius, lc);
+            var LR1 = AddPoint(ll_x + w, ll_y + corner_radius, lc);
+            var LR2 = AddPoint(ll_x + w - corner_radius, ll_y, lc);
             // add lines for sides
             var left = AddLine(LL2, UL1);
             var top = AddLine(UL2, UR1);
@@ -106,14 +113,14 @@ namespace TDAP
             return boundary;
         }
 
-        public GeomLineLoop AddRectangle(double x_center, double y_center, double h, double w)
+        public GeomLineLoop AddRectangle(double x_center, double y_center, double h, double w, double lc = 0.4)
         {
             double ll_x = x_center - w / 2d;
             double ll_y = y_center - h / 2d;
-            var LL = AddPoint(ll_x, ll_y);
-            var UL = AddPoint(ll_x, ll_y + h);
-            var UR = AddPoint(ll_x + w, ll_y + h);
-            var LR = AddPoint(ll_x + w, ll_y);
+            var LL = AddPoint(ll_x, ll_y, lc);
+            var UL = AddPoint(ll_x, ll_y + h, lc);
+            var UR = AddPoint(ll_x + w, ll_y + h, lc);
+            var LR = AddPoint(ll_x + w, ll_y, lc);
             // add lines for sides
             var left = AddLine(LL, UL);
             var top = AddLine(UL, UR);

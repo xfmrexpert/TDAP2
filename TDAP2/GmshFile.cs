@@ -116,12 +116,12 @@ namespace TDAP
             return null;
         }
 
-        public GmshPoint CreateNewPoint(double x, double y, double z, int ID = -9999)
+        public GmshPoint CreateNewPoint(double x, double y, double z, int ID = -9999, double lc = 0.4)
         {
             var pt = FindPoint(x, y, z);
             if (pt == null)
             {
-                pt = new GmshPoint(x, y, z);
+                pt = new GmshPoint(x, y, z, -9999, lc);
                 if (ID == -9999)
                 {
                     pt.ID = nextGeoID;
@@ -261,7 +261,7 @@ namespace TDAP
 
             foreach(var point in geometry.Points)
             {
-                CreateNewPoint(point.x, point.y, 0);
+                CreateNewPoint(point.x, point.y, 0, -9999, point.lc);
             }
 
             foreach(var line in geometry.Lines)
@@ -294,7 +294,7 @@ namespace TDAP
                     Vector<double> n_star = Vector<double>.Build.Dense(new double[] { -(endPt.y - startPt.y) / d, (endPt.x - startPt.x) / d });
                     double h = Math.Sqrt(radius * radius - d * d / 4);
                     var c = m + eps * h * n_star;
-                    var centerPt = CreateNewPoint(c[0], c[1], 0);
+                    var centerPt = CreateNewPoint(c[0], c[1], 0, -9999, startPt.lc);
                     GmshArc new_arc;
                     if (h == 0)
                     {
@@ -346,7 +346,10 @@ namespace TDAP
                 List<GmshCurveLoop> holes = new List<GmshCurveLoop>();
                 foreach (var hole in surface.Holes)
                 {
-                    holes.Add(FindCurveLoop(hole));
+                    if (hole is not null)
+                    {
+                        holes.Add(FindCurveLoop(hole));
+                    }
                 }
                 var new_surface = CreateNewSurface(boundary, holes);
                 if (surface.AttribID > 0)
@@ -455,17 +458,19 @@ namespace TDAP
     {
         public double x, y, z;
         public int ID;
+        public double lc = 0.4;
 
-        public GmshPoint(double in_x, double in_y, double in_z, int in_ID=-9999)
+        public GmshPoint(double in_x, double in_y, double in_z, int in_ID=-9999, double in_lc=0.4)
         {
             x = in_x;
             y = in_y;
             z = in_z;
             ID = in_ID;
+            lc = in_lc;
         }
 
         public void Write(StreamWriter sw){
-            sw.WriteLine("Point ({0}) = {{{1}, {2}, {3}, lc}};", ID, x, y, z);
+            sw.WriteLine("Point ({0}) = {{{1}, {2}, {3}, {4}}};", ID, x, y, z, lc);
         }
 
     }

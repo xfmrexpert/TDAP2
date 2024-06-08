@@ -14,6 +14,8 @@ namespace TDAP
         public double x { get; set; }
         public double y { get; set; }
 
+        public double lc { get; set; } = 0.4;
+
         public GeomPoint(double x, double y)
         {
             this.x = x;

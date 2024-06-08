@@ -16,6 +16,7 @@ using System.Text;
 //using MathNet.Numerics.Distributions;
 using Microsoft.Data.Analysis;
 using System.Text.RegularExpressions;
+using System.Linq;
 //using System.Collections.Immutable;
 
 namespace MTLTestApp
@@ -137,7 +138,8 @@ namespace MTLTestApp
             //DisplayMatrixAsTable(L_matrix_analytic / 1e-9); //nH/m
 
             Matrix<double> C_matrix_getdp = DelimitedReader.Read<double>("C_getdp.csv", false, ",", false);
-            Matrix<double> L_matrix_getdp = DelimitedReader.Read<double>("L_getdp.csv", false, ",", false);
+            //Matrix<double> C_matrix_getdp_loweps = DelimitedReader.Read<double>("C_getdp_eps2.2.csv", false, ",", false);
+            Matrix<double> L_matrix_getdp = DelimitedReader.Read<double>("L_getdp_1.00E4.csv", false, ",", false);
 
             //DisplayMatrixAsTable(C_matrix_getdp / 1e-12); //pF/m
             //DisplayMatrixAsTable(L_matrix_getdp / 1e-9);
@@ -177,9 +179,10 @@ namespace MTLTestApp
                 }
             }
 
-            var V_response_analytic = CalcResponseMTL(L_matrices_getdp, C_matrix_getdp, V_d.Dense(R_t), V_d.Dense(K_t), V_d.Dense(d_t));
+            var V_response_getdp = CalcResponseMTL(L_matrices_getdp, C_matrix_getdp, V_d.Dense(R_t), V_d.Dense(K_t), V_d.Dense(d_t));
+            var V_response_analytic = CalcResponseMTL(new List<(double Freq, Matrix<double> L_matrix)>().Append((1e4, L_matrix_analytic)).ToList(), C_matrix_analytic, V_d.Dense(R_t), V_d.Dense(K_t), V_d.Dense(d_t));
 
-            //var V_response_lumped = CalcResponseLumped(L_matrix_analytic, C_matrix_getdp, V_d.Dense(R_t), V_d.Dense(d_t), numturns);
+            //var V_response_lumped = CalcResponseLumped(L_matrix_getdp, C_matrix_getdp, V_d.Dense(R_t), V_d.Dense(d_t), numturns);
 
             //var freqs = Generate.LinearSpaced(num_freqs, min_freq, max_freq);
             var freqs = Generate.LogSpaced(num_freqs, Math.Log10(min_freq), Math.Log10(max_freq));
@@ -205,7 +208,7 @@ namespace MTLTestApp
             for (int t = 40; t < numturns - 1; t = t + 40)
             {
                 //var traces = new List<Plotly.NET.Trace>();
-                var chart1 = Chart2D.Chart.Line<double, double, string>(x: freqs, y: V_response_analytic[t], Name: "Calculated", LineColor: Color.fromString("Red")).WithLayout(layout);
+                var chart1 = Chart2D.Chart.Line<double, double, string>(x: freqs, y: V_response_getdp[t], Name: "Calculated", LineColor: Color.fromString("Red")).WithLayout(layout);
                 //trace.SetValue("x", freqs);
                 //trace.SetValue("y", V_response_analytic[t]);
                 //trace.SetValue("mode", "lines");
@@ -218,12 +221,16 @@ namespace MTLTestApp
                 //trace2.SetValue("y", measuredData[i]["CH2 Amplitude(dB)"]);
                 //trace2.SetValue("mode", "lines");
                 //trace2.SetValue("name", $"Turn {t + 1}");
-                
+
+                //var chart3 = Chart2D.Chart.Line<double, double, string>(x: freqs, y: V_response_lumped[t], Name: "Lumped", LineColor: Color.fromString("Green")).WithLayout(layout);
+
+                var chart3 = Chart2D.Chart.Line<double, double, string>(x: freqs, y: V_response_analytic[t], Name: "Analytic", LineColor: Color.fromString("Green")).WithLayout(layout);
+
                 i++;
 
                 //FSharpList<Plotly.NET.Trace> traces = ListModule.OfSeq<Plotly.NET.Trace>([trace, trace2]);
 
-                charts.Add(Chart.Combine([chart1, chart2]).WithTitle($"Turn {t}"));
+                charts.Add(Chart.Combine([chart1, chart2, chart3]).WithTitle($"Turn {t}"));
                 //charts.Add(chart2);
 
             }
@@ -613,8 +620,10 @@ namespace MTLTestApp
 
         // Returns a List of the turn responses (vector of complex gains for each turn) at each frequency.  E.g., if there are 10 turns at 1,000 frequency points, then it will return a list
         // with 1,000 entries of vectors of length 10.
-        public static List<Vector_c> CalcResponse(Vector_d r, Matrix_d R, Matrix_d K, List<(double Freq, Matrix_d L)> L_f, Matrix_d C, int n)
+        public static List<Vector_c> CalcResponse(Vector_d r, Matrix_d R, Matrix_d K, List<(double Freq, Matrix_d L)> L_f, Matrix_d C)
         {
+            int n = r.Count;
+
             // Gamma is the diagonal matrix of conductors radii (eq. 2)
             Matrix_d Gamma = M_d.DenseOfDiagonalVector(2d * Math.PI * r);
             Matrix_d HA = CalcHA(n);
@@ -630,7 +639,7 @@ namespace MTLTestApp
             {
                 Console.WriteLine($"Calculating at {f / 1e6}MHz");
                 Matrix_d L = InterpolateInductance(L_f, f);
-                Console.WriteLine($"L[0, 0]: {L[0,0]/1e-9}");
+                //Console.WriteLine($"L[0, 0]: {L[0,0]/1e-9}");
                 var vi_vec = CalcResponseAtFreq(f, Gamma, HA, R, K, L, C, n);
                 var gain_at_freq = vi_vec.SubVector(n, n) / vi_vec[0];
                 V_turn.Add(gain_at_freq); //[n: 2 * n]
@@ -645,6 +654,7 @@ namespace MTLTestApp
         public static List<double[]> CalcResponseMTL(List<(double Freq, Matrix_d L_matrix)> L_matrices, Matrix_d C_matrix, Vector_d R_t, Vector_d K_t, Vector_d d_t)
         {
             int numturns = d_t.Count;
+
             Matrix_d R_array = M_d.Dense(numturns, numturns);
             Matrix_d K_array = M_d.Dense(numturns, numturns);
 
@@ -659,7 +669,8 @@ namespace MTLTestApp
             // r is vector of turn radii in meters
             // d (given above) is turn diameters in m
             var r = d_t / 2d;
-            var V_resp = CalcResponse(r, R_array, K_array, L_matrices, C_matrix, numturns);
+
+            var V_resp = CalcResponse(r, R_array, K_array, L_matrices, C_matrix);
 
             int num_freq_steps = V_resp.Count;
 
