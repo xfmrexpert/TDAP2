@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LINQUADSF_H
-#define LINQUADSF_H
+#pragma once
 
  /// This class represents the shape functions for a first order (linear) quadrilateral. 
 
@@ -25,19 +24,23 @@ class LinQuadSF : public ShapeFunction {
 
 public:
 
-	LinQuadSF(shared_ptr<MeshFace> Element) : ShapeFunction(Element) {};
+	/// Constructor taking a non-owning pointer to the MeshFace.
+	explicit LinQuadSF(MeshFace* element) : ShapeFunction(element) {}
 
-	virtual Vector<double> N(point);
-	virtual Matrix<double> dNds(point);
+    /// Compute the shape function values at a given point.
+    Vector<double> N(const point& pt) override;
 
-	virtual vector<point> IntPts();
-	virtual Vector<double> Weights();
-	virtual int numIntPts();
+    /// Compute the shape function derivatives with respect to local coordinates.
+    Matrix<double> dNds(const point& pt) override;
 
-protected:
+    /// Get the integration points (shared across all instances).
+    const std::vector<point>& IntPts() const override;
 
-private:
+    /// Get the weights associated with the integration points (shared across all instances).
+    const Vector<double>& Weights() const override;
+
+    /// Get the number of integration points.
+    int numIntPts() const override;
 
 };
-#endif //LINQUADSF_H
 

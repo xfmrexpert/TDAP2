@@ -10,7 +10,7 @@
 
 #include "lintrisf.h"
 
-Vector<double> LinTriSF::N(point pt) {
+Vector<double> LinTriSF::N(const point& pt) {
 	Vector<double> mN(3);
 	double r = pt.x;
 	double s = pt.y;
@@ -21,7 +21,7 @@ Vector<double> LinTriSF::N(point pt) {
 	return mN;
 };
 
-Matrix<double> LinTriSF::dNds(point pt) {
+Matrix<double> LinTriSF::dNds(const point& pt) {
 	Matrix<double> dN(3, 2);
 	double r = pt.x;
 	double s = pt.y;
@@ -34,29 +34,28 @@ Matrix<double> LinTriSF::dNds(point pt) {
 	return dN;
 };
 
-vector<point> LinTriSF::IntPts() {
-	//Should use explicit numbers to avoid extra floating point ops
-	//for now leave as is so things are readable
-	vector<point> int_pts(numIntPts());
-	int_pts[0].x = 2. / 3.;
-	int_pts[0].y = 1. / 6.;
-	int_pts[1].x = 1. / 6.;
-	int_pts[1].y = 1. / 6.;
-	int_pts[2].x = 1. / 6.;
-	int_pts[2].y = 2. / 3.;
-
+const std::vector<point>& LinTriSF::IntPts() const {
+	static const std::vector<point> int_pts = []() {
+		std::vector<point> points(3);
+		points[0] = point(2.0 / 3.0, 1.0 / 6.0);
+		points[1] = point(1.0 / 6.0, 1.0 / 6.0);
+		points[2] = point(1.0 / 6.0, 2.0 / 3.0);
+		return points;
+		}();
 	return int_pts;
-};
+}
 
-Vector<double> LinTriSF::Weights() {
-	Vector<double> weights(numIntPts());
-	weights[0] = 1. / 6.;
-	weights[1] = 1. / 6.;
-	weights[2] = 1. / 6.;
-
+const Vector<double>& LinTriSF::Weights() const {
+	static const Vector<double> weights = []() {
+		Vector<double> w(3);
+		w[0] = 1.0 / 6.0;
+		w[1] = 1.0 / 6.0;
+		w[2] = 1.0 / 6.0;
+		return w;
+		}();
 	return weights;
-};
+}
 
-int LinTriSF::numIntPts() {
+int LinTriSF::numIntPts() const {
 	return 3;
 };

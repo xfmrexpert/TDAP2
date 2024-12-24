@@ -1,12 +1,13 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
+
 #include "feanalysis.h"
 #include "discretesystem.h"
  //#include "precisiontimer.h"
@@ -33,7 +34,7 @@ void FEAnalysis::run() {
 void FEAnalysis::setup() {
 
 	for (size_t i = 0; i < theMesh->numRegions(); i++) {
-		auto r = theMesh->getRegion(i);
+		auto& r = theMesh->getRegion(i);
 
 		auto sc = makeStiffContrib(r);
 		if (sc != nullptr) {
@@ -47,7 +48,7 @@ void FEAnalysis::setup() {
 
 	for (size_t i = 0; i < theMesh->numFaces(); i++) { //process all the mesh faces
 		//cout << "Processing face #" << i << endl;
-		auto f = theMesh->getFace(i); //get face object
+		auto& f = theMesh->getFace(i); //get face object
 		auto sc = makeStiffContrib(f); //set-up type of stiffness contributor for the face
 		if (sc != nullptr) {
 			DS.add(sc);
@@ -63,7 +64,7 @@ void FEAnalysis::setup() {
 	}
 
 	for (size_t i = 0; i < theMesh->numEdges(); i++) { //process all mesh edges
-		auto e = theMesh->getEdge(i); //get edge object
+		auto& e = theMesh->getEdge(i); //get edge object
 		//cout << "Processing edge #" << i << "(" << e->ID << ")" << endl;
 		auto fc = makeForceContrib(e); //setup force contributor for the edge
 		if (fc != nullptr) { //check if the edge contributes to the force vector
@@ -76,7 +77,7 @@ void FEAnalysis::setup() {
 	}
 
 	for (size_t i = 0; i < theMesh->numVertexes(); i++) { //process all mesh vertexes
-		auto v = theMesh->getVertex(i); //get vertex object
+		auto& v = theMesh->getVertex(i); //get vertex object
 		//cout << "Processing vertex #" << i << "(" << v->ID << ")" << endl;
 		auto c = makeConstraint(v); //create a constraint for the vertex
 		if (c != nullptr) { //check if the vertex is contrained

@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONSTRAINT_H
-#define CONSTRAINT_H
+#pragma once
 
  /// This class represents a generic constraint. 
 
@@ -21,7 +20,7 @@ class Constraint {
 
 public:
 
-	Constraint(shared_ptr<MeshEntity> Element_in) {
+	Constraint(MeshEntity* Element_in) {
 		entity = Element_in;
 		//map = Map_in;
 		//SF = SF_in;
@@ -33,12 +32,10 @@ public:
 
 protected:
 
-	shared_ptr<MeshEntity> entity;
+	MeshEntity* entity;
 	//Mapping* map;
 	//ShapeFunction* SF;
 
 private:
 
 };
-
-#endif //CONSTRAINT_H

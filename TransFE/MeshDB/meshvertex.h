@@ -1,10 +1,14 @@
-/************************************************************************
-			meshvertex.h - Copyright T. C. Raymond
+/***************************************************************************
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
+ *                                                                         *
+ ***************************************************************************/
 
-**************************************************************************/
-
-#ifndef MESHVERTEX_H
-#define MESHVERTEX_H
+#pragma once
 
 #include "meshentity.h"
 #include <vector>
@@ -28,31 +32,25 @@ public:
 
 	~MeshVertex() {};
 
-	/// Returns an iterator to the first edge
-	vector<shared_ptr<MeshEdge>>::iterator getFirstEdge();
-
-	/// Returns an iterator to the last edge
-	vector<shared_ptr<MeshEdge>>::iterator getLastEdge();
+	/// Returns an const reference to the vector of edges
+	const vector<MeshEdge*>& Edges() const;
 
 	/// Returns the n-th edge
-	shared_ptr<MeshEdge> getEdge(int n);
+	MeshEdge* getEdge(int n);
 
 	/// Adds an edge to the list of adjacent edges
-	void addEdge(shared_ptr<MeshEdge>);
+	void addEdge(MeshEdge&);
 
 	/// Returns the number of adjacent edges
 	size_t numEdges();
 
-	/// Returns a set of the edges that this vertex bounds
-	set<shared_ptr<MeshEdge>> getEdges();
-
-	int get_dimensions() const {
+	int get_dimensions() const override {
 		return 0;
 	}
 
 	/// Returns an ordered list of nodes for this vertex
 	/// Not much to do here since there is only one node per vertex
-	virtual vector<shared_ptr<Node>> getNodes();
+	vector<Node*> getNodes() const override;
 
 protected:
 
@@ -61,8 +59,8 @@ private:
 	static const int dimensions = 0;
 
 	/// An STL Vector holding pointers to edges using this vertex (currently unordered)
-	vector<shared_ptr<MeshEdge>> MeshEdges;
+	vector<MeshEdge*> MeshEdges;
 
 };
-#endif //MESHVERTEX_H
+
 

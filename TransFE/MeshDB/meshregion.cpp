@@ -1,34 +1,31 @@
-/************************************************************************
-  			meshregion.cpp - Copyright T. C. Raymond
-
-**************************************************************************/
+/***************************************************************************
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
+ *                                                                         *
+ ***************************************************************************/
 
 #include "meshregion.h"
 #include <iostream>
 
-vector<pair<shared_ptr<MeshFace>, bool>>::iterator MeshRegion::getFirstFace() {
-     return MeshFaces.begin();
-}
-
-vector<pair<shared_ptr<MeshFace>, bool>>::iterator MeshRegion::getLastFace() {
-     return MeshFaces.end();
-}
-
-void MeshRegion::addFace(pair<shared_ptr<MeshFace>, bool> new_face){
+void MeshRegion::addFace(MeshFace* new_face){
      MeshFaces.push_back(new_face);
 }
 
-vector<shared_ptr<Node>> MeshRegion::getNodes(){
+vector<Node*> MeshRegion::getNodes() const{
    //Ugly kludge to get ordered list of nodes for linear tetrahedron
    //Any other element type will fail miserably
    //FIXME
    
-    auto face_iter = this->getFirstFace();
+    auto face_iter = this->MeshFaces.begin();
    
-   auto nodes = (*face_iter).first->getNodes();
+    auto nodes = (*face_iter)->getNodes();
 
-   if((*face_iter).second == 0){
-      vector<shared_ptr<Node>> tmp;
+   if((*face_iter) == 0){
+      vector<Node*> tmp;
       for(auto node_riter=nodes.rbegin();node_riter!=nodes.rend();++node_riter){
          tmp.push_back((*node_riter));
       }
@@ -46,7 +43,7 @@ vector<shared_ptr<Node>> MeshRegion::getNodes(){
    
    face_iter++;
    
-   auto nodes2 = (*face_iter).first->getNodes();
+   auto nodes2 = (*face_iter)->getNodes();
    //cout << "nodes2.size()=" << nodes2.size() << endl;
 
    //cout << "Nodes in second face" << endl;

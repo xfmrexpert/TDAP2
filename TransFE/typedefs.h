@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TYPEDEFS_H
-#define TYPEDEFS_H
+#pragma once
 
 //#include "matrix.h"
 #include <vector>
@@ -31,5 +30,3 @@
  //typedef mtl::matrix<double, mtl::symmetric<mtl::upper>, mtl::array< mtl::compressed<> >, mtl::row_major >::type SparseMatrix;
 typedef Eigen::SparseMatrix<double> BigMatrix;
  typedef Eigen::VectorXd BigVector;
- 
-#endif

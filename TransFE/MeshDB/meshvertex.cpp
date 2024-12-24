@@ -1,24 +1,25 @@
-/************************************************************************
-  			meshvertex.cpp - Copyright T. C .Raymond
-
-**************************************************************************/
+/***************************************************************************
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
+ *                                                                         *
+ ***************************************************************************/
 
 #include "meshvertex.h"
 #include "meshedge.h"
 
-void MeshVertex::addEdge(shared_ptr<MeshEdge> new_edge){
-	MeshEdges.push_back(new_edge); //should be ordered CCW
+void MeshVertex::addEdge(MeshEdge& edge){
+	MeshEdges.push_back(&edge); //should be ordered CCW
 }
 
-vector<shared_ptr<MeshEdge>>::iterator MeshVertex::getFirstEdge() {
-     return MeshEdges.begin();
+const vector<MeshEdge*>& MeshVertex::Edges() const {
+    return MeshEdges;
 }
 
-vector<shared_ptr<MeshEdge>>::iterator MeshVertex::getLastEdge() {
-     return MeshEdges.end();
-}
-
-shared_ptr<MeshEdge> MeshVertex::getEdge(int n){
+MeshEdge* MeshVertex::getEdge(int n){
      return MeshEdges[n];
 }
 
@@ -26,17 +27,9 @@ size_t MeshVertex::numEdges(){
      return MeshEdges.size();
 }
 
-set<shared_ptr<MeshEdge>> MeshVertex::getEdges(){
-     set<shared_ptr<MeshEdge>> return_set;
-     for(auto use_iter=getFirstEdge();use_iter!=getLastEdge();++use_iter){
-	     return_set.insert(*use_iter);
-     }
-     return return_set;
-}
-
-vector<shared_ptr<Node>> MeshVertex::getNodes(){
-   vector<shared_ptr<Node>> nodes;
-   nodes.push_back(this->node);
+vector<Node*> MeshVertex::getNodes() const {
+   vector<Node*> nodes;
+   nodes.push_back(node);
    return nodes;
 }
 

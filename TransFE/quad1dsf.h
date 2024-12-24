@@ -7,8 +7,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef QUAD1DSF_H
-#define QUAD1DSF_H
+#pragma once
 
  // This class represents the shape functions for a first order (linear) triangle. 
 
@@ -22,7 +21,7 @@ class Quad1DSF : public ShapeFunction {
 
 public:
 
-	Quad1DSF(shared_ptr<MeshEdge> Element) : ShapeFunction(Element) {};
+	Quad1DSF(MeshEdge* Element) : ShapeFunction(Element) {};
 
 	virtual Vector<double> N(point);
 	virtual Matrix<double> dNds(point);
@@ -37,4 +36,3 @@ private:
 
 };
 
-#endif

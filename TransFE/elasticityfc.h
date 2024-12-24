@@ -23,15 +23,15 @@ using namespace std;
 
 class ElasticityFC : public ForceContributor{
 public:
-    ElasticityFC(shared_ptr<MeshFace> Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
+    ElasticityFC(MeshFace* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
       nnd = 2;
     };
    
-    ElasticityFC(shared_ptr<MeshEdge> Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
+    ElasticityFC(MeshEdge* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
       nnd = 2;
     };
     
-    virtual ~ElasticityFC(){};
+    virtual ~ElasticityFC() = default;
     
     virtual Vector<double> evaluatePt(point);
     

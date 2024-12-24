@@ -7,8 +7,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef LIN1DSF_H
-#define LIN1DSF_H
+#pragma once
 
  // This class represents the shape functions for a first order (linear) triangle. 
 
@@ -24,7 +23,7 @@ class Lin1DSF : public ShapeFunction {
 
 public:
 
-	Lin1DSF(shared_ptr<MeshEdge> Element) : ShapeFunction(Element) {};
+	Lin1DSF(MeshEdge* Element) : ShapeFunction(Element) {};
 
 	virtual Vector<double> N(point);
 	virtual Matrix<double> dNds(point);
@@ -39,4 +38,3 @@ private:
 
 };
 
-#endif

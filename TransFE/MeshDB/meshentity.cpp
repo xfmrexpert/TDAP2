@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -13,16 +13,14 @@
 
 MeshEntity::MeshEntity() {
 	node = nullptr;
+	ID = -1;
 }
 
-shared_ptr<GeomEntity> MeshEntity::getClassification() {
+GeomEntity* MeshEntity::getClassification() {
 	return myClassification;
 }
 
-void MeshEntity::setClassification(shared_ptr<GeomEntity> new_class) {
-	if (new_class == nullptr) {
-		cout << "Setting null classification!!!" << endl;
-	}
-	myClassification = new_class;
+void MeshEntity::setClassification(GeomEntity& new_class) {
+	myClassification = &new_class;
 }
 

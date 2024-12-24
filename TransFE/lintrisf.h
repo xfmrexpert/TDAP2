@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LINTRISF_H
-#define LINTRISF_H
+#pragma once
 
  /// This class represents the shape functions for a first order (linear) triangle. 
 
@@ -24,19 +23,19 @@ class LinTriSF : public ShapeFunction {
 
 public:
 
-	LinTriSF(shared_ptr<MeshFace> Element) : ShapeFunction(Element) {};
+	explicit LinTriSF(MeshFace* element) : ShapeFunction(element) {}
 
-	virtual Vector<double> N(point);
-	virtual Matrix<double> dNds(point);
+	Vector<double> N(const point& pt) override;
+	Matrix<double> dNds(const point& pt) override;
 
-	virtual vector<point> IntPts();
-	virtual Vector<double> Weights();
-	virtual int numIntPts();
+	const std::vector<point>& IntPts() const override;
+	const Vector<double>& Weights() const override;
+	int numIntPts() const override;
 
 protected:
 
 private:
 
 };
-#endif //LINTRISF_H
+
 

@@ -7,8 +7,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef LIN1DMAPPING_H
-#define LIN1DMAPPING_H
+#pragma once
 
 #include "mapping.h"
 #include "MeshDB/point.h"
@@ -17,7 +16,7 @@
 
 class Mapping1D2D : public Mapping {
 public:
-	Mapping1D2D(shared_ptr<MeshEdge> Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
+	Mapping1D2D(MeshEdge* Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
 		nsd = 2;
 		npd = 1;
 	};
@@ -32,4 +31,3 @@ public:
 
 };
 
-#endif

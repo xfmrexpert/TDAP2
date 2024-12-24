@@ -18,7 +18,7 @@
 
 class Mapping {
 public:
-	Mapping(shared_ptr<MeshEntity> mElement, shared_ptr<ShapeFunction> mSF) {
+	Mapping(MeshEntity* mElement, shared_ptr<ShapeFunction> mSF) {
 		Element = mElement;
 		SF = mSF;
 		nen = Element->getNodes().size();
@@ -33,7 +33,7 @@ public:
 	//virtual double detJacobian(point) = 0;
 
 protected:
-	shared_ptr<MeshEntity> Element;
+	MeshEntity* Element;
 	shared_ptr<ShapeFunction> SF;
 
 	int nsd; //# of spatial dimensions

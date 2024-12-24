@@ -7,8 +7,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef GEOMENTITY_H
-#define GEOMENTITY_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -46,4 +45,3 @@ protected:
 
 };
 
-#endif

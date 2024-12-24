@@ -1,11 +1,14 @@
-/************************************************************************
-			meshregion.h - Copyright T. C. Raymond
+/***************************************************************************
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
+ *                                                                         *
+ ***************************************************************************/
 
-
-**************************************************************************/
-
-#ifndef MESHREGION_H
-#define MESHREGION_H
+#pragma once
 
 #include "meshentity.h"
 #include <vector>
@@ -27,25 +30,21 @@ public:
 
 	~MeshRegion() {};
 
-	vector< pair<shared_ptr<MeshFace>, bool> >::iterator getFirstFace();
-	vector< pair<shared_ptr<MeshFace>, bool> >::iterator getLastFace();
-
-	void addFace(pair<shared_ptr<MeshFace>, bool> new_face);
+	void addFace(MeshFace* new_face);
 
 	static const int dimensions = 3;
 
-	int get_dimensions() const {
+	int get_dimensions() const override {
 		return 3;
 	}
 
-	virtual vector<shared_ptr<Node>> getNodes();
+	vector<Node*> getNodes() const override;
 
 protected:
 
 private:
 
-	vector<pair<shared_ptr<MeshFace>, bool>> MeshFaces;
+	vector<MeshFace*> MeshFaces;
 
 };
-#endif //MESHREGION_H
 

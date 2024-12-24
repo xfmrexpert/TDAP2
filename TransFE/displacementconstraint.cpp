@@ -20,8 +20,8 @@ void DisplacementConstraint::apply() {
 	if (entity->getClassification()->getAttribute("x_constraint") != NO_ATTRIB) {  //x component is constrained
 		double x_constraint = entity->getClassification()->getAttribute("x_constraint");
 
-		for (auto node_iter = nodes.begin(); node_iter != nodes.end(); ++node_iter) {
-			auto DOFs = (*node_iter)->getDOFs();
+		for (const auto& node : nodes) {
+			const auto& DOFs = node->getDOFs();
 			if (DOFs.size() > 0) {
 				//if(x_constraint == 0){  //zero essential BC
 				//   DOFs[0]->set_status(DOF_Zero);
@@ -39,8 +39,8 @@ void DisplacementConstraint::apply() {
 	}
 	if (entity->getClassification()->getAttribute("y_constraint") != NO_ATTRIB) { //y component is constrained
 		double y_constraint = entity->getClassification()->getAttribute("y_constraint");
-		for (auto node_iter = nodes.begin(); node_iter != nodes.end(); ++node_iter) {
-			auto DOFs = (*node_iter)->getDOFs();
+		for (const auto& node : nodes) {
+			const auto& DOFs = node->getDOFs();
 			if (y_constraint == 0) {  //zero essential BC
 				DOFs[1]->set_status(DOF_Zero);
 				DOFs[1]->set_value(0);
@@ -53,8 +53,8 @@ void DisplacementConstraint::apply() {
 	}
 	if (entity->getClassification()->getAttribute("z_constraint") != NO_ATTRIB) { //z component is constrained
 		double y_constraint = entity->getClassification()->getAttribute("z_constraint");
-		for (auto node_iter = nodes.begin(); node_iter != nodes.end(); ++node_iter) {
-			auto DOFs = (*node_iter)->getDOFs();
+		for (const auto& node : nodes) {
+			const auto& DOFs = node->getDOFs();
 			if (y_constraint == 0) {  //zero essential BC
 				DOFs[2]->set_status(DOF_Zero);
 				DOFs[2]->set_value(0);

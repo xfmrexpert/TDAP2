@@ -7,8 +7,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef MAGAXISTATICSC_H
-#define MAGAXISTATICSC_H
+#pragma once
 
 #include "stiffnesscontributor.h"
 #include "MeshDB/meshface.h"
@@ -21,7 +20,7 @@
 
 class MagAxiStaticSC : public StiffnessContributor {
 public:
-	MagAxiStaticSC(shared_ptr<MeshFace> Element, shared_ptr<Mapping> Map, shared_ptr<ShapeFunction> SF, int formul) :StiffnessContributor(Element, Map, SF) {
+	MagAxiStaticSC(MeshFace* Element, shared_ptr<Mapping> Map, shared_ptr<ShapeFunction> SF, int formul) :StiffnessContributor(Element, Map, SF) {
 		auto nodes = Element->getNodes();
 
 		//check the region type of this face and set nnd (and dofs) accordingly
@@ -30,12 +29,12 @@ public:
 		formulation = formul;
 
 		//create a new DOF for each node
-		for (auto node_iter = nodes.begin(); node_iter != nodes.end(); ++node_iter) {
+		for (const auto& node : Element->getNodes()) {
 
-			auto DOFs = (*node_iter)->getDOFs();
+			const auto& DOFs = node->getDOFs();
 			if (DOFs.size() < nnd) {
 				for (size_t i = DOFs.size(); i < nnd; i++) {
-					shared_ptr<DOF> newDOF = (*node_iter)->newDOF();
+					DOF* newDOF = node->newDOF();
 					//newDOF->set_eqnumber((*node_iter)->ID*2+i);
 				}
 			}
@@ -49,5 +48,3 @@ public:
 private:
 	int formulation;
 };
-
-#endif

@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SHAPEFUNCTION_H
-#define SHAPEFUNCTION_H
+#pragma once
 
  /// This class represents a generic shape function. 
 
@@ -24,25 +23,22 @@ class ShapeFunction {
 
 public:
 
-	ShapeFunction(shared_ptr<MeshEntity> mElement) {
-		Element = mElement;
-	};
+	explicit ShapeFunction(MeshEntity* mElement) : Element(mElement) {}
 
-	virtual ~ShapeFunction() = default; //Need to loop through mIntPt and trash the points!!!
+	virtual ~ShapeFunction() = default;
 
-	virtual Vector<double> N(point) = 0;
-	virtual Matrix<double> dNds(point) = 0;
+	virtual Vector<double> N(const point& pt) = 0;
+	virtual Matrix<double> dNds(const point& pt) = 0;
 
-	virtual vector<point> IntPts() = 0;
-	virtual Vector<double> Weights() = 0;
-	virtual int numIntPts() = 0;
+	virtual const std::vector<point>& IntPts() const = 0;
+	virtual const Vector<double>& Weights() const = 0;
+	virtual int numIntPts() const = 0;
 
 protected:
+	/// Non-owning reference to the associated mesh entity
+	MeshEntity* Element;
 
 private:
 
-	shared_ptr<MeshEntity> Element;
-
 };
-#endif //SHAPEFUNCTION_H
 

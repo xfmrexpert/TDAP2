@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef QUADTRISF_H
-#define QUADTRISF_H
+#pragma once
 
  /// This class represents the shape functions for a second order (linear) triangle. 
 
@@ -23,19 +22,27 @@ class QuadTriSF : public ShapeFunction {
 
 public:
 
-	QuadTriSF(shared_ptr<MeshFace> Element) : ShapeFunction(Element) {};
+	/// Constructor taking a non-owning pointer to the MeshFace.
+	explicit QuadTriSF(MeshFace* element) : ShapeFunction(element) {}
 
-	virtual Vector<double> N(point);
-	virtual Matrix<double> dNds(point);
+    /// Compute the shape function values at a given point.
+    Vector<double> N(const point& pt) override;
 
-	virtual vector<point> IntPts();
-	virtual Vector<double> Weights();
-	virtual int numIntPts();
+    /// Compute the shape function derivatives with respect to local coordinates.
+    Matrix<double> dNds(const point& pt) override;
+
+    /// Get the integration points.
+    const std::vector<point>& IntPts() const override;
+
+    /// Get the weights associated with the integration points.
+    const Vector<double>& Weights() const override;
+
+    /// Get the number of integration points.
+    int numIntPts() const override;
 
 protected:
 
 private:
 
 };
-#endif //QUADTRISF_H
 

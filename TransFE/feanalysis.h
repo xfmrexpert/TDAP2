@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FEANALYSIS_H
-#define FEANALYSIS_H
+#pragma once
 
 #include "MeshDB/meshregion.h"
 #include "MeshDB/meshface.h"
@@ -56,27 +55,27 @@ public:
    virtual void recover() = 0;
    
    /// Create the appropriate StiffnessContributor for the face "element"
-   virtual shared_ptr<StiffnessContributor> makeStiffContrib(shared_ptr<MeshFace> face) = 0;
+   virtual shared_ptr<StiffnessContributor> makeStiffContrib(MeshFace& face) = 0;
 
    /// Create the appropriate StiffnessContributor for the face "element"
-   virtual shared_ptr<StiffnessContributor> makeStiffContrib(shared_ptr<MeshRegion> region) = 0;
+   virtual shared_ptr<StiffnessContributor> makeStiffContrib(MeshRegion& region) = 0;
 
-   virtual shared_ptr<ForceContributor> makeForceContrib(shared_ptr<MeshRegion> region) = 0;
+   virtual shared_ptr<ForceContributor> makeForceContrib(MeshRegion& region) = 0;
 
    /// Create the appropriate ForceContributor for a face body force
-   virtual shared_ptr<ForceContributor> makeForceContrib(shared_ptr<MeshFace> face) = 0;
+   virtual shared_ptr<ForceContributor> makeForceContrib(MeshFace& face) = 0;
 
    /// Create the appropriate ForceContributor for an edge force
-   virtual shared_ptr<ForceContributor> makeForceContrib(shared_ptr<MeshEdge> edge) = 0;
+   virtual shared_ptr<ForceContributor> makeForceContrib(MeshEdge& edge) = 0;
 
    /// Create the appropriate Constraint for a face
-   virtual shared_ptr<Constraint> makeConstraint(shared_ptr<MeshFace> face) = 0;
+   virtual shared_ptr<Constraint> makeConstraint(MeshFace& face) = 0;
 
    /// Create the appropriate Constraint for an edge
-   virtual shared_ptr<Constraint> makeConstraint(shared_ptr<MeshEdge> edge) = 0;
+   virtual shared_ptr<Constraint> makeConstraint(MeshEdge& edge) = 0;
 
    /// Create the appropriate Constraint for a vertex
-   virtual shared_ptr<Constraint> makeConstraint(shared_ptr<MeshVertex> vertex) = 0;
+   virtual shared_ptr<Constraint> makeConstraint(MeshVertex& vertex) = 0;
 
    /// For the saving of the output
    virtual void saveOut(const char* filename) = 0;
@@ -91,5 +90,4 @@ protected:
 private:
 
 };
-#endif //CONSTRAINT_H
 

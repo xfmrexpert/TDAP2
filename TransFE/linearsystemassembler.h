@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LINEARSYSTEMASSEMBLER_H
-#define LINEARSYSTEMASSEMBLER_H
+#pragma once
 
 #include "assembler.h"
 #include <vector>
@@ -27,14 +26,13 @@ class LinearSystemAssembler : public Assembler{
 
 public:
 
-   virtual void accept(Matrix<double>, std::vector<std::shared_ptr<DOF>> dofs);   
+   virtual void accept(Matrix<double>, std::vector<DOF*> dofs);   
 
-   virtual void accept(Vector<double>, std::vector<std::shared_ptr<DOF>> dofs);
+   virtual void accept(Vector<double>, std::vector<DOF*> dofs);
   
 protected:
   
 private:
 
 };
-#endif //LINEARSYSTEMASSEMBLER_H
 

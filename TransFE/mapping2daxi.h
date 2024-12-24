@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MAPPING2DAXI_H
-#define MAPPING2DAXI_H
+#pragma once
 
 #include "mapping.h"
 #include "MeshDB/point.h"
@@ -18,7 +17,7 @@
 
 class Mapping2DAxi : public Mapping {
 public:
-	Mapping2DAxi(shared_ptr<MeshFace> Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
+	Mapping2DAxi(MeshFace* Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
 		nsd = 2;
 		npd = 2;
 	};
@@ -32,5 +31,3 @@ public:
 	//virtual double detJacobian(point pt);
 
 };
-
-#endif

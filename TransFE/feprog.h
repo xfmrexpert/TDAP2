@@ -1,5 +1,4 @@
-#ifndef FEPROG_H
-#define FEPROG_H
+#pragma once
 
 #include "MeshDB/mesh.h"
 #include "magaxistaticanalysis.h"
@@ -22,4 +21,3 @@ public:
 
 };
 	
-#endif

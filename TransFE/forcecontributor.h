@@ -7,8 +7,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef FORCECONTRIBUTOR_H
-#define FORCECONTRIBUTOR_H
+#pragma once
 
 #include "MeshDB/meshentity.h"
 #include "mapping.h"
@@ -17,7 +16,7 @@
 
 class ForceContributor {
 public:
-	ForceContributor(shared_ptr<MeshEntity> Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) {
+	ForceContributor(MeshEntity* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) {
 		Element = Element_in;
 		Map = Map_in;
 		SF = SF_in;
@@ -31,10 +30,10 @@ public:
 
 	virtual Vector<double> evaluatePt(point) = 0;
 
-	vector<shared_ptr<DOF>> getDOFs();
+	vector<DOF*> getDOFs();
 
 protected:
-	shared_ptr<MeshEntity> Element;
+	MeshEntity* Element;
 	shared_ptr<Mapping> Map;
 	shared_ptr<ShapeFunction> SF;
 
@@ -42,5 +41,3 @@ protected:
 	size_t nen; // # of nodes/element
 
 };
-
-#endif

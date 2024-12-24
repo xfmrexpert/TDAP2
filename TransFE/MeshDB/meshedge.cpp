@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -11,71 +11,74 @@
 #include "meshedge.h"
 #include "meshvertex.h"
 #include "meshface.h"
+#include <stdexcept>
+#include <algorithm>
 
-shared_ptr<MeshVertex> MeshEdge::getVertex(int n) {
-     return MeshVertexes[n];
-}
-
-vector<shared_ptr<MeshFace>>::iterator MeshEdge::getFirstFace() {
-     return MeshFaces.begin();
-}
-
-vector<shared_ptr<MeshFace>>::iterator MeshEdge::getLastFace() {
-     return MeshFaces.end();
-}
-
-shared_ptr<MeshFace> MeshEdge::getFace(int n) {
-     return MeshFaces[n];
-}
-
-void MeshEdge::addVertex(shared_ptr<MeshVertex> new_vertex, int n){
-     MeshVertexes[n] = new_vertex;
-}
-
-void MeshEdge::addFace(shared_ptr<MeshFace> new_face){
-     MeshFaces.push_back(new_face);
-}
-
-set<shared_ptr<MeshFace>> MeshEdge::getFaces(){
-    set<shared_ptr<MeshFace>> return_set;
-    for(auto use_iter=getFirstFace();use_iter!=getLastFace();++use_iter){
-	    return_set.insert(*use_iter);
+const MeshVertex* MeshEdge::getVertex(int n) const {
+    if (n < 0 || n >= MeshVertices.size()) {
+        throw std::out_of_range("Invalid vertex index");
     }
-    return return_set;
+    return MeshVertices[n];
 }
 
-shared_ptr<MeshVertex> MeshEdge::otherVertex(shared_ptr<MeshVertex> vertex){
-   if(vertex==MeshVertexes[0]){
-      return MeshVertexes[1];
-   }else{
-      return MeshVertexes[0];
-   }
+/// Returns an const reference to the vector of facess
+const vector<MeshFace*>& MeshEdge::Faces() const {
+    return MeshFaces;
 }
 
-bool MeshEdge::isConnected(shared_ptr<MeshEdge> edge){
-   if(edge->getVertex(0)==MeshVertexes[0] || edge->getVertex(0)==MeshVertexes[1]
-   || edge->getVertex(1)==MeshVertexes[0] || edge->getVertex(1)==MeshVertexes[1]){
-      return true;
-   }else{
-      return false;
-   }
+MeshFace* MeshEdge::getFace(int n) {
+    if (n < 0 || n >= MeshFaces.size()) {
+        throw std::out_of_range("Invalid face index");
+    }
+    return MeshFaces[n];
 }
 
-bool MeshEdge::isConnected(shared_ptr<MeshVertex> vertex){
-   if(MeshVertexes[0]==vertex || MeshVertexes[1]==vertex){
-      return true;
-   }else{
-      return false;
-   }
+void MeshEdge::addVertex(MeshVertex& new_vertex, int n){
+    if (n < 0 || n >= MeshVertices.size()) {
+        throw std::out_of_range("Invalid vertex index");
+    }
+    MeshVertices[n] = &new_vertex;
 }
 
-vector<shared_ptr<Node>> MeshEdge::getNodes(){
-   vector<shared_ptr<Node>> nodes;
+void MeshEdge::addFace(MeshFace& new_face){
+    if (std::find(MeshFaces.begin(), MeshFaces.end(), &new_face) == MeshFaces.end()) {
+        MeshFaces.push_back(&new_face);
+    }
+}
+
+MeshVertex* MeshEdge::otherVertex(const MeshVertex& vertex) const{
+    if (MeshVertices[0] == &vertex) {
+        return MeshVertices[1];
+    }
+    else if (MeshVertices[1] == &vertex) {
+        return MeshVertices[0];
+    }
+    else {
+        throw std::invalid_argument("Vertex does not belong to this edge");
+    }
+}
+
+bool MeshEdge::isConnected(const MeshVertex& vertex) const {
+    return std::any_of(MeshVertices.begin(), MeshVertices.end(),
+        [&vertex](const MeshVertex* v) { return v == &vertex; });
+}
+
+bool MeshEdge::isConnected(const MeshEdge& edge) const {
+    for (const auto* v : edge.MeshVertices) {
+        if (isConnected(*v)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<Node*> MeshEdge::getNodes() const{
+   vector<Node*> nodes;
    
    for(int i=0;i<2;i++){
       nodes.push_back(this->getVertex(i)->node);
    }
-   if(this->node != NULL){
+   if(this->node != nullptr){
       nodes.push_back(this->node);
    }
    return nodes;

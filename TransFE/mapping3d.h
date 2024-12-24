@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MAPPING3D_H
-#define MAPPING3D_H
+#pragma once
 
 #include "mapping.h"
 #include "MeshDB/point.h"
@@ -18,12 +17,12 @@
 
 class Mapping3D : public Mapping {
 public:
-	Mapping3D(shared_ptr<MeshRegion> Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
+	Mapping3D(MeshRegion* Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
 		nsd = 3;
 		npd = 3;
 	};
 
-	virtual ~Mapping3D();
+	//virtual ~Mapping3D();
 
 	virtual Matrix<double> jacobianInverse(point pt);
 
@@ -33,4 +32,3 @@ public:
 
 };
 
-#endif

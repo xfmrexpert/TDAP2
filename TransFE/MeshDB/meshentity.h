@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -8,12 +8,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MESHENTITY_H
-#define MESHENTITY_H
+#pragma once
 
 #include "node.h"
 #include <vector>
 #include <memory>
+#include <optional>
 
 #include "geomentity.h"
 
@@ -29,7 +29,7 @@ class MeshEntity {
 public:
 
 	/// An integer for assigned a unique ID to an entity.  This is not assigned unless done so explicitly.
-	long long ID;
+	size_t ID;
 
 	/// Default constructor.  Currently empty. Not anymore...
 	MeshEntity();
@@ -40,16 +40,16 @@ public:
 	virtual int get_dimensions() const = 0;
 
 	/// Pointer to a node.  Required for vertices, optional for all others.
-	shared_ptr<Node> node;
+	Node* node;
 
 	/// Returns the GeomEntity that this mesh entity is classified on
-	shared_ptr<GeomEntity> getClassification();
+	GeomEntity* getClassification();
 
 	/// Sets the GeomEntity that this mesh entity is classified on
-	void setClassification(shared_ptr<GeomEntity>);
+	void setClassification(GeomEntity&);
 
 	/// Returns an ordered list of nodes for the mesh entity
-	virtual vector<shared_ptr<Node>> getNodes() = 0;
+	virtual vector<Node*> getNodes() const = 0;
 
 protected:
 
@@ -59,8 +59,8 @@ private:
 	int dimensions;
 
 	/// GeomEntity representing the model object this mesh entity is classified on
-	shared_ptr<GeomEntity> myClassification;
+	GeomEntity* myClassification;
 
 };
-#endif //MESHENTITY_H
+
 

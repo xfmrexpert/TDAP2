@@ -1,15 +1,18 @@
-/************************************************************************
-			meshedge.h - Copyright T. C. Raymond
+/***************************************************************************
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
+ *                                                                         *
+ ***************************************************************************/
 
-
-**************************************************************************/
-
-#ifndef MESHEDGE_H
-#define MESHEDGE_H
+#pragma once
 
 #include "meshentity.h"
 #include <vector>
-#include <set>
+#include <array>
 
 using namespace std;
 
@@ -26,47 +29,41 @@ class MeshEdge : public MeshEntity {
 public:
 
 	/// Default constructor.  Currently empty.
-	MeshEdge() {};
+	MeshEdge() = default;
 
-	~MeshEdge() {};
+	~MeshEdge() = default;
 
 	/// Returns a pointer to the n-th vertex of this edge (either 0 or 1)
-	shared_ptr<MeshVertex> getVertex(int n);
+	const MeshVertex* getVertex(int n) const;
 
-	/// Returns an iterator to the first face that this edge bounds
-	vector<shared_ptr<MeshFace>>::iterator getFirstFace();
-
-	/// Returns an iterator to the last face that this edge bounds
-	vector<shared_ptr<MeshFace>>::iterator getLastFace();
+	/// Returns an const reference to the vector of faces
+	const vector<MeshFace*>& Faces() const;
 
 	/// Returns a pointer to the n-th face that this edge bounds
-	shared_ptr<MeshFace> getFace(int n);
+	MeshFace* getFace(int n);
 
 	/// Adds a vertex to the adjacency information for this edge
-	void addVertex(shared_ptr<MeshVertex> new_vertex, int n);
+	void addVertex(MeshVertex& new_vertex, int n);
 
 	/// Adds a face to the adjacency information for this edge (should be deleted)
-	void addFace(shared_ptr<MeshFace> new_face);
-
-	/// Get a list of all mesh faces that this edge bounds
-	set<shared_ptr<MeshFace>> getFaces();
+	void addFace(MeshFace& new_face);
 
 	/// Returns the other vertex for this edge
-	shared_ptr<MeshVertex> otherVertex(shared_ptr<MeshVertex>);
+	MeshVertex* otherVertex(const MeshVertex&) const;
 
 	/// Returns whether or not this edge is connected to the given edge
-	bool isConnected(shared_ptr<MeshEdge>);
+	bool isConnected(const MeshEdge&) const;
 
 	/// Returns whether or not the given vertex bounds this edge
-	bool isConnected(shared_ptr<MeshVertex>);
+	bool isConnected(const MeshVertex&) const;
 
-	int get_dimensions() const {
+	int get_dimensions() const override {
 		return 1;
 	}
 
 	/// Returns an ordered list of nodes for this edge
 	/// Vertex nodes 1st, edge node 2nd
-	virtual vector<shared_ptr<Node>> getNodes();
+	vector<Node*> getNodes() const override;
 
 protected:
 
@@ -75,12 +72,11 @@ private:
 	/// Indicates the "level" or dimensions of edges, may be used someday
 	static const int dimensions = 1;
 
-	/// A constant-sized array to hold pointers to each vertex of this edge
-	shared_ptr<MeshVertex> MeshVertexes[2];
+	/// A fixed-size array to hold pointers to each vertex of this edge
+	std::array<MeshVertex*, 2> MeshVertices;
 
 	/// An STL Vector for holding pointers to Face adjacenecies
-	vector<shared_ptr<MeshFace>> MeshFaces;
+	vector<MeshFace*> MeshFaces;
 
 };
-#endif //MESHEDGE_H
 

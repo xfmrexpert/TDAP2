@@ -3,8 +3,7 @@
 
 **************************************************************************/
 
-#ifndef DISPLACEMENTCONSTRAINT_H
-#define DISPLACEMENTCONSTRAINT_H
+#pragma once
 
 #include "constraint.h"
 #include "MeshDB/meshedge.h"
@@ -18,7 +17,7 @@ class DisplacementConstraint : public Constraint {
 
 public:
 
-	DisplacementConstraint(shared_ptr<MeshEntity> Element_in) : Constraint(Element_in) {};
+	DisplacementConstraint(MeshEntity* Element_in) : Constraint(Element_in) {};
 
 	~DisplacementConstraint();
 
@@ -29,5 +28,5 @@ protected:
 private:
 
 };
-#endif //DISPLACEMENTCONSTRAINT_H
+
 

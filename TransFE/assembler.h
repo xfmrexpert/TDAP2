@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef ASSEMBLER_H
-#define ASSEMBLER_H
+#pragma once
 
 #include "dof.h"
 #include "typedefs.h"
@@ -28,9 +27,9 @@ public:
       f = f_in;
    };
 
-   virtual void accept(Matrix<double> k, std::vector<std::shared_ptr<DOF>> dofs) = 0;   
+   virtual void accept(Matrix<double> k, std::vector<DOF*> dofs) = 0;   
 
-   virtual void accept(Vector<double> k, std::vector<std::shared_ptr<DOF>> dofs) = 0;
+   virtual void accept(Vector<double> k, std::vector<DOF*> dofs) = 0;
   
 protected:
   
@@ -40,5 +39,4 @@ protected:
 private:
 
 };
-#endif //ASSEMBLER_H
 

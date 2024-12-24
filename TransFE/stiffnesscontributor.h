@@ -7,8 +7,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef STIFFNESSCONTRIBUTOR_H
-#define STIFFNESSCONTRIBUTOR_H
+#pragma once
 
 #include <vector>
 #include "MeshDB/meshentity.h"
@@ -20,7 +19,7 @@
 
 class StiffnessContributor {
 public:
-	StiffnessContributor(shared_ptr<MeshEntity> Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) {
+	StiffnessContributor(MeshEntity* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) {
 		Element = Element_in;
 		Map = Map_in;
 		SF = SF_in;
@@ -33,10 +32,10 @@ public:
 
 	virtual Matrix<double> evaluatePt(point) = 0;
 
-	vector<shared_ptr<DOF>> getDOFs();
+	vector<DOF*> getDOFs();
 
 protected:
-	shared_ptr<MeshEntity> Element;
+	MeshEntity* Element;
 	shared_ptr<Mapping> Map;
 	shared_ptr<ShapeFunction> SF;
 	Matrix<double> dsdx; //Overwritten on each call to evaluate
@@ -45,5 +44,3 @@ protected:
 	size_t nen; // # of nodes/element
 
 };
-
-#endif

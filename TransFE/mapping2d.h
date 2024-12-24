@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MAPPING2D_H
-#define MAPPING2D_H
+#pragma once
 
 #include "mapping.h"
 #include "MeshDB/point.h"
@@ -18,7 +17,7 @@
 
 class Mapping2D : public Mapping {
 public:
-	Mapping2D(shared_ptr<MeshFace> Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
+	Mapping2D(MeshFace* Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
 		nsd = 2;
 		npd = 2;
 	};
@@ -33,4 +32,3 @@ public:
 
 };
 
-#endif

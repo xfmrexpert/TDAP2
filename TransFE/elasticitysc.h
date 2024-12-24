@@ -21,17 +21,17 @@
 
 class ElasticitySC : public StiffnessContributor {
 public:
-	ElasticitySC(shared_ptr<MeshFace> Element, shared_ptr<Mapping> Map, shared_ptr<ShapeFunction> SF) : StiffnessContributor(Element, Map, SF) {
+	ElasticitySC(MeshFace* Element, shared_ptr<Mapping> Map, shared_ptr<ShapeFunction> SF) : StiffnessContributor(Element, Map, SF) {
 		auto nodes = Element->getNodes();
 		
 		nnd = 2;
 
-		for (auto node_iter = nodes.begin(); node_iter != nodes.end(); node_iter++) {
+		for (const auto& node : Element->getNodes()) {
 
-			auto DOFs = (*node_iter)->getDOFs();
+			const auto& DOFs = node->getDOFs();
 			if (DOFs.empty()) {
 				for (int i = 0; i < nnd; i++) {
-					shared_ptr<DOF> newDOF = (*node_iter)->newDOF();
+					DOF* newDOF = node->newDOF();
 					//newDOF->set_eqnumber((*node_iter)->ID*2+i);
 				}
 			}

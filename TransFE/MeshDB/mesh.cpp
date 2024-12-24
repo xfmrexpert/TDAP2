@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -36,88 +36,88 @@
 
 Mesh::~Mesh() {}
 
-shared_ptr<MeshRegion> Mesh::newRegion() {
-	MeshRegions.push_back(make_shared<MeshRegion>());
-	return MeshRegions.back();
+MeshRegion& Mesh::newRegion() {
+	MeshRegions.push_back(std::make_unique<MeshRegion>());
+	return *MeshRegions.back();
 }
 
-shared_ptr<MeshFace> Mesh::newFace() {
-	MeshFaces.push_back(make_shared<MeshFace>());
-	return MeshFaces.back();
+MeshFace& Mesh::newFace() {
+	MeshFaces.push_back(std::make_unique<MeshFace>());
+	return *MeshFaces.back();
 }
 
-shared_ptr<MeshEdge> Mesh::newEdge() {
-	MeshEdges.push_back(make_shared<MeshEdge>());
-	return MeshEdges.back();
+MeshEdge& Mesh::newEdge() {
+	MeshEdges.push_back(std::make_unique<MeshEdge>());
+	return *MeshEdges.back();
 }
 
-shared_ptr<MeshVertex> Mesh::newVertex() {
-	MeshVertexes.push_back(make_shared<MeshVertex>());
-	return MeshVertexes.back();
+MeshVertex& Mesh::newVertex() {
+	MeshVertexes.push_back(std::make_unique<MeshVertex>());
+	return *MeshVertexes.back();
 }
 
-shared_ptr<Node> Mesh::newNode() {
-	Nodes.push_back(make_shared<Node>());
-	return Nodes.back();
+Node& Mesh::newNode() {
+	Nodes.push_back(std::make_unique<Node>());
+	return *Nodes.back();
 }
 
-shared_ptr<MeshRegion> Mesh::getRegion(size_t n) {
-	return MeshRegions[n];
+MeshRegion& Mesh::getRegion(size_t n) {
+	return *MeshRegions[n];
 }
 
-shared_ptr<MeshFace> Mesh::getFace(size_t n) {
-	return MeshFaces[n];
+MeshFace& Mesh::getFace(size_t n) {
+	return *MeshFaces[n];
 }
 
-shared_ptr<MeshEdge> Mesh::getEdge(size_t n) {
-	return MeshEdges[n];
+MeshEdge& Mesh::getEdge(size_t n) {
+	return *MeshEdges[n];
 }
 
-shared_ptr<MeshVertex> Mesh::getVertex(size_t n) {
-	return MeshVertexes[n];
+MeshVertex& Mesh::getVertex(size_t n) {
+	return *MeshVertexes[n];
 }
 
-shared_ptr<Node> Mesh::getNode(size_t n) {
-	return Nodes[n];
+Node& Mesh::getNode(size_t n) {
+	return *Nodes[n];
 }
 
-vector<shared_ptr<MeshRegion>>::iterator Mesh::getFirstRegion() {
+std::vector<std::unique_ptr<MeshRegion>>::iterator Mesh::getFirstRegion() {
 	return MeshRegions.begin();
 }
 
-vector<shared_ptr<MeshRegion>>::iterator Mesh::getLastRegion() {
+std::vector<std::unique_ptr<MeshRegion>>::iterator Mesh::getLastRegion() {
 	return MeshRegions.end();
 }
 
-vector<shared_ptr<MeshFace>>::iterator Mesh::getFirstFace() {
+std::vector<std::unique_ptr<MeshFace>>::iterator Mesh::getFirstFace() {
 	return MeshFaces.begin();
 }
 
-vector<shared_ptr<MeshFace>>::iterator Mesh::getLastFace() {
+std::vector<std::unique_ptr<MeshFace>>::iterator Mesh::getLastFace() {
 	return MeshFaces.end();
 }
 
-vector<shared_ptr<MeshEdge>>::iterator Mesh::getFirstEdge() {
+std::vector<std::unique_ptr<MeshEdge>>::iterator Mesh::getFirstEdge() {
 	return MeshEdges.begin();
 }
 
-vector<shared_ptr<MeshEdge>>::iterator Mesh::getLastEdge() {
+std::vector<std::unique_ptr<MeshEdge>>::iterator Mesh::getLastEdge() {
 	return MeshEdges.end();
 }
 
-vector<shared_ptr<MeshVertex>>::iterator Mesh::getFirstVertex() {
+std::vector<std::unique_ptr<MeshVertex>>::iterator Mesh::getFirstVertex() {
 	return MeshVertexes.begin();
 }
 
-vector<shared_ptr<MeshVertex>>::iterator Mesh::getLastVertex() {
+std::vector<std::unique_ptr<MeshVertex>>::iterator Mesh::getLastVertex() {
 	return MeshVertexes.end();
 }
 
-vector<shared_ptr<Node>>::iterator Mesh::getFirstNode() {
+std::vector<std::unique_ptr<Node>>::iterator Mesh::getFirstNode() {
 	return Nodes.begin();
 }
 
-vector<shared_ptr<Node>>::iterator Mesh::getLastNode() {
+std::vector<std::unique_ptr<Node>>::iterator Mesh::getLastNode() {
 	return Nodes.end();
 }
 
@@ -143,9 +143,9 @@ size_t Mesh::numNodes() {
 
 void Mesh::reorder2() {
 	size_t labeldof = 0;
-	for (auto node : Nodes) {
-		auto DOFs = node->getDOFs();
-		for (auto dof: DOFs) {
+	for (const auto& node : Nodes) {
+		const auto& DOFs = node->getDOFs();
+		for (const auto& dof : DOFs) {
 			if (dof->get_status() == DOF_Free) {
 				dof->set_eqnumber(labeldof);
 				labeldof++;
@@ -155,29 +155,29 @@ void Mesh::reorder2() {
 };
 
 void Mesh::reorder() {
-	long long labeldof = ndof;
-	long long labelnode = Nodes.size();
-	long long labelface = MeshFaces.size();
-	long long labelregion = MeshRegions.size();
+	size_t labeldof = ndof;
+	size_t labelnode = Nodes.size();
+	size_t labelface = MeshFaces.size();
+	size_t labelregion = MeshRegions.size();
 
-	queue<shared_ptr<MeshEntity>> q;
-	queue<shared_ptr<MeshEntity>> list;
+	std::queue<MeshEntity*> q;
+	std::queue<MeshEntity*> list;
 
 	//cout << "Beginning mesh reordering...\n";
 
-	for (auto i = 0; i < numNodes(); i++) {
-		Nodes[i]->ID = -2; //-2 indicates not labeled and not in queue
+	for (const auto& node : Nodes) {
+		node->ID = -2; //-2 indicates not labeled and not in queue
 	}
-	for (auto i = 0; i < numFaces(); i++) {
-		MeshFaces[i]->ID = -2; //-2 indicates not labeled and not in queue
+	for (const auto& face : MeshFaces) {
+		face->ID = -2; //-2 indicates not labeled and not in queue
 	}
-	for (auto i = 0; i < numRegions(); i++) {
-		MeshRegions[i]->ID = -2; //-2 indicates not labeled and not in queue
+	for (const auto& region : MeshRegions) {
+		region->ID = -2; //-2 indicates not labeled and not in queue
 	}
 
 	//cout << "Get start...\n";
 
-	shared_ptr<MeshEntity> entity = getStart();
+	MeshEntity* entity = getStart();
 	//cout << "Put first entity into queue...\n";
 	q.push(entity);
 	entity->ID = -1; //0 indicates entity in queue
@@ -194,8 +194,8 @@ void Mesh::reorder() {
 		if (node->ID < 0) { //node is unlabeled
 			labelnode = labelnode - 1;
 			node->ID = labelnode;
-			auto DOFs = node->getDOFs();
-			for (auto dof : DOFs) {
+			const auto& DOFs = node->getDOFs();
+			for (const auto& dof : DOFs) {
 				if (dof->get_status() == DOF_Free) {
 					labeldof = labeldof - 1;
 					if (labeldof < 0) {
@@ -209,12 +209,10 @@ void Mesh::reorder() {
 
 		if (entity->get_dimensions() == 0) { //entity is a vertex
 			//cout << "Loop through edges of vertex\n";
-			shared_ptr<MeshVertex> vertex = dynamic_pointer_cast<MeshVertex>(entity);
-			for (auto edge_iter = vertex->getFirstEdge(); edge_iter != vertex->getLastEdge(); ++edge_iter) {
-				shared_ptr<MeshEdge> edge = *edge_iter;
+			MeshVertex* vertex = dynamic_cast<MeshVertex*>(entity);
+			for (const auto& edge : vertex->Edges()) {
 				//cout << "Loop through faces of edge #" << edge->ID << "\n";
-				for (auto face_iter = edge->getFirstFace(); face_iter != edge->getLastFace(); ++face_iter) {
-					shared_ptr<MeshFace> face = *face_iter;
+				for (const auto& face : edge->Faces()) {
 					if (face->ID < 0) { //face is unlabeled
 						labelface = labelface - 1;
 						face->ID = labelface;
@@ -224,22 +222,22 @@ void Mesh::reorder() {
 						face->node->ID = -1;
 					}
 				}
-				auto othervertex = edge->otherVertex(vertex);
+				auto othervertex = edge->otherVertex(*vertex);
 				if (edge->node != nullptr) {  //if edge has a node
 					//cout << "Edge has a node\n";
 					if (othervertex->node->ID >= -1 && edge->node->ID < -1) {
 						//cout << "Labeling node directly\n";
 						labelnode = labelnode - 1;
 						edge->node->ID = labelnode;
-						auto DOFs = edge->node->getDOFs();
-						for (auto dof_iter = DOFs.begin(); dof_iter != DOFs.end(); ++dof_iter) {
-							if ((*dof_iter)->get_status() == DOF_Free) {
+						const auto& DOFs = edge->node->getDOFs();
+						for (const auto& dof : DOFs) {
+							if (dof->get_status() == DOF_Free) {
 								labeldof = labeldof - 1;
 								if (labeldof < 0) {
 									cout << "ERROR! labeldof<0!\n";
 									return;
 								}
-								(*dof_iter)->set_eqnumber(labeldof);
+								dof->set_eqnumber(labeldof);
 							}
 						}
 					}
@@ -269,15 +267,15 @@ void Mesh::reorder() {
 	cout << labelnode;
 }
 
-shared_ptr<MeshEntity> Mesh::getStart() {
+MeshEntity* Mesh::getStart() {
 	if (MeshVertexes.empty())
 	{
 		return nullptr;
 	}
 	else
 	{
-		shared_ptr<MeshVertex> start_vertex = MeshVertexes[0];
-		return (shared_ptr<MeshEntity>)start_vertex;
+		MeshVertex& start_vertex = *MeshVertexes[0];
+		return &start_vertex;
 	}
 }
 
@@ -364,14 +362,14 @@ void Mesh::readMesh(string filename)
 						exit(1);
 					}
 					else {
-						shared_ptr<Node> new_node = newNode(); //newNode() adds a new Node to the Nodes list
+						Node& new_node = newNode(); //newNode() adds a new Node to the Nodes list
 						point pt;
 						pt.x = x;
 						pt.y = y;
 						pt.z = z;
-						new_node->pt(pt);
+						new_node.pt(pt);
 
-						new_node->ID = num;
+						new_node.ID = num;
 					}
 				}
 			}
@@ -413,43 +411,43 @@ void Mesh::readMesh(string filename)
 						//this is a point, read in node #
 						size_t nodenum;
 						meshFile >> nodenum;
-						shared_ptr<MeshVertex> vertex = findVertexbyNode(nodenum);
+						MeshVertex* vertex = findVertexbyNode(nodenum);
 						if (!vertex) {
-							vertex = newVertex();
+							vertex = &newVertex();
 							vertex->node = findNodebyID(nodenum); //Nodes[nodenum-1];
 							vertex->ID = MeshVertexes.size();
 						}
-						vertex->setClassification(GeomEntities[physical]);
+						vertex->setClassification(*GeomEntities[physical]);
 					}
 					else if (type == 1 || type == 8) {
 						//this is a line, read in node #
 						size_t numNode1;
 						size_t numNode2;
 						meshFile >> numNode1 >> numNode2;
-						shared_ptr<MeshVertex> vertex1 = findVertexbyNode(numNode1);
+						MeshVertex* vertex1 = findVertexbyNode(numNode1);
 						if (!vertex1) {
-							vertex1 = newVertex();
+							vertex1 = &newVertex();
 							vertex1->node = findNodebyID(numNode1); //Nodes[numNode1-1];
-							vertex1->setClassification(GeomEntities[0]);
+							vertex1->setClassification(*GeomEntities[0]);
 							vertex1->ID = MeshVertexes.size();
 						}
-						shared_ptr<MeshVertex> vertex2 = findVertexbyNode(numNode2);
+						MeshVertex* vertex2 = findVertexbyNode(numNode2);
 						if (!vertex2) {
-							vertex2 = newVertex();
+							vertex2 = &newVertex();
 							vertex2->node = findNodebyID(numNode2); //Nodes[numNode2-1];
-							vertex2->setClassification(GeomEntities[0]);
+							vertex2->setClassification(*GeomEntities[0]);
 							vertex2->ID = MeshVertexes.size();
 						}
-						shared_ptr<MeshEdge> new_edge = findEdgebyVertexes(vertex1, vertex2);
+						MeshEdge* new_edge = findEdgebyVertexes(*vertex1, *vertex2);
 						if (!new_edge) { //edge hasn't been added yet
-							new_edge = newEdge();
-							new_edge->addVertex(vertex1, 0);
-							new_edge->addVertex(vertex2, 1);
-							vertex1->addEdge(new_edge);
-							vertex2->addEdge(new_edge);
+							new_edge = &newEdge();
+							new_edge->addVertex(*vertex1, 0);
+							new_edge->addVertex(*vertex2, 1);
+							vertex1->addEdge(*new_edge);
+							vertex2->addEdge(*new_edge);
 							new_edge->ID = MeshEdges.size();
 						}
-						new_edge->setClassification(GeomEntities[physical]);
+						new_edge->setClassification(*GeomEntities[physical]);
 						if (type == 8) {
 							size_t numNode3;
 							meshFile >> numNode3;
@@ -461,7 +459,7 @@ void Mesh::readMesh(string filename)
 						size_t firstNode;
 						size_t numNode1;
 						size_t numNode2;
-						shared_ptr<MeshFace> e = newFace();
+						MeshFace* e = &newFace();
 						cout << "Reading Face#" << MeshFaces.size() << endl;
 						cout << "# edges = " << numEdges << endl;
 						meshFile >> firstNode;
@@ -475,35 +473,35 @@ void Mesh::readMesh(string filename)
 								numNode2 = firstNode;
 							}
 							cout << "Setting up edge " << numNode1 << "-" << numNode2 << endl;
-							shared_ptr<MeshVertex> vertex1 = findVertexbyNode(numNode1);
+							MeshVertex* vertex1 = findVertexbyNode(numNode1);
 							if (!vertex1) {
-								vertex1 = newVertex();
+								vertex1 = &newVertex();
 								vertex1->node = findNodebyID(numNode1); //Nodes[numNode1-1];
-								vertex1->setClassification(GeomEntities[0]);
+								vertex1->setClassification(*GeomEntities[0]);
 								vertex1->ID = MeshVertexes.size();
 							}
-							shared_ptr<MeshVertex> vertex2 = findVertexbyNode(numNode2);
+							MeshVertex* vertex2 = findVertexbyNode(numNode2);
 							if (!vertex2) {
-								vertex2 = newVertex();
+								vertex2 = &newVertex();
 								vertex2->node = findNodebyID(numNode2); //Nodes[numNode2-1];
-								vertex2->setClassification(GeomEntities[0]);
+								vertex2->setClassification(*GeomEntities[0]);
 								vertex2->ID = MeshVertexes.size();
 							}
-							shared_ptr<MeshEdge> new_edge = findEdgebyVertexes(vertex1, vertex2);
+							MeshEdge* new_edge = findEdgebyVertexes(*vertex1, *vertex2);
 							if (!new_edge) { //edge hasn't been added yet
-								new_edge = newEdge();
-								new_edge->addVertex(vertex1, 0);
-								new_edge->addVertex(vertex2, 1);
-								new_edge->setClassification(GeomEntities[0]);
-								vertex1->addEdge(new_edge);
-								vertex2->addEdge(new_edge);
+								new_edge = &newEdge();
+								new_edge->addVertex(*vertex1, 0);
+								new_edge->addVertex(*vertex2, 1);
+								new_edge->setClassification(*GeomEntities[0]);
+								vertex1->addEdge(*new_edge);
+								vertex2->addEdge(*new_edge);
 								new_edge->ID = MeshEdges.size();
 							}
-							new_edge->addFace(e);
-							e->addEdge(new_edge);
+							new_edge->addFace(*e);
+							e->addEdge(*new_edge);
 							e->ID = MeshFaces.size();
 						}
-						e->setClassification(GeomEntities[physical]);
+						e->setClassification(*GeomEntities[physical]);
 						if (type == 9) { //2nd order triangle
 							//get edge nodes
 							for (int n = 0; n < 3; n++) {
@@ -531,59 +529,59 @@ void Mesh::readMesh(string filename)
 						int numNode3 = 0;
 						int numNode4 = 0;
 						meshFile >> numNode1 >> numNode3 >> numNode3 >> numNode4;
-						shared_ptr<MeshVertex> vertex1 = findVertexbyNode(numNode1);
+						MeshVertex* vertex1 = findVertexbyNode(numNode1);
 						if (!vertex1) {
-							vertex1 = newVertex();
+							vertex1 = &newVertex();
 							vertex1->node = findNodebyID(numNode1); //Nodes[numNode1-1];
-							vertex1->setClassification(GeomEntities[0]);
+							vertex1->setClassification(*GeomEntities[0]);
 							vertex1->ID = MeshVertexes.size();
 						}
-						shared_ptr<MeshVertex> vertex2 = findVertexbyNode(numNode2);
+						MeshVertex* vertex2 = findVertexbyNode(numNode2);
 						if (!vertex2) {
-							vertex2 = newVertex();
+							vertex2 = &newVertex();
 							vertex2->node = findNodebyID(numNode2); //Nodes[numNode2-1];
-							vertex2->setClassification(GeomEntities[0]);
+							vertex2->setClassification(*GeomEntities[0]);
 							vertex2->ID = MeshVertexes.size();
 						}
-						shared_ptr<MeshVertex> vertex3 = findVertexbyNode(numNode3);
+						MeshVertex* vertex3 = findVertexbyNode(numNode3);
 						if (!vertex3) {
-							vertex3 = newVertex();
+							vertex3 = &newVertex();
 							vertex3->node = findNodebyID(numNode3); //Nodes[numNode2-1];
-							vertex3->setClassification(GeomEntities[0]);
+							vertex3->setClassification(*GeomEntities[0]);
 							vertex3->ID = MeshVertexes.size();
 						}
-						shared_ptr<MeshVertex> vertex4 = findVertexbyNode(numNode4);
+						MeshVertex* vertex4 = findVertexbyNode(numNode4);
 						if (!vertex4) {
-							vertex4 = newVertex();
+							vertex4 = &newVertex();
 							vertex4->node = findNodebyID(numNode4); //Nodes[numNode2-1];
-							vertex4->setClassification(GeomEntities[0]);
+							vertex4->setClassification(*GeomEntities[0]);
 							vertex4->ID = MeshVertexes.size();
 						}
-						shared_ptr<MeshEdge> edge1 = findEdgebyVertexes(vertex1, vertex2);
-						shared_ptr<MeshEdge> edge2 = findEdgebyVertexes(vertex2, vertex3);
-						shared_ptr<MeshEdge> edge3 = findEdgebyVertexes(vertex3, vertex1);
-						shared_ptr<MeshEdge> edge4 = findEdgebyVertexes(vertex1, vertex2);
-						shared_ptr<MeshEdge> edge5 = findEdgebyVertexes(vertex4, vertex3);
-						shared_ptr<MeshEdge> edge6 = findEdgebyVertexes(vertex2, vertex4);
+						MeshEdge* edge1 = findEdgebyVertexes(*vertex1, *vertex2);
+						MeshEdge* edge2 = findEdgebyVertexes(*vertex2, *vertex3);
+						MeshEdge* edge3 = findEdgebyVertexes(*vertex3, *vertex1);
+						MeshEdge* edge4 = findEdgebyVertexes(*vertex1, *vertex2);
+						MeshEdge* edge5 = findEdgebyVertexes(*vertex4, *vertex3);
+						MeshEdge* edge6 = findEdgebyVertexes(*vertex2, *vertex4);
 
 						//tets have 4 faces, we need to loop through each face and check to
 						//see if the face has already been added
 						//if not, add the face
 						//first up, Face #1 - 1-2-3
-						pair<shared_ptr<MeshFace>, bool> face1 = findFacebyEdge(edge1, edge2, edge3);
-						pair<shared_ptr<MeshFace>, bool> face2 = findFacebyEdge(edge3, edge5, edge4);
-						pair<shared_ptr<MeshFace>, bool> face3 = findFacebyEdge(edge6, edge5, edge2);
-						pair<shared_ptr<MeshFace>, bool> face4 = findFacebyEdge(edge4, edge6, edge1);
-						shared_ptr<MeshRegion> region = newRegion();
-						region->addFace(face1);
-						region->addFace(face2);
-						region->addFace(face3);
-						region->addFace(face4);
-						face1.first->addRegion(region);
-						face2.first->addRegion(region);
-						face3.first->addRegion(region);
-						face4.first->addRegion(region);
-						region->setClassification(GeomEntities[physical]);
+						pair<MeshFace*, bool> face1 = findFacebyEdge(*edge1, *edge2, *edge3);
+						pair<MeshFace*, bool> face2 = findFacebyEdge(*edge3, *edge5, *edge4);
+						pair<MeshFace*, bool> face3 = findFacebyEdge(*edge6, *edge5, *edge2);
+						pair<MeshFace*, bool> face4 = findFacebyEdge(*edge4, *edge6, *edge1);
+						MeshRegion* region = &newRegion();
+						region->addFace(face1.first);
+						region->addFace(face2.first);
+						region->addFace(face3.first);
+						region->addFace(face4.first);
+						face1.first->addRegion(*region);
+						face2.first->addRegion(*region);
+						face3.first->addRegion(*region);
+						face4.first->addRegion(*region);
+						region->setClassification(*GeomEntities[physical]);
 						//one all 4 faces have been added, add the face to the region
 					}
 					else {
@@ -603,12 +601,12 @@ void Mesh::readMesh(string filename)
 	}
 }
 
-shared_ptr<MeshVertex> Mesh::findVertexbyNode(size_t n) {
+MeshVertex* Mesh::findVertexbyNode(size_t n) {
 	//TODO: This loops through all nodes until it finds the matching nodes.  SLOW!
 	if (MeshVertexes.size() > 1) {
-		for (auto vertex : MeshVertexes) {
+		for (const auto& vertex : MeshVertexes) {
 			if (vertex->node->ID == n) {
-				return(vertex);
+				return vertex.get();
 			}
 		}
 	}
@@ -616,50 +614,50 @@ shared_ptr<MeshVertex> Mesh::findVertexbyNode(size_t n) {
 	return nullptr;
 };
 
-shared_ptr<MeshEdge> Mesh::findEdgebyVertexes(shared_ptr<MeshVertex> vertex1, shared_ptr<MeshVertex> vertex2) {
-	for (auto edge_iter = vertex1->getFirstEdge(); edge_iter != vertex1->getLastEdge(); ++edge_iter) {
-		if ((*edge_iter)->getVertex(0) == vertex2 || (*edge_iter)->getVertex(1) == vertex2) {
-			return (*edge_iter);
+MeshEdge* Mesh::findEdgebyVertexes(MeshVertex& vertex1, MeshVertex& vertex2) {
+	for (const auto& edge : vertex1.Edges()) {
+		if (edge->getVertex(0) == &vertex2 || edge->getVertex(1) == &vertex2) {
+			return edge;
 		}
 	}
 	//edge hasn't been added yet
-	shared_ptr<MeshEdge> new_edge = newEdge();
+	MeshEdge* new_edge = &newEdge();
 	new_edge->addVertex(vertex1, 0);
 	new_edge->addVertex(vertex2, 1);
-	new_edge->setClassification(GeomEntities[0]);
-	vertex1->addEdge(new_edge);
-	vertex2->addEdge(new_edge);
+	new_edge->setClassification(*GeomEntities[0]);
+	vertex1.addEdge(*new_edge);
+	vertex2.addEdge(*new_edge);
 	new_edge->ID = MeshEdges.size();
 	return new_edge;
 };
 
-pair<shared_ptr<MeshFace>, bool> Mesh::findFacebyEdge(shared_ptr<MeshEdge> edge1, shared_ptr<MeshEdge> edge2, shared_ptr<MeshEdge> edge3) {
+std::pair<MeshFace*, bool> Mesh::findFacebyEdge(MeshEdge& edge1, MeshEdge& edge2, MeshEdge& edge3) {
 	//FIXME this only works for triangles!
-	for (auto face_iter = edge1->getFirstFace(); face_iter != edge1->getLastFace(); ++face_iter) {
-		if ((*face_iter)->getEdge(1) == edge2 || (*face_iter)->getEdge(2) == edge2) {
-			pair<shared_ptr<MeshFace>, bool> f((*face_iter), 1);  //face already added, so this region uses face in opposite direction
+	for (const auto& face : edge1.Faces()) {
+		if (face->getEdge(1) == &edge2 || face->getEdge(2) == &edge2) {
+			std::pair<MeshFace*, bool> f(face, true);  //face already added, so this region uses face in opposite direction
 			return f;
 		}
 	}
-	shared_ptr<MeshFace> face1 = newFace();
-	face1->addEdge(edge1);
-	face1->addEdge(edge2);
-	face1->addEdge(edge3);
-	edge1->addFace(face1);
-	edge2->addFace(face1);
-	edge3->addFace(face1);
-	face1->setClassification(GeomEntities[0]);
-	pair<shared_ptr<MeshFace>, bool> f((face1), 0);
+	MeshFace& face1 = newFace();
+	face1.addEdge(edge1);
+	face1.addEdge(edge2);
+	face1.addEdge(edge3);
+	edge1.addFace(face1);
+	edge2.addFace(face1);
+	edge3.addFace(face1);
+	face1.setClassification(*GeomEntities[0]);
+	std::pair<MeshFace*, bool> f(&face1, false);
 	return f;
 };
 
-shared_ptr<Node> Mesh::findNodebyID(size_t n) {
-	for (auto node_iter = Nodes.begin(); node_iter != Nodes.end(); ++node_iter) {
-		if ((*node_iter)->ID == n) {
-			return *node_iter;
+Node* Mesh::findNodebyID(size_t n) {
+	for (const auto& node : Nodes) {
+		if (node->ID == n) {
+			return node.get();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void Mesh::readAttributes(const char* filename) {

@@ -6,6 +6,7 @@
 %include "stl.i"
 %include "windows.i"
 %include <std_shared_ptr.i>
+%include <std_unique_ptr.i>
 %include <std_vector.i>
 
 %{
@@ -27,11 +28,46 @@
 %shared_ptr(MeshEdge);
 %shared_ptr(MeshFace);
 %shared_ptr(MeshRegion);
+%unique_ptr(Node);
+%unique_ptr(MeshFace);
+%unique_ptr(MeshEdge);
 
-%template(NodePtrVec) std::vector<shared_ptr<Node>>;
-%template(DOFPtrVec) std::vector<shared_ptr<DOF>>;
-%template(MeshFacePtrVec) std::vector<shared_ptr<MeshFace>>;
-%template(MeshEdgePtrVec) std::vector<shared_ptr<MeshEdge>>;
+%typemap(out) std::vector<std::unique_ptr<DOF>> {
+    std::vector<DOF*> rawPtrs;
+    for (const auto& item : $1) {
+        rawPtrs.push_back(item.get());
+    }
+    $result = rawPtrs;
+}
+
+%typemap(out) std::vector<std::unique_ptr<Node>> {
+    std::vector<Node*> rawPtrs;
+    for (const auto& item : $1) {
+        rawPtrs.push_back(item.get());
+    }
+    $result = rawPtrs;
+}
+
+%typemap(out) std::vector<std::unique_ptr<MeshEdge>> {
+    std::vector<MeshEdge*> rawPtrs;
+    for (const auto& item : $1) {
+        rawPtrs.push_back(item.get());
+    }
+    $result = rawPtrs;
+}
+
+%typemap(out) std::vector<std::unique_ptr<MeshFace>> {
+    std::vector<MeshFace*> rawPtrs;
+    for (const auto& item : $1) {
+        rawPtrs.push_back(item.get());
+    }
+    $result = rawPtrs;
+}
+
+%template(NodePtrVec) std::vector<Node*>;
+%template(DOFPtrVec) std::vector<DOF*>;
+%template(MeshFacePtrVec) std::vector<MeshFace*>;
+%template(MeshEdgePtrVec) std::vector<MeshEdge*>;
 
 
 %include "feprog.h"

@@ -1,14 +1,14 @@
 /***************************************************************************
- *   Copyright (C) 2005-2023 by T. C. Raymond                              *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef MAGAXISTATICANALYSIS_H
-#define MAGAXISTATICANALYSIS_H
+
+#pragma once
 
 #include "feanalysis.h"
 #include "magaxistaticsc.h"
@@ -27,19 +27,19 @@ public:
 
 	virtual void recover(); //recover them all important secondary variables
 
-	virtual shared_ptr<StiffnessContributor> makeStiffContrib(shared_ptr<MeshFace> face); //face "element" stiffness
-	virtual shared_ptr<ForceContributor> makeForceContrib(shared_ptr<MeshFace> face); //face body force
-	virtual shared_ptr<ForceContributor> makeForceContrib(shared_ptr<MeshEdge> edge); //edge forces
-	virtual shared_ptr<Constraint> makeConstraint(shared_ptr<MeshEdge> edge);
-	virtual shared_ptr<Constraint> makeConstraint(shared_ptr<MeshVertex> vertex);
+	virtual shared_ptr<StiffnessContributor> makeStiffContrib(MeshFace& face); //face "element" stiffness
+	virtual shared_ptr<ForceContributor> makeForceContrib(MeshFace& face); //face body force
+	virtual shared_ptr<ForceContributor> makeForceContrib(MeshEdge& edge); //edge forces
+	virtual shared_ptr<Constraint> makeConstraint(MeshEdge& edge);
+	virtual shared_ptr<Constraint> makeConstraint(MeshVertex& vertex);
 
 	/// Create the appropriate StiffnessContributor for the face "element"
-	virtual shared_ptr<StiffnessContributor> makeStiffContrib(shared_ptr<MeshRegion> region) { return NULL; };
+	virtual shared_ptr<StiffnessContributor> makeStiffContrib(MeshRegion& region) { return nullptr; };
 
-	virtual shared_ptr<ForceContributor> makeForceContrib(shared_ptr<MeshRegion> region) { return NULL; };
+	virtual shared_ptr<ForceContributor> makeForceContrib(MeshRegion& region) { return nullptr; };
 
 	/// Create the appropriate Constraint for a face
-	virtual shared_ptr<Constraint> makeConstraint(shared_ptr<MeshFace> face) { return NULL; };
+	virtual shared_ptr<Constraint> makeConstraint(MeshFace& face) { return nullptr; };
 
 	virtual void saveOut(const char* filename);
 
@@ -49,5 +49,3 @@ protected:
 	Vector<double> B;
 
 };
-
-#endif

@@ -1,11 +1,14 @@
-/************************************************************************
-			meshface.h - Copyright T. C. Raymond
+/***************************************************************************
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
+ *                                                                         *
+ ***************************************************************************/
 
-
-**************************************************************************/
-
-#ifndef MESHFACE_H
-#define MESHFACE_H
+#pragma once
 
 #include "meshentity.h"
 #include "meshvertex.h"
@@ -29,23 +32,20 @@ public:
 
 	~MeshFace() {};
 
-	/// Returns an iterator for the first edge
-	vector<shared_ptr<MeshEdge>>::iterator getFirstEdge();
-
-	/// Returns an iterator for the last edge
-	vector<shared_ptr<MeshEdge>>::iterator getLastEdge();
+	/// Returns an const reference to the vector of edges
+	const vector<MeshEdge*>& Edges() const;
 
 	/// Returns the n-th edge bounding this face (unordered)
-	shared_ptr<MeshEdge> getEdge(int n);
+	MeshEdge* getEdge(int n);
 
 	/// Returns the n-th region that this face bounds (unordered)
-	shared_ptr<MeshRegion> getRegion(int n);
+	MeshRegion* getRegion(int n);
 
 	/// Adds an edge to the list of adjacent edges
-	void addEdge(shared_ptr<MeshEdge> new_edge);
+	void addEdge(MeshEdge& new_edge);
 
 	/// Adds a region to the list of adjacent regions
-	void addRegion(shared_ptr<MeshRegion> new_region);
+	void addRegion(MeshRegion& new_region);
 
 	/// Returns the number of edges bounding this face
 	size_t numEdges();
@@ -53,20 +53,20 @@ public:
 	/// Returns the area of the face
 	double area();
 
-	int get_dimensions() const {
+	int get_dimensions() const override {
 		return 2;
 	}
 
 	/// Get an ordered listing of the nodes
 	/// vertex nodes 1st, edge nodes 2nd, face node last
-	virtual vector<shared_ptr<Node>> getNodes();
+	vector<Node*> getNodes() const override;
 
-	/// Get an ordered listing of the face vertexes (CCW)
-	vector<shared_ptr<MeshVertex>> getVertexes();
+	/// Get an ordered listing of the face vertices (CCW)
+	vector<const MeshVertex*> getVertices() const;
 
 	//Containers for adjacency information (via pointers)
 	 /// List of edges attached to this face (currently unordered)
-	vector<shared_ptr<MeshEdge>> MeshEdges;
+	vector<MeshEdge*> MeshEdges;
 
 protected:
 
@@ -78,8 +78,7 @@ private:
 
 
 	/// Always 2 regions per face, one on each side
-	vector<shared_ptr<MeshRegion>> MeshRegions;
+	vector<MeshRegion*> MeshRegions;
 
 };
-#endif //MESHFACE_H
 

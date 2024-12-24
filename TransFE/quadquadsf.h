@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef QUADQUADSF_H
-#define QUADQUADSF_H
+#pragma once
 
 /// This class represents the shape functions for a second order (quadratic) quadrilateral. 
 
@@ -19,23 +18,25 @@
 #include "MeshDB/point.h"
 #include <vector>
 
+/// Quadratic quadrilateral shape function for 2D quadrilateral elements.
 class QuadQuadSF : public ShapeFunction {
-
 public:
+    /// Constructor taking a non-owning pointer to the MeshFace.
+    explicit QuadQuadSF(MeshFace* element) : ShapeFunction(element) {}
 
-   QuadQuadSF(shared_ptr<MeshFace> Element) : ShapeFunction(Element) {};
+    /// Compute the shape function values at a given point.
+    Vector<double> N(const point& pt) override;
 
-   virtual Vector<double> N(point);
-   virtual Matrix<double> dNds(point);
-      
-   virtual vector<point> IntPts();
-   virtual Vector<double> Weights();
-   virtual int numIntPts();
-  
-protected:
-  
-private:
+    /// Compute the shape function derivatives with respect to local coordinates.
+    Matrix<double> dNds(const point& pt) override;
 
+    /// Get the integration points (shared across all instances).
+    const std::vector<point>& IntPts() const override;
+
+    /// Get the weights associated with the integration points (shared across all instances).
+    const Vector<double>& Weights() const override;
+
+    /// Get the number of integration points.
+    int numIntPts() const override;
 };
-#endif //QUADTRISF_H
 

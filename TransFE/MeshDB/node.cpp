@@ -1,7 +1,12 @@
-/************************************************************************
-			node.cpp - Copyright T. C. Raymond
-
-**************************************************************************/
+/***************************************************************************
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
+ *                                                                         *
+ ***************************************************************************/
 
 #include "node.h"
 
@@ -25,16 +30,18 @@ bool operator< (Node& lhs, Node& rhs) {
 	}
 }
 
-const vector<shared_ptr<DOF>>& Node::getDOFs() {
-	return DOFs;
+// Function to get non-owning pointers to DOFs
+std::vector<DOF*> Node::getDOFs() const {
+	std::vector<DOF*> result;
+	result.reserve(DOFs.size()); // Reserve space for efficiency
+	for (const auto& dof : DOFs) {
+		result.push_back(dof.get()); // Extract raw pointer
+	}
+	return result; // Return non-owning pointers
 }
 
-shared_ptr<DOF> Node::newDOF() {
-	shared_ptr<DOF> new_DOF = make_shared<DOF>();
-	DOFs.push_back(new_DOF);
-	return new_DOF;
+DOF* Node::newDOF() {
+	DOFs.push_back(std::make_unique<DOF>());
+	return DOFs.back().get();;
 }
 
-Node::~Node() {
-
-}

@@ -7,8 +7,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef MAGAXISTATICFC_H
-#define MAGAXISTATICFC_H
+#pragma once
 
 #include "forcecontributor.h"
 #include "MeshDB/meshface.h"
@@ -24,12 +23,12 @@ using namespace std;
 class MagAxiStaticFC : public ForceContributor {
 public:
 
-	MagAxiStaticFC(shared_ptr<MeshFace> Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
+	MagAxiStaticFC(MeshFace* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
 		nnd = 1;
 		formulation = form;
 	};
 
-	MagAxiStaticFC(shared_ptr<MeshEdge> Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
+	MagAxiStaticFC(MeshEdge* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
 		nnd = 1;
 		formulation = form;
 	};
@@ -43,4 +42,3 @@ private:
 
 };
 
-#endif

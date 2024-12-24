@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef DISCRETESYSTEM_H
-#define DISCRETESYSTEM_H
+#pragma once
 
 #include "stiffnesscontributor.h"
 #include "forcecontributor.h"
@@ -41,5 +40,4 @@ private:
    list<shared_ptr<Constraint>> Constraints;
 
 };
-#endif //DISCRETESYSTEM_H
 

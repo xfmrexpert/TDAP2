@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LINTETSF_H
-#define LINTETSF_H
+#pragma once
 
  /// This class represents the shape functions for a first order (linear) tetrahedron. 
 
@@ -23,7 +22,7 @@ class LinTetSF : public ShapeFunction {
 
 public:
 
-	LinTetSF(shared_ptr<MeshRegion> Element) : ShapeFunction(Element) {};
+	LinTetSF(MeshRegion* Element) : ShapeFunction(Element) {};
 
 	virtual Vector<double> N(point);
 	virtual Matrix<double> dNds(point);
@@ -37,5 +36,4 @@ protected:
 private:
 
 };
-#endif //LINTETSF_H
 

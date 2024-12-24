@@ -15,7 +15,7 @@ ForceContributor::~ForceContributor() {
 };
 
 void ForceContributor::evaluate(Assembler* assem) {
-	vector<shared_ptr<DOF>> DOFs = this->getDOFs();
+	vector<DOF*> DOFs = this->getDOFs();
 	Vector<double> f(DOFs.size());  //This is a vector of DOFs for either the face or the edge
 	vector<point> IntPt = SF->IntPts();
 	Vector<double> Weight = SF->Weights();
@@ -31,15 +31,13 @@ void ForceContributor::evaluate(Assembler* assem) {
 	assem->accept(f, DOFs);
 };
 
-vector<shared_ptr<DOF>> ForceContributor::getDOFs() {
-	auto nodes = Element->getNodes();
+vector<DOF*> ForceContributor::getDOFs() {
+	vector<DOF*> DOFs;
 
-	vector<shared_ptr<DOF>> DOFs;
-
-	for (auto node_iter = nodes.begin(); node_iter != nodes.end(); ++node_iter) {
-		auto node_DOFs = (*node_iter)->getDOFs();
-		for (auto DOF_iter = node_DOFs.begin(); DOF_iter != node_DOFs.end(); ++DOF_iter) {
-			DOFs.push_back((*DOF_iter));
+	for (const auto& node : Element->getNodes()) {
+		const auto& node_DOFs = node->getDOFs();
+		for (const auto& dof : node_DOFs) {
+			DOFs.push_back(dof);
 		}
 	}
 
