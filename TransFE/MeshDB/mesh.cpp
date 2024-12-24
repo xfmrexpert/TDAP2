@@ -37,27 +37,27 @@
 Mesh::~Mesh() {}
 
 MeshRegion& Mesh::newRegion() {
-	MeshRegions.push_back(std::make_unique<MeshRegion>());
+	MeshRegions.push_back(std::make_shared<MeshRegion>());
 	return *MeshRegions.back();
 }
 
 MeshFace& Mesh::newFace() {
-	MeshFaces.push_back(std::make_unique<MeshFace>());
+	MeshFaces.push_back(std::make_shared<MeshFace>());
 	return *MeshFaces.back();
 }
 
 MeshEdge& Mesh::newEdge() {
-	MeshEdges.push_back(std::make_unique<MeshEdge>());
+	MeshEdges.push_back(std::make_shared<MeshEdge>());
 	return *MeshEdges.back();
 }
 
 MeshVertex& Mesh::newVertex() {
-	MeshVertexes.push_back(std::make_unique<MeshVertex>());
+	MeshVertexes.push_back(std::make_shared<MeshVertex>());
 	return *MeshVertexes.back();
 }
 
 Node& Mesh::newNode() {
-	Nodes.push_back(std::make_unique<Node>());
+	Nodes.push_back(std::make_shared<Node>());
 	return *Nodes.back();
 }
 
@@ -81,44 +81,20 @@ Node& Mesh::getNode(size_t n) {
 	return *Nodes[n];
 }
 
-std::vector<std::unique_ptr<MeshRegion>>::iterator Mesh::getFirstRegion() {
-	return MeshRegions.begin();
+std::vector<MeshFace*> Mesh::getFaces() const {
+	std::vector<MeshFace*> faces;
+	for (const auto& face : MeshFaces) {
+		faces.push_back(face.get());
+	}
+	return faces;
 }
 
-std::vector<std::unique_ptr<MeshRegion>>::iterator Mesh::getLastRegion() {
-	return MeshRegions.end();
-}
-
-std::vector<std::unique_ptr<MeshFace>>::iterator Mesh::getFirstFace() {
-	return MeshFaces.begin();
-}
-
-std::vector<std::unique_ptr<MeshFace>>::iterator Mesh::getLastFace() {
-	return MeshFaces.end();
-}
-
-std::vector<std::unique_ptr<MeshEdge>>::iterator Mesh::getFirstEdge() {
-	return MeshEdges.begin();
-}
-
-std::vector<std::unique_ptr<MeshEdge>>::iterator Mesh::getLastEdge() {
-	return MeshEdges.end();
-}
-
-std::vector<std::unique_ptr<MeshVertex>>::iterator Mesh::getFirstVertex() {
-	return MeshVertexes.begin();
-}
-
-std::vector<std::unique_ptr<MeshVertex>>::iterator Mesh::getLastVertex() {
-	return MeshVertexes.end();
-}
-
-std::vector<std::unique_ptr<Node>>::iterator Mesh::getFirstNode() {
-	return Nodes.begin();
-}
-
-std::vector<std::unique_ptr<Node>>::iterator Mesh::getLastNode() {
-	return Nodes.end();
+std::vector<Node*> Mesh::getNodes() const {
+	std::vector<Node*> nodes;
+	for (const auto& node : Nodes) {
+		nodes.push_back(node.get());
+	}
+	return nodes;
 }
 
 size_t Mesh::numRegions() {

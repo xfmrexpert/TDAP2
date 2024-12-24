@@ -74,37 +74,9 @@ public:
 	/// Gets the n-th Node in the master list of nodes
 	Node& getNode(size_t n);
 
-	/// Returns an iterator corresponding to the first MeshRegion in the master list of 
-	/// regions
-	std::vector<std::unique_ptr<MeshRegion>>::iterator getFirstRegion();
+	std::vector<MeshFace*> getFaces() const;
 
-	std::vector<std::unique_ptr<MeshRegion>>::iterator getLastRegion();
-
-	/// Returns an iterator corresponding to the first MeshFace in the master list of faces
-	std::vector<std::unique_ptr<MeshFace>>::iterator getFirstFace();
-
-	/// Returns an iterator corresponding to the last MeshFace in the master list of faces 
-	/// (may be after last face)
-	std::vector<std::unique_ptr<MeshFace>>::iterator getLastFace();
-
-	/// Returns an iterator corresponding to the first MeshEdge in the master list of edges
-	std::vector<std::unique_ptr<MeshEdge>>::iterator getFirstEdge();
-
-	std::vector<std::unique_ptr<MeshEdge>>::iterator getLastEdge();
-
-	/// Returns an iterator corresponding to the first MeshVertex in the master list of 
-	/// vertices
-	std::vector<std::unique_ptr<MeshVertex>>::iterator getFirstVertex();
-
-	/// Returns an iterator corresponding to the last MeshRegion in the master list of 
-	/// vertices
-	std::vector<std::unique_ptr<MeshVertex>>::iterator getLastVertex();
-
-	/// Returns an iterator corresponding to the first Node in the master list of nodes
-	std::vector<std::unique_ptr<Node>>::iterator getFirstNode();
-
-	/// Returns an iterator corresponding to the last Node in the master list of nodes  
-	std::vector<std::unique_ptr<Node>>::iterator getLastNode();
+	std::vector<Node*> getNodes() const;
 
 	size_t numRegions();
 
@@ -137,23 +109,23 @@ protected:
 
 private:
 	///  Master list of pointers to all Nodes in this mesh
-	std::vector<std::unique_ptr<Node>> Nodes;
+	std::vector<std::shared_ptr<Node>> Nodes;
 
 	///  Master list of pointers to all MeshFaces in this mesh
-	std::vector<std::unique_ptr<MeshFace>> MeshFaces;
+	std::vector<std::shared_ptr<MeshFace>> MeshFaces;
 
 	///  Master list of pointers to all MeshRegions in this mesh
-	std::vector<std::unique_ptr<MeshRegion>> MeshRegions;
+	std::vector<std::shared_ptr<MeshRegion>> MeshRegions;
 
 	///  Master list of pointers to all MeshEdges in this mesh
-	std::vector<std::unique_ptr<MeshEdge>> MeshEdges;
+	std::vector<std::shared_ptr<MeshEdge>> MeshEdges;
 
 	///  Master list of pointers to all MeshVertexes in this mesh
-	std::vector<std::unique_ptr<MeshVertex>> MeshVertexes;
+	std::vector<std::shared_ptr<MeshVertex>> MeshVertexes;
 
 	/// Master list of GeomEntities in this mesh (don't remember why I used map here)
 	/// This list owns the GeomEntities
-	std::map<int, std::unique_ptr<GeomEntity>> GeomEntities;
+	std::map<int, std::shared_ptr<GeomEntity>> GeomEntities;
 
 	/// Retrieves the start entity for the reordering algorithm
 	MeshEntity* getStart();

@@ -151,18 +151,18 @@ void MagAxiStaticAnalysis::solve() {
 	BigVector d = AS.get_d();
 
 	//assign nodal displacements to DOF value
-	for (auto node_iter = theMesh->getFirstNode(); node_iter != theMesh->getLastNode(); ++node_iter) {
-		const auto& DOFs = (*node_iter)->getDOFs();
+	for (const auto& node : theMesh->getNodes()) {
+		const auto& DOFs = node->getDOFs();
 		for (const auto& dof : DOFs) {
 			if (dof->get_status() == DOF_Free) {
 				if (formulation <= 0) {
 					dof->set_value(d[dof->get_eqnumber()]);// * 2 * PI * (*node_iter)->x());
 				}
 				else if (formulation == 1) {
-					dof->set_value(d[dof->get_eqnumber()] * sqrt((*node_iter)->x()));
+					dof->set_value(d[dof->get_eqnumber()] * sqrt(node->x()));
 				}
 				else {
-					dof->set_value(d[dof->get_eqnumber()] / (*node_iter)->x());
+					dof->set_value(d[dof->get_eqnumber()] / node->x());
 				}
 			}
 		}
@@ -318,8 +318,8 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 
 	outFile << "View \"output\" {" << endl;
 
-	for (auto face_iter = theMesh->getFirstFace(); face_iter != theMesh->getLastFace(); ++face_iter) {
-		auto vertexes = (*face_iter)->getVertices();
+	for (const auto& face : theMesh->getFaces()) {
+		auto vertexes = face->getVertices();
 		if (vertexes.size() == 3) {
 			outFile << "VT (";
 		}
@@ -349,8 +349,8 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 
 	outFile << "View \"output\" {" << endl;
 	//vector<Node*>::iterator node_iter;
-	for (auto face_iter = theMesh->getFirstFace(); face_iter != theMesh->getLastFace(); ++face_iter) {
-		const auto& vertexes = (*face_iter)->getVertices();
+	for (const auto& face : theMesh->getFaces()) {
+		const auto& vertexes = face->getVertices();
 		if (vertexes.size() == 3) {
 			outFile << "ST (";
 		}
