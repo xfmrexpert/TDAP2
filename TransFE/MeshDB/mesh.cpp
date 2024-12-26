@@ -34,8 +34,6 @@
 	 GeomEntities = old_mesh.GeomEntities;
  } */
 
-Mesh::~Mesh() {}
-
 MeshRegion& Mesh::newRegion() {
 	MeshRegions.push_back(std::make_unique<MeshRegion>());
 	return *MeshRegions.back();
@@ -61,24 +59,49 @@ Node& Mesh::newNode() {
 	return *Nodes.back();
 }
 
-MeshRegion& Mesh::getRegion(size_t n) {
-	return *MeshRegions[n];
+MeshRegion& Mesh::getRegion(size_t n) const {
+	if (n < MeshRegions.size()) {
+		return *MeshRegions[n];
+	}
+	else {
+		std::runtime_error("ERROR: MeshRegion index out of range");
+	}
 }
 
-MeshFace& Mesh::getFace(size_t n) {
-	return *MeshFaces[n];
+MeshFace& Mesh::getFace(size_t n) const {
+	if (n < MeshFaces.size()) {
+		return *MeshFaces[n];
+	}
+	else {
+		std::runtime_error("ERROR: MeshFace index out of range");
+	}
 }
 
-MeshEdge& Mesh::getEdge(size_t n) {
-	return *MeshEdges[n];
+MeshEdge& Mesh::getEdge(size_t n) const {
+	if (n < MeshEdges.size()) {
+		return *MeshEdges[n];
+	}
+	else {
+		std::runtime_error("ERROR: MeshEdge index out of range");
+	}
 }
 
-MeshVertex& Mesh::getVertex(size_t n) {
-	return *MeshVertexes[n];
+MeshVertex& Mesh::getVertex(size_t n) const {
+	if (n < MeshVertexes.size()) {
+		return *MeshVertexes[n];
+	}
+	else {
+		std::runtime_error("ERROR: MeshVertex index out of range");
+	}
 }
 
-Node& Mesh::getNode(size_t n) {
-	return *Nodes[n];
+Node& Mesh::getNode(size_t n) const {
+	if (n < Nodes.size()) {
+		return *Nodes[n];
+	}
+	else {
+		std::runtime_error("ERROR: Node index out of range");
+	}
 }
 
 std::vector<MeshFace*> Mesh::getFaces() const {
@@ -97,23 +120,23 @@ std::vector<Node*> Mesh::getNodes() const {
 	return nodes;
 }
 
-size_t Mesh::numRegions() {
+size_t Mesh::numRegions() const {
 	return MeshRegions.size();
 }
 
-size_t Mesh::numFaces() {
+size_t Mesh::numFaces() const {
 	return MeshFaces.size();
 }
 
-size_t Mesh::numEdges() {
+size_t Mesh::numEdges() const {
 	return MeshEdges.size();
 }
 
-size_t Mesh::numVertexes() {
+size_t Mesh::numVertexes() const {
 	return MeshVertexes.size();
 }
 
-size_t Mesh::numNodes() {
+size_t Mesh::numNodes() const {
 	return Nodes.size();
 }
 
@@ -255,7 +278,7 @@ MeshEntity* Mesh::getStart() {
 	}
 }
 
-int getNumNodes(int type)
+static int getNumNodes(int type)
 {
 	switch (type) {
 	case 15: return 1;              // point
@@ -277,7 +300,7 @@ int getNumNodes(int type)
 	}
 }
 
-int getNumEdges(int type)
+static int getNumEdges(int type)
 {
 	switch (type) {
 	case 15: return 0;              // point
@@ -577,7 +600,7 @@ void Mesh::readMesh(const std::string& filename)
 	}
 }
 
-MeshVertex* Mesh::findVertexbyNode(size_t n) {
+MeshVertex* Mesh::findVertexbyNode(size_t n) const {
 	//TODO: This loops through all nodes until it finds the matching nodes.  SLOW!
 	if (MeshVertexes.size() > 1) {
 		for (const auto& vertex : MeshVertexes) {
@@ -627,7 +650,7 @@ std::pair<MeshFace*, bool> Mesh::findFacebyEdge(MeshEdge& edge1, MeshEdge& edge2
 	return f;
 };
 
-Node* Mesh::findNodebyID(size_t n) {
+Node* Mesh::findNodebyID(size_t n) const {
 	for (const auto& node : Nodes) {
 		if (node->ID == n) {
 			return node.get();
@@ -636,20 +659,24 @@ Node* Mesh::findNodebyID(size_t n) {
 	return nullptr;
 }
 
-void Mesh::readAttributes(const std::string& filename) {
+void Mesh::readAttributes(const std::string& attribfile) {
 	string key;
 	double value;
 	int idx;
 	GeomEntity* entity{};
 
-	ifstream fs(filename);
+	ifstream fs(attribfile);
+
+	if (fs.fail()) {
+		throw std::runtime_error("Unable to open file: " + attribfile);
+	}
 
 	while (!fs.eof() && !fs.fail()) {
 		fs >> key >> value;
 
 		if (key == "GeomEntity") {
 			idx = (int)value;
-			cout << "Adding GeomEntity at index " << idx << endl;
+			//cout << "Adding GeomEntity at index " << idx << endl;
 			GeomEntities[idx] = make_unique<GeomEntity>();
 			entity = GeomEntities[idx].get();
 		}

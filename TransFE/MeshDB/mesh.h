@@ -32,15 +32,10 @@ class Mesh {
 
 public:
 
-	/// Mesh class constructor.  Currently empty.
-	Mesh() {
-		//add blank GeomEntity for entities with no "physical" attributes
-		//GeomEntities[0] = make_unique<GeomEntity>();
-	}
+	/// Mesh class constructor. Currently empty.
+	Mesh() = default;
 
-	//Mesh(const Mesh&);
-
-	~Mesh();
+	~Mesh() = default;
 
 	/// Adds new MeshRegion, both allocating memory and adding it to the master list of 
 	/// regions
@@ -60,37 +55,37 @@ public:
 	Node& newNode();
 
 	/// Gets the MeshRegion corresponding to n in the master list of regions
-	MeshRegion& getRegion(size_t n);
+	MeshRegion& getRegion(size_t n) const;
 
 	/// Gets the n-th MeshFace in the master list of faces
-	MeshFace& getFace(size_t n);
+	MeshFace& getFace(size_t n) const;
 
 	/// Gets the n-th MeshEdge in the master list of regions
-	MeshEdge& getEdge(size_t n);
+	MeshEdge& getEdge(size_t n) const;
 
 	/// Gets the n-th MeshVertex in the master list of vertices
-	MeshVertex& getVertex(size_t n);
+	MeshVertex& getVertex(size_t n) const;
 
 	/// Gets the n-th Node in the master list of nodes
-	Node& getNode(size_t n);
+	Node& getNode(size_t n) const;
 
 	std::vector<MeshFace*> getFaces() const;
 
 	std::vector<Node*> getNodes() const;
 
-	size_t numRegions();
+	size_t numRegions() const;
 
 	/// Returns the total number of faces in this mesh
-	size_t numFaces();
+	size_t numFaces() const;
 
 	/// Returns the total number of edges in this mesh
-	size_t numEdges();
+	size_t numEdges() const;
 
 	/// Returns the total number of vertices in this mesh
-	size_t numVertexes();
+	size_t numVertexes() const;
 
 	/// Returns the total number of nodes in this mesh
-	size_t numNodes();
+	size_t numNodes() const;
 
 	/// a Reverse Cuthill-McKee reordering algorithm
 	void reorder();
@@ -131,7 +126,7 @@ private:
 	MeshEntity* getStart();
 
 	/// Find a vertex by a Node ID
-	MeshVertex* findVertexbyNode(size_t n);
+	MeshVertex* findVertexbyNode(size_t n) const;
 
 	/// Find an edge by it's vertexes
 	MeshEdge* findEdgebyVertexes(MeshVertex& vertex1, MeshVertex& vertex2);
@@ -139,7 +134,7 @@ private:
 	std::pair<MeshFace*, bool> findFacebyEdge(MeshEdge& edge1, MeshEdge& edge2, MeshEdge& edge3);
 
 	/// Find a node by its ID
-	Node* findNodebyID(size_t n);
+	Node* findNodebyID(size_t n) const;
 
 };
 

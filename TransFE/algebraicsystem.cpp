@@ -116,6 +116,9 @@ void AlgebraicSystem::solveLinearSystem() {
 	  Eigen::ConjugateGradient<Eigen::SparseMatrix<double>, Eigen::Upper> solver;
 	  d = solver.compute(K).solve(f);
 
+	  cout << "# Iterations: " << solver.iterations() << endl;
+	  cout << "Estimated error: " << solver.error() << endl;
+
 	 /*cout << "d = :" << endl;
 	 for(int i=0;i<ndof; i++){
 	  cout << d[i] << endl;
