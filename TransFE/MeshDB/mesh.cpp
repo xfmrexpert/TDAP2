@@ -37,27 +37,27 @@
 Mesh::~Mesh() {}
 
 MeshRegion& Mesh::newRegion() {
-	MeshRegions.push_back(std::make_shared<MeshRegion>());
+	MeshRegions.push_back(std::make_unique<MeshRegion>());
 	return *MeshRegions.back();
 }
 
 MeshFace& Mesh::newFace() {
-	MeshFaces.push_back(std::make_shared<MeshFace>());
+	MeshFaces.push_back(std::make_unique<MeshFace>());
 	return *MeshFaces.back();
 }
 
 MeshEdge& Mesh::newEdge() {
-	MeshEdges.push_back(std::make_shared<MeshEdge>());
+	MeshEdges.push_back(std::make_unique<MeshEdge>());
 	return *MeshEdges.back();
 }
 
 MeshVertex& Mesh::newVertex() {
-	MeshVertexes.push_back(std::make_shared<MeshVertex>());
+	MeshVertexes.push_back(std::make_unique<MeshVertex>());
 	return *MeshVertexes.back();
 }
 
 Node& Mesh::newNode() {
-	Nodes.push_back(std::make_shared<Node>());
+	Nodes.push_back(std::make_unique<Node>());
 	return *Nodes.back();
 }
 

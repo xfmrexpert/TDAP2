@@ -109,23 +109,23 @@ protected:
 
 private:
 	///  Master list of pointers to all Nodes in this mesh
-	std::vector<std::shared_ptr<Node>> Nodes;
+	std::vector<std::unique_ptr<Node>> Nodes;
 
 	///  Master list of pointers to all MeshFaces in this mesh
-	std::vector<std::shared_ptr<MeshFace>> MeshFaces;
+	std::vector<std::unique_ptr<MeshFace>> MeshFaces;
 
 	///  Master list of pointers to all MeshRegions in this mesh
-	std::vector<std::shared_ptr<MeshRegion>> MeshRegions;
+	std::vector<std::unique_ptr<MeshRegion>> MeshRegions;
 
 	///  Master list of pointers to all MeshEdges in this mesh
-	std::vector<std::shared_ptr<MeshEdge>> MeshEdges;
+	std::vector<std::unique_ptr<MeshEdge>> MeshEdges;
 
 	///  Master list of pointers to all MeshVertexes in this mesh
-	std::vector<std::shared_ptr<MeshVertex>> MeshVertexes;
+	std::vector<std::unique_ptr<MeshVertex>> MeshVertexes;
 
 	/// Master list of GeomEntities in this mesh (don't remember why I used map here)
 	/// This list owns the GeomEntities
-	std::map<int, std::shared_ptr<GeomEntity>> GeomEntities;
+	std::map<int, std::unique_ptr<GeomEntity>> GeomEntities;
 
 	/// Retrieves the start entity for the reordering algorithm
 	MeshEntity* getStart();

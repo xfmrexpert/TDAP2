@@ -129,16 +129,30 @@ shared_ptr<ForceContributor> MagAxiStaticAnalysis::makeForceContrib(MeshEdge& ed
 };
 
 shared_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge) {
-	if (edge.getClassification()->getAttribute("x_constraint") != NO_ATTRIB || edge.getClassification()->getAttribute("y_constraint") != NO_ATTRIB) {
-		return make_shared<DisplacementConstraint>(&edge);
+	auto classification = edge.getClassification();
+	if (!classification) return nullptr;
+
+	bool hasXConstraint = classification->getAttribute("x_constraint") != NO_ATTRIB;
+	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
+
+	if (hasXConstraint || hasYConstraint) {
+		return std::make_shared<DisplacementConstraint>(edge);
 	}
+
 	return nullptr;
 };
 
 shared_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshVertex& vertex) {
-	if (vertex.getClassification()->getAttribute("x_constraint") != NO_ATTRIB || vertex.getClassification()->getAttribute("y_constraint") != NO_ATTRIB) {
-		return make_shared<DisplacementConstraint>(&vertex);
+	auto classification = vertex.getClassification();
+	if (!classification) return nullptr;
+
+	bool hasXConstraint = classification->getAttribute("x_constraint") != NO_ATTRIB;
+	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
+
+	if (hasXConstraint || hasYConstraint) {
+		return std::make_shared<DisplacementConstraint>(vertex);
 	}
+
 	return nullptr;
 };
 
