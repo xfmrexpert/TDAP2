@@ -36,10 +36,6 @@ Matrix<double> Mapping2DAxi::jacobianInverse(point pt) {
 };
 
 Matrix<double> Mapping2DAxi::dXds(point pt) {
-	int i;
-	int j;
-	int k;
-
 	// dXds:
 	// [dXdr, dXds]
 	// [dYdr, dYds]
@@ -48,15 +44,16 @@ Matrix<double> Mapping2DAxi::dXds(point pt) {
 	Matrix<double> dNds = SF->dNds(pt);
 	auto nodes = Element->getNodes(); //assumes nodes are ordered
 
-	for (i = 0; i < nen; i++) { //loop over shape functions (one per node)
-		for (j = 0; j < nsd; j++) { //loop over global dimension (X)
-			for (k = 0; k < npd; k++) { //loop over local (shape) dimension (R)
+	for (size_t i = 0; i < nen; ++i) { //loop over shape functions (one per node)
+		auto node = nodes[i];
+		for (size_t j = 0; j < nsd; ++j) { //loop over global dimension (X)
+			for (size_t k = 0; k < npd; ++k) { //loop over local (shape) dimension (R)
 				if (j == 0) {
 					//coordinate transform on r-dimension
-					dXds(j, k) = dXds(j, k) + dNds(i, k) * nodes[i]->pt().X(j) * nodes[i]->pt().X(j);
+					dXds(j, k) += dNds(i, k) * node->pt().X(j) * node->pt().X(j);
 				}
 				else {
-					dXds(j, k) = dXds(j, k) + dNds(i, k) * nodes[i]->pt().X(j);
+					dXds(j, k) += dNds(i, k) * node->pt().X(j);
 				}
 			}
 		}
