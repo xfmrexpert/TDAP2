@@ -681,7 +681,7 @@ void Mesh::readAttributes(const char* filename) {
 			entity = GeomEntities[idx].get();
 		}
 		else {
-			cout << "Adding key " << key << " = " << value << endl;
+			//cout << "Adding key " << key << " = " << value << endl;
 			//Warning: if a GeomEntity key is not found (and therefore
 			//a GeomEntity is not created) we will crash here on access!!!
 			if (entity != nullptr)

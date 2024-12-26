@@ -47,27 +47,46 @@ FEProg::~FEProg(){
 	delete theAnalysis;
 }
 
+#include <chrono>
+
+using namespace std;
+using namespace std::chrono;
+
 shared_ptr<Mesh> FEProg::run_FEA(const std::string& filename, int formulation)
 {  
-	if(theAnalysis!=NULL){
-		delete theAnalysis;
-		//theAnalysis = new MagAxiStaticAnalysis();
-	}
+    auto start = high_resolution_clock::now();
 
-   theAnalysis = new MagAxiStaticAnalysis(formulation);
-   //outStream << "Running 2D magnetostatic analysis" << endl;
-   //outStream << "Reading attrbiutes from " << filename << ".att" << endl;
-   theAnalysis->getMesh()->readAttributes(filename.c_str());
-   //outStream << "Finished reading attributes" << endl;
-   //outStream << "Reading mesh from " << filename << ".msh" << endl;
-   theAnalysis->getMesh()->readMesh(filename);
-   //outStream << "Finished reading mesh" << endl;
-   //theAnalysis->getMesh()->reorder();
-   //outStream << "Running the analysis" << endl;
-   theAnalysis->run();
-   theAnalysis->saveOut(filename.c_str());
-   //outStream << "Finished running the analysis" << endl;
-   
-   return theAnalysis->getMesh();
+    if(theAnalysis!=NULL){
+        delete theAnalysis;
+    }
+
+    auto delete_analysis_end = high_resolution_clock::now();
+
+    theAnalysis = new MagAxiStaticAnalysis(formulation);
+    auto new_analysis_end = high_resolution_clock::now();
+
+    theAnalysis->getMesh()->readAttributes(filename + ".att");
+    auto read_attributes_end = high_resolution_clock::now();
+
+    theAnalysis->getMesh()->readMesh(filename + ".msh");
+    auto read_mesh_end = high_resolution_clock::now();
+
+    theAnalysis->run();
+    auto run_analysis_end = high_resolution_clock::now();
+
+    theAnalysis->saveOut(filename);
+    auto save_out_end = high_resolution_clock::now();
+
+    auto end = high_resolution_clock::now();
+
+    cout << "Delete analysis time: " << duration_cast<milliseconds>(delete_analysis_end - start).count() << " ms" << endl;
+    cout << "New analysis time: " << duration_cast<milliseconds>(new_analysis_end - delete_analysis_end).count() << " ms" << endl;
+    cout << "Read attributes time: " << duration_cast<milliseconds>(read_attributes_end - new_analysis_end).count() << " ms" << endl;
+    cout << "Read mesh time: " << duration_cast<milliseconds>(read_mesh_end - read_attributes_end).count() << " ms" << endl;
+    cout << "Run analysis time: " << duration_cast<milliseconds>(run_analysis_end - read_mesh_end).count() << " ms" << endl;
+    cout << "Save out time: " << duration_cast<milliseconds>(save_out_end - run_analysis_end).count() << " ms" << endl;
+    cout << "Total time: " << duration_cast<milliseconds>(end - start).count() << " ms" << endl;
+
+    return theAnalysis->getMesh();
 }
 

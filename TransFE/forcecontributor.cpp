@@ -26,8 +26,8 @@ void ForceContributor::evaluate(Assembler* assem) {
 		double weight = Weight[i];
 		f = f + evaluatePt(pt) * weight;
 	}
-	cout << "Adding force contributor:\n";
-	cout << f;
+	//cout << "Adding force contributor:\n";
+	//cout << f;
 	assem->accept(f, DOFs);
 };
 
