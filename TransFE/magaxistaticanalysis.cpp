@@ -136,7 +136,7 @@ shared_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge) {
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_shared<DisplacementConstraint>(edge);
+		return std::make_shared<DisplacementConstraint>(&edge);
 	}
 
 	return nullptr;
@@ -150,7 +150,7 @@ shared_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshVertex& vertex) 
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_shared<DisplacementConstraint>(vertex);
+		return std::make_shared<DisplacementConstraint>(&vertex);
 	}
 
 	return nullptr;
