@@ -12,10 +12,7 @@
 
 #include "meshentity.h"
 #include <vector>
-#include <set>
 #include <memory>
-
-using namespace std;
 
 class MeshEdge;
 
@@ -28,21 +25,21 @@ class MeshVertex : public MeshEntity {
 public:
 
 	/// Default constructor.  Currently empty.
-	MeshVertex() {};
+	MeshVertex() = default;
 
-	~MeshVertex() {};
+	~MeshVertex() = default;
 
 	/// Returns an const reference to the vector of edges
-	const vector<MeshEdge*>& Edges() const;
+	const std::vector<MeshEdge*>& Edges() const;
 
 	/// Returns the n-th edge
-	MeshEdge* getEdge(int n);
+	MeshEdge* getEdge(int n) const;
 
 	/// Adds an edge to the list of adjacent edges
 	void addEdge(MeshEdge&);
 
 	/// Returns the number of adjacent edges
-	size_t numEdges();
+	size_t numEdges() const;
 
 	int get_dimensions() const override {
 		return 0;
@@ -50,7 +47,7 @@ public:
 
 	/// Returns an ordered list of nodes for this vertex
 	/// Not much to do here since there is only one node per vertex
-	vector<Node*> getNodes() const override;
+	std::vector<Node*> getNodes() const override;
 
 protected:
 
@@ -59,7 +56,7 @@ private:
 	static const int dimensions = 0;
 
 	/// An STL Vector holding pointers to edges using this vertex (currently unordered)
-	vector<MeshEdge*> MeshEdges;
+	std::vector<MeshEdge*> MeshEdges;
 
 };
 

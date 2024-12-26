@@ -19,11 +19,11 @@ const vector<MeshEdge*>& MeshVertex::Edges() const {
     return MeshEdges;
 }
 
-MeshEdge* MeshVertex::getEdge(int n){
+MeshEdge* MeshVertex::getEdge(int n) const {
      return MeshEdges[n];
 }
 
-size_t MeshVertex::numEdges(){
+size_t MeshVertex::numEdges() const {
      return MeshEdges.size();
 }
 
