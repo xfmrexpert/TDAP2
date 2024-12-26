@@ -24,7 +24,7 @@
 
 using namespace std;
 
-#define PI 3.141592653589793238512808959406186204433
+constexpr auto PI = 3.141592653589793238512808959406186204433;
 
 MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 {
