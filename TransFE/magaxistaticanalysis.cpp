@@ -309,15 +309,12 @@ void MagAxiStaticAnalysis::recover() {
 #endif
 };
 
-void MagAxiStaticAnalysis::saveOut(const char* filename) {
+void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 	//output to file for viewing in gmsh
 	ofstream outFile;
 
 	//output to file for viewing in gmsh
-	char stressfile[256];
-	strcpy_s(stressfile, _countof(stressfile), filename);
-	strcat_s(stressfile, _countof(stressfile), "_fluxdensity.pos");
-	outFile.open(stressfile, ios::out);
+	outFile.open(filename + "_fluxdensity.pos", ios::out);
 
 	outFile << "View \"output\" {" << endl;
 
@@ -348,10 +345,7 @@ void MagAxiStaticAnalysis::saveOut(const char* filename) {
 	outFile.close();
 
 	//output to file for viewing in gmsh
-	char dispfile[256];
-	strcpy_s(dispfile, _countof(dispfile), filename);
-	strcat_s(dispfile, _countof(dispfile), "_mvp.pos");
-	outFile.open(dispfile, ios::out);
+	outFile.open(filename + "_mvp.pos", ios::out);
 
 	outFile << "View \"output\" {" << endl;
 	//vector<Node*>::iterator node_iter;

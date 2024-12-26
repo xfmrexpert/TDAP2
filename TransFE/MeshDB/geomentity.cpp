@@ -9,7 +9,7 @@
  ***************************************************************************/
 #include "geomentity.h"
 
-GeomEntity::GeomEntity()
+GeomEntity::GeomEntity() : attributes()
 {
    attributes.insert(pair<string, double>("crap", 0));
 }

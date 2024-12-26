@@ -78,7 +78,7 @@ public:
    virtual shared_ptr<Constraint> makeConstraint(MeshVertex& vertex) = 0;
 
    /// For the saving of the output
-   virtual void saveOut(const char* filename) = 0;
+   virtual void saveOut(const std::string& filename) = 0;
 
    stringstream outStream;
   

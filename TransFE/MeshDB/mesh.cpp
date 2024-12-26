@@ -323,13 +323,13 @@ int getNumEdges(int type)
 	}
 }
 
-void Mesh::readMesh(string filename)
+void Mesh::readMesh(const std::string& filename)
 {
 	double version = 1.0;
 	system("cd");
 	string line;
 	ifstream meshFile;
-	meshFile.open(filename + ".msh");
+	meshFile.open(filename);
 	if (meshFile.is_open())
 	{
 		while (getline(meshFile, line))
@@ -660,16 +660,13 @@ Node* Mesh::findNodebyID(size_t n) {
 	return nullptr;
 }
 
-void Mesh::readAttributes(const char* filename) {
+void Mesh::readAttributes(const std::string& filename) {
 	string key;
 	double value;
 	int idx;
 	GeomEntity* entity{};
-	char attribfile[256];
-	strcpy_s(attribfile, _countof(attribfile), filename);
-	strcat_s(attribfile, _countof(attribfile), ".att");
 
-	ifstream fs(attribfile);
+	ifstream fs(filename);
 
 	while (!fs.eof() && !fs.fail()) {
 		fs >> key >> value;

@@ -41,7 +41,7 @@ public:
 	/// Create the appropriate Constraint for a face
 	virtual shared_ptr<Constraint> makeConstraint(MeshFace& face) { return nullptr; };
 
-	virtual void saveOut(const char* filename);
+	virtual void saveOut(const std::string& filename);
 
 	int formulation;
 

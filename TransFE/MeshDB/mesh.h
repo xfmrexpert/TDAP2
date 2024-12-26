@@ -126,10 +126,10 @@ public:
 	void reorder2();
 
 	/// Reads a GMSH file (version 2.0)
-	void readMesh(string meshfile);
+	void readMesh(const std::string& meshfile);
 
 	/// Reads an attribute file (.att)
-	void readAttributes(const char* attribfile);
+	void readAttributes(const std::string& attribfile);
 
 	
 

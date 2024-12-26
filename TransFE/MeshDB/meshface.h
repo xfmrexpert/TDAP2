@@ -28,7 +28,7 @@ class MeshFace : public MeshEntity {
 public:
 
 	/// Default constructor.  Currently empty.
-	MeshFace() {};
+	MeshFace() : MeshEntity() {};
 
 	~MeshFace() {};
 
