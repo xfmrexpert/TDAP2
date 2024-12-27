@@ -64,7 +64,7 @@ MeshRegion& Mesh::getRegion(size_t n) const {
 		return *MeshRegions[n];
 	}
 	else {
-		std::runtime_error("ERROR: MeshRegion index out of range");
+		throw std::runtime_error("ERROR: MeshRegion index out of range");
 	}
 }
 
@@ -73,7 +73,7 @@ MeshFace& Mesh::getFace(size_t n) const {
 		return *MeshFaces[n];
 	}
 	else {
-		std::runtime_error("ERROR: MeshFace index out of range");
+		throw std::runtime_error("ERROR: MeshFace index out of range");
 	}
 }
 
@@ -82,7 +82,7 @@ MeshEdge& Mesh::getEdge(size_t n) const {
 		return *MeshEdges[n];
 	}
 	else {
-		std::runtime_error("ERROR: MeshEdge index out of range");
+		throw std::runtime_error("ERROR: MeshEdge index out of range");
 	}
 }
 
@@ -91,7 +91,7 @@ MeshVertex& Mesh::getVertex(size_t n) const {
 		return *MeshVertexes[n];
 	}
 	else {
-		std::runtime_error("ERROR: MeshVertex index out of range");
+		throw std::runtime_error("ERROR: MeshVertex index out of range");
 	}
 }
 
@@ -100,7 +100,7 @@ Node& Mesh::getNode(size_t n) const {
 		return *Nodes[n];
 	}
 	else {
-		std::runtime_error("ERROR: Node index out of range");
+		throw std::runtime_error("ERROR: Node index out of range");
 	}
 }
 

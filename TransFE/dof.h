@@ -1,10 +1,14 @@
-//************************************************************************
-//  			dof.h - Copyright T. C. Raymond
-//
-//**************************************************************************
+/***************************************************************************
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
+ *                                                                         *
+ ***************************************************************************/
 
-#ifndef DOF_H
-#define DOF_H
+#pragma once
 
 #define DOF_STATUS int
 #define DOF_Free 1
@@ -52,5 +56,4 @@ private:
 
 };
 
-#endif //DOF_H
 

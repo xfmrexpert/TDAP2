@@ -158,11 +158,11 @@ shared_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshVertex& vertex) 
 
 void MagAxiStaticAnalysis::solve() {
 	LinearSystemAssembler assembler;
-	AlgebraicSystem AS(&DS, &assembler, theMesh);
+	AlgebraicSystem AS(&DS, &assembler, theMesh.get());
 	AS.solve();
 
 	//get vector of nodal displacements from AlgebraicSystem
-	BigVector d = AS.get_d();
+	BigVector d = *AS.get_d();
 
 	//assign nodal displacements to DOF value
 	for (const auto& node : theMesh->getNodes()) {

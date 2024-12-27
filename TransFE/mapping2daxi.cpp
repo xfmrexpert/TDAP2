@@ -46,8 +46,8 @@ Matrix<double> Mapping2DAxi::dXds(point pt) {
 
 	for (size_t i = 0; i < nen; ++i) { //loop over shape functions (one per node)
 		auto node = nodes[i];
-		for (size_t j = 0; j < nsd; ++j) { //loop over global dimension (X)
-			for (size_t k = 0; k < npd; ++k) { //loop over local (shape) dimension (R)
+		for (uint8_t j = 0; j < nsd; ++j) { //loop over global dimension (X)
+			for (uint8_t k = 0; k < npd; ++k) { //loop over local (shape) dimension (R)
 				if (j == 0) {
 					//coordinate transform on r-dimension
 					dXds(j, k) += dNds(i, k) * node->pt().X(j) * node->pt().X(j);

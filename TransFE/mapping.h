@@ -15,6 +15,7 @@
 #include "MeshDB/point.h"
 #include "MeshDB/meshentity.h"
 #include "shapefunction.h"
+#include <cstdint>
 
 class Mapping {
 public:
@@ -36,8 +37,8 @@ protected:
 	MeshEntity* Element;
 	shared_ptr<ShapeFunction> SF;
 
-	int nsd; //# of spatial dimensions
-	int npd; //# of parametric dimensions
+	uint8_t nsd; //# of spatial dimensions
+	uint8_t npd; //# of parametric dimensions
 	size_t nen; //# of element nodes
 
 };

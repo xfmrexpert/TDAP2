@@ -36,10 +36,10 @@ public:
 	const vector<MeshEdge*>& Edges() const;
 
 	/// Returns the n-th edge bounding this face (unordered)
-	MeshEdge* getEdge(int n);
+	MeshEdge* getEdge(size_t n);
 
 	/// Returns the n-th region that this face bounds (unordered)
-	MeshRegion* getRegion(int n);
+	MeshRegion* getRegion(size_t n);
 
 	/// Adds an edge to the list of adjacent edges
 	void addEdge(MeshEdge& new_edge);

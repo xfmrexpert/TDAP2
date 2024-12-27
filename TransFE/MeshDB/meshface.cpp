@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -19,14 +19,14 @@ const std::vector<MeshEdge*>& MeshFace::Edges() const {
     return MeshEdges;
 }
 
-MeshEdge* MeshFace::getEdge(int n) {
+MeshEdge* MeshFace::getEdge(size_t n) {
      if (n < 0 || n >= MeshEdges.size()) {
          throw std::out_of_range("Invalid edge index");
      }
      return MeshEdges[n];
 }
 
-MeshRegion* MeshFace::getRegion(int n) {
+MeshRegion* MeshFace::getRegion(size_t n) {
      if (n < 0 || n >= MeshRegions.size()) {
          throw std::out_of_range("Invalid face index");
      }

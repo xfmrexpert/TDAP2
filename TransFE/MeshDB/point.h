@@ -31,7 +31,7 @@ public:
     constexpr point(double in_x, double in_y, double in_z) : x(in_x), y(in_y), z(in_z) {}
 
     /// Returns the n-th coordinate (0 for x, 1 for y, 2 for z).
-    double X(int n) const {
+    double X(uint8_t n) const {
         switch (n) {
         case 0: return x;
         case 1: return y;
