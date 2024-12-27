@@ -325,279 +325,280 @@ static int getNumEdges(int type)
 void Mesh::readMesh(const std::string& filename)
 {
 	double version = 1.0;
-	system("cd");
-	string line;
-	ifstream meshFile;
-	meshFile.open(filename);
-	if (meshFile.is_open())
-	{
-		while (getline(meshFile, line))
+	std::ifstream meshFile(filename);
+	if (!meshFile.is_open()) {
+		std::cerr << "Unable to open file: " << filename << std::endl;
+		return;
+	}
+
+	std::string line;
+	while (std::getline(meshFile, line)) {
+		if (line.empty() || line.front() != '$')
 		{
-			if (line.empty() || line.front() != '$')
-			{
-				continue;
-			}
-			if (line.compare(1, 10, "MeshFormat") == 0) {
-				int format, size;
-				meshFile >> version >> format >> size;
-				if (version < 2.0) {
-					cerr << "Error: Wrong msh file version " << version << endl;
-					exit(1);
-				}
-				if (format) {
-					cerr << "Error: Unknown data format for mesh" << endl;
-					exit(1);
-				}
-			}
-			else if (line.compare(1, 5, "Nodes") == 0) {
-				size_t num_nodes;
-				meshFile >> num_nodes;
-				for (size_t i = 0; i < num_nodes; i++) {
-					size_t num;
-					double x, y, z;
-					meshFile >> num >> x >> y >> z;
-					if (numNodes() == num) {
-						cerr << "Error: node " << num << " already exists" << endl;
-						exit(1);
-					}
-					else {
-						Node& new_node = newNode(); //newNode() adds a new Node to the Nodes list
-						point pt;
-						pt.x = x;
-						pt.y = y;
-						pt.z = z;
-						new_node.pt(pt);
+			continue;
+		}
 
-						new_node.ID = num;
+		if (line.compare(1, 10, "MeshFormat") == 0) {
+			int format, size;
+			meshFile >> version >> format >> size;
+			if (version < 2.0) {
+				throw std::runtime_error("Error: Unsupported msh file version " + std::to_string(version));
+			}
+			if (format) {
+				throw std::runtime_error("Error: Unsupported mesh data format.");
+			}
+		}
+		else if (line.compare(1, 5, "Nodes") == 0) {
+			size_t num_nodes;
+			meshFile >> num_nodes;
+
+			for (size_t i = 0; i < num_nodes; ++i) {
+				size_t id;
+				double x, y, z;
+				meshFile >> id >> x >> y >> z;
+				if (findNodebyID(id)) {
+					throw std::runtime_error("Error: Duplicate node ID " + std::to_string(id));
+				}
+
+				Node& new_node = newNode(); //newNode() adds a new Node to the Nodes list
+				new_node.pt({ x, y, z });
+				new_node.ID = id;
+			}
+		}
+		else if (line.compare(1, 8, "Elements") == 0) {
+			//"Elements" in gmsh terms can be vertexes, edges, faces or regions
+			//For 2D meshes, all faces are listed, as well as edges and vertexes that are
+			//located on what gmsh calls "physical entities".
+			size_t numElements;
+			meshFile >> numElements;
+			
+			for (size_t i = 0; i < numElements; ++i) {
+				size_t id, numTags;
+				int type;
+				meshFile >> id >> type >> numTags;
+				
+				// Read element tags
+				int physical = 1, elementary = 1, partition = 1;
+				for (size_t j = 0; j < numTags; j++) {
+					int tag;
+					meshFile >> tag;
+					if (j == 0) physical = tag;
+					else if (j == 1) elementary = tag;
+					else if (j == 2) partition = tag;
+					// ignore any other tags for now
+				}
+				
+				size_t numNodes = getNumNodes(type);
+				size_t numEdges = getNumEdges(type);
+
+				// Handle different element types
+				if (type == 15) { // Point element
+					size_t nodeID;
+					meshFile >> nodeID;
+
+					MeshVertex* vertex = findVertexbyNode(nodeID);
+					if (!vertex) {
+						vertex = &newVertex();
+						vertex->node = findNodebyID(nodeID);
+						vertex->ID = MeshVertexes.size();
+					}
+					vertex->setClassification(*GeomEntities[physical]);
+				}
+				else if (type == 1 || type == 8) { // Line element
+					size_t node1, node2;
+					meshFile >> node1 >> node2;
+
+					MeshVertex* vertex1 = getOrCreateVertex(node1);
+					MeshVertex* vertex2 = getOrCreateVertex(node2);
+
+					MeshEdge* new_edge = findEdgebyVertexes(*vertex1, *vertex2);
+					if (!new_edge) { //edge hasn't been added yet
+						new_edge = &newEdge();
+						new_edge->addVertex(*vertex1, 0);
+						new_edge->addVertex(*vertex2, 1);
+						vertex1->addEdge(*new_edge);
+						vertex2->addEdge(*new_edge);
+						new_edge->ID = MeshEdges.size();
+					}
+					new_edge->setClassification(*GeomEntities[physical]);
+
+					if (type == 8) {
+						size_t node3;
+						meshFile >> node3;
+						new_edge->node = findNodebyID(node3);
 					}
 				}
-			}
-			else if (line.compare(1, 8, "Elements") == 0) {
-				//"Elements" in gmsh terms can be vertexes, edges, faces or regions
-				//For 2D meshes, all faces are listed, as well as edges and vertexes that are
-				//located on what gmsh calls "physical entities".
-				size_t numElements;
-				meshFile >> numElements;
-				cout << "# of elements = " << numElements << endl;
-				for (size_t i = 0; i < numElements; i++) {
-					size_t num, numNodes, numTags;
-					int type, physical, elementary, partition = 1;
-					meshFile >> num >> type >> numTags;
-					cout << "Reading element #" << num << ", type " << type << endl;
-					elementary = physical = partition = 1;
-					for (size_t j = 0; j < numTags; j++) {
-						int tag;
-						meshFile >> tag;
-						if (j == 0) {
-							physical = tag;
-						}
-						else if (j == 1) {
-							elementary = tag;
-						}
-						else if (j == 2) {
-							partition = tag;
-						}
-						// ignore any other tags for now
-					}
-					cout << "Physical tag = " << physical << endl;
-					numNodes = getNumNodes(type);
-					size_t numEdges = getNumEdges(type);
-					if (!numNodes) {
-						cerr << "Error: Unknown type " << type << " for element " << i << endl;
-						exit(1);
-					}
-					if (type == 15) {
-						//this is a point, read in node #
-						size_t nodenum;
-						meshFile >> nodenum;
-						MeshVertex* vertex = findVertexbyNode(nodenum);
-						if (!vertex) {
-							vertex = &newVertex();
-							vertex->node = findNodebyID(nodenum); //Nodes[nodenum-1];
-							vertex->ID = MeshVertexes.size();
-						}
-						vertex->setClassification(*GeomEntities[physical]);
-					}
-					else if (type == 1 || type == 8) {
-						//this is a line, read in node #
-						size_t numNode1;
-						size_t numNode2;
-						meshFile >> numNode1 >> numNode2;
-						MeshVertex* vertex1 = findVertexbyNode(numNode1);
-						if (!vertex1) {
-							vertex1 = &newVertex();
-							vertex1->node = findNodebyID(numNode1); //Nodes[numNode1-1];
-							vertex1->setClassification(*GeomEntities[0]);
-							vertex1->ID = MeshVertexes.size();
-						}
-						MeshVertex* vertex2 = findVertexbyNode(numNode2);
-						if (!vertex2) {
-							vertex2 = &newVertex();
-							vertex2->node = findNodebyID(numNode2); //Nodes[numNode2-1];
-							vertex2->setClassification(*GeomEntities[0]);
-							vertex2->ID = MeshVertexes.size();
-						}
-						MeshEdge* new_edge = findEdgebyVertexes(*vertex1, *vertex2);
-						if (!new_edge) { //edge hasn't been added yet
-							new_edge = &newEdge();
-							new_edge->addVertex(*vertex1, 0);
-							new_edge->addVertex(*vertex2, 1);
-							vertex1->addEdge(*new_edge);
-							vertex2->addEdge(*new_edge);
-							new_edge->ID = MeshEdges.size();
-						}
-						new_edge->setClassification(*GeomEntities[physical]);
-						if (type == 8) {
-							size_t numNode3;
-							meshFile >> numNode3;
-							new_edge->node = findNodebyID(numNode3);
-						}
-					}
-					else if (type == 2 || type == 3 || type == 9 || type == 10) { //2D
-						//Assuming 2D for now
-						size_t firstNode;
-						size_t numNode1;
-						size_t numNode2;
-						MeshFace* e = &newFace();
-						cout << "Reading Face#" << MeshFaces.size() << endl;
-						cout << "# edges = " << numEdges << endl;
-						meshFile >> firstNode;
-						numNode2 = firstNode;
-						for (size_t j = 0; j < numEdges; j++) {
-							numNode1 = numNode2;
-							if (j < (numEdges - 1)) {
-								meshFile >> numNode2;
-							}
-							else {
-								numNode2 = firstNode;
-							}
-							cout << "Setting up edge " << numNode1 << "-" << numNode2 << endl;
-							MeshVertex* vertex1 = findVertexbyNode(numNode1);
-							if (!vertex1) {
-								vertex1 = &newVertex();
-								vertex1->node = findNodebyID(numNode1); //Nodes[numNode1-1];
-								vertex1->setClassification(*GeomEntities[0]);
-								vertex1->ID = MeshVertexes.size();
-							}
-							MeshVertex* vertex2 = findVertexbyNode(numNode2);
-							if (!vertex2) {
-								vertex2 = &newVertex();
-								vertex2->node = findNodebyID(numNode2); //Nodes[numNode2-1];
-								vertex2->setClassification(*GeomEntities[0]);
-								vertex2->ID = MeshVertexes.size();
-							}
-							MeshEdge* new_edge = findEdgebyVertexes(*vertex1, *vertex2);
-							if (!new_edge) { //edge hasn't been added yet
-								new_edge = &newEdge();
-								new_edge->addVertex(*vertex1, 0);
-								new_edge->addVertex(*vertex2, 1);
-								new_edge->setClassification(*GeomEntities[0]);
-								vertex1->addEdge(*new_edge);
-								vertex2->addEdge(*new_edge);
-								new_edge->ID = MeshEdges.size();
-							}
-							new_edge->addFace(*e);
-							e->addEdge(*new_edge);
-							e->ID = MeshFaces.size();
-						}
-						e->setClassification(*GeomEntities[physical]);
-						if (type == 9) { //2nd order triangle
-							//get edge nodes
-							for (int n = 0; n < 3; n++) {
-								int edge_node;
-								meshFile >> edge_node;
-								e->getEdge(n)->node = findNodebyID(edge_node);
-							}
-						}
-						if (type == 10) { //2nd order quad
-							//get edge nodes
-							for (int n = 0; n < 4; n++) {
-								int edge_node;
-								meshFile >> edge_node;
-								e->getEdge(n)->node = findNodebyID(edge_node);
-							}
-							//get face node
-							int face_node;
-							meshFile >> face_node;
-							e->node = findNodebyID(face_node);
-						}
-					}
-					else if (type == 4) { //tetrahedron
-						int numNode1 = 0;
-						int numNode2 = 0;
-						int numNode3 = 0;
-						int numNode4 = 0;
-						meshFile >> numNode1 >> numNode3 >> numNode3 >> numNode4;
-						MeshVertex* vertex1 = findVertexbyNode(numNode1);
-						if (!vertex1) {
-							vertex1 = &newVertex();
-							vertex1->node = findNodebyID(numNode1); //Nodes[numNode1-1];
-							vertex1->setClassification(*GeomEntities[0]);
-							vertex1->ID = MeshVertexes.size();
-						}
-						MeshVertex* vertex2 = findVertexbyNode(numNode2);
-						if (!vertex2) {
-							vertex2 = &newVertex();
-							vertex2->node = findNodebyID(numNode2); //Nodes[numNode2-1];
-							vertex2->setClassification(*GeomEntities[0]);
-							vertex2->ID = MeshVertexes.size();
-						}
-						MeshVertex* vertex3 = findVertexbyNode(numNode3);
-						if (!vertex3) {
-							vertex3 = &newVertex();
-							vertex3->node = findNodebyID(numNode3); //Nodes[numNode2-1];
-							vertex3->setClassification(*GeomEntities[0]);
-							vertex3->ID = MeshVertexes.size();
-						}
-						MeshVertex* vertex4 = findVertexbyNode(numNode4);
-						if (!vertex4) {
-							vertex4 = &newVertex();
-							vertex4->node = findNodebyID(numNode4); //Nodes[numNode2-1];
-							vertex4->setClassification(*GeomEntities[0]);
-							vertex4->ID = MeshVertexes.size();
-						}
-						MeshEdge* edge1 = findEdgebyVertexes(*vertex1, *vertex2);
-						MeshEdge* edge2 = findEdgebyVertexes(*vertex2, *vertex3);
-						MeshEdge* edge3 = findEdgebyVertexes(*vertex3, *vertex1);
-						MeshEdge* edge4 = findEdgebyVertexes(*vertex1, *vertex2);
-						MeshEdge* edge5 = findEdgebyVertexes(*vertex4, *vertex3);
-						MeshEdge* edge6 = findEdgebyVertexes(*vertex2, *vertex4);
-
-						//tets have 4 faces, we need to loop through each face and check to
-						//see if the face has already been added
-						//if not, add the face
-						//first up, Face #1 - 1-2-3
-						pair<MeshFace*, bool> face1 = findFacebyEdge(*edge1, *edge2, *edge3);
-						pair<MeshFace*, bool> face2 = findFacebyEdge(*edge3, *edge5, *edge4);
-						pair<MeshFace*, bool> face3 = findFacebyEdge(*edge6, *edge5, *edge2);
-						pair<MeshFace*, bool> face4 = findFacebyEdge(*edge4, *edge6, *edge1);
-						MeshRegion* region = &newRegion();
-						region->addFace(face1.first);
-						region->addFace(face2.first);
-						region->addFace(face3.first);
-						region->addFace(face4.first);
-						face1.first->addRegion(*region);
-						face2.first->addRegion(*region);
-						face3.first->addRegion(*region);
-						face4.first->addRegion(*region);
-						region->setClassification(*GeomEntities[physical]);
-						//one all 4 faces have been added, add the face to the region
-					}
-					else {
-						cerr << "Unsupported element type!" << endl;
-					}
+				else if (type == 2 || type == 3 || type == 9 || type == 10) { //2D elements
+					handleFaceElement(meshFile, type, numNodes, numEdges, physical);
+				}
+				else if (type == 4) { //tetrahedron
+					handleTetrahedronElement(meshFile, physical);
+				}
+				else {
+					throw std::runtime_error("Error: Unsupported element type " + std::to_string(type));
 				}
 			}
 		}
-		meshFile.close();
 	}
-	else
-	{
-		cout << "Unable to open file" << endl;
-		char error_str[256];
-		strerror_s(error_str, _countof(error_str), errno);
-		cerr << "Error: " << error_str;
+	meshFile.close();
+	
+}
+
+MeshVertex* Mesh::getOrCreateVertex(size_t nodeID) {
+	// Attempt to find the vertex by its associated node
+	auto vertex = findVertexbyNode(nodeID);
+	if (!vertex) {
+		// Create a new vertex if it doesn't exist
+		auto& newVertex = this->newVertex();
+		newVertex.node = findNodebyID(nodeID);
+		if (!newVertex.node) {
+			throw std::runtime_error("Node " + std::to_string(nodeID) + " does not exist.");
+		}
+		newVertex.ID = MeshVertexes.size();
+		vertex = &newVertex;
 	}
+	return vertex;
+}
+
+MeshEdge* Mesh::getOrCreateEdge(MeshVertex* v1, MeshVertex* v2) {
+	// Check if the edge already exists by searching for it
+	for (const auto& edge : MeshEdges) {
+		auto vertex1 = edge->getVertex(0);
+		auto vertex2 = edge->getVertex(1);
+		if ((vertex1 == v1 && vertex2 == v2) ||
+			(vertex1 == v2 && vertex2 == v1)) {
+			return edge.get();
+		}
+	}
+
+	// If not found, create a new edge
+	auto& newEdge = this->newEdge();
+	
+	newEdge.addVertex(*v1, 0);
+	newEdge.addVertex(*v2, 1);
+	v1->addEdge(newEdge);
+	v2->addEdge(newEdge);
+
+	return &newEdge;
+}
+
+MeshFace* Mesh::getOrCreateFace(MeshVertex* v1, MeshVertex* v2, MeshVertex* v3) {
+	// Check if the face already exists by searching for it using its vertices
+	for (const auto& face : MeshFaces) {
+		auto vertices = face->getVertices(); // Assuming getVertices returns ordered vertices
+		if (vertices.size() == 3 &&
+			vertices[0] == v1 &&
+			vertices[1] == v2 &&
+			vertices[2] == v3) {
+			return face.get();
+		}
+	}
+
+	// If not found, create a new face
+	auto& newFace = this->newFace();
+	
+	// Connect edges to the face
+	auto edge1 = getOrCreateEdge(v1, v2);
+	auto edge2 = getOrCreateEdge(v2, v3);
+	auto edge3 = getOrCreateEdge(v3, v1);
+
+	newFace.addEdge(*edge1);
+	newFace.addEdge(*edge2);
+	newFace.addEdge(*edge3);
+
+	return &newFace;
+}
+
+void Mesh::handleFaceElement(std::ifstream& meshFile, int type, size_t numNodes, size_t numEdges, int physical) {
+	size_t firstNode, node1, node2;
+
+	// Create a new face
+	auto& face = newFace();
+
+	meshFile >> firstNode;
+	node2 = firstNode;
+
+	for (size_t j = 0; j < numEdges; ++j) {
+		node1 = node2;
+		if (j < (numEdges - 1)) {
+			meshFile >> node2;
+		}
+		else {
+			node2 = firstNode; // Close the loop for the last edge
+		}
+
+		// Get or create the vertices
+		auto vertex1 = getOrCreateVertex(node1);
+		auto vertex2 = getOrCreateVertex(node2);
+
+		// Find or create the edge
+		auto edge = findEdgebyVertexes(*vertex1, *vertex2);
+		if (!edge) {
+			edge = &newEdge();
+			edge->addVertex(*vertex1, 0);
+			edge->addVertex(*vertex2, 1);
+			vertex1->addEdge(*edge);
+			vertex2->addEdge(*edge);
+			edge->ID = MeshEdges.size();
+		}
+
+		// Add the edge to the face
+		edge->addFace(face);
+		face.addEdge(*edge);
+	}
+
+	face.setClassification(*GeomEntities[physical]);
+
+	if (type == 9 || type == 10) { // Higher-order elements
+		size_t edgeNodeCount = (type == 9) ? 3 : 4; // Triangle (3 edges) or Quad (4 edges)
+		for (size_t n = 0; n < edgeNodeCount; ++n) {
+			size_t edgeNodeID;
+			meshFile >> edgeNodeID;
+			auto edge = face.getEdge(n);
+			if (edge) {
+				edge->node = findNodebyID(edgeNodeID);
+			}
+		}
+		if (type == 10) { // For quads, add the face node
+			size_t faceNodeID;
+			meshFile >> faceNodeID;
+			face.node = findNodebyID(faceNodeID);
+		}
+	}
+}
+
+void Mesh::handleTetrahedronElement(std::ifstream& meshFile, int physical) {
+	size_t nodeIDs[4];
+	for (int i = 0; i < 4; ++i) {
+		meshFile >> nodeIDs[i];
+	}
+
+	// Get or create vertices for the tetrahedron
+	MeshVertex* vertices[4];
+	for (int i = 0; i < 4; ++i) {
+		vertices[i] = getOrCreateVertex(nodeIDs[i]);
+	}
+
+	// Create or find the faces
+	auto face1 = getOrCreateFace(vertices[0], vertices[1], vertices[2]);
+	auto face2 = getOrCreateFace(vertices[1], vertices[2], vertices[3]);
+	auto face3 = getOrCreateFace(vertices[2], vertices[3], vertices[0]);
+	auto face4 = getOrCreateFace(vertices[3], vertices[0], vertices[1]);
+
+	// Create a new region
+	auto& region = newRegion();
+	
+	region.addFace(face1);
+	region.addFace(face2);
+	region.addFace(face3);
+	region.addFace(face4);
+
+	face1->addRegion(region);
+	face2->addRegion(region);
+	face3->addRegion(region);
+	face4->addRegion(region);
+
+	region.setClassification(*GeomEntities[physical]);
 }
 
 MeshVertex* Mesh::findVertexbyNode(size_t n) const {

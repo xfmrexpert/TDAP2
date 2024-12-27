@@ -125,6 +125,16 @@ private:
 	/// Retrieves the start entity for the reordering algorithm
 	MeshEntity* getStart();
 
+	MeshVertex* getOrCreateVertex(size_t nodeID);
+
+	MeshEdge* getOrCreateEdge(MeshVertex* v1, MeshVertex* v2);
+
+	MeshFace* getOrCreateFace(MeshVertex* v1, MeshVertex* v2, MeshVertex* v3);
+
+	void handleFaceElement(std::ifstream& meshFile, int type, size_t numNodes, size_t numEdges, int physical);
+
+	void handleTetrahedronElement(std::ifstream& meshFile, int physical);
+
 	/// Find a vertex by a Node ID
 	MeshVertex* findVertexbyNode(size_t n) const;
 
