@@ -703,7 +703,7 @@ GeomEntity* Mesh::getGeomEntity(int idx) const {
     if (it != GeomEntities.end()) {
         return it->second.get();
     }
-    throw std::runtime_error("Error: GeomEntity with index " + std::to_string(idx) + " not found.");
+	return nullptr;
 }
 
 void Mesh::writeMesh(const std::string& filename) const {

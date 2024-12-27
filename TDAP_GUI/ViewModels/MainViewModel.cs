@@ -49,6 +49,7 @@ public partial class MainViewModel : ViewModelBase
         var tfmr = mockTransformer();
         tfmr.writeTransformerGmsh("test.geo");
         TransformerViewModel tfmrVM = new TransformerViewModel(tfmr);
+        tfmrVM.Filename = "test.geo";
         TfmrVM.Add(tfmrVM);
         _selectedItem = tfmrVM;
     }

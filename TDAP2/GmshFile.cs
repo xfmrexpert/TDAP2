@@ -220,29 +220,20 @@ namespace TDAP
 
         public void gmshRectangle(double ll_x, double ll_y, double ur_x, double ur_y)
         {
-            GmshPoint ll = new GmshPoint(ll_x, ll_y, 0);
-            GmshPoint lr = new GmshPoint(ur_x, ll_y, 0);
-            GmshPoint ur = new GmshPoint(ur_x, ur_y, 0);
-            GmshPoint ul = new GmshPoint(ll_x, ur_y, 0);
-            points.Add(ll);
-            points.Add(lr);
-            points.Add(ur);
-            points.Add(ul);
-            GmshLine bottom = new GmshLine(ll, lr);
-            GmshLine right = new GmshLine(lr, ur);
-            GmshLine top = new GmshLine(ur, ul);
-            GmshLine left = new GmshLine(ul, ll);
-            lines.Add(bottom);
-            lines.Add(right);
-            lines.Add(top);
-            lines.Add(left);
+            GmshPoint ll = CreateNewPoint(ll_x, ll_y, 0);
+            GmshPoint lr = CreateNewPoint(ur_x, ll_y, 0);
+            GmshPoint ur = CreateNewPoint(ur_x, ur_y, 0);
+            GmshPoint ul = CreateNewPoint(ll_x, ur_y, 0);
+            GmshLine bottom = CreateNewLine(ll, lr);
+            GmshLine right = CreateNewLine(lr, ur);
+            GmshLine top = CreateNewLine(ur, ul);
+            GmshLine left = CreateNewLine(ul, ll);
             List<GmshCurvilinearEntity> rect_lines = new List<GmshCurvilinearEntity>();
             rect_lines.Add(bottom);
             rect_lines.Add(right);
             rect_lines.Add(top);
             rect_lines.Add(left);
-            GmshCurveLoop rect = new GmshCurveLoop(rect_lines);
-            curve_loops.Add(rect);
+            GmshCurveLoop rect = CreateNewCurveLoop(rect_lines);
             //TODO: Create plane and physical surfaces?  Maybe with a flag?
         }
 

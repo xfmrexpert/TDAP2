@@ -57,27 +57,17 @@ namespace TDAP
             //Create reactangle for core window
             //outFile->gmshRectangle(core->radius_leg, 0, core->radius_leg + max_sec_width + dist_WdgTnk, core->window_height);
             //Have to do this manually, because we want the point for the boundary condition to be in the middle of the left side.
-            GmshPoint ll = new GmshPoint(Core.LegRadius, 0, 0);
-            GmshPoint lr = new GmshPoint(max_sec_radius + Dist_WdgTank, 0, 0);
-            GmshPoint ur = new GmshPoint(max_sec_radius + Dist_WdgTank, Core.WindowHeight, 0);
-            GmshPoint ul = new GmshPoint(Core.LegRadius, Core.WindowHeight, 0);
-            GmshPoint bc = new GmshPoint(max_sec_radius + Dist_WdgTank, Core.WindowHeight/2, 0); //gcnew gmshPoint(core->radius_leg, core->window_height/2, 0);
+            GmshPoint ll = outFile.CreateNewPoint(Core.LegRadius, 0, 0);
+            GmshPoint lr = outFile.CreateNewPoint(max_sec_radius + Dist_WdgTank, 0, 0);
+            GmshPoint ur = outFile.CreateNewPoint(max_sec_radius + Dist_WdgTank, Core.WindowHeight, 0);
+            GmshPoint ul = outFile.CreateNewPoint(Core.LegRadius, Core.WindowHeight, 0);
+            GmshPoint bc = outFile.CreateNewPoint(max_sec_radius + Dist_WdgTank, Core.WindowHeight/2, 0); //gcnew gmshPoint(core->radius_leg, core->window_height/2, 0);
             //The "boundary condition" point MUST be first...
-            outFile.points.Add(bc);
-            outFile.points.Add(ll);
-            outFile.points.Add(lr);
-            outFile.points.Add(ur);
-            outFile.points.Add(ul);
-            GmshLine bottom = new GmshLine(ll, lr);
-            GmshLine right_lower = new GmshLine(lr, bc);
-            GmshLine right_upper = new GmshLine(bc, ur);
-            GmshLine top = new GmshLine(ur, ul);
-            GmshLine left = new GmshLine(ul, ll);
-            outFile.lines.Add(bottom);
-            outFile.lines.Add(right_lower);
-            outFile.lines.Add(right_upper);
-            outFile.lines.Add(top);
-            outFile.lines.Add(left);
+            GmshLine bottom = outFile.CreateNewLine(ll, lr);
+            GmshLine right_lower = outFile.CreateNewLine(lr, bc);
+            GmshLine right_upper = outFile.CreateNewLine(bc, ur);
+            GmshLine top = outFile.CreateNewLine(ur, ul);
+            GmshLine left = outFile.CreateNewLine(ul, ll);
             List<GmshCurvilinearEntity> rect_lines = new List<GmshCurvilinearEntity>
             {
                 bottom,
@@ -86,8 +76,7 @@ namespace TDAP
                 top,
                 left
             };
-            GmshCurveLoop rect = new GmshCurveLoop(rect_lines);
-            outFile.curve_loops.Add(rect);
+            GmshCurveLoop rect = outFile.CreateNewCurveLoop(rect_lines);
 
             WriteWindingsGmsh(outFile);
             outFile.writeFile();
@@ -123,7 +112,8 @@ namespace TDAP
             GenerateMesh(Path.ChangeExtension(filename, "geo"));
             WriteAttributes(Path.ChangeExtension(filename, "att"));
             FEProg fea = new FEProg();
-            mesh = fea.run_FEA(Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename), 1);
+            string path = Path.GetDirectoryName(Path.GetFullPath(filename)) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename);
+            mesh = fea.run_FEA(path, 1);
             Console.WriteLine(mesh.numNodes());
         }
 
