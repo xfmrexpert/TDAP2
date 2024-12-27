@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\GeomLibrary\GeometryLib\GeometryLib.csproj" />
     <ProjectReference Include="..\TransFE_Wrapper\TransFE_Wrapper.csproj" />
   </ItemGroup>
 

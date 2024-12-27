@@ -150,7 +150,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="algebraicsystem.h" />
+    <ClInclude Include="assembler.h" />
+    <ClInclude Include="constraint.h" />
+    <ClInclude Include="discretesystem.h" />
+    <ClInclude Include="displacementconstraint.h" />
     <ClInclude Include="dof.h" />
+    <ClInclude Include="feanalysis.h" />
+    <ClInclude Include="feprog.h" />
+    <ClInclude Include="forcecontributor.h" />
+    <ClInclude Include="lin1dsf.h" />
+    <ClInclude Include="linearsystemassembler.h" />
+    <ClInclude Include="linquadsf.h" />
+    <ClInclude Include="lintetsf.h" />
+    <ClInclude Include="lintrisf.h" />
+    <ClInclude Include="magaxistaticanalysis.h" />
+    <ClInclude Include="magaxistaticfc.h" />
+    <ClInclude Include="magaxistaticsc.h" />
+    <ClInclude Include="mapping.h" />
+    <ClInclude Include="mapping1d2d.h" />
+    <ClInclude Include="mapping2d.h" />
+    <ClInclude Include="mapping2daxi.h" />
+    <ClInclude Include="mapping3d.h" />
+    <ClInclude Include="matrix.h" />
+    <ClInclude Include="quad1dsf.h" />
+    <ClInclude Include="quadquadsf.h" />
+    <ClInclude Include="quadtrisf.h" />
+    <ClInclude Include="shapefunction.h" />
+    <ClInclude Include="stiffnesscontributor.h" />
+    <ClInclude Include="typedefs.h" />
+    <ClInclude Include="vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algebraicsystem.cpp" />

@@ -18,6 +18,93 @@
     <ClInclude Include="dof.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="algebraicsystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="assembler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="constraint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="discretesystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="displacementconstraint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="feanalysis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="feprog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="forcecontributor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lin1dsf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linearsystemassembler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linquadsf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lintetsf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lintrisf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="magaxistaticanalysis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="magaxistaticfc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="magaxistaticsc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapping1d2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapping2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapping2daxi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mapping3d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quad1dsf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quadquadsf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quadtrisf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shapefunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stiffnesscontributor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="typedefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="feprog.cpp">
