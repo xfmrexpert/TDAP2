@@ -25,8 +25,8 @@ void MeshEntity::setClassification(GeomEntity& new_class) {
 }
 
 int MeshEntity::getClassificationID() const {
-	if (auto classification = myClassification.lock()) {
-		return classification->ID;
+	if (myClassification) {
+		return myClassification->ID;
 	}
 	return -1;
 }

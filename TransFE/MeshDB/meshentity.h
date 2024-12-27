@@ -48,6 +48,8 @@ public:
 	/// Sets the GeomEntity that this mesh entity is classified on
 	void setClassification(GeomEntity&);
 
+	int getClassificationID() const;
+
 	/// Returns an ordered list of nodes for the mesh entity
 	virtual vector<Node*> getNodes() const = 0;
 
