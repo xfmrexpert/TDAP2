@@ -122,7 +122,8 @@ namespace TDAP_GUI.Views
                             drawingContext.DrawRectangle(boundPen, rect);
                         }
                     }
-                    if (Tfmr.Mesh.Nodes.Count > 0)
+
+                    if (Tfmr.Mesh.numNodes() > 0)
                     {
                         RenderLeakageFlux(drawingContext);
                     }
@@ -175,7 +176,7 @@ namespace TDAP_GUI.Views
             int numContours = 30;
 
             //first pass through to get min an max	
-            foreach (var node in Tfmr.Mesh.Nodes)
+            foreach (var node in Tfmr.Mesh.getNodes())
             {
                 var DOFs = node.getDOFs();
                 var dof = DOFs.First();
@@ -215,7 +216,7 @@ namespace TDAP_GUI.Views
             for (int i = 0; i < numContours; i++)
             {
                 double contLine = min + i * pltInterval;
-                foreach (var face in Tfmr.Mesh.MeshFaces)
+                foreach (var face in Tfmr.Mesh.getFaces())
                 {
                     double[] x = new double[2];
                     double[] y = new double[2];

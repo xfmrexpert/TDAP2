@@ -11,13 +11,6 @@
 #include "algebraicsystem.h"
 #include <iostream>
 
- //#include "itl/interface/mtl.h"
- //#include "itl/preconditioner/ssor.h"
- //#include "itl/krylov/qmr.h"
- //#include "itl/krylov/bicgstab.h"
- //
- //using namespace itl;
-
 AlgebraicSystem::~AlgebraicSystem() {
 
 	//	delete d;
@@ -27,7 +20,7 @@ AlgebraicSystem::~AlgebraicSystem() {
 void AlgebraicSystem::solve() {
 	DS->initializeSystem();
 	createGlobalSystem();
-	A->initialize(&K, &f);
+	A->initialize(K.get(), f.get());
 	DS->formSystem(A);
 	solveLinearSystem();
 };
@@ -36,11 +29,12 @@ void AlgebraicSystem::createGlobalSystem() {
 	// TODO: Not sure why this was here.  Maybe reordering should be here?
     // It might be needed to set the equation number
 	mesh->reorder2();
-	K = BigMatrix(ndof, ndof);
-	d = BigVector(ndof);
-	d.setZero();
-	f = BigVector(ndof);
-	f.setZero();
+	K = std::make_unique<BigMatrix>(ndof, ndof);
+	K->setZero();
+	d = std::make_unique<BigVector>(ndof);
+	d->setZero();
+	f = std::make_unique<BigVector>(ndof);
+	f->setZero();
 
 	/*cout << endl << "Initial Values:" << endl;
 	cout << "K = :" << endl;
@@ -114,7 +108,7 @@ void AlgebraicSystem::solveLinearSystem() {
 	  //d = K.triangularView<Eigen::Upper>().solve(f);
 
 	  Eigen::ConjugateGradient<Eigen::SparseMatrix<double>, Eigen::Upper> solver;
-	  d = solver.compute(K).solve(f);
+	  d = std::make_unique<BigVector>(solver.compute(*K).solve(*f));
 
 	  cout << "# Iterations: " << solver.iterations() << endl;
 	  cout << "Estimated error: " << solver.error() << endl;
@@ -125,6 +119,6 @@ void AlgebraicSystem::solveLinearSystem() {
 	 }*/
 };
 
-BigVector AlgebraicSystem::get_d() {
-	return d;
+BigVector* AlgebraicSystem::get_d() {
+	return d.get();
 };
