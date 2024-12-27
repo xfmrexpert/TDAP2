@@ -37,6 +37,8 @@ public:
    ///Clear all attributes associated with the instance
     void clearAttributes();
 
+    int ID = 0;
+
 protected:
    ///This is a multimap to hold all of the attributes (key/value pairs)
    ///The multimap allows for quick (and brainless) retrieval of a value given

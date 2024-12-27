@@ -98,7 +98,9 @@ public:
 	/// Reads an attribute file (.att)
 	void readAttributes(const std::string& attribfile);
 
-	
+	std::weak_ptr<GeomEntity> getGeomEntity(int idx) const;
+
+	void writeMesh(const std::string& filename) const;
 
 protected:
 

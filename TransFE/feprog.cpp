@@ -71,6 +71,8 @@ shared_ptr<Mesh> FEProg::run_FEA(const std::string& filename, int formulation)
     theAnalysis->getMesh()->readMesh(filename + ".msh");
     auto read_mesh_end = high_resolution_clock::now();
 
+    theAnalysis->getMesh()->writeMesh(filename + ".out");
+
     theAnalysis->run();
     auto run_analysis_end = high_resolution_clock::now();
 

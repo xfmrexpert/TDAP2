@@ -24,3 +24,10 @@ void MeshEntity::setClassification(GeomEntity& new_class) {
 	myClassification = &new_class;
 }
 
+int MeshEntity::getClassificationID() const {
+	if (auto classification = myClassification.lock()) {
+		return classification->ID;
+	}
+	return -1;
+}
+
