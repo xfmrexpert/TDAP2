@@ -10,12 +10,6 @@ using System.Runtime.InteropServices;
 
 namespace TDAP
 {
-    public class TransMFEM
-    {
-        [DllImport("TransMFEM.dll", CharSet = CharSet.Auto)]
-        public static extern int run_calcs();
-    }
-
     public class Transformer
     {
         public int NumPhases {get; set;} = 1;
@@ -125,7 +119,6 @@ namespace TDAP
 
         public void RunCalculations(string filename)
         {
-            TransMFEM.run_calcs();
             writeTransformerGmsh(Path.ChangeExtension(filename, "geo"));
             GenerateMesh(Path.ChangeExtension(filename, "geo"));
             WriteAttributes(Path.ChangeExtension(filename, "att"));
