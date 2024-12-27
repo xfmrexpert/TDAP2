@@ -44,14 +44,14 @@ public class MeshFace : MeshEntity {
     return ret;
   }
 
-  public MeshEdge getEdge(int n) {
+  public MeshEdge getEdge(uint n) {
     global::System.IntPtr cPtr = TransFEPINVOKE.MeshFace_getEdge(swigCPtr, n);
     MeshEdge ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshEdge(cPtr, true);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public SWIGTYPE_p_MeshRegion getRegion(int n) {
+  public SWIGTYPE_p_MeshRegion getRegion(uint n) {
     global::System.IntPtr cPtr = TransFEPINVOKE.MeshFace_getRegion(swigCPtr, n);
     SWIGTYPE_p_MeshRegion ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_MeshRegion(cPtr, true);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();

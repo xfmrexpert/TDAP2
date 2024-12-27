@@ -17,6 +17,8 @@
 
 #include "geomentity.h"
 
+class Node;
+
  /// This is the class that all mesh entity classes (Regions, Faces, etc.) inherit from.
  /// This class contains basic functions for getting and setting classifications, setting an
  /// integer ID, and assigning a node to the entity.  By allowing a node to be assigned to 
@@ -28,9 +30,6 @@ class MeshEntity {
 
 public:
 
-	/// An integer for assigned a unique ID to an entity.  This is not assigned unless done so explicitly.
-	size_t ID;
-
 	/// Default constructor.  Currently empty. Not anymore...
 	MeshEntity();
 
@@ -39,8 +38,14 @@ public:
 	/// Returns the number of dimensions for an entity.  This is useful in identifying the entity type.
 	virtual int get_dimensions() const = 0;
 
-	/// Pointer to a node.  Required for vertices, optional for all others.
-	Node* node;
+	Node* getNode() const {
+		return node;
+	}
+
+	void setNode(Node& in_node) {
+		node = &in_node;
+		node->setParent(this);
+	}
 
 	/// Returns the GeomEntity that this mesh entity is classified on
 	GeomEntity* getClassification();
@@ -53,9 +58,23 @@ public:
 	/// Returns an ordered list of nodes for the mesh entity
 	virtual vector<Node*> getNodes() const = 0;
 
+	size_t getID() const {
+		return ID;
+	}
+
+	void setID(size_t in_ID) {
+		ID = in_ID;
+	}
+
 protected:
 
+	/// Pointer to a node.  Required for vertices, optional for all others.
+	Node* node;
+
 private:
+
+	/// An integer for assigned a unique ID to an entity.  This is not assigned unless done so explicitly.
+	size_t ID;
 
 	/// variable for number of dimensions
 	int dimensions;

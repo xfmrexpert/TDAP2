@@ -106,6 +106,12 @@ public class Mesh : global::System.IDisposable {
     return ret;
   }
 
+  public MeshFacePtrVec getFaces() {
+    MeshFacePtrVec ret = new MeshFacePtrVec(TransFEPINVOKE.Mesh_getFaces(swigCPtr), true);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public NodePtrVec getNodes() {
     NodePtrVec ret = new NodePtrVec(TransFEPINVOKE.Mesh_getNodes(swigCPtr), true);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
@@ -152,13 +158,25 @@ public class Mesh : global::System.IDisposable {
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public void readMesh(SWIGTYPE_p_std__string meshfile) {
-    TransFEPINVOKE.Mesh_readMesh(swigCPtr, SWIGTYPE_p_std__string.getCPtr(meshfile));
+  public void readMesh(string meshfile) {
+    TransFEPINVOKE.Mesh_readMesh(swigCPtr, meshfile);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void readAttributes(string attribfile) {
     TransFEPINVOKE.Mesh_readAttributes(swigCPtr, attribfile);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public SWIGTYPE_p_GeomEntity getGeomEntity(int idx) {
+    global::System.IntPtr cPtr = TransFEPINVOKE.Mesh_getGeomEntity(swigCPtr, idx);
+    SWIGTYPE_p_GeomEntity ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_GeomEntity(cPtr, false);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public void writeMesh(string filename) {
+    TransFEPINVOKE.Mesh_writeMesh(swigCPtr, filename);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
   }
 

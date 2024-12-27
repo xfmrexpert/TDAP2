@@ -2690,14 +2690,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Mesh_getRegion(void * jarg1, unsigned long 
   void * jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
   size_t arg2 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   MeshRegion *result = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (size_t)jarg2; 
-  result = (MeshRegion *) &(arg1)->getRegion(arg2);
+  result = (MeshRegion *) &((Mesh const *)arg1)->getRegion(arg2);
   jresult = new std::shared_ptr<  MeshRegion >(result SWIG_NO_NULL_DELETER_0); 
   return jresult;
 }
@@ -2707,14 +2707,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Mesh_getFace(void * jarg1, unsigned long ja
   void * jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
   size_t arg2 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   MeshFace *result = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (size_t)jarg2; 
-  result = (MeshFace *) &(arg1)->getFace(arg2);
+  result = (MeshFace *) &((Mesh const *)arg1)->getFace(arg2);
   jresult = new std::shared_ptr<  MeshFace >(result SWIG_NO_NULL_DELETER_0); 
   return jresult;
 }
@@ -2724,14 +2724,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Mesh_getEdge(void * jarg1, unsigned long ja
   void * jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
   size_t arg2 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   MeshEdge *result = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (size_t)jarg2; 
-  result = (MeshEdge *) &(arg1)->getEdge(arg2);
+  result = (MeshEdge *) &((Mesh const *)arg1)->getEdge(arg2);
   jresult = new std::shared_ptr<  MeshEdge >(result SWIG_NO_NULL_DELETER_0); 
   return jresult;
 }
@@ -2741,14 +2741,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Mesh_getVertex(void * jarg1, unsigned long 
   void * jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
   size_t arg2 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   MeshVertex *result = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (size_t)jarg2; 
-  result = (MeshVertex *) &(arg1)->getVertex(arg2);
+  result = (MeshVertex *) &((Mesh const *)arg1)->getVertex(arg2);
   jresult = new std::shared_ptr<  MeshVertex >(result SWIG_NO_NULL_DELETER_0); 
   return jresult;
 }
@@ -2758,15 +2758,30 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Mesh_getNode(void * jarg1, unsigned long ja
   void * jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
   size_t arg2 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   Node *result = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (size_t)jarg2; 
-  result = (Node *) &(arg1)->getNode(arg2);
+  result = (Node *) &((Mesh const *)arg1)->getNode(arg2);
   jresult = new std::shared_ptr<  Node >(result SWIG_NO_NULL_DELETER_0); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Mesh_getFaces(void * jarg1) {
+  void * jresult ;
+  Mesh *arg1 = (Mesh *) 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
+  std::vector< MeshFace * > result;
+  
+  
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
+  arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((Mesh const *)arg1)->getFaces();
+  jresult = new std::vector< MeshFace * >(result); 
   return jresult;
 }
 
@@ -2789,13 +2804,13 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Mesh_getNodes(void * jarg1) {
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Mesh_numRegions(void * jarg1) {
   unsigned long jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   size_t result;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->numRegions();
+  result = ((Mesh const *)arg1)->numRegions();
   jresult = (unsigned long)result; 
   return jresult;
 }
@@ -2804,13 +2819,13 @@ SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Mesh_numRegions(void * jarg1) {
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Mesh_numFaces(void * jarg1) {
   unsigned long jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   size_t result;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->numFaces();
+  result = ((Mesh const *)arg1)->numFaces();
   jresult = (unsigned long)result; 
   return jresult;
 }
@@ -2819,13 +2834,13 @@ SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Mesh_numFaces(void * jarg1) {
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Mesh_numEdges(void * jarg1) {
   unsigned long jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   size_t result;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->numEdges();
+  result = ((Mesh const *)arg1)->numEdges();
   jresult = (unsigned long)result; 
   return jresult;
 }
@@ -2834,13 +2849,13 @@ SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Mesh_numEdges(void * jarg1) {
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Mesh_numVertexes(void * jarg1) {
   unsigned long jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   size_t result;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->numVertexes();
+  result = ((Mesh const *)arg1)->numVertexes();
   jresult = (unsigned long)result; 
   return jresult;
 }
@@ -2849,13 +2864,13 @@ SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Mesh_numVertexes(void * jarg1) {
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Mesh_numNodes(void * jarg1) {
   unsigned long jresult ;
   Mesh *arg1 = (Mesh *) 0 ;
-  std::shared_ptr< Mesh > *smartarg1 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
   size_t result;
   
   
-  smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->numNodes();
+  result = ((Mesh const *)arg1)->numNodes();
   jresult = (unsigned long)result; 
   return jresult;
 }
@@ -2883,63 +2898,74 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Mesh_reorder2(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Mesh_readMesh(void * jarg1, void * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Mesh_readMesh(void * jarg1, const char * jarg2) {
   Mesh *arg1 = (Mesh *) 0 ;
-  string arg2 ;
+  std::string *arg2 = 0 ;
   std::shared_ptr< Mesh > *smartarg1 = 0 ;
-  string *argp2 ;
   
   
   smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
-  argp2 = (string *)jarg2; 
-  if (!argp2) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null string", 0);
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return ;
   }
-  arg2 = *argp2; 
-  (arg1)->readMesh(arg2);
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  (arg1)->readMesh((std::string const &)*arg2);
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Mesh_readAttributes(void * jarg1, char * jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_Mesh_readAttributes(void * jarg1, const char * jarg2) {
   Mesh *arg1 = (Mesh *) 0 ;
-  char *arg2 = (char *) 0 ;
+  std::string *arg2 = 0 ;
   std::shared_ptr< Mesh > *smartarg1 = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  Mesh > *)jarg1;
   arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (char *)jarg2; 
-  (arg1)->readAttributes((char const *)arg2);
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  (arg1)->readAttributes((std::string const &)*arg2);
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_MeshEntity_ID_set(void * jarg1, unsigned long jarg2) {
-  MeshEntity *arg1 = (MeshEntity *) 0 ;
-  size_t arg2 ;
-  std::shared_ptr< MeshEntity > *smartarg1 = 0 ;
+SWIGEXPORT void * SWIGSTDCALL CSharp_Mesh_getGeomEntity(void * jarg1, int jarg2) {
+  void * jresult ;
+  Mesh *arg1 = (Mesh *) 0 ;
+  int arg2 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
+  GeomEntity *result = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  MeshEntity > *)jarg1;
-  arg1 = (MeshEntity *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (size_t)jarg2; 
-  if (arg1) (arg1)->ID = arg2;
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_MeshEntity_ID_get(void * jarg1) {
-  unsigned long jresult ;
-  MeshEntity *arg1 = (MeshEntity *) 0 ;
-  std::shared_ptr< MeshEntity > *smartarg1 = 0 ;
-  size_t result;
-  
-  
-  smartarg1 = (std::shared_ptr<  MeshEntity > *)jarg1;
-  arg1 = (MeshEntity *)(smartarg1 ? smartarg1->get() : 0); 
-  result =  ((arg1)->ID);
-  jresult = (unsigned long)result; 
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
+  arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (int)jarg2; 
+  result = (GeomEntity *)((Mesh const *)arg1)->getGeomEntity(arg2);
+  jresult = (void *)result; 
   return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Mesh_writeMesh(void * jarg1, const char * jarg2) {
+  Mesh *arg1 = (Mesh *) 0 ;
+  std::string *arg2 = 0 ;
+  std::shared_ptr< Mesh const > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr< const Mesh > *)jarg1;
+  arg1 = (Mesh *)(smartarg1 ? smartarg1->get() : 0); 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  ((Mesh const *)arg1)->writeMesh((std::string const &)*arg2);
 }
 
 
@@ -2969,36 +2995,38 @@ SWIGEXPORT int SWIGSTDCALL CSharp_MeshEntity_get_dimensions(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_MeshEntity_node_set(void * jarg1, void * jarg2) {
-  MeshEntity *arg1 = (MeshEntity *) 0 ;
-  Node *arg2 = (Node *) 0 ;
-  std::shared_ptr< MeshEntity > *smartarg1 = 0 ;
-  std::shared_ptr< Node > *smartarg2 = 0 ;
-  
-  
-  smartarg1 = (std::shared_ptr<  MeshEntity > *)jarg1;
-  arg1 = (MeshEntity *)(smartarg1 ? smartarg1->get() : 0); 
-  
-  smartarg2 = (std::shared_ptr<  Node > *)jarg2;
-  arg2 = (Node *)(smartarg2 ? smartarg2->get() : 0); 
-  if (arg1) (arg1)->node = arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_MeshEntity_node_get(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_MeshEntity_getNode(void * jarg1) {
   void * jresult ;
   MeshEntity *arg1 = (MeshEntity *) 0 ;
-  std::shared_ptr< MeshEntity > *smartarg1 = 0 ;
+  std::shared_ptr< MeshEntity const > *smartarg1 = 0 ;
   Node *result = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  MeshEntity > *)jarg1;
+  smartarg1 = (std::shared_ptr< const MeshEntity > *)jarg1;
   arg1 = (MeshEntity *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (Node *) ((arg1)->node);
+  result = (Node *)((MeshEntity const *)arg1)->getNode();
   
   jresult = result ? new std::shared_ptr<  Node >(result SWIG_NO_NULL_DELETER_0) : 0;
   
   return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_MeshEntity_setNode(void * jarg1, void * jarg2) {
+  MeshEntity *arg1 = (MeshEntity *) 0 ;
+  Node *arg2 = 0 ;
+  std::shared_ptr< MeshEntity > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  MeshEntity > *)jarg1;
+  arg1 = (MeshEntity *)(smartarg1 ? smartarg1->get() : 0); 
+  
+  arg2 = (Node *)(((std::shared_ptr<  Node > *)jarg2) ? ((std::shared_ptr<  Node > *)jarg2)->get() : 0);
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Node & reference is null", 0);
+    return ;
+  } 
+  (arg1)->setNode(*arg2);
 }
 
 
@@ -3034,6 +3062,21 @@ SWIGEXPORT void SWIGSTDCALL CSharp_MeshEntity_setClassification(void * jarg1, vo
 }
 
 
+SWIGEXPORT int SWIGSTDCALL CSharp_MeshEntity_getClassificationID(void * jarg1) {
+  int jresult ;
+  MeshEntity *arg1 = (MeshEntity *) 0 ;
+  std::shared_ptr< MeshEntity const > *smartarg1 = 0 ;
+  int result;
+  
+  
+  smartarg1 = (std::shared_ptr< const MeshEntity > *)jarg1;
+  arg1 = (MeshEntity *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)((MeshEntity const *)arg1)->getClassificationID();
+  jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_MeshEntity_getNodes(void * jarg1) {
   void * jresult ;
   MeshEntity *arg1 = (MeshEntity *) 0 ;
@@ -3046,6 +3089,34 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_MeshEntity_getNodes(void * jarg1) {
   result = ((MeshEntity const *)arg1)->getNodes();
   jresult = new vector< Node * >(result); 
   return jresult;
+}
+
+
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_MeshEntity_getID(void * jarg1) {
+  unsigned long jresult ;
+  MeshEntity *arg1 = (MeshEntity *) 0 ;
+  std::shared_ptr< MeshEntity const > *smartarg1 = 0 ;
+  size_t result;
+  
+  
+  smartarg1 = (std::shared_ptr< const MeshEntity > *)jarg1;
+  arg1 = (MeshEntity *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((MeshEntity const *)arg1)->getID();
+  jresult = (unsigned long)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_MeshEntity_setID(void * jarg1, unsigned long jarg2) {
+  MeshEntity *arg1 = (MeshEntity *) 0 ;
+  size_t arg2 ;
+  std::shared_ptr< MeshEntity > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  MeshEntity > *)jarg1;
+  arg1 = (MeshEntity *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (size_t)jarg2; 
+  (arg1)->setID(arg2);
 }
 
 
@@ -3091,14 +3162,14 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_MeshVertex_getEdge(void * jarg1, int jarg2)
   void * jresult ;
   MeshVertex *arg1 = (MeshVertex *) 0 ;
   int arg2 ;
-  std::shared_ptr< MeshVertex > *smartarg1 = 0 ;
+  std::shared_ptr< MeshVertex const > *smartarg1 = 0 ;
   MeshEdge *result = 0 ;
   
   
-  smartarg1 = (std::shared_ptr<  MeshVertex > *)jarg1;
+  smartarg1 = (std::shared_ptr< const MeshVertex > *)jarg1;
   arg1 = (MeshVertex *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (int)jarg2; 
-  result = (MeshEdge *)(arg1)->getEdge(arg2);
+  result = (MeshEdge *)((MeshVertex const *)arg1)->getEdge(arg2);
   
   jresult = result ? new std::shared_ptr<  MeshEdge >(result SWIG_NO_NULL_DELETER_0) : 0;
   
@@ -3127,13 +3198,13 @@ SWIGEXPORT void SWIGSTDCALL CSharp_MeshVertex_addEdge(void * jarg1, void * jarg2
 SWIGEXPORT unsigned long SWIGSTDCALL CSharp_MeshVertex_numEdges(void * jarg1) {
   unsigned long jresult ;
   MeshVertex *arg1 = (MeshVertex *) 0 ;
-  std::shared_ptr< MeshVertex > *smartarg1 = 0 ;
+  std::shared_ptr< MeshVertex const > *smartarg1 = 0 ;
   size_t result;
   
   
-  smartarg1 = (std::shared_ptr<  MeshVertex > *)jarg1;
+  smartarg1 = (std::shared_ptr< const MeshVertex > *)jarg1;
   arg1 = (MeshVertex *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (arg1)->numEdges();
+  result = ((MeshVertex const *)arg1)->numEdges();
   jresult = (unsigned long)result; 
   return jresult;
 }
@@ -3351,21 +3422,6 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_MeshEdge_isConnected__SWIG_1(void * j
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_MeshEdge_get_dimensions(void * jarg1) {
-  int jresult ;
-  MeshEdge *arg1 = (MeshEdge *) 0 ;
-  std::shared_ptr< MeshEdge const > *smartarg1 = 0 ;
-  int result;
-  
-  
-  smartarg1 = (std::shared_ptr< const MeshEdge > *)jarg1;
-  arg1 = (MeshEdge *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (int)((MeshEdge const *)arg1)->get_dimensions();
-  jresult = result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void * SWIGSTDCALL CSharp_MeshEdge_getNodes(void * jarg1) {
   void * jresult ;
   MeshEdge *arg1 = (MeshEdge *) 0 ;
@@ -3377,6 +3433,36 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_MeshEdge_getNodes(void * jarg1) {
   arg1 = (MeshEdge *)(smartarg1 ? smartarg1->get() : 0); 
   result = ((MeshEdge const *)arg1)->getNodes();
   jresult = new std::vector< Node * >(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_MeshEdge_getVertices(void * jarg1) {
+  void * jresult ;
+  MeshEdge *arg1 = (MeshEdge *) 0 ;
+  std::shared_ptr< MeshEdge const > *smartarg1 = 0 ;
+  SwigValueWrapper< std::vector< MeshVertex const * > > result;
+  
+  
+  smartarg1 = (std::shared_ptr< const MeshEdge > *)jarg1;
+  arg1 = (MeshEdge *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((MeshEdge const *)arg1)->getVertices();
+  jresult = new std::vector< MeshVertex const * >(result); 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_MeshEdge_get_dimensions(void * jarg1) {
+  int jresult ;
+  MeshEdge *arg1 = (MeshEdge *) 0 ;
+  std::shared_ptr< MeshEdge const > *smartarg1 = 0 ;
+  int result;
+  
+  
+  smartarg1 = (std::shared_ptr< const MeshEdge > *)jarg1;
+  arg1 = (MeshEdge *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (int)((MeshEdge const *)arg1)->get_dimensions();
+  jresult = result; 
   return jresult;
 }
 
@@ -3419,17 +3505,17 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_MeshFace_Edges(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_MeshFace_getEdge(void * jarg1, int jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_MeshFace_getEdge(void * jarg1, unsigned long jarg2) {
   void * jresult ;
   MeshFace *arg1 = (MeshFace *) 0 ;
-  int arg2 ;
+  size_t arg2 ;
   std::shared_ptr< MeshFace > *smartarg1 = 0 ;
   MeshEdge *result = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  MeshFace > *)jarg1;
   arg1 = (MeshFace *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (int)jarg2; 
+  arg2 = (size_t)jarg2; 
   result = (MeshEdge *)(arg1)->getEdge(arg2);
   
   jresult = result ? new std::shared_ptr<  MeshEdge >(result SWIG_NO_NULL_DELETER_0) : 0;
@@ -3438,17 +3524,17 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_MeshFace_getEdge(void * jarg1, int jarg2) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_MeshFace_getRegion(void * jarg1, int jarg2) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_MeshFace_getRegion(void * jarg1, unsigned long jarg2) {
   void * jresult ;
   MeshFace *arg1 = (MeshFace *) 0 ;
-  int arg2 ;
+  size_t arg2 ;
   std::shared_ptr< MeshFace > *smartarg1 = 0 ;
   MeshRegion *result = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  MeshFace > *)jarg1;
   arg1 = (MeshFace *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (int)jarg2; 
+  arg2 = (size_t)jarg2; 
   result = (MeshRegion *)(arg1)->getRegion(arg2);
   
   jresult = result ? new std::shared_ptr<  MeshRegion >(result SWIG_NO_NULL_DELETER_0) : 0;
@@ -3696,7 +3782,22 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Node_pt__SWIG_1(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Node_ID_set(void * jarg1, unsigned long jarg2) {
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Node_getID(void * jarg1) {
+  unsigned long jresult ;
+  Node *arg1 = (Node *) 0 ;
+  std::shared_ptr< Node const > *smartarg1 = 0 ;
+  size_t result;
+  
+  
+  smartarg1 = (std::shared_ptr< const Node > *)jarg1;
+  arg1 = (Node *)(smartarg1 ? smartarg1->get() : 0); 
+  result = ((Node const *)arg1)->getID();
+  jresult = (unsigned long)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Node_setID(void * jarg1, unsigned long jarg2) {
   Node *arg1 = (Node *) 0 ;
   size_t arg2 ;
   std::shared_ptr< Node > *smartarg1 = 0 ;
@@ -3705,22 +3806,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Node_ID_set(void * jarg1, unsigned long jarg2
   smartarg1 = (std::shared_ptr<  Node > *)jarg1;
   arg1 = (Node *)(smartarg1 ? smartarg1->get() : 0); 
   arg2 = (size_t)jarg2; 
-  if (arg1) (arg1)->ID = arg2;
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_Node_ID_get(void * jarg1) {
-  unsigned long jresult ;
-  Node *arg1 = (Node *) 0 ;
-  std::shared_ptr< Node > *smartarg1 = 0 ;
-  size_t result;
-  
-  
-  smartarg1 = (std::shared_ptr<  Node > *)jarg1;
-  arg1 = (Node *)(smartarg1 ? smartarg1->get() : 0); 
-  result =  ((arg1)->ID);
-  jresult = (unsigned long)result; 
-  return jresult;
+  (arg1)->setID(arg2);
 }
 
 
@@ -3753,6 +3839,39 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_Node_newDOF(void * jarg1) {
   jresult = result ? new std::shared_ptr<  DOF >(result SWIG_NO_NULL_DELETER_0) : 0;
   
   return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Node_getParent(void * jarg1) {
+  void * jresult ;
+  Node *arg1 = (Node *) 0 ;
+  std::shared_ptr< Node const > *smartarg1 = 0 ;
+  MeshEntity *result = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr< const Node > *)jarg1;
+  arg1 = (Node *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (MeshEntity *)((Node const *)arg1)->getParent();
+  
+  jresult = result ? new std::shared_ptr<  MeshEntity >(result SWIG_NO_NULL_DELETER_0) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Node_setParent(void * jarg1, void * jarg2) {
+  Node *arg1 = (Node *) 0 ;
+  MeshEntity *arg2 = (MeshEntity *) 0 ;
+  std::shared_ptr< Node > *smartarg1 = 0 ;
+  std::shared_ptr< MeshEntity > *smartarg2 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  Node > *)jarg1;
+  arg1 = (Node *)(smartarg1 ? smartarg1->get() : 0); 
+  
+  smartarg2 = (std::shared_ptr<  MeshEntity > *)jarg2;
+  arg2 = (MeshEntity *)(smartarg2 ? smartarg2->get() : 0); 
+  (arg1)->setParent(arg2);
 }
 
 

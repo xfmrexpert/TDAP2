@@ -15,14 +15,13 @@
 #include <algorithm>
 
 const MeshVertex* MeshEdge::getVertex(int n) const {
-    if (n < 0 || n >= MeshVertices.size()) {
-        throw std::out_of_range("Invalid vertex index");
+    if (n < 0 || n >= MeshVertices.size() || MeshVertices[n] == nullptr) {
+        throw std::out_of_range("Invalid or null vertex index");
     }
     return MeshVertices[n];
 }
 
-/// Returns an const reference to the vector of facess
-const vector<MeshFace*>& MeshEdge::Faces() const {
+const std::vector<MeshFace*>& MeshEdge::Faces() const {
     return MeshFaces;
 }
 
@@ -33,14 +32,14 @@ MeshFace* MeshEdge::getFace(int n) {
     return MeshFaces[n];
 }
 
-void MeshEdge::addVertex(MeshVertex& new_vertex, int n){
+void MeshEdge::addVertex(MeshVertex& new_vertex, int n) {
     if (n < 0 || n >= MeshVertices.size()) {
         throw std::out_of_range("Invalid vertex index");
     }
-    MeshVertices[n] = &new_vertex;
+    MeshVertices.at(n) = &new_vertex; // Use std::array::at for range checking
 }
 
-void MeshEdge::addFace(MeshFace& new_face){
+void MeshEdge::addFace(MeshFace& new_face) {
     if (std::find(MeshFaces.begin(), MeshFaces.end(), &new_face) == MeshFaces.end()) {
         MeshFaces.push_back(&new_face);
     }
@@ -65,21 +64,32 @@ bool MeshEdge::isConnected(const MeshVertex& vertex) const {
 
 bool MeshEdge::isConnected(const MeshEdge& edge) const {
     for (const auto* v : edge.MeshVertices) {
-        if (isConnected(*v)) {
+        if (v && isConnected(*v)) { // Check for non-null and connectivity
             return true;
         }
     }
     return false;
 }
 
-vector<Node*> MeshEdge::getNodes() const{
-   vector<Node*> nodes;
-   
-   for(int i=0;i<2;i++){
-      nodes.push_back(this->getVertex(i)->node);
-   }
-   if(this->node != nullptr){
-      nodes.push_back(this->node);
-   }
-   return nodes;
+std::vector<Node*> MeshEdge::getNodes() const {
+    std::vector<Node*> nodes;
+    for (const auto* vertex : MeshVertices) {
+        if (vertex && vertex->getNode()) {
+            nodes.push_back(vertex->getNode());
+        }
+    }
+    if (this->getNode() != nullptr) {
+        nodes.push_back(this->getNode());
+    }
+    return nodes;
+}
+
+std::vector<const MeshVertex*> MeshEdge::getVertices() const {
+    std::vector<const MeshVertex*> vertices;
+    for (const auto* vertex : MeshVertices) {
+        if (vertex) {
+            vertices.push_back(vertex);
+        }
+    }
+    return vertices;
 }

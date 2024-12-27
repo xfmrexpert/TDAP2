@@ -341,7 +341,7 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 			outFile << "VQ (";
 		}
 		for (auto vertex : vertexes) {
-			outFile << vertex->node->x() << "," << vertex->node->y() << "," << vertex->node->z();
+			outFile << vertex->getNode()->x() << "," << vertex->getNode()->y() << "," << vertex->getNode()->z();
 			if (vertex != vertexes.back()) {
 				outFile << ",";
 			}
@@ -372,14 +372,14 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 			outFile << "SQ (";
 		}
 		for (const auto& vertex : vertexes) {
-			outFile << vertex->node->x() << "," << vertex->node->y() << "," << vertex->node->z();
+			outFile << vertex->getNode()->x() << "," << vertex->getNode()->y() << "," << vertex->getNode()->z();
 			if (vertex != vertexes.back()) {
 				outFile << ",";
 			}
 		}
 		outFile << "){";
 		for (const auto& vertex : vertexes) {
-			const auto& DOFs = vertex->node->getDOFs();
+			const auto& DOFs = vertex->getNode()->getDOFs();
 			outFile << DOFs[0]->get_value();
 			//outFile << DOFs[0]->get_value();
 			if (vertex != vertexes.back()) {

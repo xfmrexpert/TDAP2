@@ -87,14 +87,20 @@ public class MeshEdge : MeshEntity {
     return ret;
   }
 
-  public override int get_dimensions() {
-    int ret = TransFEPINVOKE.MeshEdge_get_dimensions(swigCPtr);
+  public NodePtrVec getNodes() {
+    NodePtrVec ret = new NodePtrVec(TransFEPINVOKE.MeshEdge_getNodes(swigCPtr), true);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public NodePtrVec getNodes() {
-    NodePtrVec ret = new NodePtrVec(TransFEPINVOKE.MeshEdge_getNodes(swigCPtr), true);
+  public SWIGTYPE_p_std__vectorT_MeshVertex_const_p_t getVertices() {
+    SWIGTYPE_p_std__vectorT_MeshVertex_const_p_t ret = new SWIGTYPE_p_std__vectorT_MeshVertex_const_p_t(TransFEPINVOKE.MeshEdge_getVertices(swigCPtr), true);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public override int get_dimensions() {
+    int ret = TransFEPINVOKE.MeshEdge_get_dimensions(swigCPtr);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

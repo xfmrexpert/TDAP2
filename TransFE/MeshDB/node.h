@@ -15,6 +15,8 @@
 #include <vector>
 #include <memory>
 
+class MeshEntity;
+
 /// This class represents a Node.  A node is the geometric (or parametric?)
 /// manifestation of a point on the mesh.  A node may also be termed a
 /// "degree of freedom holder".  Each vertex must have one node.  In addition, edges
@@ -53,8 +55,13 @@ public:
 		return m_pt;
 	}
 
-	/// An optional integer ID
-	size_t ID = -9999;
+	size_t getID() const {
+		return ID;
+	}
+
+	void setID(size_t in_ID) {
+		ID = in_ID;
+	}
 
 	/// The equals operator is overridden in attempt to provide a meaningful definition
 	friend bool operator== (const Node&, const Node&);
@@ -68,15 +75,28 @@ public:
 	/// Create a new DOF for this node
 	DOF* newDOF();
 
+	MeshEntity* getParent() const {
+		return parent;
+	}
+
+	void setParent(MeshEntity* in_parent) {
+		parent = in_parent;
+	}
+
 protected:
 
 private:
+	/// An optional integer ID
+	size_t ID = -9999;
+
 	/// A vector with pointers to all of the nodal DOFs
 	/// This vector owns the DOFs for this node
 	std::vector<std::unique_ptr<DOF>> DOFs;
 	
 	/// A point for the spatial coordinates of this node
 	point m_pt;
+
+	MeshEntity* parent = nullptr;
 
 };
 

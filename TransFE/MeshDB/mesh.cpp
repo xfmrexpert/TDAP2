@@ -10,9 +10,11 @@
 
 #include "mesh.h"
 
-#include <stdio.h>
-#include <string.h>
+#include <string>
 #include <iostream>
+#include <iomanip>
+#include <queue>
+#include <sstream>
 
  /* Mesh::Mesh(const Mesh& old_mesh){
 	MeshRegions.reserve(old_mesh.MeshRegions.size()); // preallocate the space we need so push_back doesn't have to
@@ -165,13 +167,13 @@ void Mesh::reorder() {
 	//cout << "Beginning mesh reordering...\n";
 
 	for (const auto& node : Nodes) {
-		node->ID = -2; //-2 indicates not labeled and not in queue
+		node->setID(-2); //-2 indicates not labeled and not in queue
 	}
 	for (const auto& face : MeshFaces) {
-		face->ID = -2; //-2 indicates not labeled and not in queue
+		face->setID(-2); //-2 indicates not labeled and not in queue
 	}
 	for (const auto& region : MeshRegions) {
-		region->ID = -2; //-2 indicates not labeled and not in queue
+		region->setID(-2); //-2 indicates not labeled and not in queue
 	}
 
 	//cout << "Get start...\n";
@@ -179,7 +181,7 @@ void Mesh::reorder() {
 	MeshEntity* entity = getStart();
 	//cout << "Put first entity into queue...\n";
 	q.push(entity);
-	entity->ID = -1; //0 indicates entity in queue
+	entity->setID(-1); //0 indicates entity in queue
 	//cout << "Begin looping through queue...\n";
 	while (q.size() > 0) {
 		if (labelnode < 0) {
@@ -189,10 +191,10 @@ void Mesh::reorder() {
 		entity = q.front();
 		q.pop();
 		//if(entity->get_dimensions()==1){cout << "dequeueing edge\n";}
-		auto node = entity->node;
-		if (node->ID < 0) { //node is unlabeled
+		auto node = entity->getNode();
+		if (node->getID() < 0) { //node is unlabeled
 			labelnode = labelnode - 1;
-			node->ID = labelnode;
+			node->setID(labelnode);
 			const auto& DOFs = node->getDOFs();
 			for (const auto& dof : DOFs) {
 				if (dof->get_status() == DOF_Free) {
@@ -212,23 +214,23 @@ void Mesh::reorder() {
 			for (const auto& edge : vertex->Edges()) {
 				//cout << "Loop through faces of edge #" << edge->ID << "\n";
 				for (const auto& face : edge->Faces()) {
-					if (face->ID < 0) { //face is unlabeled
+					if (face->getID() < 0) { //face is unlabeled
 						labelface = labelface - 1;
-						face->ID = labelface;
+						face->setID(labelface);
 					}
-					if (face->node != nullptr && face->node->ID < -1) {
+					if (face->getNode() != nullptr && face->getNode()->getID() < -1) {
 						q.push(face);
-						face->node->ID = -1;
+						face->getNode()->setID(-1);
 					}
 				}
 				auto othervertex = edge->otherVertex(*vertex);
-				if (edge->node != nullptr) {  //if edge has a node
+				if (edge->getNode() != nullptr) {  //if edge has a node
 					//cout << "Edge has a node\n";
-					if (othervertex->node->ID >= -1 && edge->node->ID < -1) {
+					if (othervertex->getNode()->getID() >= -1 && edge->getNode()->getID() < -1) {
 						//cout << "Labeling node directly\n";
 						labelnode = labelnode - 1;
-						edge->node->ID = labelnode;
-						const auto& DOFs = edge->node->getDOFs();
+						edge->getNode()->setID(labelnode);
+						const auto& DOFs = edge->getNode()->getDOFs();
 						for (const auto& dof : DOFs) {
 							if (dof->get_status() == DOF_Free) {
 								labeldof = labeldof - 1;
@@ -240,18 +242,18 @@ void Mesh::reorder() {
 							}
 						}
 					}
-					else if (othervertex->node->ID < -1) {
+					else if (othervertex->getNode()->getID() < -1) {
 						//cout << "Queueing edge\n";
 						q.push(edge);
 						list.push(othervertex);
-						othervertex->node->ID = -1;
+						othervertex->getNode()->setID(-1);
 					}
 				}
 				else {
-					if (othervertex->node->ID < -1) {
+					if (othervertex->getNode()->getID() < -1) {
 						//cout << "Queue edge's other vertex\n";
 						list.push(othervertex);
-						othervertex->node->ID = -1;
+						othervertex->getNode()->setID(-1);
 					}
 				}
 			}
@@ -362,7 +364,7 @@ void Mesh::readMesh(const std::string& filename)
 
 				Node& new_node = newNode(); //newNode() adds a new Node to the Nodes list
 				new_node.pt({ x, y, z });
-				new_node.ID = id;
+				new_node.setID(id);
 			}
 		}
 		else if (line.compare(1, 8, "Elements") == 0) {
@@ -399,8 +401,8 @@ void Mesh::readMesh(const std::string& filename)
 					MeshVertex* vertex = findVertexbyNode(nodeID);
 					if (!vertex) {
 						vertex = &newVertex();
-						vertex->node = findNodebyID(nodeID);
-						vertex->ID = MeshVertexes.size();
+						vertex->setNode(*findNodebyID(nodeID));
+						vertex->setID(MeshVertexes.size());
 					}
 					vertex->setClassification(*getGeomEntity(physical));
 				}
@@ -418,18 +420,18 @@ void Mesh::readMesh(const std::string& filename)
 						new_edge->addVertex(*vertex2, 1);
 						vertex1->addEdge(*new_edge);
 						vertex2->addEdge(*new_edge);
-						new_edge->ID = MeshEdges.size();
+						new_edge->setID(MeshEdges.size());
 					}
 					new_edge->setClassification(*getGeomEntity(physical));
 
 					if (type == 8) {
 						size_t node3;
 						meshFile >> node3;
-						new_edge->node = findNodebyID(node3);
+						new_edge->setNode(*findNodebyID(node3));
 					}
 				}
 				else if (type == 2 || type == 3 || type == 9 || type == 10) { //2D elements
-					handleFaceElement(meshFile, type, numNodes, numEdges, physical);
+					handleFaceElement(meshFile, id, type, numNodes, numEdges, physical);
 				}
 				else if (type == 4) { //tetrahedron
 					handleTetrahedronElement(meshFile, physical);
@@ -450,11 +452,11 @@ MeshVertex* Mesh::getOrCreateVertex(size_t nodeID) {
 	if (!vertex) {
 		// Create a new vertex if it doesn't exist
 		auto& newVertex = this->newVertex();
-		newVertex.node = findNodebyID(nodeID);
-		if (!newVertex.node) {
+		newVertex.setNode(*findNodebyID(nodeID));
+		if (!newVertex.getNode()) {
 			throw std::runtime_error("Node " + std::to_string(nodeID) + " does not exist.");
 		}
-		newVertex.ID = MeshVertexes.size();
+		newVertex.setID(MeshVertexes.size());
 		vertex = &newVertex;
 	}
 	return vertex;
@@ -509,11 +511,13 @@ MeshFace* Mesh::getOrCreateFace(MeshVertex* v1, MeshVertex* v2, MeshVertex* v3) 
 	return &newFace;
 }
 
-void Mesh::handleFaceElement(std::ifstream& meshFile, int type, size_t numNodes, size_t numEdges, int physical) {
+void Mesh::handleFaceElement(std::ifstream& meshFile, size_t id, int type, size_t numNodes, size_t numEdges, int physical) {
 	size_t firstNode, node1, node2;
 
 	// Create a new face
 	auto& face = newFace();
+
+	face.setID(id);
 
 	meshFile >> firstNode;
 	node2 = firstNode;
@@ -539,7 +543,7 @@ void Mesh::handleFaceElement(std::ifstream& meshFile, int type, size_t numNodes,
 			edge->addVertex(*vertex2, 1);
 			vertex1->addEdge(*edge);
 			vertex2->addEdge(*edge);
-			edge->ID = MeshEdges.size();
+			edge->setID(MeshEdges.size());
 		}
 
 		// Add the edge to the face
@@ -556,13 +560,13 @@ void Mesh::handleFaceElement(std::ifstream& meshFile, int type, size_t numNodes,
 			meshFile >> edgeNodeID;
 			auto edge = face.getEdge(n);
 			if (edge) {
-				edge->node = findNodebyID(edgeNodeID);
+				edge->setNode(*findNodebyID(edgeNodeID));
 			}
 		}
 		if (type == 10) { // For quads, add the face node
 			size_t faceNodeID;
 			meshFile >> faceNodeID;
-			face.node = findNodebyID(faceNodeID);
+			face.setNode(*findNodebyID(faceNodeID));
 		}
 	}
 }
@@ -605,7 +609,7 @@ MeshVertex* Mesh::findVertexbyNode(size_t n) const {
 	//TODO: This loops through all nodes until it finds the matching nodes.  SLOW!
 	if (MeshVertexes.size() > 1) {
 		for (const auto& vertex : MeshVertexes) {
-			if (vertex->node->ID == n) {
+			if (vertex->getNode()->getID() == n) {
 				return vertex.get();
 			}
 		}
@@ -627,7 +631,7 @@ MeshEdge* Mesh::findEdgebyVertexes(MeshVertex& vertex1, MeshVertex& vertex2) {
 	new_edge->setClassification(*GeomEntities[0]);
 	vertex1.addEdge(*new_edge);
 	vertex2.addEdge(*new_edge);
-	new_edge->ID = MeshEdges.size();
+	new_edge->setID(MeshEdges.size());
 	return new_edge;
 };
 
@@ -653,7 +657,7 @@ std::pair<MeshFace*, bool> Mesh::findFacebyEdge(MeshEdge& edge1, MeshEdge& edge2
 
 Node* Mesh::findNodebyID(size_t n) const {
 	for (const auto& node : Nodes) {
-		if (node->ID == n) {
+		if (node->getID() == n) {
 			return node.get();
 		}
 	}
@@ -680,6 +684,7 @@ void Mesh::readAttributes(const std::string& attribfile) {
 			//cout << "Adding GeomEntity at index " << idx << endl;
 			GeomEntities[idx] = make_unique<GeomEntity>();
 			entity = GeomEntities[idx].get();
+			entity->ID = idx;
 		}
 		else {
 			//cout << "Adding key " << key << " = " << value << endl;
@@ -702,66 +707,234 @@ GeomEntity* Mesh::getGeomEntity(int idx) const {
 }
 
 void Mesh::writeMesh(const std::string& filename) const {
-	std::ofstream meshFile(filename);
-	if (!meshFile.is_open()) {
-		std::cerr << "Unable to open file: " << filename << std::endl;
-		return;
+	std::ofstream file(filename);
+	if (!file.is_open()) {
+		throw std::runtime_error("Failed to open file: " + filename);
 	}
 
-	// Write the mesh format
-	meshFile << "$MeshFormat\n";
-	meshFile << "2.2 0 8\n";
-	meshFile << "$EndMeshFormat\n";
+	// Write the mesh format section
+	file << "$MeshFormat\n";
+	file << "2.2 0 8\n"; // GMSH format version 2.2, ASCII, double precision
+	file << "$EndMeshFormat\n";
 
-	// Write the nodes
-	meshFile << "$Nodes\n";
-	meshFile << Nodes.size() << "\n";
-	for (const auto& node : Nodes) {
-		meshFile << node->ID << " " << node->pt().x << " " << node->pt().y << " " << node->pt().z << "\n";
-	}
-	meshFile << "$EndNodes\n";
+	// Write the nodes section
+	file << "$Nodes\n";
+	std::vector<Node*> validNodes;
 
-	// Write the elements
-	meshFile << "$Elements\n";
-	size_t numElements = MeshVertexes.size() + MeshEdges.size() + MeshFaces.size() + MeshRegions.size();
-	meshFile << numElements << "\n";
+	// Collect valid nodes (associated with classified elements)
+	for (const auto& nodePtr : Nodes) {
+		Node& node = *nodePtr;
+		bool isValid = false;
 
-	// Write vertices
-	for (const auto& vertex : MeshVertexes) {
-		meshFile << vertex->ID << " 15 2 " << vertex->getClassificationID() << " " << vertex->ID << " " << vertex->node->ID << "\n";
-	}
-
-	// Write edges
-	for (const auto& edge : MeshEdges) {
-		meshFile << edge->ID << " 1 2 " << edge->getClassificationID() << " " << edge->ID << " " << edge->getVertex(0)->node->ID << " " << edge->getVertex(1)->node->ID << "\n";
-	}
-
-	// Write faces
-	for (const auto& face : MeshFaces) {
-		meshFile << face->ID << " 2 2 " << face->getClassificationID() << " " << face->ID;
-		for (const auto& edge : face->MeshEdges) {
-			meshFile << " " << edge->getVertex(0)->node->ID << " " << edge->getVertex(1)->ID;
-		}
-		meshFile << "\n";
-	}
-
-	// Write regions
-	/*for (const auto& region : MeshRegions) {
-		meshFile << region->ID << " 4 2 " << region->getClassification().lock()->AttribID << " " << region->ID;
-		for (const auto& face : region->Faces) {
-			if (auto locked_face = face.lock()) {
-				for (const auto& edge : locked_face->MeshEdges) {
-					if (auto locked_edge = edge.lock()) {
-						meshFile << " " << locked_edge->getVertex(0).lock()->node.lock()->ID << " " << locked_edge->getVertex(1).lock()->ID;
-					}
-				}
+		// Check if the node belongs to any valid classified entity
+		for (const auto& edgePtr : MeshEdges) {
+			if (edgePtr.get() == node.getParent() && edgePtr->getClassificationID() > 0) {
+				isValid = true;
+				break;
 			}
 		}
-		meshFile << "\n";
+		for (const auto& facePtr : MeshFaces) {
+			if (facePtr.get() == node.getParent() && facePtr->getClassificationID() > 0) {
+				isValid = true;
+				break;
+			}
+		}
+		isValid = true; //shunt the above logic to force all nodes to be written
+		if (isValid) {
+			validNodes.push_back(&node);
+		}
+	}
+
+	file << validNodes.size() << "\n";
+	for (const auto* node : validNodes) {
+		file << node->getID() << " "
+			<< std::fixed << std::setprecision(6)
+			<< node->x() << " " << node->y() << " " << node->z() << "\n";
+	}
+	file << "$EndNodes\n";
+
+	// Write the elements section
+	file << "$Elements\n";
+	std::vector<std::string> validElements;
+
+	// Collect valid elements
+	for (const auto& edgePtr : MeshEdges) {
+		MeshEdge& edge = *edgePtr;
+		if (edge.getClassificationID() > 0) {
+			std::ostringstream oss;
+			oss << edge.getID() << " 1 1 " << edge.getClassificationID() << " ";
+			for (const auto* vertex : edge.getVertices()) {
+				oss << vertex->getID() << " ";
+			}
+			validElements.push_back(oss.str());
+		}
+	}
+
+	for (const auto& facePtr : MeshFaces) {
+		MeshFace& face = *facePtr;
+		if (face.getClassificationID() > 0) {
+			std::ostringstream oss;
+			oss << face.getID() << " 2 1 " << face.getClassificationID() << " ";
+			for (const auto* vertex : face.getVertices()) {
+				oss << vertex->getID() << " ";
+			}
+			validElements.push_back(oss.str());
+		}
+	}
+
+	/*for (const auto& regionPtr : MeshRegions) {
+		MeshRegion& region = *regionPtr;
+		if (region.getClassification()->ID > 0) {
+			std::ostringstream oss;
+			oss << region.getID() << " 4 1 " << region.getClassificationID() << " ";
+			for (const auto* vertex : region.getVertices()) {
+				oss << vertex->getNodeID() << " ";
+			}
+			validElements.push_back(oss.str());
+		}
 	}*/
 
-	meshFile << "$EndElements\n";
-	meshFile.close();
+	file << validElements.size() << "\n";
+	for (const auto& element : validElements) {
+		file << element << "\n";
+	}
+	file << "$EndElements\n";
+
+	file.close();
 }
+
+
+//void Mesh::writeMesh(const std::string& filename) const {
+//	std::ofstream file(filename);
+//	if (!file.is_open()) {
+//		throw std::runtime_error("Failed to open file: " + filename);
+//	}
+//
+//	// Write the mesh format section
+//	file << "$MeshFormat\n";
+//	file << "2.2 0 8\n"; // GMSH format version 2.2, ASCII, double precision
+//	file << "$EndMeshFormat\n";
+//
+//	// Write the nodes section
+//	file << "$Nodes\n";
+//	file << Nodes.size() << "\n"; // Number of nodes
+//	for (const auto& nodePtr : Nodes) {
+//		const Node& node = *nodePtr;
+//		file << node.ID << " "
+//			<< std::fixed << std::setprecision(6)
+//			<< node.x() << " "
+//			<< node.y() << " "
+//			<< node.z() << "\n";
+//	}
+//	file << "$EndNodes\n";
+//
+//	// Write the elements section
+//	file << "$Elements\n";
+//	size_t totalElements = MeshFaces.size() + MeshEdges.size() + MeshRegions.size();
+//	file << totalElements << "\n";
+//
+//	// Write faces
+//	for (const auto& facePtr : MeshFaces) {
+//		const MeshFace& face = *facePtr;
+//		file << face.ID << " "        // Element ID
+//			<< 2 << " " // GMSH element type (e.g., triangle)
+//			<< "0 ";                     // No physical or geometrical tags
+//		for (const auto& vertex : face.getVertices()) {
+//			file << vertex->ID << " ";
+//		}
+//		file << "\n";
+//	}
+//
+//	// Write edges
+//	for (const auto& edgePtr : MeshEdges) {
+//		const MeshEdge& edge = *edgePtr;
+//		file << edge.ID << " "       // Element ID
+//			<< 1 << " " // GMSH element type (e.g., line)
+//			<< "0 ";                     // No physical or geometrical tags
+//		for (const auto& vertex : edge.getVertices()) {
+//			file << vertex->ID << " ";
+//		}
+//		file << "\n";
+//	}
+//
+//	// Write regions
+//	//for (const auto& regionPtr : MeshRegions) {
+//	//	const MeshRegion& region = *regionPtr;
+//	//	file << region.ID << " "        // Element ID
+//	//		<< region.getGMSHType() << " " // GMSH element type (e.g., tetrahedron)
+//	//		<< "0 ";                       // No physical or geometrical tags
+//	//	for (const auto& vertex : region.getVertices()) {
+//	//		file << vertex->ID << " ";
+//	//	}
+//	//	file << "\n";
+//	//}
+//
+//	file << "$EndElements\n";
+//
+//	file.close();
+//}
+
+//void Mesh::writeMesh(const std::string& filename) const {
+//	std::ofstream meshFile(filename);
+//	if (!meshFile.is_open()) {
+//		std::cerr << "Unable to open file: " << filename << std::endl;
+//		return;
+//	}
+//
+//	// Write the mesh format
+//	meshFile << "$MeshFormat\n";
+//	meshFile << "2.2 0 8\n";
+//	meshFile << "$EndMeshFormat\n";
+//
+//	// Write the nodes
+//	meshFile << "$Nodes\n";
+//	meshFile << Nodes.size() << "\n";
+//	for (const auto& node : Nodes) {
+//		meshFile << node->ID << " " << node->pt().x << " " << node->pt().y << " " << node->pt().z << "\n";
+//	}
+//	meshFile << "$EndNodes\n";
+//
+//	// Write the elements
+//	meshFile << "$Elements\n";
+//	size_t numElements = MeshVertexes.size() + MeshEdges.size() + MeshFaces.size() + MeshRegions.size();
+//	meshFile << numElements << "\n";
+//
+//	// Write vertices
+//	for (const auto& vertex : MeshVertexes) {
+//		meshFile << vertex->ID << " 15 2 " << vertex->getClassificationID() << " " << vertex->ID << " " << vertex->node->ID << "\n";
+//	}
+//
+//	// Write edges
+//	for (const auto& edge : MeshEdges) {
+//		meshFile << edge->ID << " 1 2 " << edge->getClassificationID() << " " << edge->ID << " " << edge->getVertex(0)->node->ID << " " << edge->getVertex(1)->node->ID << "\n";
+//	}
+//
+//	// Write faces
+//	for (const auto& face : MeshFaces) {
+//		meshFile << face->ID << " 2 2 " << face->getClassificationID() << " " << face->ID;
+//		for (const auto& edge : face->MeshEdges) {
+//			meshFile << " " << edge->getVertex(0)->node->ID << " " << edge->getVertex(1)->ID;
+//		}
+//		meshFile << "\n";
+//	}
+//
+//	// Write regions
+//	/*for (const auto& region : MeshRegions) {
+//		meshFile << region->ID << " 4 2 " << region->getClassification().lock()->AttribID << " " << region->ID;
+//		for (const auto& face : region->Faces) {
+//			if (auto locked_face = face.lock()) {
+//				for (const auto& edge : locked_face->MeshEdges) {
+//					if (auto locked_edge = edge.lock()) {
+//						meshFile << " " << locked_edge->getVertex(0).lock()->node.lock()->ID << " " << locked_edge->getVertex(1).lock()->ID;
+//					}
+//				}
+//			}
+//		}
+//		meshFile << "\n";
+//	}*/
+//
+//	meshFile << "$EndElements\n";
+//	meshFile.close();
+//}
 
 

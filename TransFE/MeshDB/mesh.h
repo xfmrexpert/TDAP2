@@ -15,13 +15,12 @@
 #include "meshedge.h"
 #include "meshvertex.h"
 #include "node.h"
-#include <vector>
-#include <queue>
-#include <set>
+//#include <vector>
+//#include <queue>
+//#include <set>
 #include <fstream>
-#include <map>
-#include <memory>
-#include <optional>
+//#include <map>
+//#include <memory>
 
 /// This class acts as a container for all of the mesh data structures
 /// and functions.  Lists of each mesh entity type (regions, faces, etc.)
@@ -133,7 +132,7 @@ private:
 
 	MeshFace* getOrCreateFace(MeshVertex* v1, MeshVertex* v2, MeshVertex* v3);
 
-	void handleFaceElement(std::ifstream& meshFile, int type, size_t numNodes, size_t numEdges, int physical);
+	void handleFaceElement(std::ifstream& meshFile, size_t id, int type, size_t numNodes, size_t numEdges, int physical);
 
 	void handleTetrahedronElement(std::ifstream& meshFile, int physical);
 

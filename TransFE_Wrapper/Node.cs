@@ -75,16 +75,15 @@ public class Node : global::System.IDisposable {
     return ret;
   }
 
-  public uint ID {
-    set {
-      TransFEPINVOKE.Node_ID_set(swigCPtr, value);
-      if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      uint ret = TransFEPINVOKE.Node_ID_get(swigCPtr);
-      if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
+  public uint getID() {
+    uint ret = TransFEPINVOKE.Node_getID(swigCPtr);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public void setID(uint in_ID) {
+    TransFEPINVOKE.Node_setID(swigCPtr, in_ID);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public DOFPtrVec getDOFs() {
@@ -98,6 +97,18 @@ public class Node : global::System.IDisposable {
     DOF ret = (cPtr == global::System.IntPtr.Zero) ? null : new DOF(cPtr, true);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
     return ret;
+  }
+
+  public MeshEntity getParent() {
+    global::System.IntPtr cPtr = TransFEPINVOKE.Node_getParent(swigCPtr);
+    MeshEntity ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshEntity(cPtr, true);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public void setParent(MeshEntity in_parent) {
+    TransFEPINVOKE.Node_setParent(swigCPtr, MeshEntity.getCPtr(in_parent));
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }

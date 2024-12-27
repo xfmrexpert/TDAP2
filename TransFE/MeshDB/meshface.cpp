@@ -65,12 +65,12 @@ double MeshFace::area() {
 	       double Y2;
 	       double Y3;
 	     
-	       X1 = firstVertex->node->x();
-	       X2 = (*edge_iter)->getVertex(0)->node->x();
-	       X3 = (*edge_iter)->getVertex(1)->node->x();
-	       Y1 = firstVertex->node->y();
-	       Y2 = (*edge_iter)->getVertex(0)->node->y();
-	       Y3 = (*edge_iter)->getVertex(1)->node->y();
+	       X1 = firstVertex->getNode()->x();
+	       X2 = (*edge_iter)->getVertex(0)->getNode()->x();
+	       X3 = (*edge_iter)->getVertex(1)->getNode()->x();
+	       Y1 = firstVertex->getNode()->y();
+	       Y2 = (*edge_iter)->getVertex(0)->getNode()->y();
+	       Y3 = (*edge_iter)->getVertex(1)->getNode()->y();
            
 	       Area = Area + 0.5 * fabs(X1*(Y3-Y2)+X2*(Y1-Y3)+X3*(Y2-Y1));
 	    }
@@ -87,31 +87,31 @@ vector<Node*> MeshFace::getNodes() const{
    auto first_edge=(*edge_iter);
    ++edge_iter; //Get second edge;
    if((*edge_iter)->getVertex(0)==first_edge->getVertex(0) || (*edge_iter)->getVertex(1)==first_edge->getVertex(0)){
-      nodes.push_back(first_edge->getVertex(1)->node);
-      nodes.push_back(first_edge->getVertex(0)->node);
+      nodes.push_back(first_edge->getVertex(1)->getNode());
+      nodes.push_back(first_edge->getVertex(0)->getNode());
    }else{ 
-      nodes.push_back(first_edge->getVertex(0)->node);
-      nodes.push_back(first_edge->getVertex(1)->node);
+      nodes.push_back(first_edge->getVertex(0)->getNode());
+      nodes.push_back(first_edge->getVertex(1)->getNode());
    }
 
    for(/*edge_iter=second edge*/;(*edge_iter)!=MeshEdges.back();++edge_iter){
-      if((*edge_iter)->getVertex(0)->node == nodes.back()){
-         nodes.push_back((*edge_iter)->getVertex(1)->node);
+      if((*edge_iter)->getVertex(0)->getNode() == nodes.back()){
+         nodes.push_back((*edge_iter)->getVertex(1)->getNode());
       }else{
-         nodes.push_back((*edge_iter)->getVertex(0)->node);
+         nodes.push_back((*edge_iter)->getVertex(0)->getNode());
       }
    }
 
    //add nodes for all edges (if present) next
    for(const auto& edge : MeshEdges){
-      if(edge->node != nullptr){
-         nodes.push_back((*edge_iter)->node);
+      if(edge->getNode() != nullptr){
+         nodes.push_back((*edge_iter)->getNode());
       }
    }
 
    //add node in face (if present) last
-   if(this->node != nullptr){
-      nodes.push_back(this->node);
+   if(this->getNode() != nullptr){
+      nodes.push_back(this->getNode());
    }
 
    return nodes;

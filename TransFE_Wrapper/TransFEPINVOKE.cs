@@ -555,6 +555,9 @@ class TransFEPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getNode")]
   public static extern global::System.IntPtr Mesh_getNode(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getFaces")]
+  public static extern global::System.IntPtr Mesh_getFaces(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getNodes")]
   public static extern global::System.IntPtr Mesh_getNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -580,16 +583,16 @@ class TransFEPINVOKE {
   public static extern void Mesh_reorder2(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_readMesh")]
-  public static extern void Mesh_readMesh(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+  public static extern void Mesh_readMesh(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_readAttributes")]
   public static extern void Mesh_readAttributes(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_ID_set")]
-  public static extern void MeshEntity_ID_set(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getGeomEntity")]
+  public static extern global::System.IntPtr Mesh_getGeomEntity(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_ID_get")]
-  public static extern uint MeshEntity_ID_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_writeMesh")]
+  public static extern void Mesh_writeMesh(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_MeshEntity")]
   public static extern void delete_MeshEntity(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -597,11 +600,11 @@ class TransFEPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_get_dimensions")]
   public static extern int MeshEntity_get_dimensions(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_node_set")]
-  public static extern void MeshEntity_node_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getNode")]
+  public static extern global::System.IntPtr MeshEntity_getNode(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_node_get")]
-  public static extern global::System.IntPtr MeshEntity_node_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_setNode")]
+  public static extern void MeshEntity_setNode(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getClassification")]
   public static extern global::System.IntPtr MeshEntity_getClassification(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -609,8 +612,17 @@ class TransFEPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_setClassification")]
   public static extern void MeshEntity_setClassification(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getClassificationID")]
+  public static extern int MeshEntity_getClassificationID(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getNodes")]
   public static extern global::System.IntPtr MeshEntity_getNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getID")]
+  public static extern uint MeshEntity_getID(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_setID")]
+  public static extern void MeshEntity_setID(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshVertex")]
   public static extern global::System.IntPtr new_MeshVertex();
@@ -666,11 +678,14 @@ class TransFEPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_isConnected__SWIG_1")]
   public static extern bool MeshEdge_isConnected__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_get_dimensions")]
-  public static extern int MeshEdge_get_dimensions(global::System.Runtime.InteropServices.HandleRef jarg1);
-
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_getNodes")]
   public static extern global::System.IntPtr MeshEdge_getNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_getVertices")]
+  public static extern global::System.IntPtr MeshEdge_getVertices(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_get_dimensions")]
+  public static extern int MeshEdge_get_dimensions(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshFace")]
   public static extern global::System.IntPtr new_MeshFace();
@@ -682,10 +697,10 @@ class TransFEPINVOKE {
   public static extern global::System.IntPtr MeshFace_Edges(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_getEdge")]
-  public static extern global::System.IntPtr MeshFace_getEdge(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+  public static extern global::System.IntPtr MeshFace_getEdge(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_getRegion")]
-  public static extern global::System.IntPtr MeshFace_getRegion(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+  public static extern global::System.IntPtr MeshFace_getRegion(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_addEdge")]
   public static extern void MeshFace_addEdge(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
@@ -735,17 +750,23 @@ class TransFEPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_pt__SWIG_1")]
   public static extern global::System.IntPtr Node_pt__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_ID_set")]
-  public static extern void Node_ID_set(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_getID")]
+  public static extern uint Node_getID(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_ID_get")]
-  public static extern uint Node_ID_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_setID")]
+  public static extern void Node_setID(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_getDOFs")]
   public static extern global::System.IntPtr Node_getDOFs(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_newDOF")]
   public static extern global::System.IntPtr Node_newDOF(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_getParent")]
+  public static extern global::System.IntPtr Node_getParent(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_setParent")]
+  public static extern void Node_setParent(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
   [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_Free_get")]
   public static extern int DOF_Free_get();

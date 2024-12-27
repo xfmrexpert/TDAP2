@@ -43,35 +43,22 @@ public class MeshEntity : global::System.IDisposable {
     }
   }
 
-  public uint ID {
-    set {
-      TransFEPINVOKE.MeshEntity_ID_set(swigCPtr, value);
-      if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      uint ret = TransFEPINVOKE.MeshEntity_ID_get(swigCPtr);
-      if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
-  }
-
   public virtual int get_dimensions() {
     int ret = TransFEPINVOKE.MeshEntity_get_dimensions(swigCPtr);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public Node node {
-    set {
-      TransFEPINVOKE.MeshEntity_node_set(swigCPtr, Node.getCPtr(value));
-      if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      global::System.IntPtr cPtr = TransFEPINVOKE.MeshEntity_node_get(swigCPtr);
-      Node ret = (cPtr == global::System.IntPtr.Zero) ? null : new Node(cPtr, true);
-      if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
+  public Node getNode() {
+    global::System.IntPtr cPtr = TransFEPINVOKE.MeshEntity_getNode(swigCPtr);
+    Node ret = (cPtr == global::System.IntPtr.Zero) ? null : new Node(cPtr, true);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public void setNode(Node in_node) {
+    TransFEPINVOKE.MeshEntity_setNode(swigCPtr, Node.getCPtr(in_node));
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public SWIGTYPE_p_GeomEntity getClassification() {
@@ -86,10 +73,27 @@ public class MeshEntity : global::System.IDisposable {
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public int getClassificationID() {
+    int ret = TransFEPINVOKE.MeshEntity_getClassificationID(swigCPtr);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public virtual NodePtrVec getNodes() {
     NodePtrVec ret = new NodePtrVec(TransFEPINVOKE.MeshEntity_getNodes(swigCPtr), true);
     if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
     return ret;
+  }
+
+  public uint getID() {
+    uint ret = TransFEPINVOKE.MeshEntity_getID(swigCPtr);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public void setID(uint in_ID) {
+    TransFEPINVOKE.MeshEntity_setID(swigCPtr, in_ID);
+    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }
