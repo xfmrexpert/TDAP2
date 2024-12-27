@@ -107,60 +107,27 @@ namespace TDAP_GUI.Views
             drawingContext.FillRectangle(Brushes.Black, new Rect(0, 0, width * scale, height * scale));
             drawingContext.DrawRectangle(boundPen, new Rect(0, 0, width * scale, height * scale));
             
-            bool simple = false;
             if (Tfmr != null)
             {
-                if (simple)
+                foreach (var wdg in Tfmr.Windings)
                 {
-                    foreach (var wdg in Tfmr.Windings)
+                    foreach (var seg in wdg.Segments)
                     {
-                        foreach (var seg in wdg.Segments)
-                        {
-                            Point ul = new Point(seg.radius_inner - Tfmr.Core.LegRadius, height - (seg.h_abv_yoke + seg.height));
-                            Point lr = new Point(seg.radius_outer - Tfmr.Core.LegRadius, height - seg.h_abv_yoke);
-                            Rect rect = new Rect(ul * scale, lr * scale);
-                            drawingContext.DrawRectangle(boundPen, rect);
-                        }
-                    }
-
-                    if (Tfmr.Mesh.numNodes() > 0)
-                    {
-                        RenderLeakageFlux(drawingContext);
+                        Point ul = new Point(seg.radius_inner - Tfmr.Core.LegRadius, height - (seg.h_abv_yoke + seg.height));
+                        Point lr = new Point(seg.radius_outer - Tfmr.Core.LegRadius, height - seg.h_abv_yoke);
+                        Rect rect = new Rect(ul * scale, lr * scale);
+                        drawingContext.DrawRectangle(boundPen, rect);
                     }
                 }
-                else
-                {
-                    RenderDetailedModel(drawingContext);
-                }
-            }
-            
-            
-            
-        }
 
-        private void RenderDetailedModel(DrawingContext drawingContext)
-        {
-            var model = new DetailedModel(Tfmr);
-            model.GenerateGeometry();
-            var pen = new Pen(Brushes.Green, 1, lineCap: PenLineCap.Square);
-            TDAP.Geometry geom = model.Geometry;
-            height = Tfmr.Core.WindowHeight;
-            foreach (var line in geom.Lines)
-            {
-                drawingContext.DrawLine(pen, new Point(line.pt1.x * scale, (height - line.pt1.y) * scale), new Point(line.pt2.x * scale, (height - line.pt2.y) * scale));
-            }
-            foreach (var arc in geom.Arcs)
-            {
-                var sg = new StreamGeometry();
-                using (var sgc = sg.Open())
+                if (Tfmr.Mesh.numNodes() > 0)
                 {
-                    sgc.BeginFigure(new Point(arc.StartPt.x * scale, (height - arc.StartPt.y) * scale), false);
-                    sgc.ArcTo(new Point(arc.EndPt.x * scale, (height - arc.EndPt.y) * scale), new Size(arc.Radius * scale, arc.Radius * scale), arc.SweepAngle, false, SweepDirection.Clockwise);
-                    sgc.EndFigure(false);
-                    drawingContext.DrawGeometry(Brushes.Red, pen, sg);
+                    RenderLeakageFlux(drawingContext);
                 }
-                
             }
+            
+            
+            
         }
 
         private void RenderLeakageFlux(DrawingContext drawingContext)
