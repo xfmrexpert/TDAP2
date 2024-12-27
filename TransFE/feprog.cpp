@@ -56,7 +56,7 @@ shared_ptr<Mesh> FEProg::run_FEA(const std::string& filename, int formulation)
 {  
     auto start = high_resolution_clock::now();
 
-    if(theAnalysis!=NULL){
+    if(theAnalysis!=nullptr){
         delete theAnalysis;
     }
 

@@ -53,70 +53,30 @@ void AlgebraicSystem::createGlobalSystem() {
 
 void AlgebraicSystem::solveLinearSystem() {
 	//Solve Kd = f
-	int max_iter = 100000;
+	
+	// Initialize the solver
+	Eigen::ConjugateGradient<Eigen::SparseMatrix<double>, Eigen::Upper> solver;
 
-	/*cout << "K = :" << endl;
-	for (int i = 0; i < ndof; i++) {
-		for (int j = 0; j < ndof; j++) {
-			cout << K.coeff(i,j) << " ";
-		}
-		cout << endl;
+	// Compute the decomposition to solve Kd = f
+	solver.compute(*K);
+	if (solver.info() != Eigen::Success) {
+		throw std::runtime_error("Decomposition failed: Unable to decompose the matrix K.");
 	}
 
-	cout << "f = :" << endl;
-	for(int i=0;i<ndof; i++){
-	 cout << f[i] << endl;
-	}*/
+	// Solve the system
+	d = std::make_unique<BigVector>(solver.solve(*f));
+	if (solver.info() != Eigen::Success) {
+		throw std::runtime_error("Solve failed: Unable to solve the linear system.");
+	}
 
+	// Output the number of iterations and the estimated error
+	std::cout << "# Iterations: " << solver.iterations() << std::endl;
+	std::cout << "Estimated error: " << solver.error() << std::endl;
 
-	// //SSOR preconditioner
-	//SSOR<SparseMatrix> precond(K);
-	////identity_preconditioner precond;
-	////iteration
-	//noisy_iteration<double> iter(f, max_iter, 1e-8);
-	////qmr algorithm
-	//qmr(K, d, f, precond.left(), precond.right(), iter);
-	////end
-
-  //#else
-  //  
-  //  //SSOR preconditioner
-  //  itl::SSOR<SparseMatrix> precond(K);
-  //  //iteration
-  //  itl::noisy_iteration<double> iter(f, max_iter, 1e-6);
-  //  //bicgstab algorithm
-  //  itl::bicgstab(K, d, f, precond(), iter);
-  //  //end
-  //#endif
-	//Eigen::BiCGSTAB<Eigen::SparseMatrix<double> > solver;
-	//solver.compute(K);
-	//  d = solver.solve(f);
-	   //std::cout << "#iterations:     " << solver.iterations() << std::endl;
-	//  std::cout << "estimated error: " << solver.error() << std::endl;
-	//   // update b, and solve again
-	//d = solver.solve(f);
-
-	//  Eigen::SparseLU<Eigen::SparseMatrix<double, Eigen::ColMajor>, Eigen::COLAMDOrdering<int> >   solver;
-	//  // fill A and b;
-	   //// Compute the ordering permutation vector from the structural pattern of A
-	//  K.makeCompressed();
-	   //solver.analyzePattern(K);
-	//  // Compute the numerical factorization 
-	   //solver.factorize(K);
-	//  //Use the factors to solve the linear system 
-	   //  d = solver.solve(f);
-	  //d = K.triangularView<Eigen::Upper>().solve(f);
-
-	  Eigen::ConjugateGradient<Eigen::SparseMatrix<double>, Eigen::Upper> solver;
-	  d = std::make_unique<BigVector>(solver.compute(*K).solve(*f));
-
-	  cout << "# Iterations: " << solver.iterations() << endl;
-	  cout << "Estimated error: " << solver.error() << endl;
-
-	 /*cout << "d = :" << endl;
-	 for(int i=0;i<ndof; i++){
-	  cout << d[i] << endl;
-	 }*/
+	// Verify the solution
+	if (solver.error() > 1e-6) {
+		throw std::runtime_error("Solution accuracy is not sufficient.");
+	}
 };
 
 BigVector* AlgebraicSystem::get_d() {
