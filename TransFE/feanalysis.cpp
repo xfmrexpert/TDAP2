@@ -38,11 +38,11 @@ void FEAnalysis::setup() {
 
 		auto sc = makeStiffContrib(r);
 		if (sc != nullptr) {
-			DS.add(sc);
+			DS.add(std::move(sc));
 		}
 		auto fc = makeForceContrib(r);
 		if (fc != nullptr) {
-			DS.add(fc);
+			DS.add(std::move(fc));
 		}
 	}
 
@@ -51,15 +51,15 @@ void FEAnalysis::setup() {
 		auto& f = theMesh->getFace(i); //get face object
 		auto sc = makeStiffContrib(f); //set-up type of stiffness contributor for the face
 		if (sc != nullptr) {
-			DS.add(sc);
+			DS.add(std::move(sc));
 		}
 		auto fc = makeForceContrib(f); //set-up force contributor for the face
 		if (fc != nullptr) { //check if the face contributes to the force vector
-			DS.add(fc); //if so, add the face to the list of force contributors
+			DS.add(std::move(fc)); //if so, add the face to the list of force contributors
 		}
 		auto c = makeConstraint(f); //setup contraint for the edge
 		if (c != nullptr) { //check if the edge is constrained
-			DS.add(c); //if so, add the edge to the list of constraints
+			DS.add(std::move(c)); //if so, add the edge to the list of constraints
 		}
 	}
 
@@ -68,11 +68,11 @@ void FEAnalysis::setup() {
 		//cout << "Processing edge #" << i << "(" << e->ID << ")" << endl;
 		auto fc = makeForceContrib(e); //setup force contributor for the edge
 		if (fc != nullptr) { //check if the edge contributes to the force vector
-			DS.add(fc); //if so, add the edge to the list of force contributors
+			DS.add(std::move(fc)); //if so, add the edge to the list of force contributors
 		}
 		auto c = makeConstraint(e); //setup contraint for the edge
 		if (c != nullptr) { //check if the edge is constrained
-			DS.add(c); //if so, add the edge to the list of constraints
+			DS.add(std::move(c)); //if so, add the edge to the list of constraints
 		}
 	}
 
@@ -81,7 +81,7 @@ void FEAnalysis::setup() {
 		//cout << "Processing vertex #" << i << "(" << v->ID << ")" << endl;
 		auto c = makeConstraint(v); //create a constraint for the vertex
 		if (c != nullptr) { //check if the vertex is contrained
-			DS.add(c); //if so, add the vertex to the list of constraints
+			DS.add(std::move(c)); //if so, add the vertex to the list of constraints
 		}
 	}
 };

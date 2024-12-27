@@ -40,7 +40,7 @@ MagAxiStaticAnalysis::~MagAxiStaticAnalysis()
 {
 }
 
-shared_ptr<StiffnessContributor> MagAxiStaticAnalysis::makeStiffContrib(MeshFace& face) {
+unique_ptr<StiffnessContributor> MagAxiStaticAnalysis::makeStiffContrib(MeshFace& face) {
 	const auto& nodes = face.getNodes(); // Cache nodes for efficiency
 	size_t nen = nodes.size();
 
@@ -78,10 +78,10 @@ shared_ptr<StiffnessContributor> MagAxiStaticAnalysis::makeStiffContrib(MeshFace
 	else {
 		mapping = make_shared<Mapping2D>(&face, sf);
 	}
-	return make_shared<MagAxiStaticSC>(&face, mapping, sf, formulation);
+	return make_unique<MagAxiStaticSC>(&face, mapping, sf, formulation);
 };
 
-shared_ptr<ForceContributor> MagAxiStaticAnalysis::makeForceContrib(MeshFace& face) {
+unique_ptr<ForceContributor> MagAxiStaticAnalysis::makeForceContrib(MeshFace& face) {
 	if (face.getClassification()->getAttribute("J") != NO_ATTRIB) {
 		size_t nen = face.getNodes().size();  //inefficient...
 		shared_ptr<ShapeFunction> sf = nullptr;
@@ -119,16 +119,16 @@ shared_ptr<ForceContributor> MagAxiStaticAnalysis::makeForceContrib(MeshFace& fa
 			mapping = make_shared<Mapping2D>(&face, sf);
 		}
 
-		return make_shared<MagAxiStaticFC>(&face, mapping, sf, formulation);
+		return make_unique<MagAxiStaticFC>(&face, mapping, sf, formulation);
 	}
 	return nullptr;
 };
 
-shared_ptr<ForceContributor> MagAxiStaticAnalysis::makeForceContrib(MeshEdge& edge) {
+unique_ptr<ForceContributor> MagAxiStaticAnalysis::makeForceContrib(MeshEdge& edge) {
 	return nullptr;
 };
 
-shared_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge) {
+unique_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge) {
 	auto classification = edge.getClassification();
 	if (!classification) return nullptr;
 
@@ -136,13 +136,13 @@ shared_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge) {
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_shared<DisplacementConstraint>(&edge);
+		return std::make_unique<DisplacementConstraint>(&edge);
 	}
 
 	return nullptr;
 };
 
-shared_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshVertex& vertex) {
+unique_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshVertex& vertex) {
 	auto classification = vertex.getClassification();
 	if (!classification) return nullptr;
 
@@ -150,7 +150,7 @@ shared_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshVertex& vertex) 
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_shared<DisplacementConstraint>(&vertex);
+		return std::make_unique<DisplacementConstraint>(&vertex);
 	}
 
 	return nullptr;

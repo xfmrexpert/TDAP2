@@ -22,12 +22,12 @@ class DiscreteSystem {
 
 public:
 
-	DiscreteSystem(){};
-	~DiscreteSystem();
+	DiscreteSystem() = default;
+	~DiscreteSystem() = default;
 
-   void add(shared_ptr<StiffnessContributor>);
-   void add(shared_ptr<ForceContributor>);
-   void add(shared_ptr<Constraint>);
+   void add(unique_ptr<StiffnessContributor>);
+   void add(unique_ptr<ForceContributor>);
+   void add(unique_ptr<Constraint>);
    void initializeSystem();
    void formSystem(Assembler*);
   
@@ -35,9 +35,9 @@ protected:
   
 private:
 
-   list<shared_ptr<StiffnessContributor>> StiffnessContributors;
-   list<shared_ptr<ForceContributor>> ForceContributors;
-   list<shared_ptr<Constraint>> Constraints;
+   std::list<std::unique_ptr<StiffnessContributor>> StiffnessContributors;
+   std::list<std::unique_ptr<ForceContributor>> ForceContributors;
+   std::list<std::unique_ptr<Constraint>> Constraints;
 
 };
 

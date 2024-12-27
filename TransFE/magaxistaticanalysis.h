@@ -27,19 +27,19 @@ public:
 
 	virtual void recover() override; //recover them all important secondary variables
 
-	virtual shared_ptr<StiffnessContributor> makeStiffContrib(MeshFace& face) override; //face "element" stiffness
-	virtual shared_ptr<ForceContributor> makeForceContrib(MeshFace& face) override; //face body force
-	virtual shared_ptr<ForceContributor> makeForceContrib(MeshEdge& edge) override; //edge forces
-	virtual shared_ptr<Constraint> makeConstraint(MeshEdge& edge) override;
-	virtual shared_ptr<Constraint> makeConstraint(MeshVertex& vertex) override;
+	virtual unique_ptr<StiffnessContributor> makeStiffContrib(MeshFace& face) override; //face "element" stiffness
+	virtual unique_ptr<ForceContributor> makeForceContrib(MeshFace& face) override; //face body force
+	virtual unique_ptr<ForceContributor> makeForceContrib(MeshEdge& edge) override; //edge forces
+	virtual unique_ptr<Constraint> makeConstraint(MeshEdge& edge) override;
+	virtual unique_ptr<Constraint> makeConstraint(MeshVertex& vertex) override;
 
 	/// Create the appropriate StiffnessContributor for the face "element"
-	virtual shared_ptr<StiffnessContributor> makeStiffContrib(MeshRegion& region) override { return nullptr; };
+	virtual unique_ptr<StiffnessContributor> makeStiffContrib(MeshRegion& region) override { return nullptr; };
 
-	virtual shared_ptr<ForceContributor> makeForceContrib(MeshRegion& region) override { return nullptr; };
+	virtual unique_ptr<ForceContributor> makeForceContrib(MeshRegion& region) override { return nullptr; };
 
 	/// Create the appropriate Constraint for a face
-	virtual shared_ptr<Constraint> makeConstraint(MeshFace& face) override { return nullptr; };
+	virtual unique_ptr<Constraint> makeConstraint(MeshFace& face) override { return nullptr; };
 
 	virtual void saveOut(const std::string& filename) override;
 
