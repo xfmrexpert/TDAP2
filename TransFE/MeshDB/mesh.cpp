@@ -758,6 +758,16 @@ void Mesh::writeMesh(const std::string& filename) const {
 	std::vector<std::string> validElements;
 
 	// Collect valid elements
+	for (const auto& vertexPtr : MeshVertexes) {
+		MeshVertex& vertex = *vertexPtr;
+		if (vertex.getClassificationID() > 0) {
+			std::ostringstream oss;
+			oss << vertex.getID() << " 15 1 " << vertex.getClassificationID() << " " << vertex.getNode()->getID();
+			validElements.push_back(oss.str());
+		}
+	}
+
+	// Collect valid elements
 	for (const auto& edgePtr : MeshEdges) {
 		MeshEdge& edge = *edgePtr;
 		if (edge.getClassificationID() > 0) {
