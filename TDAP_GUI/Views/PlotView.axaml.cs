@@ -45,15 +45,7 @@ namespace TDAP_GUI.Views
                     AddRectangle(seg.radius_inner - Tfmr.Core.LegRadius, seg.h_abv_yoke, seg.height, seg.radius_outer - seg.radius_inner);
                 }
             }
-            var model = new DetailedModel(Tfmr);
-            model.GenerateGeometry();
-            var pen = new Pen(Brushes.Green, 1, lineCap: PenLineCap.Square);
-            TDAP.Geometry geom = model.Geometry;
-            foreach (var line in geom.Lines)
-            {
-                Line ln = new Line() { StartPoint = new Point(line.pt1.x * 1000, line.pt1.y * 1000), EndPoint = new Point(line.pt2.x * 1000, line.pt2.y * 1000), Stroke = new SolidColorBrush(Colors.Green), StrokeThickness = .1 };
-                mainCanvas.Children.Add(ln);
-            }
+            
             zoomBorder.EnableZoom = true;
             zoomBorder.EnablePan = true;
             zoomBorder.UniformToFill();
