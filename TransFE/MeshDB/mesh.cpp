@@ -764,7 +764,7 @@ void Mesh::writeMesh(const std::string& filename) const {
 			std::ostringstream oss;
 			oss << edge.getID() << " 1 1 " << edge.getClassificationID() << " ";
 			for (const auto* vertex : edge.getVertices()) {
-				oss << vertex->getID() << " ";
+				oss << vertex->getNode()->getID() << " ";
 			}
 			validElements.push_back(oss.str());
 		}
@@ -776,7 +776,7 @@ void Mesh::writeMesh(const std::string& filename) const {
 			std::ostringstream oss;
 			oss << face.getID() << " 2 1 " << face.getClassificationID() << " ";
 			for (const auto* vertex : face.getVertices()) {
-				oss << vertex->getID() << " ";
+				oss << vertex->getNode()->getID() << " ";
 			}
 			validElements.push_back(oss.str());
 		}
