@@ -11,9 +11,10 @@
 #include "magaxistaticsc.h"
 #include <iostream>
 
-#define PI 3.141592653589793238512808959406186204433
+constexpr auto PI = 3.141592653589793238512808959406186204433;
 
 Matrix<double> MagAxiStaticSC::evaluatePt(point pt) {
+	// pt is the coordinate of the integration point in the reference element in reference coordinates
 	//nnd = # DOF/node
 	//nen = # nodes/element   
 

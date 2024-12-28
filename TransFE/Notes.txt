@@ -1,0 +1,13 @@
+StiffnessContributor does a lot of the heavy lifting for specific formulations of the stiffness matrix.  It is a base class that is inherited by the various 
+formulation-specific implementations.
+
+
+StiffnessContributor presently handles integration in the evaluate method.  This is a generic routine, with formulation specific details handled in the EvaluatePt
+method.  This method evaluates the stiffness matrix at a given point in the element.  The stiffness matrix is a (nnd * nen) x (nnd * nen) matrix, with nen being the number of nodes
+in the element and nnd being the number of DOFs/node.  The sum of the stiffness matrices at each point is accumulated in the element stiffness matrix.  The stiffness matrix is then 
+multiplied by the integration weight and the determinant of the Jacobian to get the contribution to the global stiffness matrix.
+
+Nodes are essentially DOF containers.  Nodes are generally located at each vertex, but can be located on edges or faces.  We need to come up with a way to handle complex DOFs. We
+could treat real and imaginary parts as separate DOFs, but that might make the accounting of DOFs and global stiffness matrix locations more difficult.  A complex DOF would mean the
+local to global node numbering would be the same as for real DOFS.  The problem, I think, with complex DOFs is sorting out how to do that without a proliferation of template parameters 
+all over the place.
