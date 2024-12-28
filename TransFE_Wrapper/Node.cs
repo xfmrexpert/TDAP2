@@ -36,79 +36,79 @@ public class Node : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          TransFEPINVOKE.delete_Node(swigCPtr);
+          TransFE_NativeWrapperPINVOKE.delete_Node(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Node() : this(TransFEPINVOKE.new_Node(), true) {
+  public Node() : this(TransFE_NativeWrapperPINVOKE.new_Node(), true) {
   }
 
   public double x() {
-    double ret = TransFEPINVOKE.Node_x(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    double ret = TransFE_NativeWrapperPINVOKE.Node_x(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public double y() {
-    double ret = TransFEPINVOKE.Node_y(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    double ret = TransFE_NativeWrapperPINVOKE.Node_y(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public double z() {
-    double ret = TransFEPINVOKE.Node_z(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    double ret = TransFE_NativeWrapperPINVOKE.Node_z(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void pt(SWIGTYPE_p_point in_pt) {
-    TransFEPINVOKE.Node_pt__SWIG_0(swigCPtr, SWIGTYPE_p_point.getCPtr(in_pt));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.Node_pt__SWIG_0(swigCPtr, SWIGTYPE_p_point.getCPtr(in_pt));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public SWIGTYPE_p_point pt() {
-    SWIGTYPE_p_point ret = new SWIGTYPE_p_point(TransFEPINVOKE.Node_pt__SWIG_1(swigCPtr), false);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_point ret = new SWIGTYPE_p_point(TransFE_NativeWrapperPINVOKE.Node_pt__SWIG_1(swigCPtr), false);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public uint getID() {
-    uint ret = TransFEPINVOKE.Node_getID(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = TransFE_NativeWrapperPINVOKE.Node_getID(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void setID(uint in_ID) {
-    TransFEPINVOKE.Node_setID(swigCPtr, in_ID);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.Node_setID(swigCPtr, in_ID);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public DOFPtrVec getDOFs() {
-    DOFPtrVec ret = new DOFPtrVec(TransFEPINVOKE.Node_getDOFs(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    DOFPtrVec ret = new DOFPtrVec(TransFE_NativeWrapperPINVOKE.Node_getDOFs(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public DOF newDOF() {
-    global::System.IntPtr cPtr = TransFEPINVOKE.Node_newDOF(swigCPtr);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.Node_newDOF(swigCPtr);
     DOF ret = (cPtr == global::System.IntPtr.Zero) ? null : new DOF(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshEntity getParent() {
-    global::System.IntPtr cPtr = TransFEPINVOKE.Node_getParent(swigCPtr);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.Node_getParent(swigCPtr);
     MeshEntity ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshEntity(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void setParent(MeshEntity in_parent) {
-    TransFEPINVOKE.Node_setParent(swigCPtr, MeshEntity.getCPtr(in_parent));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.Node_setParent(swigCPtr, MeshEntity.getCPtr(in_parent));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }

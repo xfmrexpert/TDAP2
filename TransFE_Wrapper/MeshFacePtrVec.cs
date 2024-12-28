@@ -50,7 +50,7 @@ public class MeshFacePtrVec : global::System.IDisposable, global::System.Collect
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          TransFEPINVOKE.delete_MeshFacePtrVec(swigCPtr);
+          TransFE_NativeWrapperPINVOKE.delete_MeshFacePtrVec(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -230,127 +230,127 @@ public class MeshFacePtrVec : global::System.IDisposable, global::System.Collect
   }
 
   public void Clear() {
-    TransFEPINVOKE.MeshFacePtrVec_Clear(swigCPtr);
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_Clear(swigCPtr);
   }
 
   public void Add(MeshFace x) {
-    TransFEPINVOKE.MeshFacePtrVec_Add(swigCPtr, MeshFace.getCPtr(x));
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_Add(swigCPtr, MeshFace.getCPtr(x));
   }
 
   private uint size() {
-    uint ret = TransFEPINVOKE.MeshFacePtrVec_size(swigCPtr);
+    uint ret = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_size(swigCPtr);
     return ret;
   }
 
   private uint capacity() {
-    uint ret = TransFEPINVOKE.MeshFacePtrVec_capacity(swigCPtr);
+    uint ret = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_capacity(swigCPtr);
     return ret;
   }
 
   private void reserve(uint n) {
-    TransFEPINVOKE.MeshFacePtrVec_reserve(swigCPtr, n);
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_reserve(swigCPtr, n);
   }
 
-  public MeshFacePtrVec() : this(TransFEPINVOKE.new_MeshFacePtrVec__SWIG_0(), true) {
+  public MeshFacePtrVec() : this(TransFE_NativeWrapperPINVOKE.new_MeshFacePtrVec__SWIG_0(), true) {
   }
 
-  public MeshFacePtrVec(MeshFacePtrVec other) : this(TransFEPINVOKE.new_MeshFacePtrVec__SWIG_1(MeshFacePtrVec.getCPtr(other)), true) {
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+  public MeshFacePtrVec(MeshFacePtrVec other) : this(TransFE_NativeWrapperPINVOKE.new_MeshFacePtrVec__SWIG_1(MeshFacePtrVec.getCPtr(other)), true) {
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public MeshFacePtrVec(int capacity) : this(TransFEPINVOKE.new_MeshFacePtrVec__SWIG_2(capacity), true) {
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+  public MeshFacePtrVec(int capacity) : this(TransFE_NativeWrapperPINVOKE.new_MeshFacePtrVec__SWIG_2(capacity), true) {
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   private MeshFace getitemcopy(int index) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.MeshFacePtrVec_getitemcopy(swigCPtr, index);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_getitemcopy(swigCPtr, index);
     MeshFace ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshFace(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private MeshFace getitem(int index) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.MeshFacePtrVec_getitem(swigCPtr, index);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_getitem(swigCPtr, index);
     MeshFace ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshFace(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private void setitem(int index, MeshFace val) {
-    TransFEPINVOKE.MeshFacePtrVec_setitem(swigCPtr, index, MeshFace.getCPtr(val));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_setitem(swigCPtr, index, MeshFace.getCPtr(val));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void AddRange(MeshFacePtrVec values) {
-    TransFEPINVOKE.MeshFacePtrVec_AddRange(swigCPtr, MeshFacePtrVec.getCPtr(values));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_AddRange(swigCPtr, MeshFacePtrVec.getCPtr(values));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public MeshFacePtrVec GetRange(int index, int count) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.MeshFacePtrVec_GetRange(swigCPtr, index, count);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_GetRange(swigCPtr, index, count);
     MeshFacePtrVec ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshFacePtrVec(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void Insert(int index, MeshFace x) {
-    TransFEPINVOKE.MeshFacePtrVec_Insert(swigCPtr, index, MeshFace.getCPtr(x));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_Insert(swigCPtr, index, MeshFace.getCPtr(x));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void InsertRange(int index, MeshFacePtrVec values) {
-    TransFEPINVOKE.MeshFacePtrVec_InsertRange(swigCPtr, index, MeshFacePtrVec.getCPtr(values));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_InsertRange(swigCPtr, index, MeshFacePtrVec.getCPtr(values));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void RemoveAt(int index) {
-    TransFEPINVOKE.MeshFacePtrVec_RemoveAt(swigCPtr, index);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_RemoveAt(swigCPtr, index);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void RemoveRange(int index, int count) {
-    TransFEPINVOKE.MeshFacePtrVec_RemoveRange(swigCPtr, index, count);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_RemoveRange(swigCPtr, index, count);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static MeshFacePtrVec Repeat(MeshFace value, int count) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.MeshFacePtrVec_Repeat(MeshFace.getCPtr(value), count);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_Repeat(MeshFace.getCPtr(value), count);
     MeshFacePtrVec ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshFacePtrVec(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void Reverse() {
-    TransFEPINVOKE.MeshFacePtrVec_Reverse__SWIG_0(swigCPtr);
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_Reverse__SWIG_0(swigCPtr);
   }
 
   public void Reverse(int index, int count) {
-    TransFEPINVOKE.MeshFacePtrVec_Reverse__SWIG_1(swigCPtr, index, count);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_Reverse__SWIG_1(swigCPtr, index, count);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void SetRange(int index, MeshFacePtrVec values) {
-    TransFEPINVOKE.MeshFacePtrVec_SetRange(swigCPtr, index, MeshFacePtrVec.getCPtr(values));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_SetRange(swigCPtr, index, MeshFacePtrVec.getCPtr(values));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public bool Contains(MeshFace value) {
-    bool ret = TransFEPINVOKE.MeshFacePtrVec_Contains(swigCPtr, MeshFace.getCPtr(value));
+    bool ret = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_Contains(swigCPtr, MeshFace.getCPtr(value));
     return ret;
   }
 
   public int IndexOf(MeshFace value) {
-    int ret = TransFEPINVOKE.MeshFacePtrVec_IndexOf(swigCPtr, MeshFace.getCPtr(value));
+    int ret = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_IndexOf(swigCPtr, MeshFace.getCPtr(value));
     return ret;
   }
 
   public int LastIndexOf(MeshFace value) {
-    int ret = TransFEPINVOKE.MeshFacePtrVec_LastIndexOf(swigCPtr, MeshFace.getCPtr(value));
+    int ret = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_LastIndexOf(swigCPtr, MeshFace.getCPtr(value));
     return ret;
   }
 
   public bool Remove(MeshFace value) {
-    bool ret = TransFEPINVOKE.MeshFacePtrVec_Remove(swigCPtr, MeshFace.getCPtr(value));
+    bool ret = TransFE_NativeWrapperPINVOKE.MeshFacePtrVec_Remove(swigCPtr, MeshFace.getCPtr(value));
     return ret;
   }
 

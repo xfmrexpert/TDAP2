@@ -49,7 +49,7 @@ public class FEProg : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          TransFEPINVOKE.delete_FEProg(swigCPtr);
+          TransFE_NativeWrapperPINVOKE.delete_FEProg(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -58,22 +58,22 @@ public class FEProg : global::System.IDisposable {
 
   public SWIGTYPE_p_MagAxiStaticAnalysis theAnalysis {
     set {
-      TransFEPINVOKE.FEProg_theAnalysis_set(swigCPtr, SWIGTYPE_p_MagAxiStaticAnalysis.getCPtr(value));
+      TransFE_NativeWrapperPINVOKE.FEProg_theAnalysis_set(swigCPtr, SWIGTYPE_p_MagAxiStaticAnalysis.getCPtr(value));
     } 
     get {
-      global::System.IntPtr cPtr = TransFEPINVOKE.FEProg_theAnalysis_get(swigCPtr);
+      global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.FEProg_theAnalysis_get(swigCPtr);
       SWIGTYPE_p_MagAxiStaticAnalysis ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_MagAxiStaticAnalysis(cPtr, false);
       return ret;
     } 
   }
 
-  public FEProg() : this(TransFEPINVOKE.new_FEProg(), true) {
+  public FEProg() : this(TransFE_NativeWrapperPINVOKE.new_FEProg(), true) {
   }
 
   public Mesh run_FEA(string filename, int formulation) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.FEProg_run_FEA(swigCPtr, filename, formulation);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.FEProg_run_FEA(swigCPtr, filename, formulation);
     Mesh ret = (cPtr == global::System.IntPtr.Zero) ? null : new Mesh(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

@@ -9,18 +9,15 @@
 //------------------------------------------------------------------------------
 
 
-public class TransFE {
+public class TransFE_NativeWrapper {
   public static uint ndof {
     set {
-      TransFEPINVOKE.ndof_set(value);
+      TransFE_NativeWrapperPINVOKE.ndof_set(value);
     } 
     get {
-      uint ret = TransFEPINVOKE.ndof_get();
+      uint ret = TransFE_NativeWrapperPINVOKE.ndof_get();
       return ret;
     } 
   }
 
-  public static readonly int DOF_Free = TransFEPINVOKE.DOF_Free_get();
-  public static readonly int DOF_Zero = TransFEPINVOKE.DOF_Zero_get();
-  public static readonly int DOF_Fixed = TransFEPINVOKE.DOF_Fixed_get();
 }

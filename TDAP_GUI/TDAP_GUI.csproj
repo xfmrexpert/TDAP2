@@ -27,10 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TDAP2\TDAP.csproj" />
-    <ProjectReference Include="..\TransFE\TransFE.vcxproj">
-      <Private>True</Private>
-      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
-    </ProjectReference>
     <ProjectReference Include="..\TransFE_Wrapper\TransFE_Wrapper.csproj">
       <Private>True</Private>
       <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>

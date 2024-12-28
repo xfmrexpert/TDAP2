@@ -36,148 +36,148 @@ public class Mesh : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          TransFEPINVOKE.delete_Mesh(swigCPtr);
+          TransFE_NativeWrapperPINVOKE.delete_Mesh(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public Mesh() : this(TransFEPINVOKE.new_Mesh(), true) {
+  public Mesh() : this(TransFE_NativeWrapperPINVOKE.new_Mesh(), true) {
   }
 
   public SWIGTYPE_p_MeshRegion newRegion() {
-    SWIGTYPE_p_MeshRegion ret = new SWIGTYPE_p_MeshRegion(TransFEPINVOKE.Mesh_newRegion(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_MeshRegion ret = new SWIGTYPE_p_MeshRegion(TransFE_NativeWrapperPINVOKE.Mesh_newRegion(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshFace newFace() {
-    MeshFace ret = new MeshFace(TransFEPINVOKE.Mesh_newFace(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    MeshFace ret = new MeshFace(TransFE_NativeWrapperPINVOKE.Mesh_newFace(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshEdge newEdge() {
-    MeshEdge ret = new MeshEdge(TransFEPINVOKE.Mesh_newEdge(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    MeshEdge ret = new MeshEdge(TransFE_NativeWrapperPINVOKE.Mesh_newEdge(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshVertex newVertex() {
-    MeshVertex ret = new MeshVertex(TransFEPINVOKE.Mesh_newVertex(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    MeshVertex ret = new MeshVertex(TransFE_NativeWrapperPINVOKE.Mesh_newVertex(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Node newNode() {
-    Node ret = new Node(TransFEPINVOKE.Mesh_newNode(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    Node ret = new Node(TransFE_NativeWrapperPINVOKE.Mesh_newNode(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_MeshRegion getRegion(uint n) {
-    SWIGTYPE_p_MeshRegion ret = new SWIGTYPE_p_MeshRegion(TransFEPINVOKE.Mesh_getRegion(swigCPtr, n), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_MeshRegion ret = new SWIGTYPE_p_MeshRegion(TransFE_NativeWrapperPINVOKE.Mesh_getRegion(swigCPtr, n), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshFace getFace(uint n) {
-    MeshFace ret = new MeshFace(TransFEPINVOKE.Mesh_getFace(swigCPtr, n), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    MeshFace ret = new MeshFace(TransFE_NativeWrapperPINVOKE.Mesh_getFace(swigCPtr, n), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshEdge getEdge(uint n) {
-    MeshEdge ret = new MeshEdge(TransFEPINVOKE.Mesh_getEdge(swigCPtr, n), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    MeshEdge ret = new MeshEdge(TransFE_NativeWrapperPINVOKE.Mesh_getEdge(swigCPtr, n), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshVertex getVertex(uint n) {
-    MeshVertex ret = new MeshVertex(TransFEPINVOKE.Mesh_getVertex(swigCPtr, n), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    MeshVertex ret = new MeshVertex(TransFE_NativeWrapperPINVOKE.Mesh_getVertex(swigCPtr, n), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public Node getNode(uint n) {
-    Node ret = new Node(TransFEPINVOKE.Mesh_getNode(swigCPtr, n), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    Node ret = new Node(TransFE_NativeWrapperPINVOKE.Mesh_getNode(swigCPtr, n), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshFacePtrVec getFaces() {
-    MeshFacePtrVec ret = new MeshFacePtrVec(TransFEPINVOKE.Mesh_getFaces(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    MeshFacePtrVec ret = new MeshFacePtrVec(TransFE_NativeWrapperPINVOKE.Mesh_getFaces(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public NodePtrVec getNodes() {
-    NodePtrVec ret = new NodePtrVec(TransFEPINVOKE.Mesh_getNodes(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    NodePtrVec ret = new NodePtrVec(TransFE_NativeWrapperPINVOKE.Mesh_getNodes(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public uint numRegions() {
-    uint ret = TransFEPINVOKE.Mesh_numRegions(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = TransFE_NativeWrapperPINVOKE.Mesh_numRegions(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public uint numFaces() {
-    uint ret = TransFEPINVOKE.Mesh_numFaces(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = TransFE_NativeWrapperPINVOKE.Mesh_numFaces(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public uint numEdges() {
-    uint ret = TransFEPINVOKE.Mesh_numEdges(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = TransFE_NativeWrapperPINVOKE.Mesh_numEdges(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public uint numVertexes() {
-    uint ret = TransFEPINVOKE.Mesh_numVertexes(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = TransFE_NativeWrapperPINVOKE.Mesh_numVertexes(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public uint numNodes() {
-    uint ret = TransFEPINVOKE.Mesh_numNodes(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = TransFE_NativeWrapperPINVOKE.Mesh_numNodes(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void reorder() {
-    TransFEPINVOKE.Mesh_reorder(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.Mesh_reorder(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void reorder2() {
-    TransFEPINVOKE.Mesh_reorder2(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.Mesh_reorder2(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void readMesh(string meshfile) {
-    TransFEPINVOKE.Mesh_readMesh(swigCPtr, meshfile);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.Mesh_readMesh(swigCPtr, meshfile);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void readAttributes(string attribfile) {
-    TransFEPINVOKE.Mesh_readAttributes(swigCPtr, attribfile);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.Mesh_readAttributes(swigCPtr, attribfile);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public SWIGTYPE_p_GeomEntity getGeomEntity(int idx) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.Mesh_getGeomEntity(swigCPtr, idx);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.Mesh_getGeomEntity(swigCPtr, idx);
     SWIGTYPE_p_GeomEntity ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_GeomEntity(cPtr, false);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void writeMesh(string filename) {
-    TransFEPINVOKE.Mesh_writeMesh(swigCPtr, filename);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.Mesh_writeMesh(swigCPtr, filename);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
 }

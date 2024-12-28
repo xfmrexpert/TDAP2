@@ -13,15 +13,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TDAP_GUI\TDAP_GUI.csproj" />
-    <ProjectReference Include="..\TransFE\TransFE.vcxproj">
+    <ProjectReference Include="..\TransFE_NativeWrapper\TransFE_NativeWrapper.vcxproj">
       <Private>True</Private>
+      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\TransFE_Wrapper\TransFE_Wrapper.csproj" />
   </ItemGroup>
 
   <Target Name="CopyTransFEDll" AfterTargets="Build">
     <ItemGroup>
-      <TransFEDll Include="..\X64\$(Configuration)\TransFE.dll" />
+      <TransFENativeWrapperDll Include="..\X64\$(Configuration)\TransFE_NativeWrapper.dll" />
     </ItemGroup>
-    <Copy SourceFiles="@(TransFEDll)" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="@(TransFENativeWrapperDll)" DestinationFolder="$(OutputPath)" />
   </Target>
 </Project>

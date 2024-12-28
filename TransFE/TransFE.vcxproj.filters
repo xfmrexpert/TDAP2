@@ -197,11 +197,5 @@
     <ClCompile Include="MeshDB\node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TransFE_wrap.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="TransFE.i" />
   </ItemGroup>
 </Project>

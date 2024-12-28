@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 
-class TransFEPINVOKE {
+class TransFE_NativeWrapperPINVOKE {
 
   protected class SWIGExceptionHelper {
 
@@ -32,8 +32,8 @@ class TransFEPINVOKE {
     static ExceptionArgumentDelegate argumentNullDelegate = new ExceptionArgumentDelegate(SetPendingArgumentNullException);
     static ExceptionArgumentDelegate argumentOutOfRangeDelegate = new ExceptionArgumentDelegate(SetPendingArgumentOutOfRangeException);
 
-    [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="SWIGRegisterExceptionCallbacks_TransFE")]
-    public static extern void SWIGRegisterExceptionCallbacks_TransFE(
+    [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="SWIGRegisterExceptionCallbacks_TransFE_NativeWrapper")]
+    public static extern void SWIGRegisterExceptionCallbacks_TransFE_NativeWrapper(
                                 ExceptionDelegate applicationDelegate,
                                 ExceptionDelegate arithmeticDelegate,
                                 ExceptionDelegate divideByZeroDelegate, 
@@ -46,8 +46,8 @@ class TransFEPINVOKE {
                                 ExceptionDelegate overflowDelegate, 
                                 ExceptionDelegate systemExceptionDelegate);
 
-    [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="SWIGRegisterExceptionArgumentCallbacks_TransFE")]
-    public static extern void SWIGRegisterExceptionCallbacksArgument_TransFE(
+    [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="SWIGRegisterExceptionArgumentCallbacks_TransFE_NativeWrapper")]
+    public static extern void SWIGRegisterExceptionCallbacksArgument_TransFE_NativeWrapper(
                                 ExceptionArgumentDelegate argumentDelegate,
                                 ExceptionArgumentDelegate argumentNullDelegate,
                                 ExceptionArgumentDelegate argumentOutOfRangeDelegate);
@@ -101,7 +101,7 @@ class TransFEPINVOKE {
     }
 
     static SWIGExceptionHelper() {
-      SWIGRegisterExceptionCallbacks_TransFE(
+      SWIGRegisterExceptionCallbacks_TransFE_NativeWrapper(
                                 applicationDelegate,
                                 arithmeticDelegate,
                                 divideByZeroDelegate,
@@ -114,7 +114,7 @@ class TransFEPINVOKE {
                                 overflowDelegate,
                                 systemDelegate);
 
-      SWIGRegisterExceptionCallbacksArgument_TransFE(
+      SWIGRegisterExceptionCallbacksArgument_TransFE_NativeWrapper(
                                 argumentDelegate,
                                 argumentNullDelegate,
                                 argumentOutOfRangeDelegate);
@@ -173,646 +173,637 @@ class TransFEPINVOKE {
     public delegate string SWIGStringDelegate(string message);
     static SWIGStringDelegate stringDelegate = new SWIGStringDelegate(CreateString);
 
-    [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="SWIGRegisterStringCallback_TransFE")]
-    public static extern void SWIGRegisterStringCallback_TransFE(SWIGStringDelegate stringDelegate);
+    [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="SWIGRegisterStringCallback_TransFE_NativeWrapper")]
+    public static extern void SWIGRegisterStringCallback_TransFE_NativeWrapper(SWIGStringDelegate stringDelegate);
 
     static string CreateString(string cString) {
       return cString;
     }
 
     static SWIGStringHelper() {
-      SWIGRegisterStringCallback_TransFE(stringDelegate);
+      SWIGRegisterStringCallback_TransFE_NativeWrapper(stringDelegate);
     }
   }
 
   static protected SWIGStringHelper swigStringHelper = new SWIGStringHelper();
 
 
-  static TransFEPINVOKE() {
+  static TransFE_NativeWrapperPINVOKE() {
   }
 
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_Clear")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_Clear")]
   public static extern void NodePtrVec_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_Add")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_Add")]
   public static extern void NodePtrVec_Add(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_size")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_size")]
   public static extern uint NodePtrVec_size(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_capacity")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_capacity")]
   public static extern uint NodePtrVec_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_reserve")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_reserve")]
   public static extern void NodePtrVec_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_NodePtrVec__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_NodePtrVec__SWIG_0")]
   public static extern global::System.IntPtr new_NodePtrVec__SWIG_0();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_NodePtrVec__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_NodePtrVec__SWIG_1")]
   public static extern global::System.IntPtr new_NodePtrVec__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_NodePtrVec__SWIG_2")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_NodePtrVec__SWIG_2")]
   public static extern global::System.IntPtr new_NodePtrVec__SWIG_2(int jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_getitemcopy")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_getitemcopy")]
   public static extern global::System.IntPtr NodePtrVec_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_getitem")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_getitem")]
   public static extern global::System.IntPtr NodePtrVec_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_setitem")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_setitem")]
   public static extern void NodePtrVec_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_AddRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_AddRange")]
   public static extern void NodePtrVec_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_GetRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_GetRange")]
   public static extern global::System.IntPtr NodePtrVec_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_Insert")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_Insert")]
   public static extern void NodePtrVec_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_InsertRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_InsertRange")]
   public static extern void NodePtrVec_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_RemoveAt")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_RemoveAt")]
   public static extern void NodePtrVec_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_RemoveRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_RemoveRange")]
   public static extern void NodePtrVec_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_Repeat")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_Repeat")]
   public static extern global::System.IntPtr NodePtrVec_Repeat(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_Reverse__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_Reverse__SWIG_0")]
   public static extern void NodePtrVec_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_Reverse__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_Reverse__SWIG_1")]
   public static extern void NodePtrVec_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_SetRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_SetRange")]
   public static extern void NodePtrVec_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_Contains")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_Contains")]
   public static extern bool NodePtrVec_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_IndexOf")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_IndexOf")]
   public static extern int NodePtrVec_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_LastIndexOf")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_LastIndexOf")]
   public static extern int NodePtrVec_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_NodePtrVec_Remove")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_NodePtrVec_Remove")]
   public static extern bool NodePtrVec_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_NodePtrVec")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_NodePtrVec")]
   public static extern void delete_NodePtrVec(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_Clear")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_Clear")]
   public static extern void DOFPtrVec_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_Add")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_Add")]
   public static extern void DOFPtrVec_Add(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_size")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_size")]
   public static extern uint DOFPtrVec_size(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_capacity")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_capacity")]
   public static extern uint DOFPtrVec_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_reserve")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_reserve")]
   public static extern void DOFPtrVec_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_DOFPtrVec__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_DOFPtrVec__SWIG_0")]
   public static extern global::System.IntPtr new_DOFPtrVec__SWIG_0();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_DOFPtrVec__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_DOFPtrVec__SWIG_1")]
   public static extern global::System.IntPtr new_DOFPtrVec__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_DOFPtrVec__SWIG_2")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_DOFPtrVec__SWIG_2")]
   public static extern global::System.IntPtr new_DOFPtrVec__SWIG_2(int jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_getitemcopy")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_getitemcopy")]
   public static extern global::System.IntPtr DOFPtrVec_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_getitem")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_getitem")]
   public static extern global::System.IntPtr DOFPtrVec_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_setitem")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_setitem")]
   public static extern void DOFPtrVec_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_AddRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_AddRange")]
   public static extern void DOFPtrVec_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_GetRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_GetRange")]
   public static extern global::System.IntPtr DOFPtrVec_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_Insert")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_Insert")]
   public static extern void DOFPtrVec_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_InsertRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_InsertRange")]
   public static extern void DOFPtrVec_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_RemoveAt")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_RemoveAt")]
   public static extern void DOFPtrVec_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_RemoveRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_RemoveRange")]
   public static extern void DOFPtrVec_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_Repeat")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_Repeat")]
   public static extern global::System.IntPtr DOFPtrVec_Repeat(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_Reverse__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_Reverse__SWIG_0")]
   public static extern void DOFPtrVec_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_Reverse__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_Reverse__SWIG_1")]
   public static extern void DOFPtrVec_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_SetRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_SetRange")]
   public static extern void DOFPtrVec_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_Contains")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_Contains")]
   public static extern bool DOFPtrVec_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_IndexOf")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_IndexOf")]
   public static extern int DOFPtrVec_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_LastIndexOf")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_LastIndexOf")]
   public static extern int DOFPtrVec_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOFPtrVec_Remove")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOFPtrVec_Remove")]
   public static extern bool DOFPtrVec_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_DOFPtrVec")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_DOFPtrVec")]
   public static extern void delete_DOFPtrVec(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_Clear")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_Clear")]
   public static extern void MeshFacePtrVec_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_Add")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_Add")]
   public static extern void MeshFacePtrVec_Add(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_size")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_size")]
   public static extern uint MeshFacePtrVec_size(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_capacity")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_capacity")]
   public static extern uint MeshFacePtrVec_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_reserve")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_reserve")]
   public static extern void MeshFacePtrVec_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshFacePtrVec__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_MeshFacePtrVec__SWIG_0")]
   public static extern global::System.IntPtr new_MeshFacePtrVec__SWIG_0();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshFacePtrVec__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_MeshFacePtrVec__SWIG_1")]
   public static extern global::System.IntPtr new_MeshFacePtrVec__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshFacePtrVec__SWIG_2")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_MeshFacePtrVec__SWIG_2")]
   public static extern global::System.IntPtr new_MeshFacePtrVec__SWIG_2(int jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_getitemcopy")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_getitemcopy")]
   public static extern global::System.IntPtr MeshFacePtrVec_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_getitem")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_getitem")]
   public static extern global::System.IntPtr MeshFacePtrVec_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_setitem")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_setitem")]
   public static extern void MeshFacePtrVec_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_AddRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_AddRange")]
   public static extern void MeshFacePtrVec_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_GetRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_GetRange")]
   public static extern global::System.IntPtr MeshFacePtrVec_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_Insert")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_Insert")]
   public static extern void MeshFacePtrVec_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_InsertRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_InsertRange")]
   public static extern void MeshFacePtrVec_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_RemoveAt")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_RemoveAt")]
   public static extern void MeshFacePtrVec_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_RemoveRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_RemoveRange")]
   public static extern void MeshFacePtrVec_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_Repeat")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_Repeat")]
   public static extern global::System.IntPtr MeshFacePtrVec_Repeat(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_Reverse__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_Reverse__SWIG_0")]
   public static extern void MeshFacePtrVec_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_Reverse__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_Reverse__SWIG_1")]
   public static extern void MeshFacePtrVec_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_SetRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_SetRange")]
   public static extern void MeshFacePtrVec_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_Contains")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_Contains")]
   public static extern bool MeshFacePtrVec_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_IndexOf")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_IndexOf")]
   public static extern int MeshFacePtrVec_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_LastIndexOf")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_LastIndexOf")]
   public static extern int MeshFacePtrVec_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFacePtrVec_Remove")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFacePtrVec_Remove")]
   public static extern bool MeshFacePtrVec_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_MeshFacePtrVec")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_MeshFacePtrVec")]
   public static extern void delete_MeshFacePtrVec(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_Clear")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_Clear")]
   public static extern void MeshEdgePtrVec_Clear(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_Add")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_Add")]
   public static extern void MeshEdgePtrVec_Add(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_size")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_size")]
   public static extern uint MeshEdgePtrVec_size(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_capacity")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_capacity")]
   public static extern uint MeshEdgePtrVec_capacity(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_reserve")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_reserve")]
   public static extern void MeshEdgePtrVec_reserve(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshEdgePtrVec__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_MeshEdgePtrVec__SWIG_0")]
   public static extern global::System.IntPtr new_MeshEdgePtrVec__SWIG_0();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshEdgePtrVec__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_MeshEdgePtrVec__SWIG_1")]
   public static extern global::System.IntPtr new_MeshEdgePtrVec__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshEdgePtrVec__SWIG_2")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_MeshEdgePtrVec__SWIG_2")]
   public static extern global::System.IntPtr new_MeshEdgePtrVec__SWIG_2(int jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_getitemcopy")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_getitemcopy")]
   public static extern global::System.IntPtr MeshEdgePtrVec_getitemcopy(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_getitem")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_getitem")]
   public static extern global::System.IntPtr MeshEdgePtrVec_getitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_setitem")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_setitem")]
   public static extern void MeshEdgePtrVec_setitem(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_AddRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_AddRange")]
   public static extern void MeshEdgePtrVec_AddRange(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_GetRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_GetRange")]
   public static extern global::System.IntPtr MeshEdgePtrVec_GetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_Insert")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_Insert")]
   public static extern void MeshEdgePtrVec_Insert(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_InsertRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_InsertRange")]
   public static extern void MeshEdgePtrVec_InsertRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_RemoveAt")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_RemoveAt")]
   public static extern void MeshEdgePtrVec_RemoveAt(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_RemoveRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_RemoveRange")]
   public static extern void MeshEdgePtrVec_RemoveRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_Repeat")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_Repeat")]
   public static extern global::System.IntPtr MeshEdgePtrVec_Repeat(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_Reverse__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_Reverse__SWIG_0")]
   public static extern void MeshEdgePtrVec_Reverse__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_Reverse__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_Reverse__SWIG_1")]
   public static extern void MeshEdgePtrVec_Reverse__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_SetRange")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_SetRange")]
   public static extern void MeshEdgePtrVec_SetRange(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_Contains")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_Contains")]
   public static extern bool MeshEdgePtrVec_Contains(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_IndexOf")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_IndexOf")]
   public static extern int MeshEdgePtrVec_IndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_LastIndexOf")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_LastIndexOf")]
   public static extern int MeshEdgePtrVec_LastIndexOf(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdgePtrVec_Remove")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdgePtrVec_Remove")]
   public static extern bool MeshEdgePtrVec_Remove(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_MeshEdgePtrVec")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_MeshEdgePtrVec")]
   public static extern void delete_MeshEdgePtrVec(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_FEProg_theAnalysis_set")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_FEProg_theAnalysis_set")]
   public static extern void FEProg_theAnalysis_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_FEProg_theAnalysis_get")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_FEProg_theAnalysis_get")]
   public static extern global::System.IntPtr FEProg_theAnalysis_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_FEProg")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_FEProg")]
   public static extern global::System.IntPtr new_FEProg();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_FEProg")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_FEProg")]
   public static extern void delete_FEProg(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_FEProg_run_FEA")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_FEProg_run_FEA")]
   public static extern global::System.IntPtr FEProg_run_FEA(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_Mesh")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_Mesh")]
   public static extern global::System.IntPtr new_Mesh();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_Mesh")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_Mesh")]
   public static extern void delete_Mesh(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_newRegion")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_newRegion")]
   public static extern global::System.IntPtr Mesh_newRegion(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_newFace")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_newFace")]
   public static extern global::System.IntPtr Mesh_newFace(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_newEdge")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_newEdge")]
   public static extern global::System.IntPtr Mesh_newEdge(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_newVertex")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_newVertex")]
   public static extern global::System.IntPtr Mesh_newVertex(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_newNode")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_newNode")]
   public static extern global::System.IntPtr Mesh_newNode(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getRegion")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_getRegion")]
   public static extern global::System.IntPtr Mesh_getRegion(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getFace")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_getFace")]
   public static extern global::System.IntPtr Mesh_getFace(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getEdge")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_getEdge")]
   public static extern global::System.IntPtr Mesh_getEdge(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getVertex")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_getVertex")]
   public static extern global::System.IntPtr Mesh_getVertex(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getNode")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_getNode")]
   public static extern global::System.IntPtr Mesh_getNode(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getFaces")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_getFaces")]
   public static extern global::System.IntPtr Mesh_getFaces(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getNodes")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_getNodes")]
   public static extern global::System.IntPtr Mesh_getNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_numRegions")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_numRegions")]
   public static extern uint Mesh_numRegions(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_numFaces")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_numFaces")]
   public static extern uint Mesh_numFaces(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_numEdges")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_numEdges")]
   public static extern uint Mesh_numEdges(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_numVertexes")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_numVertexes")]
   public static extern uint Mesh_numVertexes(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_numNodes")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_numNodes")]
   public static extern uint Mesh_numNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_reorder")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_reorder")]
   public static extern void Mesh_reorder(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_reorder2")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_reorder2")]
   public static extern void Mesh_reorder2(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_readMesh")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_readMesh")]
   public static extern void Mesh_readMesh(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_readAttributes")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_readAttributes")]
   public static extern void Mesh_readAttributes(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_getGeomEntity")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_getGeomEntity")]
   public static extern global::System.IntPtr Mesh_getGeomEntity(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Mesh_writeMesh")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Mesh_writeMesh")]
   public static extern void Mesh_writeMesh(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_MeshEntity")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_MeshEntity")]
   public static extern void delete_MeshEntity(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_get_dimensions")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEntity_get_dimensions")]
   public static extern int MeshEntity_get_dimensions(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getNode")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEntity_getNode")]
   public static extern global::System.IntPtr MeshEntity_getNode(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_setNode")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEntity_setNode")]
   public static extern void MeshEntity_setNode(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getClassification")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEntity_getClassification")]
   public static extern global::System.IntPtr MeshEntity_getClassification(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_setClassification")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEntity_setClassification")]
   public static extern void MeshEntity_setClassification(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getClassificationID")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEntity_getClassificationID")]
   public static extern int MeshEntity_getClassificationID(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getNodes")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEntity_getNodes")]
   public static extern global::System.IntPtr MeshEntity_getNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_getID")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEntity_getID")]
   public static extern uint MeshEntity_getID(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEntity_setID")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEntity_setID")]
   public static extern void MeshEntity_setID(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshVertex")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_MeshVertex")]
   public static extern global::System.IntPtr new_MeshVertex();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_MeshVertex")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_MeshVertex")]
   public static extern void delete_MeshVertex(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshVertex_Edges")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshVertex_Edges")]
   public static extern global::System.IntPtr MeshVertex_Edges(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshVertex_getEdge")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshVertex_getEdge")]
   public static extern global::System.IntPtr MeshVertex_getEdge(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshVertex_addEdge")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshVertex_addEdge")]
   public static extern void MeshVertex_addEdge(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshVertex_numEdges")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshVertex_numEdges")]
   public static extern uint MeshVertex_numEdges(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshVertex_get_dimensions")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshVertex_get_dimensions")]
   public static extern int MeshVertex_get_dimensions(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshVertex_getNodes")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshVertex_getNodes")]
   public static extern global::System.IntPtr MeshVertex_getNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshEdge")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_MeshEdge")]
   public static extern global::System.IntPtr new_MeshEdge();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_MeshEdge")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_MeshEdge")]
   public static extern void delete_MeshEdge(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_getVertex")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_getVertex")]
   public static extern global::System.IntPtr MeshEdge_getVertex(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_Faces")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_Faces")]
   public static extern global::System.IntPtr MeshEdge_Faces(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_getFace")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_getFace")]
   public static extern global::System.IntPtr MeshEdge_getFace(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_addVertex")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_addVertex")]
   public static extern void MeshEdge_addVertex(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_addFace")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_addFace")]
   public static extern void MeshEdge_addFace(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_otherVertex")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_otherVertex")]
   public static extern global::System.IntPtr MeshEdge_otherVertex(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_isConnected__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_isConnected__SWIG_0")]
   public static extern bool MeshEdge_isConnected__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_isConnected__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_isConnected__SWIG_1")]
   public static extern bool MeshEdge_isConnected__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_getNodes")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_getNodes")]
   public static extern global::System.IntPtr MeshEdge_getNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_getVertices")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_getVertices")]
   public static extern global::System.IntPtr MeshEdge_getVertices(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_get_dimensions")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_get_dimensions")]
   public static extern int MeshEdge_get_dimensions(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_MeshFace")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_MeshFace")]
   public static extern global::System.IntPtr new_MeshFace();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_MeshFace")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_MeshFace")]
   public static extern void delete_MeshFace(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_Edges")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_Edges")]
   public static extern global::System.IntPtr MeshFace_Edges(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_getEdge")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_getEdge")]
   public static extern global::System.IntPtr MeshFace_getEdge(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_getRegion")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_getRegion")]
   public static extern global::System.IntPtr MeshFace_getRegion(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_addEdge")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_addEdge")]
   public static extern void MeshFace_addEdge(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_addRegion")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_addRegion")]
   public static extern void MeshFace_addRegion(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_numEdges")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_numEdges")]
   public static extern uint MeshFace_numEdges(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_area")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_area")]
   public static extern double MeshFace_area(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_get_dimensions")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_get_dimensions")]
   public static extern int MeshFace_get_dimensions(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_getNodes")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_getNodes")]
   public static extern global::System.IntPtr MeshFace_getNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_getVertices")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_getVertices")]
   public static extern global::System.IntPtr MeshFace_getVertices(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_MeshEdges_set")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_MeshEdges_set")]
   public static extern void MeshFace_MeshEdges_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_MeshEdges_get")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_MeshEdges_get")]
   public static extern global::System.IntPtr MeshFace_MeshEdges_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_Node")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_Node")]
   public static extern global::System.IntPtr new_Node();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_Node")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_Node")]
   public static extern void delete_Node(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_x")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_x")]
   public static extern double Node_x(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_y")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_y")]
   public static extern double Node_y(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_z")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_z")]
   public static extern double Node_z(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_pt__SWIG_0")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_pt__SWIG_0")]
   public static extern void Node_pt__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_pt__SWIG_1")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_pt__SWIG_1")]
   public static extern global::System.IntPtr Node_pt__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_getID")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_getID")]
   public static extern uint Node_getID(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_setID")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_setID")]
   public static extern void Node_setID(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_getDOFs")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_getDOFs")]
   public static extern global::System.IntPtr Node_getDOFs(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_newDOF")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_newDOF")]
   public static extern global::System.IntPtr Node_newDOF(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_getParent")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_getParent")]
   public static extern global::System.IntPtr Node_getParent(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_Node_setParent")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_Node_setParent")]
   public static extern void Node_setParent(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_Free_get")]
-  public static extern int DOF_Free_get();
-
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_Zero_get")]
-  public static extern int DOF_Zero_get();
-
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_Fixed_get")]
-  public static extern int DOF_Fixed_get();
-
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_ndof_set")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_ndof_set")]
   public static extern void ndof_set(uint jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_ndof_get")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_ndof_get")]
   public static extern uint ndof_get();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_new_DOF")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_new_DOF")]
   public static extern global::System.IntPtr new_DOF();
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_delete_DOF")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_delete_DOF")]
   public static extern void delete_DOF(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_set_value")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOF_set_value")]
   public static extern void DOF_set_value(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_get_value")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOF_get_value")]
   public static extern double DOF_get_value(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_set_status")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOF_set_status")]
   public static extern void DOF_set_status(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_get_status")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOF_get_status")]
   public static extern int DOF_get_status(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_set_eqnumber")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOF_set_eqnumber")]
   public static extern void DOF_set_eqnumber(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_DOF_get_eqnumber")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_DOF_get_eqnumber")]
   public static extern uint DOF_get_eqnumber(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshVertex_SWIGSmartPtrUpcast")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshVertex_SWIGSmartPtrUpcast")]
   public static extern global::System.IntPtr MeshVertex_SWIGSmartPtrUpcast(global::System.IntPtr jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshEdge_SWIGSmartPtrUpcast")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshEdge_SWIGSmartPtrUpcast")]
   public static extern global::System.IntPtr MeshEdge_SWIGSmartPtrUpcast(global::System.IntPtr jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("TransFE", EntryPoint="CSharp_MeshFace_SWIGSmartPtrUpcast")]
+  [global::System.Runtime.InteropServices.DllImport("TransFE_NativeWrapper", EntryPoint="CSharp_MeshFace_SWIGSmartPtrUpcast")]
   public static extern global::System.IntPtr MeshFace_SWIGSmartPtrUpcast(global::System.IntPtr jarg1);
 }

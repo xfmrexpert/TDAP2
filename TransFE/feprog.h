@@ -14,19 +14,13 @@
 #include "magaxistaticanalysis.h"
 #include <sstream>
 
-#ifdef TRANSFE
-#define DLL_API __declspec(dllexport)
-#else
-#define DLL_API __declspec(dllimport)
-#endif
-
-DLL_API class FEProg {
+class FEProg {
 
 public:
 	MagAxiStaticAnalysis* theAnalysis;
-	DLL_API FEProg();
+	FEProg();
 	~FEProg();
-	DLL_API std::shared_ptr<Mesh> run_FEA(const std::string& filename, int formulation);
+	std::shared_ptr<Mesh> run_FEA(const std::string& filename, int formulation);
 	/*ostringstream outStream;*/
 
 };

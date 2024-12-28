@@ -36,46 +36,46 @@ public class DOF : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          TransFEPINVOKE.delete_DOF(swigCPtr);
+          TransFE_NativeWrapperPINVOKE.delete_DOF(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public DOF() : this(TransFEPINVOKE.new_DOF(), true) {
+  public DOF() : this(TransFE_NativeWrapperPINVOKE.new_DOF(), true) {
   }
 
   public void set_value(double arg0) {
-    TransFEPINVOKE.DOF_set_value(swigCPtr, arg0);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.DOF_set_value(swigCPtr, arg0);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public double get_value() {
-    double ret = TransFEPINVOKE.DOF_get_value(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    double ret = TransFE_NativeWrapperPINVOKE.DOF_get_value(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public void set_status(int arg0) {
-    TransFEPINVOKE.DOF_set_status(swigCPtr, arg0);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+  public void set_status(DOFStatus arg0) {
+    TransFE_NativeWrapperPINVOKE.DOF_set_status(swigCPtr, (int)arg0);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public int get_status() {
-    int ret = TransFEPINVOKE.DOF_get_status(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+  public DOFStatus get_status() {
+    DOFStatus ret = (DOFStatus)TransFE_NativeWrapperPINVOKE.DOF_get_status(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void set_eqnumber(uint arg0) {
-    TransFEPINVOKE.DOF_set_eqnumber(swigCPtr, arg0);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.DOF_set_eqnumber(swigCPtr, arg0);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public uint get_eqnumber() {
-    uint ret = TransFEPINVOKE.DOF_get_eqnumber(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = TransFE_NativeWrapperPINVOKE.DOF_get_eqnumber(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

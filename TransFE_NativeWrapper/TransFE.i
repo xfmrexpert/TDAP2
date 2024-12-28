@@ -1,5 +1,5 @@
 /* File : TransFE.i */
-%module TransFE
+%module TransFE_NativeWrapper
 %include "std_string.i"
 %include "typemaps.i"
 %include "cpointer.i"
@@ -10,14 +10,14 @@
 %include <std_vector.i>
 
 %{
-#include "feprog.h"
-#include "MeshDB/mesh.h"
-#include "MeshDB/meshentity.h"
-#include "MeshDB/meshvertex.h"
-#include "MeshDB/meshedge.h"
-#include "MeshDB/meshface.h"
-#include "MeshDB/node.h"
-#include "dof.h"
+#include "../TransFE/feprog.h"
+#include "../TransFE/MeshDB/mesh.h"
+#include "../TransFE/MeshDB/meshentity.h"
+#include "../TransFE/MeshDB/meshvertex.h"
+#include "../TransFE/MeshDB/meshedge.h"
+#include "../TransFE/MeshDB/meshface.h"
+#include "../TransFE/MeshDB/node.h"
+#include "../TransFE/dof.h"
 %}
 
 %shared_ptr(Mesh);
@@ -70,11 +70,11 @@
 %template(MeshEdgePtrVec) std::vector<MeshEdge*>;
 
 
-%include "feprog.h"
-%include "MeshDB/mesh.h"
-%include "MeshDB/meshentity.h"
-%include "MeshDB/meshvertex.h"
-%include "MeshDB/meshedge.h"
-%include "MeshDB/meshface.h"
-%include "MeshDB/node.h"
-%include "dof.h"
+%include "../TransFE/feprog.h"
+%include "../TransFE/MeshDB/mesh.h"
+%include "../TransFE/MeshDB/meshentity.h"
+%include "../TransFE/MeshDB/meshvertex.h"
+%include "../TransFE/MeshDB/meshedge.h"
+%include "../TransFE/MeshDB/meshface.h"
+%include "../TransFE/MeshDB/node.h"
+%include "../TransFE/dof.h"

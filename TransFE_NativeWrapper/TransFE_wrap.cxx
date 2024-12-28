@@ -215,7 +215,7 @@ static void SWIGUNUSED SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpExcepti
 #ifdef __cplusplus
 extern "C" 
 #endif
-SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionCallbacks_TransFE(
+SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionCallbacks_TransFE_NativeWrapper(
                                                 SWIG_CSharpExceptionCallback_t applicationCallback,
                                                 SWIG_CSharpExceptionCallback_t arithmeticCallback,
                                                 SWIG_CSharpExceptionCallback_t divideByZeroCallback, 
@@ -243,7 +243,7 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionCallbacks_TransFE(
 #ifdef __cplusplus
 extern "C" 
 #endif
-SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionArgumentCallbacks_TransFE(
+SWIGEXPORT void SWIGSTDCALL SWIGRegisterExceptionArgumentCallbacks_TransFE_NativeWrapper(
                                                 SWIG_CSharpExceptionArgumentCallback_t argumentCallback,
                                                 SWIG_CSharpExceptionArgumentCallback_t argumentNullCallback,
                                                 SWIG_CSharpExceptionArgumentCallback_t argumentOutOfRangeCallback) {
@@ -261,7 +261,7 @@ static SWIG_CSharpStringHelperCallback SWIG_csharp_string_callback = NULL;
 #ifdef __cplusplus
 extern "C" 
 #endif
-SWIGEXPORT void SWIGSTDCALL SWIGRegisterStringCallback_TransFE(SWIG_CSharpStringHelperCallback callback) {
+SWIGEXPORT void SWIGSTDCALL SWIGRegisterStringCallback_TransFE_NativeWrapper(SWIG_CSharpStringHelperCallback callback) {
   SWIG_csharp_string_callback = callback;
 }
 
@@ -395,14 +395,14 @@ SWIGINTERN void SWIG_CSharpException(int code, const char *msg) {
 #include <utility>
 
 
-#include "feprog.h"
-#include "MeshDB/mesh.h"
-#include "MeshDB/meshentity.h"
-#include "MeshDB/meshvertex.h"
-#include "MeshDB/meshedge.h"
-#include "MeshDB/meshface.h"
-#include "MeshDB/node.h"
-#include "dof.h"
+#include "../TransFE/feprog.h"
+#include "../TransFE/MeshDB/mesh.h"
+#include "../TransFE/MeshDB/meshentity.h"
+#include "../TransFE/MeshDB/meshvertex.h"
+#include "../TransFE/MeshDB/meshedge.h"
+#include "../TransFE/MeshDB/meshface.h"
+#include "../TransFE/MeshDB/node.h"
+#include "../TransFE/dof.h"
 
 SWIGINTERN std::vector< Node * > *new_std_vector_Sl_Node_Sm__Sg___SWIG_2(int capacity){
         std::vector< Node * >* pv = 0;
@@ -3875,36 +3875,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Node_setParent(void * jarg1, void * jarg2) {
 }
 
 
-SWIGEXPORT int SWIGSTDCALL CSharp_DOF_Free_get() {
-  int jresult ;
-  int result;
-  
-  result = (int)(1);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT int SWIGSTDCALL CSharp_DOF_Zero_get() {
-  int jresult ;
-  int result;
-  
-  result = (int)(2);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT int SWIGSTDCALL CSharp_DOF_Fixed_get() {
-  int jresult ;
-  int result;
-  
-  result = (int)(3);
-  jresult = result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_ndof_set(unsigned long jarg1) {
   size_t arg1 ;
   
@@ -3974,7 +3944,7 @@ SWIGEXPORT double SWIGSTDCALL CSharp_DOF_get_value(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_DOF_set_status(void * jarg1, DOFStatus jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_DOF_set_status(void * jarg1, int jarg2) {
   DOF *arg1 = (DOF *) 0 ;
   DOFStatus arg2 ;
   std::shared_ptr< DOF > *smartarg1 = 0 ;
@@ -3991,13 +3961,13 @@ SWIGEXPORT int SWIGSTDCALL CSharp_DOF_get_status(void * jarg1) {
   int jresult ;
   DOF *arg1 = (DOF *) 0 ;
   std::shared_ptr< DOF > *smartarg1 = 0 ;
-  int result;
+  DOFStatus result;
   
   
   smartarg1 = (std::shared_ptr<  DOF > *)jarg1;
   arg1 = (DOF *)(smartarg1 ? smartarg1->get() : 0); 
-  result = (int)(arg1)->get_status();
-  jresult = result; 
+  result = (DOFStatus)(arg1)->get_status();
+  jresult = (int)result; 
   return jresult;
 }
 

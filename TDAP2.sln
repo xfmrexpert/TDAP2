@@ -14,12 +14,17 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeshDB", "TransFE\MeshDB\MeshDB.vcxproj", "{9FD19BFD-D0DC-462D-81A9-EC145411BF7A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransFE_Wrapper", "TransFE_Wrapper\TransFE_Wrapper.csproj", "{B53DC5AB-73FA-44DD-9B91-781CDFA4E4BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75} = {5B0AA150-B05D-4B12-A031-B11216BB5E75}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestApp", "TestApp\TestApp.vcxproj", "{2FBC9C32-885A-403A-B441-1F8D9137E949}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeometryLib", "..\GeomLibrary\GeometryLib\GeometryLib.csproj", "{85C5A34A-01F2-4BD6-B024-AF9C623D01AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeshLib", "..\GeomLibrary\MeshLib\MeshLib.csproj", "{5487F332-ECEE-40A3-9CA2-1F956F7E1FF4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TransFE_NativeWrapper", "TransFE_NativeWrapper\TransFE_NativeWrapper.vcxproj", "{5B0AA150-B05D-4B12-A031-B11216BB5E75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,6 +144,18 @@ Global
 		{5487F332-ECEE-40A3-9CA2-1F956F7E1FF4}.Release|x64.Build.0 = Release|Any CPU
 		{5487F332-ECEE-40A3-9CA2-1F956F7E1FF4}.Release|x86.ActiveCfg = Release|Any CPU
 		{5487F332-ECEE-40A3-9CA2-1F956F7E1FF4}.Release|x86.Build.0 = Release|Any CPU
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Debug|Any CPU.Build.0 = Debug|x64
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Debug|x64.ActiveCfg = Debug|x64
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Debug|x64.Build.0 = Debug|x64
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Debug|x86.ActiveCfg = Debug|Win32
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Debug|x86.Build.0 = Debug|Win32
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Release|Any CPU.ActiveCfg = Release|x64
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Release|Any CPU.Build.0 = Release|x64
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Release|x64.ActiveCfg = Release|x64
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Release|x64.Build.0 = Release|x64
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Release|x86.ActiveCfg = Release|Win32
+		{5B0AA150-B05D-4B12-A031-B11216BB5E75}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

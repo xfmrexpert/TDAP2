@@ -13,7 +13,7 @@ public class MeshEdge : MeshEntity {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   private bool swigCMemOwnDerived;
 
-  internal MeshEdge(global::System.IntPtr cPtr, bool cMemoryOwn) : base(TransFEPINVOKE.MeshEdge_SWIGSmartPtrUpcast(cPtr), true) {
+  internal MeshEdge(global::System.IntPtr cPtr, bool cMemoryOwn) : base(TransFE_NativeWrapperPINVOKE.MeshEdge_SWIGSmartPtrUpcast(cPtr), true) {
     swigCMemOwnDerived = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
@@ -27,7 +27,7 @@ public class MeshEdge : MeshEntity {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnDerived) {
           swigCMemOwnDerived = false;
-          TransFEPINVOKE.delete_MeshEdge(swigCPtr);
+          TransFE_NativeWrapperPINVOKE.delete_MeshEdge(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -35,73 +35,73 @@ public class MeshEdge : MeshEntity {
     }
   }
 
-  public MeshEdge() : this(TransFEPINVOKE.new_MeshEdge(), true) {
+  public MeshEdge() : this(TransFE_NativeWrapperPINVOKE.new_MeshEdge(), true) {
   }
 
   public MeshVertex getVertex(int n) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.MeshEdge_getVertex(swigCPtr, n);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.MeshEdge_getVertex(swigCPtr, n);
     MeshVertex ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshVertex(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshFacePtrVec Faces() {
-    MeshFacePtrVec ret = new MeshFacePtrVec(TransFEPINVOKE.MeshEdge_Faces(swigCPtr), false);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    MeshFacePtrVec ret = new MeshFacePtrVec(TransFE_NativeWrapperPINVOKE.MeshEdge_Faces(swigCPtr), false);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshFace getFace(int n) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.MeshEdge_getFace(swigCPtr, n);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.MeshEdge_getFace(swigCPtr, n);
     MeshFace ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshFace(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void addVertex(MeshVertex new_vertex, int n) {
-    TransFEPINVOKE.MeshEdge_addVertex(swigCPtr, MeshVertex.getCPtr(new_vertex), n);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshEdge_addVertex(swigCPtr, MeshVertex.getCPtr(new_vertex), n);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void addFace(MeshFace new_face) {
-    TransFEPINVOKE.MeshEdge_addFace(swigCPtr, MeshFace.getCPtr(new_face));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshEdge_addFace(swigCPtr, MeshFace.getCPtr(new_face));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public MeshVertex otherVertex(MeshVertex arg0) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.MeshEdge_otherVertex(swigCPtr, MeshVertex.getCPtr(arg0));
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.MeshEdge_otherVertex(swigCPtr, MeshVertex.getCPtr(arg0));
     MeshVertex ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshVertex(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public bool isConnected(MeshEdge arg0) {
-    bool ret = TransFEPINVOKE.MeshEdge_isConnected__SWIG_0(swigCPtr, MeshEdge.getCPtr(arg0));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = TransFE_NativeWrapperPINVOKE.MeshEdge_isConnected__SWIG_0(swigCPtr, MeshEdge.getCPtr(arg0));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public bool isConnected(MeshVertex arg0) {
-    bool ret = TransFEPINVOKE.MeshEdge_isConnected__SWIG_1(swigCPtr, MeshVertex.getCPtr(arg0));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    bool ret = TransFE_NativeWrapperPINVOKE.MeshEdge_isConnected__SWIG_1(swigCPtr, MeshVertex.getCPtr(arg0));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public NodePtrVec getNodes() {
-    NodePtrVec ret = new NodePtrVec(TransFEPINVOKE.MeshEdge_getNodes(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+  public override NodePtrVec getNodes() {
+    NodePtrVec ret = new NodePtrVec(TransFE_NativeWrapperPINVOKE.MeshEdge_getNodes(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public SWIGTYPE_p_std__vectorT_MeshVertex_const_p_t getVertices() {
-    SWIGTYPE_p_std__vectorT_MeshVertex_const_p_t ret = new SWIGTYPE_p_std__vectorT_MeshVertex_const_p_t(TransFEPINVOKE.MeshEdge_getVertices(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    SWIGTYPE_p_std__vectorT_MeshVertex_const_p_t ret = new SWIGTYPE_p_std__vectorT_MeshVertex_const_p_t(TransFE_NativeWrapperPINVOKE.MeshEdge_getVertices(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public override int get_dimensions() {
-    int ret = TransFEPINVOKE.MeshEdge_get_dimensions(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    int ret = TransFE_NativeWrapperPINVOKE.MeshEdge_get_dimensions(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

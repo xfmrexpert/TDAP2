@@ -50,7 +50,7 @@ public class NodePtrVec : global::System.IDisposable, global::System.Collections
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          TransFEPINVOKE.delete_NodePtrVec(swigCPtr);
+          TransFE_NativeWrapperPINVOKE.delete_NodePtrVec(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -230,127 +230,127 @@ public class NodePtrVec : global::System.IDisposable, global::System.Collections
   }
 
   public void Clear() {
-    TransFEPINVOKE.NodePtrVec_Clear(swigCPtr);
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_Clear(swigCPtr);
   }
 
   public void Add(Node x) {
-    TransFEPINVOKE.NodePtrVec_Add(swigCPtr, Node.getCPtr(x));
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_Add(swigCPtr, Node.getCPtr(x));
   }
 
   private uint size() {
-    uint ret = TransFEPINVOKE.NodePtrVec_size(swigCPtr);
+    uint ret = TransFE_NativeWrapperPINVOKE.NodePtrVec_size(swigCPtr);
     return ret;
   }
 
   private uint capacity() {
-    uint ret = TransFEPINVOKE.NodePtrVec_capacity(swigCPtr);
+    uint ret = TransFE_NativeWrapperPINVOKE.NodePtrVec_capacity(swigCPtr);
     return ret;
   }
 
   private void reserve(uint n) {
-    TransFEPINVOKE.NodePtrVec_reserve(swigCPtr, n);
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_reserve(swigCPtr, n);
   }
 
-  public NodePtrVec() : this(TransFEPINVOKE.new_NodePtrVec__SWIG_0(), true) {
+  public NodePtrVec() : this(TransFE_NativeWrapperPINVOKE.new_NodePtrVec__SWIG_0(), true) {
   }
 
-  public NodePtrVec(NodePtrVec other) : this(TransFEPINVOKE.new_NodePtrVec__SWIG_1(NodePtrVec.getCPtr(other)), true) {
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+  public NodePtrVec(NodePtrVec other) : this(TransFE_NativeWrapperPINVOKE.new_NodePtrVec__SWIG_1(NodePtrVec.getCPtr(other)), true) {
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public NodePtrVec(int capacity) : this(TransFEPINVOKE.new_NodePtrVec__SWIG_2(capacity), true) {
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+  public NodePtrVec(int capacity) : this(TransFE_NativeWrapperPINVOKE.new_NodePtrVec__SWIG_2(capacity), true) {
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   private Node getitemcopy(int index) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.NodePtrVec_getitemcopy(swigCPtr, index);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.NodePtrVec_getitemcopy(swigCPtr, index);
     Node ret = (cPtr == global::System.IntPtr.Zero) ? null : new Node(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private Node getitem(int index) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.NodePtrVec_getitem(swigCPtr, index);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.NodePtrVec_getitem(swigCPtr, index);
     Node ret = (cPtr == global::System.IntPtr.Zero) ? null : new Node(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   private void setitem(int index, Node val) {
-    TransFEPINVOKE.NodePtrVec_setitem(swigCPtr, index, Node.getCPtr(val));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_setitem(swigCPtr, index, Node.getCPtr(val));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void AddRange(NodePtrVec values) {
-    TransFEPINVOKE.NodePtrVec_AddRange(swigCPtr, NodePtrVec.getCPtr(values));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_AddRange(swigCPtr, NodePtrVec.getCPtr(values));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public NodePtrVec GetRange(int index, int count) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.NodePtrVec_GetRange(swigCPtr, index, count);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.NodePtrVec_GetRange(swigCPtr, index, count);
     NodePtrVec ret = (cPtr == global::System.IntPtr.Zero) ? null : new NodePtrVec(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void Insert(int index, Node x) {
-    TransFEPINVOKE.NodePtrVec_Insert(swigCPtr, index, Node.getCPtr(x));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_Insert(swigCPtr, index, Node.getCPtr(x));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void InsertRange(int index, NodePtrVec values) {
-    TransFEPINVOKE.NodePtrVec_InsertRange(swigCPtr, index, NodePtrVec.getCPtr(values));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_InsertRange(swigCPtr, index, NodePtrVec.getCPtr(values));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void RemoveAt(int index) {
-    TransFEPINVOKE.NodePtrVec_RemoveAt(swigCPtr, index);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_RemoveAt(swigCPtr, index);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void RemoveRange(int index, int count) {
-    TransFEPINVOKE.NodePtrVec_RemoveRange(swigCPtr, index, count);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_RemoveRange(swigCPtr, index, count);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static NodePtrVec Repeat(Node value, int count) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.NodePtrVec_Repeat(Node.getCPtr(value), count);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.NodePtrVec_Repeat(Node.getCPtr(value), count);
     NodePtrVec ret = (cPtr == global::System.IntPtr.Zero) ? null : new NodePtrVec(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void Reverse() {
-    TransFEPINVOKE.NodePtrVec_Reverse__SWIG_0(swigCPtr);
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_Reverse__SWIG_0(swigCPtr);
   }
 
   public void Reverse(int index, int count) {
-    TransFEPINVOKE.NodePtrVec_Reverse__SWIG_1(swigCPtr, index, count);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_Reverse__SWIG_1(swigCPtr, index, count);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void SetRange(int index, NodePtrVec values) {
-    TransFEPINVOKE.NodePtrVec_SetRange(swigCPtr, index, NodePtrVec.getCPtr(values));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.NodePtrVec_SetRange(swigCPtr, index, NodePtrVec.getCPtr(values));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public bool Contains(Node value) {
-    bool ret = TransFEPINVOKE.NodePtrVec_Contains(swigCPtr, Node.getCPtr(value));
+    bool ret = TransFE_NativeWrapperPINVOKE.NodePtrVec_Contains(swigCPtr, Node.getCPtr(value));
     return ret;
   }
 
   public int IndexOf(Node value) {
-    int ret = TransFEPINVOKE.NodePtrVec_IndexOf(swigCPtr, Node.getCPtr(value));
+    int ret = TransFE_NativeWrapperPINVOKE.NodePtrVec_IndexOf(swigCPtr, Node.getCPtr(value));
     return ret;
   }
 
   public int LastIndexOf(Node value) {
-    int ret = TransFEPINVOKE.NodePtrVec_LastIndexOf(swigCPtr, Node.getCPtr(value));
+    int ret = TransFE_NativeWrapperPINVOKE.NodePtrVec_LastIndexOf(swigCPtr, Node.getCPtr(value));
     return ret;
   }
 
   public bool Remove(Node value) {
-    bool ret = TransFEPINVOKE.NodePtrVec_Remove(swigCPtr, Node.getCPtr(value));
+    bool ret = TransFE_NativeWrapperPINVOKE.NodePtrVec_Remove(swigCPtr, Node.getCPtr(value));
     return ret;
   }
 

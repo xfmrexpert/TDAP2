@@ -13,7 +13,7 @@ public class MeshVertex : MeshEntity {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   private bool swigCMemOwnDerived;
 
-  internal MeshVertex(global::System.IntPtr cPtr, bool cMemoryOwn) : base(TransFEPINVOKE.MeshVertex_SWIGSmartPtrUpcast(cPtr), true) {
+  internal MeshVertex(global::System.IntPtr cPtr, bool cMemoryOwn) : base(TransFE_NativeWrapperPINVOKE.MeshVertex_SWIGSmartPtrUpcast(cPtr), true) {
     swigCMemOwnDerived = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
@@ -27,7 +27,7 @@ public class MeshVertex : MeshEntity {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnDerived) {
           swigCMemOwnDerived = false;
-          TransFEPINVOKE.delete_MeshVertex(swigCPtr);
+          TransFE_NativeWrapperPINVOKE.delete_MeshVertex(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -35,42 +35,42 @@ public class MeshVertex : MeshEntity {
     }
   }
 
-  public MeshVertex() : this(TransFEPINVOKE.new_MeshVertex(), true) {
+  public MeshVertex() : this(TransFE_NativeWrapperPINVOKE.new_MeshVertex(), true) {
   }
 
   public MeshEdgePtrVec Edges() {
-    MeshEdgePtrVec ret = new MeshEdgePtrVec(TransFEPINVOKE.MeshVertex_Edges(swigCPtr), false);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    MeshEdgePtrVec ret = new MeshEdgePtrVec(TransFE_NativeWrapperPINVOKE.MeshVertex_Edges(swigCPtr), false);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public MeshEdge getEdge(int n) {
-    global::System.IntPtr cPtr = TransFEPINVOKE.MeshVertex_getEdge(swigCPtr, n);
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.MeshVertex_getEdge(swigCPtr, n);
     MeshEdge ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshEdge(cPtr, true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public void addEdge(MeshEdge arg0) {
-    TransFEPINVOKE.MeshVertex_addEdge(swigCPtr, MeshEdge.getCPtr(arg0));
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    TransFE_NativeWrapperPINVOKE.MeshVertex_addEdge(swigCPtr, MeshEdge.getCPtr(arg0));
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public uint numEdges() {
-    uint ret = TransFEPINVOKE.MeshVertex_numEdges(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    uint ret = TransFE_NativeWrapperPINVOKE.MeshVertex_numEdges(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
   public override int get_dimensions() {
-    int ret = TransFEPINVOKE.MeshVertex_get_dimensions(swigCPtr);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+    int ret = TransFE_NativeWrapperPINVOKE.MeshVertex_get_dimensions(swigCPtr);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public NodePtrVec getNodes() {
-    NodePtrVec ret = new NodePtrVec(TransFEPINVOKE.MeshVertex_getNodes(swigCPtr), true);
-    if (TransFEPINVOKE.SWIGPendingException.Pending) throw TransFEPINVOKE.SWIGPendingException.Retrieve();
+  public override NodePtrVec getNodes() {
+    NodePtrVec ret = new NodePtrVec(TransFE_NativeWrapperPINVOKE.MeshVertex_getNodes(swigCPtr), true);
+    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
