@@ -10,15 +10,15 @@
 
 #include "discretesystem.h"
 
-void DiscreteSystem::add(unique_ptr<StiffnessContributor> sc) {
+void DiscreteSystem::add(std::unique_ptr<StiffnessContributor> sc) {
    StiffnessContributors.push_back(std::move(sc));
 };
 
-void DiscreteSystem::add(unique_ptr<ForceContributor> fc) {
+void DiscreteSystem::add(std::unique_ptr<ForceContributor> fc) {
    ForceContributors.push_back(std::move(fc));
 };
 
-void DiscreteSystem::add(unique_ptr<Constraint> c) {
+void DiscreteSystem::add(std::unique_ptr<Constraint> c) {
    Constraints.push_back(std::move(c));
 };
 

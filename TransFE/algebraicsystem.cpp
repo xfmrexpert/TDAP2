@@ -11,12 +11,6 @@
 #include "algebraicsystem.h"
 #include <iostream>
 
-AlgebraicSystem::~AlgebraicSystem() {
-
-	//	delete d;
-	//	delete f;
-}
-
 void AlgebraicSystem::solve() {
 	DS->initializeSystem();
 	createGlobalSystem();

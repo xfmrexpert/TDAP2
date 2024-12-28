@@ -1,17 +1,18 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
+
 #include "geomentity.h"
 
 GeomEntity::GeomEntity() : attributes()
 {
-   attributes.insert(pair<string, double>("crap", 0));
+   attributes.insert(std::pair<std::string, double>("crap", 0));
 }
 
 
@@ -19,7 +20,7 @@ GeomEntity::~GeomEntity()
 {
 }
 
-double GeomEntity::getAttribute(string key){
+double GeomEntity::getAttribute(std::string key){
    if(!attributes.empty()){
       if(attributes.find(key)!=attributes.end()){
          return attributes.find(key)->second; //found the attribute in the list
@@ -31,8 +32,8 @@ double GeomEntity::getAttribute(string key){
    }
 }
     
-void GeomEntity::addAttribute(string key, double value){
-   attributes.insert(pair<string, double>(key, value));
+void GeomEntity::addAttribute(std::string key, double value){
+   attributes.insert(std::pair<std::string, double>(key, value));
 }
     
 void GeomEntity::clearAttributes(){

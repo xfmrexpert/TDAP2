@@ -56,7 +56,7 @@ public:
 	int getClassificationID() const;
 
 	/// Returns an ordered list of nodes for the mesh entity
-	virtual vector<Node*> getNodes() const = 0;
+	virtual std::vector<Node*> getNodes() const = 0;
 
 	size_t getID() const {
 		return ID;

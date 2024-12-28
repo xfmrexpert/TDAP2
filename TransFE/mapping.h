@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -8,8 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MAPPING_H
-#define MAPPING_H
+#pragma once
 
 #include "typedefs.h"
 #include "MeshDB/point.h"
@@ -19,7 +18,7 @@
 
 class Mapping {
 public:
-	Mapping(MeshEntity* mElement, shared_ptr<ShapeFunction> mSF) {
+	Mapping(MeshEntity* mElement, std::shared_ptr<ShapeFunction> mSF) {
 		Element = mElement;
 		SF = mSF;
 		nen = Element->getNodes().size();
@@ -35,12 +34,10 @@ public:
 
 protected:
 	MeshEntity* Element;
-	shared_ptr<ShapeFunction> SF;
+	std::shared_ptr<ShapeFunction> SF;
 
 	uint8_t nsd; //# of spatial dimensions
 	uint8_t npd; //# of parametric dimensions
 	size_t nen; //# of element nodes
 
 };
-
-#endif

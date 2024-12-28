@@ -1,12 +1,13 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
+
 #include "forcecontributor.h"
 #include <iostream>
 
@@ -15,9 +16,9 @@ ForceContributor::~ForceContributor() {
 };
 
 void ForceContributor::evaluate(Assembler* assem) {
-	vector<DOF*> DOFs = this->getDOFs();
+	std::vector<DOF*> DOFs = this->getDOFs();
 	Vector<double> f(DOFs.size());  //This is a vector of DOFs for either the face or the edge
-	vector<point> IntPt = SF->IntPts();
+	std::vector<point> IntPt = SF->IntPts();
 	Vector<double> Weight = SF->Weights();
 	int numIntPts = SF->numIntPts();
 
@@ -31,8 +32,8 @@ void ForceContributor::evaluate(Assembler* assem) {
 	assem->accept(f, DOFs);
 };
 
-vector<DOF*> ForceContributor::getDOFs() {
-	vector<DOF*> DOFs;
+std::vector<DOF*> ForceContributor::getDOFs() {
+	std::vector<DOF*> DOFs;
 
 	for (const auto& node : Element->getNodes()) {
 		const auto& node_DOFs = node->getDOFs();

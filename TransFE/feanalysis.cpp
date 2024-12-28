@@ -10,17 +10,8 @@
 
 #include "feanalysis.h"
 #include "discretesystem.h"
- //#include "precisiontimer.h"
 
-FEAnalysis::FEAnalysis() {
-	//theMesh = new Mesh();
-};
-
-FEAnalysis::~FEAnalysis() {
-
-};
-
-shared_ptr<Mesh> FEAnalysis::getMesh() {
+std::shared_ptr<Mesh> FEAnalysis::getMesh() {
 	return theMesh;
 };
 

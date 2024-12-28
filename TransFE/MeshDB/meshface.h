@@ -14,8 +14,6 @@
 #include "meshvertex.h"
 #include <vector>
 
-using namespace std;
-
 class MeshEdge;
 class MeshRegion;
 
@@ -33,7 +31,7 @@ public:
 	~MeshFace() {};
 
 	/// Returns an const reference to the vector of edges
-	const vector<MeshEdge*>& Edges() const;
+	const std::vector<MeshEdge*>& Edges() const;
 
 	/// Returns the n-th edge bounding this face (unordered)
 	MeshEdge* getEdge(size_t n);
@@ -59,14 +57,14 @@ public:
 
 	/// Get an ordered listing of the nodes
 	/// vertex nodes 1st, edge nodes 2nd, face node last
-	vector<Node*> getNodes() const override;
+	std::vector<Node*> getNodes() const override;
 
 	/// Get an ordered listing of the face vertices (CCW)
-	vector<const MeshVertex*> getVertices() const;
+	std::vector<const MeshVertex*> getVertices() const;
 
 	//Containers for adjacency information (via pointers)
 	 /// List of edges attached to this face (currently unordered)
-	vector<MeshEdge*> MeshEdges;
+	std::vector<MeshEdge*> MeshEdges;
 
 protected:
 
@@ -78,7 +76,7 @@ private:
 
 
 	/// Always 2 regions per face, one on each side
-	vector<MeshRegion*> MeshRegions;
+	std::vector<MeshRegion*> MeshRegions;
 
 };
 

@@ -1,12 +1,13 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
+
 #include "quad1dsf.h"
 
 Vector<double> Quad1DSF::N(point pt){
@@ -33,10 +34,10 @@ Matrix<double> Quad1DSF::dNds(point pt){
    return dN;
 };
 
-vector<point> Quad1DSF::IntPts(){
+std::vector<point> Quad1DSF::IntPts(){
    //Should use explicit numbers to avoid extra floating point ops
    //for now leave as is so things are readable
-   vector<point> int_pts(numIntPts());
+   std::vector<point> int_pts(numIntPts());
    int_pts[0].x = -1./sqrt(3.);
    int_pts[1].x = 1./sqrt(3.);
       

@@ -1,12 +1,13 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
+
 #pragma once
 
 #include "mapping.h"
@@ -16,7 +17,7 @@
 
 class Mapping1D2D : public Mapping {
 public:
-	Mapping1D2D(MeshEdge* Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
+	Mapping1D2D(MeshEdge* Element, std::shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
 		nsd = 2;
 		npd = 1;
 	};

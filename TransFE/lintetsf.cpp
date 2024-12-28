@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -42,10 +42,10 @@ Matrix<double> LinTetSF::dNds(point pt){
    return dN;
 };
 
-vector<point> LinTetSF::IntPts(){
+std::vector<point> LinTetSF::IntPts(){
    //Should use explicit numbers to avoid extra floating point ops
    //for now leave as is so things are readable
-   vector<point> int_pts(numIntPts());
+    std::vector<point> int_pts(numIntPts());
    int_pts[0].x = 0.25;
    int_pts[0].y = 0.25;
    int_pts[0].z = 0.25;

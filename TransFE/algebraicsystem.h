@@ -23,7 +23,7 @@ public:
        mesh = in_mesh;
     };
 
-    ~AlgebraicSystem();
+    ~AlgebraicSystem() = default;
     
     void solve();
     

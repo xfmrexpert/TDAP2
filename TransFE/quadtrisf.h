@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -23,7 +23,7 @@ class QuadTriSF : public ShapeFunction {
 public:
 
 	/// Constructor taking a non-owning pointer to the MeshFace.
-	explicit QuadTriSF(MeshFace* element) : ShapeFunction(element) {}
+	explicit QuadTriSF() : ShapeFunction() {}
 
     /// Compute the shape function values at a given point.
     Vector<double> N(const point& pt) override;

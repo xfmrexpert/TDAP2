@@ -15,7 +15,7 @@ void MeshVertex::addEdge(MeshEdge& edge){
 	MeshEdges.push_back(&edge); //should be ordered CCW
 }
 
-const vector<MeshEdge*>& MeshVertex::Edges() const {
+const std::vector<MeshEdge*>& MeshVertex::Edges() const {
     return MeshEdges;
 }
 
@@ -27,8 +27,8 @@ size_t MeshVertex::numEdges() const {
      return MeshEdges.size();
 }
 
-vector<Node*> MeshVertex::getNodes() const {
-   vector<Node*> nodes;
+std::vector<Node*> MeshVertex::getNodes() const {
+   std::vector<Node*> nodes;
    nodes.push_back(node);
    return nodes;
 }

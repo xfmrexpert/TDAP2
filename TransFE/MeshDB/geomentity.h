@@ -1,18 +1,17 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
+
 #pragma once
 
 #include <map>
 #include <string>
-
-using namespace std;
 
 //Attributes are currently restricted to numbers of type double
 //Often times, as in the case of contraints, a value of 0 is meaningful
@@ -29,10 +28,10 @@ public:
     ~GeomEntity();
    
    ///Retrieve an attribute
-    double getAttribute(string key);
+    double getAttribute(std::string key);
     
    ///Add an attribute designated by a string "key"
-    void addAttribute(string key, double value);
+    void addAttribute(std::string key, double value);
     
    ///Clear all attributes associated with the instance
     void clearAttributes();
@@ -43,7 +42,7 @@ protected:
    ///This is a multimap to hold all of the attributes (key/value pairs)
    ///The multimap allows for quick (and brainless) retrieval of a value given
    ///a key string.  This could (and probably should) be a map.
-   multimap<string, double> attributes;
+   std::multimap<std::string, double> attributes;
 
 };
 

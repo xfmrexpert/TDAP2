@@ -31,10 +31,10 @@ class FEAnalysis {
 public:
 
    /// Default constructor
-   FEAnalysis();
+   FEAnalysis() = default;
 
    /// Virtual default destructor
-   virtual ~FEAnalysis();  
+   ~FEAnalysis() = default;  
 
    /// Runs the analysis steps (setup, solve, recover)
    void run();

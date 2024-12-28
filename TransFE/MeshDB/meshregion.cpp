@@ -15,7 +15,7 @@ void MeshRegion::addFace(MeshFace* new_face){
      MeshFaces.push_back(new_face);
 }
 
-vector<Node*> MeshRegion::getNodes() const{
+std::vector<Node*> MeshRegion::getNodes() const{
    //Ugly kludge to get ordered list of nodes for linear tetrahedron
    //Any other element type will fail miserably
    //FIXME
@@ -25,7 +25,7 @@ vector<Node*> MeshRegion::getNodes() const{
     auto nodes = (*face_iter)->getNodes();
 
    if((*face_iter) == 0){
-      vector<Node*> tmp;
+      std::vector<Node*> tmp;
       for(auto node_riter=nodes.rbegin();node_riter!=nodes.rend();++node_riter){
          tmp.push_back((*node_riter));
       }
@@ -69,7 +69,7 @@ vector<Node*> MeshRegion::getNodes() const{
          return nodes;
       }
    }
-   cerr << "Region contains two identical faces!" << endl;
+   std::cerr << "Region contains two identical faces!" << std::endl;
    exit(1);
 }
 

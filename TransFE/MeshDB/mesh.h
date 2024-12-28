@@ -15,12 +15,7 @@
 #include "meshedge.h"
 #include "meshvertex.h"
 #include "node.h"
-//#include <vector>
-//#include <queue>
-//#include <set>
 #include <fstream>
-//#include <map>
-//#include <memory>
 
 /// This class acts as a container for all of the mesh data structures
 /// and functions.  Lists of each mesh entity type (regions, faces, etc.)

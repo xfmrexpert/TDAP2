@@ -1,12 +1,13 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
+
 #pragma once
 
 #include "forcecontributor.h"
@@ -18,17 +19,15 @@
 #include "dof.h"
 #include <vector>
 
-using namespace std;
-
 class MagAxiStaticFC : public ForceContributor {
 public:
 
-	MagAxiStaticFC(MeshFace* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
+	MagAxiStaticFC(MeshFace* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
 		nnd = 1;
 		formulation = form;
 	};
 
-	MagAxiStaticFC(MeshEdge* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
+	MagAxiStaticFC(MeshEdge* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
 		nnd = 1;
 		formulation = form;
 	};

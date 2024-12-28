@@ -1,12 +1,13 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
+
 #pragma once
 
 #include "stiffnesscontributor.h"
@@ -20,7 +21,7 @@
 
 class MagAxiStaticSC : public StiffnessContributor {
 public:
-	MagAxiStaticSC(MeshFace* Element, shared_ptr<Mapping> Map, shared_ptr<ShapeFunction> SF, int formul) :StiffnessContributor(Element, Map, SF) {
+	MagAxiStaticSC(MeshFace* Element, std::shared_ptr<Mapping> Map, std::shared_ptr<ShapeFunction> SF, int formul) :StiffnessContributor(Element, Map, SF) {
 		auto nodes = Element->getNodes();
 
 		//check the region type of this face and set nnd (and dofs) accordingly

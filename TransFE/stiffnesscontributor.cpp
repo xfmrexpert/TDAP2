@@ -1,24 +1,20 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
+
 #include "stiffnesscontributor.h"
- //#include "precisiontimer.h"
 #include <iostream>
-
-StiffnessContributor::~StiffnessContributor() {
-
-}
 
 void StiffnessContributor::evaluate(Assembler* assem) {
 	const auto& DOFs = getDOFs();  //70us
 	Matrix<double> k(DOFs.size(), DOFs.size()); //10-20us
-	vector<point> IntPt = SF->IntPts();
+	std::vector<point> IntPt = SF->IntPts();
 	Vector<double> Weight = SF->Weights();
 	int numIntPts = SF->numIntPts();
 
@@ -43,8 +39,8 @@ void StiffnessContributor::evaluate(Assembler* assem) {
 	assem->accept(k, DOFs);
 };
 
-vector<DOF*> StiffnessContributor::getDOFs() {
-	vector<DOF*> DOFs;
+std::vector<DOF*> StiffnessContributor::getDOFs() {
+	std::vector<DOF*> DOFs;
 
 	for (const auto& node : Element->getNodes()) {
 		const auto& node_DOFs = node->getDOFs();

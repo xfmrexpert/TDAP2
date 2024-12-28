@@ -79,8 +79,8 @@ double MeshFace::area() {
      return Area;
 }
 
-vector<Node*> MeshFace::getNodes() const{
-   vector<Node*> nodes;
+std::vector<Node*> MeshFace::getNodes() const{
+   std::vector<Node*> nodes;
    //add nodes for each vertex of face first, in order
    //This assumes mesh data structure is already ordered!!!
    auto edge_iter=MeshEdges.begin(); //Get first edge;
@@ -117,8 +117,8 @@ vector<Node*> MeshFace::getNodes() const{
    return nodes;
 }
 
-vector<const MeshVertex*> MeshFace::getVertices() const{
-    vector<const MeshVertex*> vertices;
+std::vector<const MeshVertex*> MeshFace::getVertices() const{
+    std::vector<const MeshVertex*> vertices;
 
     // Add nodes for each vertex of face first, in order
     auto edge_iter = MeshEdges.begin(); // Get first edge

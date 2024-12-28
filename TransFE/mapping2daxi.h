@@ -17,7 +17,7 @@
 
 class Mapping2DAxi : public Mapping {
 public:
-	Mapping2DAxi(MeshFace* Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
+	Mapping2DAxi(MeshFace* Element, std::shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
 		nsd = 2;
 		npd = 2;
 	};

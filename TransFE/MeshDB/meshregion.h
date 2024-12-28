@@ -17,8 +17,6 @@
 #include "meshvertex.h"
 #include "node.h"
 
-using namespace std;
-
 class MeshFace;
 
 
@@ -38,13 +36,13 @@ public:
 		return 3;
 	}
 
-	vector<Node*> getNodes() const override;
+	std::vector<Node*> getNodes() const override;
 
 protected:
 
 private:
 
-	vector<MeshFace*> MeshFaces;
+	std::vector<MeshFace*> MeshFaces;
 
 };
 

@@ -2572,7 +2572,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FEProg_run_FEA(void * jarg1, const char * j
   FEProg *arg1 = (FEProg *) 0 ;
   std::string *arg2 = 0 ;
   int arg3 ;
-  shared_ptr< Mesh > result;
+  std::shared_ptr< Mesh > result;
   
   arg1 = (FEProg *)jarg1; 
   if (!jarg2) {
@@ -2583,7 +2583,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FEProg_run_FEA(void * jarg1, const char * j
   arg2 = &arg2_str; 
   arg3 = (int)jarg3; 
   result = (arg1)->run_FEA((std::string const &)*arg2,arg3);
-  jresult = result ? new shared_ptr< Mesh >(result) : 0; 
+  jresult = result ? new std::shared_ptr< Mesh >(result) : 0; 
   return jresult;
 }
 
@@ -3081,13 +3081,13 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_MeshEntity_getNodes(void * jarg1) {
   void * jresult ;
   MeshEntity *arg1 = (MeshEntity *) 0 ;
   std::shared_ptr< MeshEntity const > *smartarg1 = 0 ;
-  vector< Node * > result;
+  std::vector< Node * > result;
   
   
   smartarg1 = (std::shared_ptr< const MeshEntity > *)jarg1;
   arg1 = (MeshEntity *)(smartarg1 ? smartarg1->get() : 0); 
   result = ((MeshEntity const *)arg1)->getNodes();
-  jresult = new vector< Node * >(result); 
+  jresult = new std::vector< Node * >(result); 
   return jresult;
 }
 

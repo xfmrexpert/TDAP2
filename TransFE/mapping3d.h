@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -17,7 +17,7 @@
 
 class Mapping3D : public Mapping {
 public:
-	Mapping3D(MeshRegion* Element, shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
+	Mapping3D(MeshRegion* Element, std::shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
 		nsd = 3;
 		npd = 3;
 	};

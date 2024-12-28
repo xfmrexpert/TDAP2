@@ -1,14 +1,14 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef ELASTICITYFC_H
-#define ELASTICITYFC_H
+
+#pragma once
 
 #include "forcecontributor.h"
 #include "MeshDB/meshface.h"
@@ -19,15 +19,13 @@
 #include "dof.h"
 #include <vector>
 
-using namespace std;
-
 class ElasticityFC : public ForceContributor{
 public:
-    ElasticityFC(MeshFace* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
+    ElasticityFC(MeshFace* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
       nnd = 2;
     };
    
-    ElasticityFC(MeshEdge* Element_in, shared_ptr<Mapping> Map_in, shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
+    ElasticityFC(MeshEdge* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
       nnd = 2;
     };
     
@@ -38,5 +36,3 @@ public:
 private:
 
 };
-
-#endif

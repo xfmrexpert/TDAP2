@@ -25,9 +25,9 @@ public:
 	DiscreteSystem() = default;
 	~DiscreteSystem() = default;
 
-   void add(unique_ptr<StiffnessContributor>);
-   void add(unique_ptr<ForceContributor>);
-   void add(unique_ptr<Constraint>);
+   void add(std::unique_ptr<StiffnessContributor>);
+   void add(std::unique_ptr<ForceContributor>);
+   void add(std::unique_ptr<Constraint>);
    void initializeSystem();
    void formSystem(Assembler*);
   

@@ -185,7 +185,7 @@ void Mesh::reorder() {
 	//cout << "Begin looping through queue...\n";
 	while (q.size() > 0) {
 		if (labelnode < 0) {
-			cout << "ERROR! labelnode<0!\n";
+			std::cout << "ERROR! labelnode<0!\n";
 			return;
 		}
 		entity = q.front();
@@ -200,7 +200,7 @@ void Mesh::reorder() {
 				if (dof->get_status() == DOF_Free) {
 					labeldof = labeldof - 1;
 					if (labeldof < 0) {
-						cout << "ERROR! labeldof<0!\n";
+						std::cout << "ERROR! labeldof<0!\n";
 						return;
 					}
 					dof->set_eqnumber(labeldof);
@@ -235,7 +235,7 @@ void Mesh::reorder() {
 							if (dof->get_status() == DOF_Free) {
 								labeldof = labeldof - 1;
 								if (labeldof < 0) {
-									cout << "ERROR! labeldof<0!\n";
+									std::cout << "ERROR! labeldof<0!\n";
 									return;
 								}
 								dof->set_eqnumber(labeldof);
@@ -265,7 +265,7 @@ void Mesh::reorder() {
 		}
 		//cout << "Get next entity...\n";
 	}
-	cout << labelnode;
+	std::cout << labelnode;
 }
 
 MeshEntity* Mesh::getStart() {
@@ -665,12 +665,12 @@ Node* Mesh::findNodebyID(size_t n) const {
 }
 
 void Mesh::readAttributes(const std::string& attribfile) {
-	string key;
+	std::string key;
 	double value;
 	int idx;
 	GeomEntity* entity{};
 
-	ifstream fs(attribfile);
+	std::ifstream fs(attribfile);
 
 	if (fs.fail()) {
 		throw std::runtime_error("Unable to open file: " + attribfile);
@@ -682,7 +682,7 @@ void Mesh::readAttributes(const std::string& attribfile) {
 		if (key == "GeomEntity") {
 			idx = (int)value;
 			//cout << "Adding GeomEntity at index " << idx << endl;
-			GeomEntities[idx] = make_unique<GeomEntity>();
+			GeomEntities[idx] = std::make_unique<GeomEntity>();
 			entity = GeomEntities[idx].get();
 			entity->ID = idx;
 		}
