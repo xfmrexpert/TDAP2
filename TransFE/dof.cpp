@@ -20,15 +20,15 @@ double DOF::get_value() {
 	return value;
 }
 
-void DOF::set_status(DOF_STATUS dof_status) {
+void DOF::set_status(DOFStatus dof_status) {
 
-	if (status == DOF_Free && dof_status != DOF_Free) {
+	if (status == DOFStatus::Free && dof_status != DOFStatus::Free) {
 		ndof = ndof - 1;
 	}
 	status = dof_status;
 }
 
-DOF_STATUS DOF::get_status() {
+DOFStatus DOF::get_status() {
 	return status;
 }
 

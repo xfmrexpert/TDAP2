@@ -3974,15 +3974,15 @@ SWIGEXPORT double SWIGSTDCALL CSharp_DOF_get_value(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_DOF_set_status(void * jarg1, int jarg2) {
+SWIGEXPORT void SWIGSTDCALL CSharp_DOF_set_status(void * jarg1, DOFStatus jarg2) {
   DOF *arg1 = (DOF *) 0 ;
-  int arg2 ;
+  DOFStatus arg2 ;
   std::shared_ptr< DOF > *smartarg1 = 0 ;
   
   
   smartarg1 = (std::shared_ptr<  DOF > *)jarg1;
   arg1 = (DOF *)(smartarg1 ? smartarg1->get() : 0); 
-  arg2 = (int)jarg2; 
+  arg2 = (DOFStatus)jarg2; 
   (arg1)->set_status(arg2);
 }
 

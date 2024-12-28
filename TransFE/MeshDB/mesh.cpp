@@ -147,7 +147,7 @@ void Mesh::reorder2() {
 	for (const auto& node : Nodes) {
 		const auto& DOFs = node->getDOFs();
 		for (const auto& dof : DOFs) {
-			if (dof->get_status() == DOF_Free) {
+			if (dof->get_status() == DOFStatus::Free) {
 				dof->set_eqnumber(labeldof);
 				labeldof++;
 			}
@@ -197,7 +197,7 @@ void Mesh::reorder() {
 			node->setID(labelnode);
 			const auto& DOFs = node->getDOFs();
 			for (const auto& dof : DOFs) {
-				if (dof->get_status() == DOF_Free) {
+				if (dof->get_status() == DOFStatus::Free) {
 					labeldof = labeldof - 1;
 					if (labeldof < 0) {
 						std::cout << "ERROR! labeldof<0!\n";
@@ -232,7 +232,7 @@ void Mesh::reorder() {
 						edge->getNode()->setID(labelnode);
 						const auto& DOFs = edge->getNode()->getDOFs();
 						for (const auto& dof : DOFs) {
-							if (dof->get_status() == DOF_Free) {
+							if (dof->get_status() == DOFStatus::Free) {
 								labeldof = labeldof - 1;
 								if (labeldof < 0) {
 									std::cout << "ERROR! labeldof<0!\n";

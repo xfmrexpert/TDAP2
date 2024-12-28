@@ -28,7 +28,7 @@ void DisplacementConstraint::apply() {
 				//   DOFs[0]->set_status(DOF_Zero);
 				//   DOFs[0]->set_value(0);
 				//} else {  //non-zero essential BC
-				DOFs[0]->set_status(DOF_Fixed);
+				DOFs[0]->set_status(DOFStatus::Fixed);
 				DOFs[0]->set_value(x_constraint);
 				//}
 			}
@@ -43,11 +43,11 @@ void DisplacementConstraint::apply() {
 		for (const auto& node : nodes) {
 			const auto& DOFs = node->getDOFs();
 			if (y_constraint == 0) {  //zero essential BC
-				DOFs[1]->set_status(DOF_Zero);
+				DOFs[1]->set_status(DOFStatus::Zero);
 				DOFs[1]->set_value(0);
 			}
 			else {  //non-zero essential BC
-				DOFs[1]->set_status(DOF_Fixed);
+				DOFs[1]->set_status(DOFStatus::Fixed);
 				DOFs[1]->set_value(y_constraint);
 			}
 		}
@@ -57,11 +57,11 @@ void DisplacementConstraint::apply() {
 		for (const auto& node : nodes) {
 			const auto& DOFs = node->getDOFs();
 			if (y_constraint == 0) {  //zero essential BC
-				DOFs[2]->set_status(DOF_Zero);
+				DOFs[2]->set_status(DOFStatus::Zero);
 				DOFs[2]->set_value(0);
 			}
 			else {  //non-zero essential BC
-				DOFs[2]->set_status(DOF_Fixed);
+				DOFs[2]->set_status(DOFStatus::Fixed);
 				DOFs[2]->set_value(y_constraint);
 			}
 		}

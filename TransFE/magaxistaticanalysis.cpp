@@ -163,7 +163,7 @@ void MagAxiStaticAnalysis::solve() {
 	for (const auto& node : theMesh->getNodes()) {
 		const auto& DOFs = node->getDOFs();
 		for (const auto& dof : DOFs) {
-			if (dof->get_status() == DOF_Free) {
+			if (dof->get_status() == DOFStatus::Free) {
 				if (formulation <= 0) {
 					dof->set_value(d[dof->get_eqnumber()]);// * 2 * PI * (*node_iter)->x());
 				}

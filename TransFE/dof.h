@@ -10,10 +10,11 @@
 
 #pragma once
 
-#define DOF_STATUS int
-#define DOF_Free 1
-#define DOF_Zero 2
-#define DOF_Fixed 3
+enum class DOFStatus {
+	Free = 1,
+	Zero = 2,
+	Fixed = 3
+};
 
 extern size_t ndof;
 
@@ -25,14 +26,13 @@ public:
 
 	///Default constructor
 	DOF() {
-		value = 0;
-		status = DOF_Free;
+		status = DOFStatus::Free;
 		eq_number = 0;
 		ndof++;
 	}
 
 	~DOF() {
-		if (status == DOF_Free) {
+		if (status == DOFStatus::Free) {
 			ndof--;
 		}
 	}
@@ -40,8 +40,8 @@ public:
 	void set_value(double);
 	double get_value();
 
-	void set_status(DOF_STATUS);
-	DOF_STATUS get_status();
+	void set_status(DOFStatus);
+	DOFStatus get_status();
 
 	void set_eqnumber(size_t);
 	size_t get_eqnumber();
@@ -49,11 +49,9 @@ public:
 protected:
 
 private:
-
-	double value;
-	DOF_STATUS status;
+	double value = 0;
+	DOFStatus status;
 	size_t eq_number;  //the number of nodes could be limited by the size of this variable
 
 };
-
 

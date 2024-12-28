@@ -30,7 +30,7 @@ void LinearSystemAssembler::accept(Matrix<double> k, std::vector<DOF*> dofs)
 			if(kj >= ki) //check to make sure this term is in the upper triangle
 			{
 				//std::cout << "In upper triangle" << std::endl;
-				if(jdof->get_status()==DOF_Free && idof->get_status()==DOF_Free) //unconstrained
+				if(jdof->get_status()==DOFStatus::Free && idof->get_status()==DOFStatus::Free) //unconstrained
 				{
 					//std::cout << "Unconstrained. Adding " << k(i, j) << " to K(" << ki << ", " << kj << ") :" << std::endl;
 					(*K).coeffRef(ki,kj) += k(i, j); //add the local stiffness term to the global stiffness matrix
@@ -40,13 +40,13 @@ void LinearSystemAssembler::accept(Matrix<double> k, std::vector<DOF*> dofs)
 					//If one of the dofs is constrained as Fixed and the other is free, proper term must
 					//go in load vector
 					DOF* cdof=nullptr; //we'll need the value of the non-zero essential BC from the DOF
-					if(jdof->get_status()==DOF_Free && idof->get_status()==DOF_Fixed) //adds to the kj force term
+					if(jdof->get_status()==DOFStatus::Free && idof->get_status()==DOFStatus::Fixed) //adds to the kj force term
 					{
 						//std::cout << "i is constrained" << std::endl;
 						kc = kj;
 						cdof = idof;
 					}
-					else if(idof->get_status()==DOF_Free && jdof->get_status()==DOF_Fixed) //adds to the ki force term
+					else if(idof->get_status()==DOFStatus::Free && jdof->get_status()==DOFStatus::Fixed) //adds to the ki force term
 					{
 						//std::cout << "j is constrained" << std::endl;
 						kc = ki;
@@ -73,7 +73,7 @@ void LinearSystemAssembler::accept(Vector<double> local_f, std::vector<DOF*> dof
 	{
 		auto idof = dofs[i]; //get ith degree of freedom from the DOF list
 		auto ki = idof->get_eqnumber(); //get global equation number for row from the DOF object
-		if(idof->get_status()==DOF_Free)
+		if(idof->get_status()==DOFStatus::Free)
 		{
 			//std::cout << "Adding force term..." << std::endl;
 			//std::cout << local_f;
