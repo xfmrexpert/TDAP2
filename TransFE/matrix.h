@@ -1,6 +1,6 @@
 #ifndef MATRIXHEADERDEF
 #define MATRIXHEADERDEF
-#include "vector.h"
+//#include "vector.h"
 #include <ostream>
 #include <cassert>
 

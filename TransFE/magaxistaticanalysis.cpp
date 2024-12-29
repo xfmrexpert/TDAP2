@@ -27,6 +27,8 @@ using namespace std;
 
 constexpr auto PI = 3.141592653589793238512808959406186204433;
 
+size_t ndof = 0;
+
 MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 {
 	if (ndof != 0) {
@@ -155,14 +157,14 @@ std::unique_ptr<Constraint<double>> MagAxiStaticAnalysis::makeConstraint(MeshVer
 
 void MagAxiStaticAnalysis::solve() {
 	LinearSystemAssembler<double> assembler;
-	AlgebraicSystem<double> AS(&DS, &assembler, theMesh.get());
+	AlgebraicSystem<double> AS(&DS, &assembler, field.get());
 	AS.solve();
 
 	//get vector of nodal displacements from AlgebraicSystem
 	BigVector<double> d = *AS.get_d();
 
 	//assign nodal displacements to DOF value
-	for (const auto& node : theMesh->getNodes()) {
+	for (auto node : theMesh->getNodes()) {
 		const auto& DOFs = field->getDOFsForNode(*node);
 		for (const auto& dof : DOFs) {
 			if (dof->get_status() == DOFStatus::Free) {

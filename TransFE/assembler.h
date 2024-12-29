@@ -13,7 +13,7 @@
 #include "dof.h"
 #include "typedefs.h"
 #include "matrix.h"
-#include "vector.h"
+//#include "vector.h"
 #include <vector>
 
 /// This class represents a generic assembler. 

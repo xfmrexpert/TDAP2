@@ -38,14 +38,75 @@ public:
    ~FEAnalysis() = default;  
 
    /// Runs the analysis steps (setup, solve, recover)
-   void run();
+   void run() {
+	   setup(); //determine the contributors
+	   solve(); //process the contributors to determine the system
+	   //perform integrations over contributors, assemble and solve system
+	   recover(); //recover secondary variables
+   };
 
    /// Determines which finite element entities are contributors and creates
    /// instances of the appropriate classes
-   void setup();
+   void setup() {
+	   field = std::make_unique<Field<T>>(theMesh.get(), 1); //initialize the field object
+
+	   for (size_t i = 0; i < theMesh->numRegions(); i++) {
+		   auto& r = theMesh->getRegion(i);
+
+		   auto sc = makeStiffContrib(r);
+		   if (sc != nullptr) {
+			   DS.add(std::move(sc));
+		   }
+		   auto fc = makeForceContrib(r);
+		   if (fc != nullptr) {
+			   DS.add(std::move(fc));
+		   }
+	   }
+
+	   for (size_t i = 0; i < theMesh->numFaces(); i++) { //process all the mesh faces
+		   //cout << "Processing face #" << i << endl;
+		   auto& f = theMesh->getFace(i); //get face object
+		   auto sc = makeStiffContrib(f); //set-up type of stiffness contributor for the face
+		   if (sc != nullptr) {
+			   DS.add(std::move(sc));
+		   }
+		   auto fc = makeForceContrib(f); //set-up force contributor for the face
+		   if (fc != nullptr) { //check if the face contributes to the force vector
+			   DS.add(std::move(fc)); //if so, add the face to the list of force contributors
+		   }
+		   auto c = makeConstraint(f); //setup contraint for the edge
+		   if (c != nullptr) { //check if the edge is constrained
+			   DS.add(std::move(c)); //if so, add the edge to the list of constraints
+		   }
+	   }
+
+	   for (size_t i = 0; i < theMesh->numEdges(); i++) { //process all mesh edges
+		   auto& e = theMesh->getEdge(i); //get edge object
+		   //cout << "Processing edge #" << i << "(" << e->ID << ")" << endl;
+		   auto fc = makeForceContrib(e); //setup force contributor for the edge
+		   if (fc != nullptr) { //check if the edge contributes to the force vector
+			   DS.add(std::move(fc)); //if so, add the edge to the list of force contributors
+		   }
+		   auto c = makeConstraint(e); //setup contraint for the edge
+		   if (c != nullptr) { //check if the edge is constrained
+			   DS.add(std::move(c)); //if so, add the edge to the list of constraints
+		   }
+	   }
+
+	   for (size_t i = 0; i < theMesh->numVertexes(); i++) { //process all mesh vertexes
+		   auto& v = theMesh->getVertex(i); //get vertex object
+		   //cout << "Processing vertex #" << i << "(" << v->ID << ")" << endl;
+		   auto c = makeConstraint(v); //create a constraint for the vertex
+		   if (c != nullptr) { //check if the vertex is contrained
+			   DS.add(std::move(c)); //if so, add the vertex to the list of constraints
+		   }
+	   }
+   };
    
    /// Returns a pointer to the mesh
-   std::shared_ptr<Mesh> getMesh();
+   std::shared_ptr<Mesh> getMesh() {
+	   return theMesh;
+   };
    
    // The following virtual functions must be implemented in each derived analysis class
 
@@ -82,6 +143,7 @@ public:
    virtual void saveOut(const std::string& filename) = 0;
 
    std::stringstream outStream;
+   
   
 protected:
   

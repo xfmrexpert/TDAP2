@@ -16,7 +16,7 @@
 #include "dof.h"
 #include "typedefs.h"
 #include "matrix.h"
-#include "vector.h"
+//#include "vector.h"
 
 template <typename T>
 class DOF;
@@ -24,10 +24,87 @@ class DOF;
 /// This class represents a linear system assembler. 
 template <typename T>
 class LinearSystemAssembler : public Assembler<T>{
+
 public:
-   virtual void accept(Matrix<T>, std::vector<DOF<T>*> dofs);   
-   virtual void accept(Vector<T>, std::vector<DOF<T>*> dofs);
+	void accept(Matrix<T> k, std::vector<DOF<T>*> dofs)
+	{
+		//given a stiffness contributor stiffness matrix and list of associated DOF objects
+		//add into global matrix
+		std::size_t ki, kj, kc;
+		std::size_t size = dofs.size();
+		for (std::size_t i = 0; i < size; i++)  //loop over rows of stiffness contributor
+		{
+			auto idof = dofs[i]; //get ith degree of freedom from the DOF list
+			ki = idof->get_eqnumber(); //get global equation number for row from the DOF object
+			//std::cout << "ki=" << ki << std::endl;
+			for (std::size_t j = 0; j < size; j++) //for the current row, loop over the columns of the local stiffness matrix
+			{
+				auto jdof = dofs[j]; //get jth degree of freedom from the DOF list
+				kj = jdof->get_eqnumber();  //get global equation number for the column from the DOF object
+				//std::cout << "kj=" << kj << std::endl;
+				if (kj >= ki) //check to make sure this term is in the upper triangle
+				{
+					//std::cout << "In upper triangle" << std::endl;
+					if (jdof->get_status() == DOFStatus::Free && idof->get_status() == DOFStatus::Free) //unconstrained
+					{
+						//std::cout << "Unconstrained. Adding " << k(i, j) << " to K(" << ki << ", " << kj << ") :" << std::endl;
+						this->K->coeffRef(ki, kj) += k(i, j); //add the local stiffness term to the global stiffness matrix
+					}
+					else //if both not free, then one or both are constrained
+					{
+						//If one of the dofs is constrained as Fixed and the other is free, proper term must
+						//go in load vector
+						DOF<T>* cdof = nullptr; //we'll need the value of the non-zero essential BC from the DOF
+						if (jdof->get_status() == DOFStatus::Free && idof->get_status() == DOFStatus::Fixed) //adds to the kj force term
+						{
+							//std::cout << "i is constrained" << std::endl;
+							kc = kj;
+							cdof = idof;
+						}
+						else if (idof->get_status() == DOFStatus::Free && jdof->get_status() == DOFStatus::Fixed) //adds to the ki force term
+						{
+							//std::cout << "j is constrained" << std::endl;
+							kc = ki;
+							cdof = jdof;
+						}
+						//kc is the equation number, cdof is the constrained dof
+						//std::cout << "Stiffness value = " << std::endl << k << std::endl;
+						if (cdof != nullptr)
+						{
+							//std::cout << "Constained DOF is " << cdof->get_value() << std::endl;
+							// C++ is an absolutely miserable language and chokes on the following when used in a template
+							// if you don't specifically call the operator like this.  Fuckers.
+							this->f->operator[](kc) -= cdof->get_value() * k(i, j);
+							//std::cout << "Updated f[kc]: " << (*f)[kc] << std::endl;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void accept(Vector<T> local_f, std::vector<DOF<T>*> dofs)
+	{
+		size_t size = dofs.size();
+		for (std::size_t i = 0; i < size; i++) //loop over rows of force contributor
+		{
+			auto idof = dofs[i]; //get ith degree of freedom from the DOF list
+			auto ki = idof->get_eqnumber(); //get global equation number for row from the DOF object
+			if (idof->get_status() == DOFStatus::Free)
+			{
+				// C++ is an absolutely miserable language and chokes on the following when used in a template
+				// if you don't specifically call the operator like this.  Fuckers.
+				this->f->operator[](ki) += local_f[i]; //add the local force term to the global force vector
+			}
+			else
+			{ //if not free, then constrained
+				//doing nothing...
+			}
+		}
+	};
+
 protected:
+
 private:
 };
 

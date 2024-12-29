@@ -14,9 +14,13 @@
 #include "./Eigen/Dense"
 #include "./Eigen/Sparse"
 #include "./Eigen/IterativeLinearSolvers"
+#include "vector.h"
 
 template <typename T>
 using BigMatrix =  Eigen::SparseMatrix<T>;
 
 template <typename T>
 using BigVector = Eigen::VectorX<T>;
+
+//template <typename T>
+//using Vector = Eigen::VectorX<T>;

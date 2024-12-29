@@ -119,28 +119,7 @@
     <ClCompile Include="feprog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="algebraicsystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="discretesystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="displacementconstraint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dof.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="feanalysis.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="forcecontributor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lin1dsf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="linearsystemassembler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="linquadsf.cpp">
@@ -179,9 +158,6 @@
     <ClCompile Include="quadtrisf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stiffnesscontributor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MeshDB\geomentity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -204,9 +180,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MeshDB\node.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="field.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

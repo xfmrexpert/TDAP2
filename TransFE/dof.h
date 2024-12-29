@@ -37,14 +37,34 @@ public:
 		}
 	}
 
-	void set_value(T);
-	T get_value();
+	void set_value(T dof_value)
+	{
+		value = dof_value;
+	}
 
-	void set_status(DOFStatus);
-	DOFStatus get_status();
+	T get_value() {
+		return value;
+	}
 
-	void set_eqnumber(size_t);
-	size_t get_eqnumber();
+	void set_status(DOFStatus dof_status) {
+
+		if (status == DOFStatus::Free && dof_status != DOFStatus::Free) {
+			ndof = ndof - 1;
+		}
+		status = dof_status;
+	}
+
+	DOFStatus get_status() {
+		return status;
+	}
+
+	void set_eqnumber(size_t eqnumber) {
+		eq_number = eqnumber; //probably should check for overflow here
+	}
+
+	size_t get_eqnumber() {
+		return eq_number;
+	}
 
 protected:
 

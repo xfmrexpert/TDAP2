@@ -32,43 +32,6 @@
 %unique_ptr(MeshFace);
 %unique_ptr(MeshEdge);
 
-%typemap(out) std::vector<std::unique_ptr<DOF>> {
-    std::vector<DOF*> rawPtrs;
-    for (const auto& item : $1) {
-        rawPtrs.push_back(item.get());
-    }
-    $result = rawPtrs;
-}
-
-%typemap(out) std::vector<std::unique_ptr<Node>> {
-    std::vector<Node*> rawPtrs;
-    for (const auto& item : $1) {
-        rawPtrs.push_back(item.get());
-    }
-    $result = rawPtrs;
-}
-
-%typemap(out) std::vector<std::unique_ptr<MeshEdge>> {
-    std::vector<MeshEdge*> rawPtrs;
-    for (const auto& item : $1) {
-        rawPtrs.push_back(item.get());
-    }
-    $result = rawPtrs;
-}
-
-%typemap(out) std::vector<std::unique_ptr<MeshFace>> {
-    std::vector<MeshFace*> rawPtrs;
-    for (const auto& item : $1) {
-        rawPtrs.push_back(item.get());
-    }
-    $result = rawPtrs;
-}
-
-%template(NodePtrVec) std::vector<Node*>;
-%template(DOFPtrVec) std::vector<DOF*>;
-%template(MeshFacePtrVec) std::vector<MeshFace*>;
-%template(MeshEdgePtrVec) std::vector<MeshEdge*>;
-
 
 %include "../TransFE/feprog.h"
 %include "../TransFE/MeshDB/mesh.h"

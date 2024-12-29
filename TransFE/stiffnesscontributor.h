@@ -18,6 +18,7 @@
 #include "assembler.h"
 #include "typedefs.h" //Matrix, Vector, etc.
 #include "MeshDB/point.h"
+#include <iostream>
 
 template <typename T>
 class StiffnessContributor {
@@ -32,11 +33,34 @@ public:
 
 	virtual ~StiffnessContributor() = default;
 
-	void evaluate(Assembler<T>*);
+	void evaluate(Assembler<T>* assem) {
+		const auto& DOFs = getDOFs();
+		Matrix<double> k(nnd * nen, nnd * nen);
+		std::vector<point> IntPt = SF->IntPts(); // Integration points in reference coordinates
+		Vector<double> Weight = SF->Weights(); // Integration weights
+		int numIntPts = SF->numIntPts(); // Number of integration points
+
+		//Perform integration over element
+		//The majority of the time here is spent in evaluatePt
+		for (int i = 0; i < numIntPts; i++) {
+			point pt = IntPt[i];
+			double weight = Weight[i];
+
+			Matrix<double> dNds = SF->dNds(pt); // Gradient of shape functions in reference coordinates
+			Matrix<double> dXds = Map->dXds(pt); // Gradient of mapping
+			dsdx = dXds.CalculateInverse();
+			dNdx = dNds * dsdx; // This is used in evaluatePt called below.
+
+			//This is a matrix equation
+			k = k + evaluatePt(pt) * dXds.CalculateDeterminant() * weight; //Map->detJacobian(pt) * weight;
+		}
+
+		//std::cout << "Adding stiffness contributor:\n";
+		//std::cout << k;
+		assem->accept(k, DOFs);
+	};
 
 	virtual Matrix<double> evaluatePt(point) = 0;
-
-	std::vector<DOF<T>*> getDOFs();
 
 protected:
 	MeshEntity* Element;
@@ -47,5 +71,9 @@ protected:
 	Matrix<double> dNdx; //Overwritten on each call to evaluate
 	size_t nnd; // # of DOFs/node - must be set by derived class
 	size_t nen; // # of nodes/element
+
+	std::vector<DOF<T>*> getDOFs() {
+		return field->getDOFsForEntity(*Element);
+	}
 
 };

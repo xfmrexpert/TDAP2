@@ -28,13 +28,30 @@ public:
 		nen = Element->getNodes().size();
 	};
 
-	virtual ~ForceContributor();
+	virtual ~ForceContributor() = default;
 
-	void evaluate(Assembler<T>*);
+	void evaluate(Assembler<T>* assem) {
+		std::vector<DOF<T>*> DOFs = this->getDOFs();
+		Vector<double> f(DOFs.size());  //This is a vector of DOFs for either the face or the edge
+		std::vector<point> IntPt = SF->IntPts();
+		Vector<double> Weight = SF->Weights();
+		int numIntPts = SF->numIntPts();
+
+		for (int i = 0; i < numIntPts; i++) {
+			point pt = IntPt[i];
+			double weight = Weight[i];
+			f = f + evaluatePt(pt) * weight;
+		}
+		//cout << "Adding force contributor:\n";
+		//cout << f;
+		assem->accept(f, DOFs);
+	};
 
 	virtual Vector<double> evaluatePt(point) = 0;
 
-	std::vector<DOF<T>*> getDOFs();
+	std::vector<DOF<T>*> getDOFs() {
+		return field->getDOFsForEntity(*Element);
+	}
 
 protected:
 	MeshEntity* Element;

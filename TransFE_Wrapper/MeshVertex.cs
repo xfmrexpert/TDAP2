@@ -38,8 +38,8 @@ public class MeshVertex : MeshEntity {
   public MeshVertex() : this(TransFE_NativeWrapperPINVOKE.new_MeshVertex(), true) {
   }
 
-  public MeshEdgePtrVec Edges() {
-    MeshEdgePtrVec ret = new MeshEdgePtrVec(TransFE_NativeWrapperPINVOKE.MeshVertex_Edges(swigCPtr), false);
+  public SWIGTYPE_p_std__vectorT_MeshEdge_p_t Edges() {
+    SWIGTYPE_p_std__vectorT_MeshEdge_p_t ret = new SWIGTYPE_p_std__vectorT_MeshEdge_p_t(TransFE_NativeWrapperPINVOKE.MeshVertex_Edges(swigCPtr), false);
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -68,8 +68,8 @@ public class MeshVertex : MeshEntity {
     return ret;
   }
 
-  public override NodePtrVec getNodes() {
-    NodePtrVec ret = new NodePtrVec(TransFE_NativeWrapperPINVOKE.MeshVertex_getNodes(swigCPtr), true);
+  public override SWIGTYPE_p_std__vectorT_Node_p_t getNodes() {
+    SWIGTYPE_p_std__vectorT_Node_p_t ret = new SWIGTYPE_p_std__vectorT_Node_p_t(TransFE_NativeWrapperPINVOKE.MeshVertex_getNodes(swigCPtr), true);
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

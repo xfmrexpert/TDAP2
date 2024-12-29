@@ -119,6 +119,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -138,6 +139,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -183,16 +185,8 @@
     <ClInclude Include="vector.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="algebraicsystem.cpp" />
-    <ClCompile Include="discretesystem.cpp" />
-    <ClCompile Include="displacementconstraint.cpp" />
-    <ClCompile Include="dof.cpp" />
-    <ClCompile Include="feanalysis.cpp" />
     <ClCompile Include="feprog.cpp" />
-    <ClCompile Include="field.cpp" />
-    <ClCompile Include="forcecontributor.cpp" />
     <ClCompile Include="lin1dsf.cpp" />
-    <ClCompile Include="linearsystemassembler.cpp" />
     <ClCompile Include="linquadsf.cpp" />
     <ClCompile Include="lintetsf.cpp" />
     <ClCompile Include="lintrisf.cpp" />
@@ -213,7 +207,6 @@
     <ClCompile Include="quad1dsf.cpp" />
     <ClCompile Include="quadquadsf.cpp" />
     <ClCompile Include="quadtrisf.cpp" />
-    <ClCompile Include="stiffnesscontributor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Notes.txt" />

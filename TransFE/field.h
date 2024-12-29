@@ -33,10 +33,52 @@ public:
 		initializeField();
 	}
 
-	std::vector<DOF<T>*> getDOFsForEntity(const MeshEntity& entity);
-	std::vector<DOF<T>*> getDOFsForNode(const Node& node);
+	inline std::vector<DOF<T>*> getDOFsForEntity(const MeshEntity& entity) {
+		std::vector<DOF<T>*> rtnDOFs;
+		const auto& nodes = entity.getNodes();
+		for (const auto& node : nodes) {
+			for (const auto& dof : DOFs[node->getID()]) {
+				rtnDOFs.push_back(dof.get());
+			}
+		}
+		return rtnDOFs;
+	}
 
-	void initializeField();
+	inline std::vector<DOF<T>*> getDOFsForNode(const Node& node) {
+		std::vector<DOF<T>*> rtnDOFs;
+		for (const auto& dof : DOFs[node.getID()]) {
+			rtnDOFs.push_back(dof.get());
+		}
+		return rtnDOFs;
+	}
+
+	void initializeField() {
+		ndof = 0;
+		const auto& nodes = mesh->getNodes();
+		DOFs.resize(nodes.size() * nnd);
+		for (size_t i = 0; i < nodes.size(); i++) {
+			DOFs[i].resize(nnd);
+			nodes[i]->setID(i);
+			for (size_t j = 0; j < nnd; j++) {
+				DOFs[i][j] = std::make_unique<DOF<T>>();
+				ndof++;
+			}
+		}
+	}
+
+	void reorder2() {
+		size_t labeldof = 0;
+		const auto& nodes = mesh->getNodes();
+		for (const auto& node : nodes) {
+			const auto& nodeDOFs = DOFs[node->getID()];
+			for (const auto& dof : nodeDOFs) {
+				if (dof->get_status() == DOFStatus::Free) {
+					dof->set_eqnumber(labeldof);
+					labeldof++;
+				}
+			}
+		}
+	};
 
 	/// a Reverse Cuthill-McKee reordering algorithm
 	//void reorder();
@@ -47,6 +89,7 @@ private:
 	Mesh* mesh;
 	std::vector<std::vector<std::unique_ptr<DOF<T>>>> DOFs;
 	int nnd;
+	int ndof = 0;
 
 };
 

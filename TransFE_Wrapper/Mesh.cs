@@ -106,14 +106,14 @@ public class Mesh : global::System.IDisposable {
     return ret;
   }
 
-  public MeshFacePtrVec getFaces() {
-    MeshFacePtrVec ret = new MeshFacePtrVec(TransFE_NativeWrapperPINVOKE.Mesh_getFaces(swigCPtr), true);
+  public SWIGTYPE_p_std__vectorT_MeshFace_p_t getFaces() {
+    SWIGTYPE_p_std__vectorT_MeshFace_p_t ret = new SWIGTYPE_p_std__vectorT_MeshFace_p_t(TransFE_NativeWrapperPINVOKE.Mesh_getFaces(swigCPtr), true);
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public NodePtrVec getNodes() {
-    NodePtrVec ret = new NodePtrVec(TransFE_NativeWrapperPINVOKE.Mesh_getNodes(swigCPtr), true);
+  public SWIGTYPE_p_std__vectorT_Node_p_t getNodes() {
+    SWIGTYPE_p_std__vectorT_Node_p_t ret = new SWIGTYPE_p_std__vectorT_Node_p_t(TransFE_NativeWrapperPINVOKE.Mesh_getNodes(swigCPtr), true);
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -146,16 +146,6 @@ public class Mesh : global::System.IDisposable {
     uint ret = TransFE_NativeWrapperPINVOKE.Mesh_numNodes(swigCPtr);
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
-  }
-
-  public void reorder() {
-    TransFE_NativeWrapperPINVOKE.Mesh_reorder(swigCPtr);
-    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
-  }
-
-  public void reorder2() {
-    TransFE_NativeWrapperPINVOKE.Mesh_reorder2(swigCPtr);
-    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public void readMesh(string meshfile) {

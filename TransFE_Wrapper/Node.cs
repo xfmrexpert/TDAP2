@@ -86,19 +86,6 @@ public class Node : global::System.IDisposable {
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public DOFPtrVec getDOFs() {
-    DOFPtrVec ret = new DOFPtrVec(TransFE_NativeWrapperPINVOKE.Node_getDOFs(swigCPtr), true);
-    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public DOF newDOF() {
-    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.Node_newDOF(swigCPtr);
-    DOF ret = (cPtr == global::System.IntPtr.Zero) ? null : new DOF(cPtr, true);
-    if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
   public MeshEntity getParent() {
     global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.Node_getParent(swigCPtr);
     MeshEntity ret = (cPtr == global::System.IntPtr.Zero) ? null : new MeshEntity(cPtr, true);

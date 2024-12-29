@@ -79,8 +79,8 @@ public class MeshEntity : global::System.IDisposable {
     return ret;
   }
 
-  public virtual NodePtrVec getNodes() {
-    NodePtrVec ret = new NodePtrVec(TransFE_NativeWrapperPINVOKE.MeshEntity_getNodes(swigCPtr), true);
+  public virtual SWIGTYPE_p_std__vectorT_Node_p_t getNodes() {
+    SWIGTYPE_p_std__vectorT_Node_p_t ret = new SWIGTYPE_p_std__vectorT_Node_p_t(TransFE_NativeWrapperPINVOKE.MeshEntity_getNodes(swigCPtr), true);
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

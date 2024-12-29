@@ -16,7 +16,7 @@
 #include "typedefs.h"
 #include "MeshDB/point.h"
 #include "matrix.h"
-#include "vector.h"
+//#include "vector.h"
 #include <vector>
 
 class ShapeFunction {

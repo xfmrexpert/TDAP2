@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 
-public class DOFPtrVec : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<DOF>
+public class DOFPtrVec : global::System.IDisposable, global::System.Collections.IEnumerable, global::System.Collections.Generic.IList<SWIGTYPE_p_DOF>
  {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
@@ -60,15 +60,15 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
   public DOFPtrVec(global::System.Collections.IEnumerable c) : this() {
     if (c == null)
       throw new global::System.ArgumentNullException("c");
-    foreach (DOF element in c) {
+    foreach (SWIGTYPE_p_DOF element in c) {
       this.Add(element);
     }
   }
 
-  public DOFPtrVec(global::System.Collections.Generic.IEnumerable<DOF> c) : this() {
+  public DOFPtrVec(global::System.Collections.Generic.IEnumerable<SWIGTYPE_p_DOF> c) : this() {
     if (c == null)
       throw new global::System.ArgumentNullException("c");
-    foreach (DOF element in c) {
+    foreach (SWIGTYPE_p_DOF element in c) {
       this.Add(element);
     }
   }
@@ -85,7 +85,7 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
     }
   }
 
-  public DOF this[int index]  {
+  public SWIGTYPE_p_DOF this[int index]  {
     get {
       return getitem(index);
     }
@@ -117,17 +117,17 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
     }
   }
 
-  public void CopyTo(DOF[] array)
+  public void CopyTo(SWIGTYPE_p_DOF[] array)
   {
     CopyTo(0, array, 0, this.Count);
   }
 
-  public void CopyTo(DOF[] array, int arrayIndex)
+  public void CopyTo(SWIGTYPE_p_DOF[] array, int arrayIndex)
   {
     CopyTo(0, array, arrayIndex, this.Count);
   }
 
-  public void CopyTo(int index, DOF[] array, int arrayIndex, int count)
+  public void CopyTo(int index, SWIGTYPE_p_DOF[] array, int arrayIndex, int count)
   {
     if (array == null)
       throw new global::System.ArgumentNullException("array");
@@ -145,13 +145,13 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
       array.SetValue(getitemcopy(index+i), arrayIndex+i);
   }
 
-  public DOF[] ToArray() {
-    DOF[] array = new DOF[this.Count];
+  public SWIGTYPE_p_DOF[] ToArray() {
+    SWIGTYPE_p_DOF[] array = new SWIGTYPE_p_DOF[this.Count];
     this.CopyTo(array);
     return array;
   }
 
-  global::System.Collections.Generic.IEnumerator<DOF> global::System.Collections.Generic.IEnumerable<DOF>.GetEnumerator() {
+  global::System.Collections.Generic.IEnumerator<SWIGTYPE_p_DOF> global::System.Collections.Generic.IEnumerable<SWIGTYPE_p_DOF>.GetEnumerator() {
     return new DOFPtrVecEnumerator(this);
   }
 
@@ -169,7 +169,7 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
   /// collection but not when one of the elements of the collection is modified as it is a bit
   /// tricky to detect unmanaged code that modifies the collection under our feet.
   public sealed class DOFPtrVecEnumerator : global::System.Collections.IEnumerator
-    , global::System.Collections.Generic.IEnumerator<DOF>
+    , global::System.Collections.Generic.IEnumerator<SWIGTYPE_p_DOF>
   {
     private DOFPtrVec collectionRef;
     private int currentIndex;
@@ -184,7 +184,7 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
     }
 
     // Type-safe iterator Current
-    public DOF Current {
+    public SWIGTYPE_p_DOF Current {
       get {
         if (currentIndex == -1)
           throw new global::System.InvalidOperationException("Enumeration not started.");
@@ -192,7 +192,7 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
           throw new global::System.InvalidOperationException("Enumeration finished.");
         if (currentObject == null)
           throw new global::System.InvalidOperationException("Collection modified.");
-        return (DOF)currentObject;
+        return (SWIGTYPE_p_DOF)currentObject;
       }
     }
 
@@ -233,8 +233,8 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
     TransFE_NativeWrapperPINVOKE.DOFPtrVec_Clear(swigCPtr);
   }
 
-  public void Add(DOF x) {
-    TransFE_NativeWrapperPINVOKE.DOFPtrVec_Add(swigCPtr, DOF.getCPtr(x));
+  public void Add(SWIGTYPE_p_DOF x) {
+    TransFE_NativeWrapperPINVOKE.DOFPtrVec_Add(swigCPtr, SWIGTYPE_p_DOF.getCPtr(x));
   }
 
   private uint size() {
@@ -262,22 +262,22 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  private DOF getitemcopy(int index) {
+  private SWIGTYPE_p_DOF getitemcopy(int index) {
     global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.DOFPtrVec_getitemcopy(swigCPtr, index);
-    DOF ret = (cPtr == global::System.IntPtr.Zero) ? null : new DOF(cPtr, true);
+    SWIGTYPE_p_DOF ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_DOF(cPtr, true);
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  private DOF getitem(int index) {
+  private SWIGTYPE_p_DOF getitem(int index) {
     global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.DOFPtrVec_getitem(swigCPtr, index);
-    DOF ret = (cPtr == global::System.IntPtr.Zero) ? null : new DOF(cPtr, true);
+    SWIGTYPE_p_DOF ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_DOF(cPtr, true);
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  private void setitem(int index, DOF val) {
-    TransFE_NativeWrapperPINVOKE.DOFPtrVec_setitem(swigCPtr, index, DOF.getCPtr(val));
+  private void setitem(int index, SWIGTYPE_p_DOF val) {
+    TransFE_NativeWrapperPINVOKE.DOFPtrVec_setitem(swigCPtr, index, SWIGTYPE_p_DOF.getCPtr(val));
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -293,8 +293,8 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
     return ret;
   }
 
-  public void Insert(int index, DOF x) {
-    TransFE_NativeWrapperPINVOKE.DOFPtrVec_Insert(swigCPtr, index, DOF.getCPtr(x));
+  public void Insert(int index, SWIGTYPE_p_DOF x) {
+    TransFE_NativeWrapperPINVOKE.DOFPtrVec_Insert(swigCPtr, index, SWIGTYPE_p_DOF.getCPtr(x));
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -313,8 +313,8 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static DOFPtrVec Repeat(DOF value, int count) {
-    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.DOFPtrVec_Repeat(DOF.getCPtr(value), count);
+  public static DOFPtrVec Repeat(SWIGTYPE_p_DOF value, int count) {
+    global::System.IntPtr cPtr = TransFE_NativeWrapperPINVOKE.DOFPtrVec_Repeat(SWIGTYPE_p_DOF.getCPtr(value), count);
     DOFPtrVec ret = (cPtr == global::System.IntPtr.Zero) ? null : new DOFPtrVec(cPtr, true);
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
@@ -334,23 +334,23 @@ public class DOFPtrVec : global::System.IDisposable, global::System.Collections.
     if (TransFE_NativeWrapperPINVOKE.SWIGPendingException.Pending) throw TransFE_NativeWrapperPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public bool Contains(DOF value) {
-    bool ret = TransFE_NativeWrapperPINVOKE.DOFPtrVec_Contains(swigCPtr, DOF.getCPtr(value));
+  public bool Contains(SWIGTYPE_p_DOF value) {
+    bool ret = TransFE_NativeWrapperPINVOKE.DOFPtrVec_Contains(swigCPtr, SWIGTYPE_p_DOF.getCPtr(value));
     return ret;
   }
 
-  public int IndexOf(DOF value) {
-    int ret = TransFE_NativeWrapperPINVOKE.DOFPtrVec_IndexOf(swigCPtr, DOF.getCPtr(value));
+  public int IndexOf(SWIGTYPE_p_DOF value) {
+    int ret = TransFE_NativeWrapperPINVOKE.DOFPtrVec_IndexOf(swigCPtr, SWIGTYPE_p_DOF.getCPtr(value));
     return ret;
   }
 
-  public int LastIndexOf(DOF value) {
-    int ret = TransFE_NativeWrapperPINVOKE.DOFPtrVec_LastIndexOf(swigCPtr, DOF.getCPtr(value));
+  public int LastIndexOf(SWIGTYPE_p_DOF value) {
+    int ret = TransFE_NativeWrapperPINVOKE.DOFPtrVec_LastIndexOf(swigCPtr, SWIGTYPE_p_DOF.getCPtr(value));
     return ret;
   }
 
-  public bool Remove(DOF value) {
-    bool ret = TransFE_NativeWrapperPINVOKE.DOFPtrVec_Remove(swigCPtr, DOF.getCPtr(value));
+  public bool Remove(SWIGTYPE_p_DOF value) {
+    bool ret = TransFE_NativeWrapperPINVOKE.DOFPtrVec_Remove(swigCPtr, SWIGTYPE_p_DOF.getCPtr(value));
     return ret;
   }
 
