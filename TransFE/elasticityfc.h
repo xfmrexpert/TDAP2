@@ -19,13 +19,13 @@
 #include "dof.h"
 #include <vector>
 
-class ElasticityFC : public ForceContributor{
+class ElasticityFC : public ForceContributor<double>{
 public:
-    ElasticityFC(MeshFace* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
+    ElasticityFC(MeshFace* Element_in, Field<double>* Field_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) : ForceContributor<double>(Element_in, Field_in, Map_in, SF_in) {
       nnd = 2;
     };
    
-    ElasticityFC(MeshEdge* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) : ForceContributor(Element_in, Map_in, SF_in) {
+    ElasticityFC(MeshEdge* Element_in, Field<double>* Field_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) : ForceContributor<double>(Element_in, Field_in, Map_in, SF_in) {
       nnd = 2;
     };
     

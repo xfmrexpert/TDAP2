@@ -81,11 +81,6 @@ public:
 	/// Returns the total number of nodes in this mesh
 	size_t numNodes() const;
 
-	/// a Reverse Cuthill-McKee reordering algorithm
-	void reorder();
-
-	void reorder2();
-
 	/// Reads a GMSH file (version 2.0)
 	void readMesh(const std::string& meshfile);
 

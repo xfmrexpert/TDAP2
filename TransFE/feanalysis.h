@@ -26,6 +26,7 @@
 /// This is the base class for specific finite element analysis implementations
 /// For an example implemeentation, refer to ElasticityAnalysis
 
+template <typename T>
 class FEAnalysis {
 
 public:
@@ -55,27 +56,27 @@ public:
    virtual void recover() = 0;
    
    /// Create the appropriate StiffnessContributor for the face "element"
-   virtual std::unique_ptr<StiffnessContributor> makeStiffContrib(MeshFace& face) = 0;
+   virtual std::unique_ptr<StiffnessContributor<T>> makeStiffContrib(MeshFace& face) = 0;
 
    /// Create the appropriate StiffnessContributor for the face "element"
-   virtual std::unique_ptr<StiffnessContributor> makeStiffContrib(MeshRegion& region) = 0;
+   virtual std::unique_ptr<StiffnessContributor<T>> makeStiffContrib(MeshRegion& region) = 0;
 
-   virtual std::unique_ptr<ForceContributor> makeForceContrib(MeshRegion& region) = 0;
+   virtual std::unique_ptr<ForceContributor<T>> makeForceContrib(MeshRegion& region) = 0;
 
    /// Create the appropriate ForceContributor for a face body force
-   virtual std::unique_ptr<ForceContributor> makeForceContrib(MeshFace& face) = 0;
+   virtual std::unique_ptr<ForceContributor<T>> makeForceContrib(MeshFace& face) = 0;
 
    /// Create the appropriate ForceContributor for an edge force
-   virtual std::unique_ptr<ForceContributor> makeForceContrib(MeshEdge& edge) = 0;
+   virtual std::unique_ptr<ForceContributor<T>> makeForceContrib(MeshEdge& edge) = 0;
 
    /// Create the appropriate Constraint for a face
-   virtual std::unique_ptr<Constraint> makeConstraint(MeshFace& face) = 0;
+   virtual std::unique_ptr<Constraint<T>> makeConstraint(MeshFace& face) = 0;
 
    /// Create the appropriate Constraint for an edge
-   virtual std::unique_ptr<Constraint> makeConstraint(MeshEdge& edge) = 0;
+   virtual std::unique_ptr<Constraint<T>> makeConstraint(MeshEdge& edge) = 0;
 
    /// Create the appropriate Constraint for a vertex
-   virtual std::unique_ptr<Constraint> makeConstraint(MeshVertex& vertex) = 0;
+   virtual std::unique_ptr<Constraint<T>> makeConstraint(MeshVertex& vertex) = 0;
 
    /// For the saving of the output
    virtual void saveOut(const std::string& filename) = 0;
@@ -84,8 +85,9 @@ public:
   
 protected:
   
-   DiscreteSystem DS;
+   DiscreteSystem<T> DS;
    std::shared_ptr<Mesh> theMesh = std::make_shared<Mesh>();
+   std::unique_ptr<Field<T>> field = std::make_unique<Field<T>>();
 
 private:
 

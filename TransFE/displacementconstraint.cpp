@@ -11,18 +11,15 @@
 #include "displacementconstraint.h"
 #include <iostream>
 
-DisplacementConstraint::~DisplacementConstraint() {
+template <typename T>
+void DisplacementConstraint<T>::apply() {
+	auto nodes = this->entity->getNodes();
 
-};
-
-void DisplacementConstraint::apply() {
-	auto nodes = entity->getNodes();
-
-	if (entity->getClassification()->getAttribute("x_constraint") != NO_ATTRIB) {  //x component is constrained
-		double x_constraint = entity->getClassification()->getAttribute("x_constraint");
+	if (this->entity->getClassification()->getAttribute("x_constraint") != NO_ATTRIB) {  //x component is constrained
+		T x_constraint = this->entity->getClassification()->getAttribute("x_constraint");
 
 		for (const auto& node : nodes) {
-			const auto& DOFs = node->getDOFs();
+			const auto& DOFs = this->field->getDOFsForNode(node);
 			if (DOFs.size() > 0) {
 				//if(x_constraint == 0){  //zero essential BC
 				//   DOFs[0]->set_status(DOF_Zero);
@@ -38,10 +35,10 @@ void DisplacementConstraint::apply() {
 			}
 		}
 	}
-	if (entity->getClassification()->getAttribute("y_constraint") != NO_ATTRIB) { //y component is constrained
-		double y_constraint = entity->getClassification()->getAttribute("y_constraint");
+	if (this->entity->getClassification()->getAttribute("y_constraint") != NO_ATTRIB) { //y component is constrained
+		T y_constraint = this->entity->getClassification()->getAttribute("y_constraint");
 		for (const auto& node : nodes) {
-			const auto& DOFs = node->getDOFs();
+			const auto& DOFs = this->field->getDOFsForNode(node);
 			if (y_constraint == 0) {  //zero essential BC
 				DOFs[1]->set_status(DOFStatus::Zero);
 				DOFs[1]->set_value(0);
@@ -52,10 +49,10 @@ void DisplacementConstraint::apply() {
 			}
 		}
 	}
-	if (entity->getClassification()->getAttribute("z_constraint") != NO_ATTRIB) { //z component is constrained
-		double y_constraint = entity->getClassification()->getAttribute("z_constraint");
+	if (this->entity->getClassification()->getAttribute("z_constraint") != NO_ATTRIB) { //z component is constrained
+		T y_constraint = this->entity->getClassification()->getAttribute("z_constraint");
 		for (const auto& node : nodes) {
-			const auto& DOFs = node->getDOFs();
+			const auto& DOFs = this->field->getDOFsForNode(node);
 			if (y_constraint == 0) {  //zero essential BC
 				DOFs[2]->set_status(DOFStatus::Zero);
 				DOFs[2]->set_value(0);

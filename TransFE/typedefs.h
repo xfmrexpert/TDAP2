@@ -15,5 +15,8 @@
 #include "./Eigen/Sparse"
 #include "./Eigen/IterativeLinearSolvers"
 
-typedef Eigen::SparseMatrix<double> BigMatrix;
-typedef Eigen::VectorXd BigVector;
+template <typename T>
+using BigMatrix =  Eigen::SparseMatrix<T>;
+
+template <typename T>
+using BigVector = Eigen::VectorX<T>;

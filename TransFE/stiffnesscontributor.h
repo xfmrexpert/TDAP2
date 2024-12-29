@@ -12,16 +12,19 @@
 
 #include <vector>
 #include "MeshDB/meshentity.h"
+#include "field.h"
 #include "mapping.h"
 #include "shapefunction.h"
 #include "assembler.h"
 #include "typedefs.h" //Matrix, Vector, etc.
 #include "MeshDB/point.h"
 
+template <typename T>
 class StiffnessContributor {
 public:
-	StiffnessContributor(MeshEntity* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) {
+	StiffnessContributor(MeshEntity* Element_in, Field<T>* Field_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) {
 		Element = Element_in;
+		field = Field_in;	
 		Map = Map_in;
 		SF = SF_in;
 		nen = Element->getNodes().size();
@@ -29,14 +32,15 @@ public:
 
 	virtual ~StiffnessContributor() = default;
 
-	void evaluate(Assembler*);
+	void evaluate(Assembler<T>*);
 
 	virtual Matrix<double> evaluatePt(point) = 0;
 
-	std::vector<DOF*> getDOFs();
+	std::vector<DOF<T>*> getDOFs();
 
 protected:
 	MeshEntity* Element;
+	Field<T>* field;
 	std::shared_ptr<Mapping> Map;
 	std::shared_ptr<ShapeFunction> SF;
 	Matrix<double> dsdx; //Overwritten on each call to evaluate

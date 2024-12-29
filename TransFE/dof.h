@@ -19,7 +19,7 @@ enum class DOFStatus {
 extern size_t ndof;
 
 /// This class represents a Degree of Freedom (DOF). 
-
+template <class T>
 class DOF {
 
 public:
@@ -37,8 +37,8 @@ public:
 		}
 	}
 
-	void set_value(double);
-	double get_value();
+	void set_value(T);
+	T get_value();
 
 	void set_status(DOFStatus);
 	DOFStatus get_status();
@@ -49,7 +49,7 @@ public:
 protected:
 
 private:
-	double value = 0;
+	T value = 0;
 	DOFStatus status;
 	size_t eq_number;  //the number of nodes could be limited by the size of this variable
 

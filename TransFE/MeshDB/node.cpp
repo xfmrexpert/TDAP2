@@ -30,18 +30,3 @@ bool operator< (Node& lhs, Node& rhs) {
 	}
 }
 
-// Function to get non-owning pointers to DOFs
-std::vector<DOF*> Node::getDOFs() const {
-	std::vector<DOF*> result;
-	result.reserve(DOFs.size()); // Reserve space for efficiency
-	for (const auto& dof : DOFs) {
-		result.push_back(dof.get()); // Extract raw pointer
-	}
-	return result; // Return non-owning pointers
-}
-
-DOF* Node::newDOF() {
-	DOFs.push_back(std::make_unique<DOF>());
-	return DOFs.back().get();;
-}
-

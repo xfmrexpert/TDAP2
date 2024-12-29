@@ -10,26 +10,31 @@
 
 #include "discretesystem.h"
 
-void DiscreteSystem::add(std::unique_ptr<StiffnessContributor> sc) {
+template <typename T>
+void DiscreteSystem<T>::add(std::unique_ptr<StiffnessContributor<T>> sc) {
    StiffnessContributors.push_back(std::move(sc));
 };
 
-void DiscreteSystem::add(std::unique_ptr<ForceContributor> fc) {
+template <typename T>
+void DiscreteSystem<T>::add(std::unique_ptr<ForceContributor<T>> fc) {
    ForceContributors.push_back(std::move(fc));
 };
 
-void DiscreteSystem::add(std::unique_ptr<Constraint> c) {
+template <typename T>
+void DiscreteSystem<T>::add(std::unique_ptr<Constraint<T>> c) {
    Constraints.push_back(std::move(c));
 };
 
-void DiscreteSystem::initializeSystem(){
+template <typename T>
+void DiscreteSystem<T>::initializeSystem(){
    for(const auto& constraint : Constraints){
       constraint->apply(); //each essential boundary condition will eliminate possible dof from the global system
                                //in the case of non-zero essential boundary conditions must also get the non-zero value
    }
 }
 
-void DiscreteSystem::formSystem(Assembler* assem){
+template <typename T>
+void DiscreteSystem<T>::formSystem(Assembler<T>* assem){
    for(const auto& FC : ForceContributors){
       FC->evaluate(assem);
    }

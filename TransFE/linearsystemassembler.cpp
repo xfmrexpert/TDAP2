@@ -11,7 +11,8 @@
 #include "linearsystemassembler.h"
 #include <iostream>
 
-void LinearSystemAssembler::accept(Matrix<double> k, std::vector<DOF*> dofs)
+template <typename T>
+void LinearSystemAssembler<T>::accept(Matrix<T> k, std::vector<DOF<T>*> dofs)
 {
 	//given a stiffness contributor stiffness matrix and list of associated DOF objects
 	//add into global matrix
@@ -33,13 +34,13 @@ void LinearSystemAssembler::accept(Matrix<double> k, std::vector<DOF*> dofs)
 				if(jdof->get_status()==DOFStatus::Free && idof->get_status()==DOFStatus::Free) //unconstrained
 				{
 					//std::cout << "Unconstrained. Adding " << k(i, j) << " to K(" << ki << ", " << kj << ") :" << std::endl;
-					(*K).coeffRef(ki,kj) += k(i, j); //add the local stiffness term to the global stiffness matrix
+					this->K.coeffRef(ki,kj) += k(i, j); //add the local stiffness term to the global stiffness matrix
 				}
 				else //if both not free, then one or both are constrained
 				{ 
 					//If one of the dofs is constrained as Fixed and the other is free, proper term must
 					//go in load vector
-					DOF* cdof=nullptr; //we'll need the value of the non-zero essential BC from the DOF
+					DOF<T>* cdof=nullptr; //we'll need the value of the non-zero essential BC from the DOF
 					if(jdof->get_status()==DOFStatus::Free && idof->get_status()==DOFStatus::Fixed) //adds to the kj force term
 					{
 						//std::cout << "i is constrained" << std::endl;
@@ -57,7 +58,7 @@ void LinearSystemAssembler::accept(Matrix<double> k, std::vector<DOF*> dofs)
 					if(cdof!=nullptr)
 					{
 						//std::cout << "Constained DOF is " << cdof->get_value() << std::endl;
-						(*f)[kc] = (*f)[kc] - cdof->get_value()*k(i, j);
+						this->f[kc] = this->f[kc] - cdof->get_value()*k(i, j);
 						//std::cout << "Updated f[kc]: " << (*f)[kc] << std::endl;
 					}
 				}
@@ -66,7 +67,8 @@ void LinearSystemAssembler::accept(Matrix<double> k, std::vector<DOF*> dofs)
 	}
 }
 
-void LinearSystemAssembler::accept(Vector<double> local_f, std::vector<DOF*> dofs)
+template <typename T>
+void LinearSystemAssembler<T>::accept(Vector<T> local_f, std::vector<DOF<T>*> dofs)
 {
 	size_t size = dofs.size();
 	for(std::size_t i=0; i < size; i++) //loop over rows of force contributor
@@ -77,7 +79,7 @@ void LinearSystemAssembler::accept(Vector<double> local_f, std::vector<DOF*> dof
 		{
 			//std::cout << "Adding force term..." << std::endl;
 			//std::cout << local_f;
-			(*f)[ki] = (*f)[ki] + local_f[i]; //add the local force term to the global force vector
+			this->f[ki] = this->f[ki] + local_f[i]; //add the local force term to the global force vector
 		}
 		else
 		{ //if not free, then constrained

@@ -18,21 +18,16 @@
 #include "matrix.h"
 #include "vector.h"
 
+template <typename T>
 class DOF;
 
 /// This class represents a linear system assembler. 
-
-class LinearSystemAssembler : public Assembler{
-
+template <typename T>
+class LinearSystemAssembler : public Assembler<T>{
 public:
-
-   virtual void accept(Matrix<double>, std::vector<DOF*> dofs);   
-
-   virtual void accept(Vector<double>, std::vector<DOF*> dofs);
-  
+   virtual void accept(Matrix<T>, std::vector<DOF<T>*> dofs);   
+   virtual void accept(Vector<T>, std::vector<DOF<T>*> dofs);
 protected:
-  
 private:
-
 };
 

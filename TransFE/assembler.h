@@ -18,23 +18,24 @@
 
 /// This class represents a generic assembler. 
 
+template<typename T>
 class Assembler {
 
 public:
 
-   void initialize(BigMatrix* K_in, BigVector* f_in){
+   void initialize(BigMatrix<T>* K_in, BigVector<T>* f_in){
       K = K_in;
       f = f_in;
    };
 
-   virtual void accept(Matrix<double> k, std::vector<DOF*> dofs) = 0;   
+   virtual void accept(Matrix<T> k, std::vector<DOF<T>*> dofs) = 0;   
 
-   virtual void accept(Vector<double> k, std::vector<DOF*> dofs) = 0;
+   virtual void accept(Vector<T> k, std::vector<DOF<T>*> dofs) = 0;
   
 protected:
   
-   BigMatrix* K;
-   BigVector* f;
+   BigMatrix<T>* K;
+   BigVector<T>* f;
 
 private:
 

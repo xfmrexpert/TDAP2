@@ -1,14 +1,14 @@
 /***************************************************************************
- *   Copyright (C) 2005 by T. C. Raymond                                   *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef ELASTICITYANALYSIS_H
-#define ELASTICITYANALYSIS_H
+
+#pragma once
 
 #include "feanalysis.h"
 #include "elasticitysc.h"
@@ -17,7 +17,7 @@
 #include "linearsystemassembler.h"
 #include "algebraicsystem.h"
 
-class ElasticityAnalysis : public FEAnalysis{
+class ElasticityAnalysis : public FEAnalysis<double>{
 public:
    ElasticityAnalysis();
 
@@ -27,14 +27,14 @@ public:
     
    virtual void recover(); //recover them all important secondary variables
    
-   virtual StiffnessContributor* makeStiffContrib(MeshFace* face); //face "element" stiffness
-   virtual StiffnessContributor* makeStiffContrib(MeshRegion* region){return NULL;};
-   virtual ForceContributor* makeForceContrib(MeshRegion* region){return NULL;};
-   virtual ForceContributor* makeForceContrib(MeshFace* face); //face body force
-   virtual ForceContributor* makeForceContrib(MeshEdge* edge); //edge forces
-   virtual Constraint* makeConstraint(MeshFace* face){return NULL;};
-   virtual Constraint* makeConstraint(MeshEdge* edge);
-   virtual Constraint* makeConstraint(MeshVertex* vertex);
+   virtual StiffnessContributor<double>* makeStiffContrib(MeshFace* face); //face "element" stiffness
+   virtual StiffnessContributor<double>* makeStiffContrib(MeshRegion* region){return nullptr;};
+   virtual ForceContributor<double>* makeForceContrib(MeshRegion* region){return nullptr;};
+   virtual ForceContributor<double>* makeForceContrib(MeshFace* face); //face body force
+   virtual ForceContributor<double>* makeForceContrib(MeshEdge* edge); //edge forces
+   virtual Constraint<double>* makeConstraint(MeshFace* face){return nullptr;};
+   virtual Constraint<double>* makeConstraint(MeshEdge* edge);
+   virtual Constraint<double>* makeConstraint(MeshVertex* vertex);
 
    virtual void saveOut(const char* filename);
 
@@ -42,5 +42,3 @@ protected:
    Vector<double> stress;
 
 };
-
-#endif

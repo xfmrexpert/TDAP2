@@ -12,6 +12,7 @@
 
 #include "stiffnesscontributor.h"
 #include "MeshDB/meshface.h"
+#include "field.h"
 #include "mapping.h"
 #include "shapefunction.h"
 #include "MeshDB/point.h"
@@ -19,27 +20,13 @@
 #include "dof.h"
 #include "typedefs.h"
 
-class MagAxiStaticSC : public StiffnessContributor {
+class MagAxiStaticSC : public StiffnessContributor<double> {
 public:
-	MagAxiStaticSC(MeshFace* Element, std::shared_ptr<Mapping> Map, std::shared_ptr<ShapeFunction> SF, int formul) :StiffnessContributor(Element, Map, SF) {
-		auto nodes = Element->getNodes();
-
+	MagAxiStaticSC(MeshFace* Element, Field<double>* field, std::shared_ptr<Mapping> Map, std::shared_ptr<ShapeFunction> SF, int formul) :StiffnessContributor(Element, field, Map, SF) {
 		//check the region type of this face and set nnd (and dofs) accordingly
 		nnd = 1; //Only have A component in z-direction
 
 		formulation = formul;
-
-		//create a new DOF for each node
-		for (const auto& node : Element->getNodes()) {
-
-			const auto& DOFs = node->getDOFs();
-			if (DOFs.size() < nnd) {
-				for (size_t i = DOFs.size(); i < nnd; i++) {
-					DOF* newDOF = node->newDOF();
-					//newDOF->set_eqnumber((*node_iter)->ID*2+i);
-				}
-			}
-		}
 	};
 
 	//~MagAxiStaticSC(){};

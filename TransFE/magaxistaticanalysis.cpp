@@ -18,6 +18,7 @@
 #include "quadquadsf.h"
 #include "lin1dsf.h"
 #include "quad1dsf.h"
+#include "typedefs.h"
 
  //#include "precisiontimer.h"
 #include <iostream>
@@ -33,9 +34,10 @@ MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 		ndof = 0;
 	}
 	formulation = form;
+	field = std::make_unique<Field<double>>();
 }
 
-std::unique_ptr<StiffnessContributor> MagAxiStaticAnalysis::makeStiffContrib(MeshFace& face) {
+std::unique_ptr<StiffnessContributor<double>> MagAxiStaticAnalysis::makeStiffContrib(MeshFace& face) {
 	const auto& nodes = face.getNodes(); // Cache nodes for efficiency
 	size_t nen = nodes.size();
 
@@ -73,10 +75,10 @@ std::unique_ptr<StiffnessContributor> MagAxiStaticAnalysis::makeStiffContrib(Mes
 	else {
 		mapping = std::make_shared<Mapping2D>(&face, sf);
 	}
-	return std::make_unique<MagAxiStaticSC>(&face, mapping, sf, formulation);
+	return std::make_unique<MagAxiStaticSC>(&face, field.get(), mapping, sf, formulation);
 };
 
-std::unique_ptr<ForceContributor> MagAxiStaticAnalysis::makeForceContrib(MeshFace& face) {
+std::unique_ptr<ForceContributor<double>> MagAxiStaticAnalysis::makeForceContrib(MeshFace& face) {
 	if (face.getClassification()->getAttribute("J") != NO_ATTRIB) {
 		size_t nen = face.getNodes().size();  //inefficient...
 		std::shared_ptr<ShapeFunction> sf = nullptr;
@@ -114,16 +116,16 @@ std::unique_ptr<ForceContributor> MagAxiStaticAnalysis::makeForceContrib(MeshFac
 			mapping = std::make_shared<Mapping2D>(&face, sf);
 		}
 
-		return std::make_unique<MagAxiStaticFC>(&face, mapping, sf, formulation);
+		return std::make_unique<MagAxiStaticFC>(&face, field.get(), mapping, sf, formulation);
 	}
 	return nullptr;
 };
 
-std::unique_ptr<ForceContributor> MagAxiStaticAnalysis::makeForceContrib(MeshEdge& edge) {
+std::unique_ptr<ForceContributor<double>> MagAxiStaticAnalysis::makeForceContrib(MeshEdge& edge) {
 	return nullptr;
 };
 
-std::unique_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge) {
+std::unique_ptr<Constraint<double>> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge) {
 	auto classification = edge.getClassification();
 	if (!classification) return nullptr;
 
@@ -131,13 +133,13 @@ std::unique_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge)
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_unique<DisplacementConstraint>(&edge);
+		return std::make_unique<DisplacementConstraint<double>>(&edge, field.get());
 	}
 
 	return nullptr;
 };
 
-std::unique_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshVertex& vertex) {
+std::unique_ptr<Constraint<double>> MagAxiStaticAnalysis::makeConstraint(MeshVertex& vertex) {
 	auto classification = vertex.getClassification();
 	if (!classification) return nullptr;
 
@@ -145,23 +147,23 @@ std::unique_ptr<Constraint> MagAxiStaticAnalysis::makeConstraint(MeshVertex& ver
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_unique<DisplacementConstraint>(&vertex);
+		return std::make_unique<DisplacementConstraint<double>>(&vertex, field.get());
 	}
 
 	return nullptr;
 };
 
 void MagAxiStaticAnalysis::solve() {
-	LinearSystemAssembler assembler;
-	AlgebraicSystem AS(&DS, &assembler, theMesh.get());
+	LinearSystemAssembler<double> assembler;
+	AlgebraicSystem<double> AS(&DS, &assembler, theMesh.get());
 	AS.solve();
 
 	//get vector of nodal displacements from AlgebraicSystem
-	BigVector d = *AS.get_d();
+	BigVector<double> d = *AS.get_d();
 
 	//assign nodal displacements to DOF value
 	for (const auto& node : theMesh->getNodes()) {
-		const auto& DOFs = node->getDOFs();
+		const auto& DOFs = field->getDOFsForNode(*node);
 		for (const auto& dof : DOFs) {
 			if (dof->get_status() == DOFStatus::Free) {
 				if (formulation <= 0) {
@@ -374,7 +376,7 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 		}
 		outFile << "){";
 		for (const auto& vertex : vertexes) {
-			const auto& DOFs = vertex->getNode()->getDOFs();
+			const auto& DOFs = field->getDOFsForNode(*vertex->getNode());
 			outFile << DOFs[0]->get_value();
 			//outFile << DOFs[0]->get_value();
 			if (vertex != vertexes.back()) {

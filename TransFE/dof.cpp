@@ -12,15 +12,19 @@
 
 size_t ndof;
 
-void DOF::set_value(double dof_value) {
+template<class T>
+void DOF<T>::set_value(T dof_value)
+{
 	value = dof_value;
 }
 
-double DOF::get_value() {
+template<class T>
+T DOF<T>::get_value() {
 	return value;
 }
 
-void DOF::set_status(DOFStatus dof_status) {
+template<class T>
+void DOF<T>::set_status(DOFStatus dof_status) {
 
 	if (status == DOFStatus::Free && dof_status != DOFStatus::Free) {
 		ndof = ndof - 1;
@@ -28,14 +32,17 @@ void DOF::set_status(DOFStatus dof_status) {
 	status = dof_status;
 }
 
-DOFStatus DOF::get_status() {
+template<class T>
+DOFStatus DOF<T>::get_status() {
 	return status;
 }
 
-void DOF::set_eqnumber(size_t eqnumber) {
+template<class T>
+void DOF<T>::set_eqnumber(size_t eqnumber) {
 	eq_number = eqnumber; //probably should check for overflow here
 }
 
-size_t DOF::get_eqnumber() {
+template<class T>
+size_t DOF<T>::get_eqnumber() {
 	return eq_number;
 }

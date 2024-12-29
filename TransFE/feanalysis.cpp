@@ -11,18 +11,21 @@
 #include "feanalysis.h"
 #include "discretesystem.h"
 
-std::shared_ptr<Mesh> FEAnalysis::getMesh() {
+template <typename T>
+std::shared_ptr<Mesh> FEAnalysis<T>::getMesh() {
 	return theMesh;
 };
 
-void FEAnalysis::run() {
+template <typename T>
+void FEAnalysis<T>::run() {
 	setup(); //determine the contributors
 	solve(); //process the contributors to determine the system
 	//perform integrations over contributors, assemble and solve system
 	recover(); //recover secondary variables
 };
 
-void FEAnalysis::setup() {
+template <typename T>
+void FEAnalysis<T>::setup() {
 
 	for (size_t i = 0; i < theMesh->numRegions(); i++) {
 		auto& r = theMesh->getRegion(i);

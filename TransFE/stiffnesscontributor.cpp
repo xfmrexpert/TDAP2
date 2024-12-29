@@ -11,9 +11,10 @@
 #include "stiffnesscontributor.h"
 #include <iostream>
 
-void StiffnessContributor::evaluate(Assembler* assem) {
-	const auto& DOFs = getDOFs();  //70us
-	Matrix<double> k(DOFs.size(), DOFs.size()); //10-20us
+template <class T>
+void StiffnessContributor<T>::evaluate(Assembler<T>* assem) {
+	const auto& DOFs = getDOFs();
+	Matrix<double> k(nnd * nen, nnd * nen);
 	std::vector<point> IntPt = SF->IntPts(); // Integration points in reference coordinates
 	Vector<double> Weight = SF->Weights(); // Integration weights
 	int numIntPts = SF->numIntPts(); // Number of integration points
@@ -29,7 +30,6 @@ void StiffnessContributor::evaluate(Assembler* assem) {
 		dsdx = dXds.CalculateInverse();
 		dNdx = dNds * dsdx; // This is used in evaluatePt called below.
 
-		//approx. 830us
 	    //This is a matrix equation
 		k = k + evaluatePt(pt) * dXds.CalculateDeterminant() * weight; //Map->detJacobian(pt) * weight;
 	}
@@ -39,19 +39,9 @@ void StiffnessContributor::evaluate(Assembler* assem) {
 	assem->accept(k, DOFs);
 };
 
-std::vector<DOF*> StiffnessContributor::getDOFs() {
-	std::vector<DOF*> DOFs;
-
-	// A node is essentially a container for DOFs
-	// Loop through element nodes and grab the associated DOFs
-	for (const auto& node : Element->getNodes()) {
-		const auto& node_DOFs = node->getDOFs();
-		for (const auto& dof : node_DOFs) {
-			DOFs.push_back(dof);
-		}
-	}
-
-	return DOFs;
+template <class T>
+std::vector<DOF<T>*> StiffnessContributor<T>::getDOFs() {
+	return field->getDOFsForEntity(*Element);
 }
 
 

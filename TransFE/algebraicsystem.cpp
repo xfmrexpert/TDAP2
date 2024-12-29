@@ -11,7 +11,8 @@
 #include "algebraicsystem.h"
 #include <iostream>
 
-void AlgebraicSystem::solve() {
+template <typename T>
+void AlgebraicSystem<T>::solve() {
 	DS->initializeSystem();
 	createGlobalSystem();
 	A->initialize(K.get(), f.get());
@@ -19,10 +20,11 @@ void AlgebraicSystem::solve() {
 	solveLinearSystem();
 };
 
-void AlgebraicSystem::createGlobalSystem() {
+template <typename T>
+void AlgebraicSystem<T>::createGlobalSystem() {
 	// TODO: Not sure why this was here.  Maybe reordering should be here?
     // It might be needed to set the equation number
-	mesh->reorder2();
+	//mesh->reorder2();
 	K = std::make_unique<BigMatrix>(ndof, ndof);
 	K->setZero();
 	d = std::make_unique<BigVector>(ndof);
@@ -45,7 +47,8 @@ void AlgebraicSystem::createGlobalSystem() {
 	}*/
 };
 
-void AlgebraicSystem::solveLinearSystem() {
+template <typename T>
+void AlgebraicSystem<T>::solveLinearSystem() {
 	//Solve Kd = f
 	
 	// Initialize the solver
@@ -73,6 +76,7 @@ void AlgebraicSystem::solveLinearSystem() {
 	}
 };
 
-BigVector* AlgebraicSystem::get_d() {
+template <typename T>
+BigVector<T>* AlgebraicSystem<T>::get_d() {
 	return d.get();
 };

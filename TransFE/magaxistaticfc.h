@@ -19,20 +19,18 @@
 #include "dof.h"
 #include <vector>
 
-class MagAxiStaticFC : public ForceContributor {
+class MagAxiStaticFC : public ForceContributor<double> {
 public:
 
-	MagAxiStaticFC(MeshFace* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
+	MagAxiStaticFC(MeshFace* Element_in, Field<double>* Field_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor<double>(Element_in, Field_in, Map_in, SF_in) {
 		nnd = 1;
 		formulation = form;
 	};
 
-	MagAxiStaticFC(MeshEdge* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor(Element_in, Map_in, SF_in) {
+	MagAxiStaticFC(MeshEdge* Element_in, Field<double>* Field_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor<double>(Element_in, Field_in, Map_in, SF_in) {
 		nnd = 1;
 		formulation = form;
 	};
-
-	//virtual ~MagAxiStaticFC(){};
 
 	virtual Vector<double> evaluatePt(point);
 

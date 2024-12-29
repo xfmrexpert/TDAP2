@@ -70,10 +70,10 @@ public:
 	friend bool operator< (const Node&, const Node&);
 
 	/// Return a vector with pointers to the nodal DOFs
-	std::vector<DOF*> getDOFs() const;
+	//std::vector<DOF<T>*> getDOFs() const;
 
 	/// Create a new DOF for this node
-	DOF* newDOF();
+	//DOF<T>* newDOF();
 
 	MeshEntity* getParent() const {
 		return parent;
@@ -91,7 +91,7 @@ private:
 
 	/// A vector with pointers to all of the nodal DOFs
 	/// This vector owns the DOFs for this node
-	std::vector<std::unique_ptr<DOF>> DOFs;
+	//std::vector<std::unique_ptr<DOF<T>>> DOFs;
 	
 	/// A point for the spatial coordinates of this node
 	point m_pt;

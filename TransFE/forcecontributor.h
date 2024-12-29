@@ -14,11 +14,14 @@
 #include "mapping.h"
 #include "shapefunction.h"
 #include "assembler.h"
+#include "field.h"
 
+template <class T>
 class ForceContributor {
 public:
-	ForceContributor(MeshEntity* Element_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) {
+	ForceContributor(MeshEntity* Element_in, Field<T>* Field_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) {
 		Element = Element_in;
+		field = Field_in;
 		Map = Map_in;
 		SF = SF_in;
 
@@ -27,14 +30,15 @@ public:
 
 	virtual ~ForceContributor();
 
-	void evaluate(Assembler*);
+	void evaluate(Assembler<T>*);
 
 	virtual Vector<double> evaluatePt(point) = 0;
 
-	std::vector<DOF*> getDOFs();
+	std::vector<DOF<T>*> getDOFs();
 
 protected:
 	MeshEntity* Element;
+	Field<T>* field;
 	std::shared_ptr<Mapping> Map;
 	std::shared_ptr<ShapeFunction> SF;
 

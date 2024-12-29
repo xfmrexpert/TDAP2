@@ -156,6 +156,7 @@
     <ClInclude Include="dof.h" />
     <ClInclude Include="feanalysis.h" />
     <ClInclude Include="feprog.h" />
+    <ClInclude Include="field.h" />
     <ClInclude Include="forcecontributor.h" />
     <ClInclude Include="lin1dsf.h" />
     <ClInclude Include="linearsystemassembler.h" />
@@ -171,10 +172,11 @@
     <ClInclude Include="mapping2daxi.h" />
     <ClInclude Include="mapping3d.h" />
     <ClInclude Include="matrix.h" />
+    <ClInclude Include="MeshDB\mesh.h" />
     <ClInclude Include="quad1dsf.h" />
     <ClInclude Include="quadquadsf.h" />
     <ClInclude Include="quadtrisf.h" />
-    <ClInclude Include="ReferenceFE.h" />
+    <ClInclude Include="referencefe.h" />
     <ClInclude Include="shapefunction.h" />
     <ClInclude Include="stiffnesscontributor.h" />
     <ClInclude Include="typedefs.h" />
@@ -187,6 +189,7 @@
     <ClCompile Include="dof.cpp" />
     <ClCompile Include="feanalysis.cpp" />
     <ClCompile Include="feprog.cpp" />
+    <ClCompile Include="field.cpp" />
     <ClCompile Include="forcecontributor.cpp" />
     <ClCompile Include="lin1dsf.cpp" />
     <ClCompile Include="linearsystemassembler.cpp" />

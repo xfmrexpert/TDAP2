@@ -19,23 +19,10 @@
 #include "dof.h"
 #include "typedefs.h"
 
-class ElasticitySC : public StiffnessContributor {
+class ElasticitySC : public StiffnessContributor<double> {
 public:
-	ElasticitySC(MeshFace* Element, std::shared_ptr<Mapping> Map, std::shared_ptr<ShapeFunction> SF) : StiffnessContributor(Element, Map, SF) {
-		auto nodes = Element->getNodes();
-		
+	ElasticitySC(MeshFace* Element, Field<double>* field, std::shared_ptr<Mapping> Map, std::shared_ptr<ShapeFunction> SF) : StiffnessContributor<double>(Element, field, Map, SF) {
 		nnd = 2;
-
-		for (const auto& node : Element->getNodes()) {
-
-			const auto& DOFs = node->getDOFs();
-			if (DOFs.empty()) {
-				for (int i = 0; i < nnd; i++) {
-					DOF* newDOF = node->newDOF();
-					//newDOF->set_eqnumber((*node_iter)->ID*2+i);
-				}
-			}
-		}
 	};
 
 	~ElasticitySC() {};

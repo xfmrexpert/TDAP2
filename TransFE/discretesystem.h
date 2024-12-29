@@ -17,7 +17,7 @@
 #include <list>
 
 /// This class represents a generic discrete system. 
-
+template <typename T>
 class DiscreteSystem {
 
 public:
@@ -25,19 +25,19 @@ public:
 	DiscreteSystem() = default;
 	~DiscreteSystem() = default;
 
-   void add(std::unique_ptr<StiffnessContributor>);
-   void add(std::unique_ptr<ForceContributor>);
-   void add(std::unique_ptr<Constraint>);
+   void add(std::unique_ptr<StiffnessContributor<T>>);
+   void add(std::unique_ptr<ForceContributor<T>>);
+   void add(std::unique_ptr<Constraint<T>>);
    void initializeSystem();
-   void formSystem(Assembler*);
+   void formSystem(Assembler<T>*);
   
 protected:
   
 private:
 
-   std::list<std::unique_ptr<StiffnessContributor>> StiffnessContributors;
-   std::list<std::unique_ptr<ForceContributor>> ForceContributors;
-   std::list<std::unique_ptr<Constraint>> Constraints;
+   std::list<std::unique_ptr<StiffnessContributor<T>>> StiffnessContributors;
+   std::list<std::unique_ptr<ForceContributor<T>>> ForceContributors;
+   std::list<std::unique_ptr<Constraint<T>>> Constraints;
 
 };
 

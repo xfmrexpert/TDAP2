@@ -11,12 +11,9 @@
 #include "forcecontributor.h"
 #include <iostream>
 
-ForceContributor::~ForceContributor() {
-	
-};
-
-void ForceContributor::evaluate(Assembler* assem) {
-	std::vector<DOF*> DOFs = this->getDOFs();
+template <typename T>
+void ForceContributor<T>::evaluate(Assembler<T>* assem) {
+	std::vector<DOF<T>*> DOFs = this->getDOFs();
 	Vector<double> f(DOFs.size());  //This is a vector of DOFs for either the face or the edge
 	std::vector<point> IntPt = SF->IntPts();
 	Vector<double> Weight = SF->Weights();
@@ -32,15 +29,7 @@ void ForceContributor::evaluate(Assembler* assem) {
 	assem->accept(f, DOFs);
 };
 
-std::vector<DOF*> ForceContributor::getDOFs() {
-	std::vector<DOF*> DOFs;
-
-	for (const auto& node : Element->getNodes()) {
-		const auto& node_DOFs = node->getDOFs();
-		for (const auto& dof : node_DOFs) {
-			DOFs.push_back(dof);
-		}
-	}
-
-	return DOFs;
+template <typename T>
+std::vector<DOF<T>*> ForceContributor<T>::getDOFs() {
+	return field->getDOFsForEntity(*Element);
 }

@@ -15,9 +15,10 @@
 #include "typedefs.h"  //Matrix, SparseMatrix, Vector
 #include "MeshDB/mesh.h"
 
+template <typename T>
 class AlgebraicSystem{
 public:
-    AlgebraicSystem(DiscreteSystem* in_DS, Assembler* in_A, Mesh* in_mesh){
+    AlgebraicSystem(DiscreteSystem<T>* in_DS, Assembler<T>* in_A, Mesh* in_mesh){
        DS = in_DS;
        A = in_A;
        mesh = in_mesh;
@@ -31,14 +32,14 @@ public:
     
     void solveLinearSystem();
     
-    BigVector* get_d();
+    BigVector<T>* get_d();
     
 protected:
-   DiscreteSystem* DS;
-   Assembler* A;
-   std::unique_ptr<BigMatrix> K;
-   std::unique_ptr<BigVector> d;  //Save myself some grief and use MTL vectors for now
-   std::unique_ptr<BigVector> f;
+   DiscreteSystem<T>* DS;
+   Assembler<T>* A;
+   std::unique_ptr<BigMatrix<T>> K;
+   std::unique_ptr<BigVector<T>> d;  //Save myself some grief and use MTL vectors for now
+   std::unique_ptr<BigVector<T>> f;
    Mesh* mesh;
 
 };
