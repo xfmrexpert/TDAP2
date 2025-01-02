@@ -1,6 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   Copyright (C) 2005-2025 by T. C. Raymond                              *
  *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   Use of this source code is governed by an MIT-style                   *
+ *   license that can be found in the LICENSE.txt file or at               *
+ *   https://opensource.org/licenses/MIT.                                  *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -10,12 +14,10 @@
 
 #pragma once
 
-#include "feanalysis.h"
-//#include "magaxistaticsc.h"
-//#include "magaxistaticfc.h"
+#include "FEAnalysis.h"
 #include "displacementconstraint.h"
-#include "linearsystemassembler.h"
-#include "algebraicsystem.h"
+#include "LinearSystemAssembler.h"
+#include "AlgebraicSystem.h"
 
 class MagAxiStaticAnalysis : public FEAnalysis<double> {
 public:
@@ -27,16 +29,8 @@ public:
 
 	virtual void recover() override; //recover them all important secondary variables
 
-	//virtual std::unique_ptr<StiffnessContributor<double>> makeStiffContrib(MeshFace& face) override; //face "element" stiffness
-	//virtual std::unique_ptr<ForceContributor<double>> makeForceContrib(MeshFace& face) override; //face body force
-	//virtual std::unique_ptr<ForceContributor<double>> makeForceContrib(MeshEdge& edge) override; //edge forces
 	virtual std::unique_ptr<Constraint<double>> makeConstraint(MeshEdge& edge) override;
 	virtual std::unique_ptr<Constraint<double>> makeConstraint(MeshVertex& vertex) override;
-
-	/*/// Create the appropriate StiffnessContributor for the face "element"
-	virtual std::unique_ptr<StiffnessContributor<double>> makeStiffContrib(MeshRegion& region) override { return nullptr; };
-
-	virtual std::unique_ptr<ForceContributor<double>> makeForceContrib(MeshRegion& region) override { return nullptr; };*/
 
 	/// Create the appropriate Constraint for a face
 	virtual std::unique_ptr<Constraint<double>> makeConstraint(MeshFace& face) override { return nullptr; };

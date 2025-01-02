@@ -150,20 +150,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="algebraicsystem.h" />
-    <ClInclude Include="assembler.h" />
+    <ClInclude Include="AlgebraicSystem.h" />
+    <ClInclude Include="Assembler.h" />
     <ClInclude Include="BilinearForm.h" />
-    <ClInclude Include="constraint.h" />
-    <ClInclude Include="discretesystem.h" />
+    <ClInclude Include="BilinearFormIntegrator.h" />
+    <ClInclude Include="Constraint.h" />
+    <ClInclude Include="DiscreteSystem.h" />
     <ClInclude Include="displacementconstraint.h" />
     <ClInclude Include="dof.h" />
     <ClInclude Include="ElementTransform.h" />
-    <ClInclude Include="feanalysis.h" />
+    <ClInclude Include="FEAnalysis.h" />
     <ClInclude Include="feprog.h" />
     <ClInclude Include="FESpace.h" />
     <ClInclude Include="IntegrationRule.h" />
     <ClInclude Include="LagrangeElement.h" />
     <ClInclude Include="LinearForm.h" />
+    <ClInclude Include="LinearFormIntegrator.h" />
     <ClInclude Include="LinearSystemAssembler.h" />
     <ClInclude Include="LinTriIntrule.h" />
     <ClInclude Include="magaxistaticanalysis.h" />

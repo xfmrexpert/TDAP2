@@ -1,6 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   Copyright (C) 2005-2025 by T. C. Raymond                              *
  *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   Use of this source code is governed by an MIT-style                   *
+ *   license that can be found in the LICENSE.txt file or at               *
+ *   https://opensource.org/licenses/MIT.                                  *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -30,6 +34,8 @@ public:
 	Mesh() = default;
 
 	~Mesh() = default;
+
+	const int getDimensions() const;
 
 	/// Adds new MeshRegion, both allocating memory and adding it to the master list of 
 	/// regions
@@ -62,6 +68,8 @@ public:
 
 	/// Gets the n-th Node in the master list of nodes
 	Node& getNode(size_t n) const;
+
+	std::vector<MeshEntity*> getEntities() const;
 
 	std::vector<MeshFace*> getFaces() const;
 

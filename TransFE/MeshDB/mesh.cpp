@@ -36,6 +36,18 @@
 	 GeomEntities = old_mesh.GeomEntities;
  } */
 
+const int Mesh::getDimensions() const {
+	if (!MeshRegions.empty())
+	{
+		return 3;
+	}
+	else if (!MeshFaces.empty())
+	{
+		return 2;
+	}
+	return 1;
+}
+
 MeshRegion& Mesh::newRegion() {
 	MeshRegions.push_back(std::make_unique<MeshRegion>());
 	return *MeshRegions.back();
@@ -104,6 +116,26 @@ Node& Mesh::getNode(size_t n) const {
 	else {
 		throw std::runtime_error("ERROR: Node index out of range");
 	}
+}
+
+std::vector<MeshEntity*> Mesh::getEntities() const {
+	std::vector<MeshEntity*> entities;
+	if (getDimensions() == 3) {
+		for (const auto& region : MeshRegions) {
+			entities.push_back(region.get());
+		}
+	}
+	else if (getDimensions() == 2) {
+		for (const auto& face : MeshFaces) {
+			entities.push_back(face.get());
+		}
+	}
+	else {
+		for (const auto& edge : MeshEdges) {
+			entities.push_back(edge.get());
+		}
+	}
+	return entities;
 }
 
 std::vector<MeshFace*> Mesh::getFaces() const {

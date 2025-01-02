@@ -21,10 +21,7 @@ class Constraint {
 
 public:
 
-	Constraint(MeshEntity* Element_in, FESpace<T>* fe_space) {
-		entity = Element_in;
-		fe_space = fe_space;
-	};
+	Constraint(MeshEntity* Element_in, FESpace<T>* fe_space_in) : entity(Element_in), fe_space(fe_space_in) { };
 
 	virtual ~Constraint() = default;
 

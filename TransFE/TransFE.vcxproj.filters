@@ -18,22 +18,22 @@
     <ClInclude Include="dof.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="algebraicsystem.h">
+    <ClInclude Include="AlgebraicSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="assembler.h">
+    <ClInclude Include="Assembler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="constraint.h">
+    <ClInclude Include="Constraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="discretesystem.h">
+    <ClInclude Include="DiscreteSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="displacementconstraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="feanalysis.h">
+    <ClInclude Include="FEAnalysis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="feprog.h">
@@ -82,6 +82,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FESpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BilinearFormIntegrator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearFormIntegrator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BilinearForm.h">

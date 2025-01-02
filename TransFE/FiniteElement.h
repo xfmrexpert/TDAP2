@@ -15,11 +15,7 @@
 #pragma once
 
 #include "MeshDB/point.h"
-//#include "MeshDB/meshentity.h"
-//#include "MeshDB/node.h"
 #include "typedefs.h"
-//#include "integrationrule.h"
-//#include "elementtransform.h"
 
 class FiniteElement {
 

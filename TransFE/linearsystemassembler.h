@@ -1,6 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   Copyright (C) 2005-2025 by T. C. Raymond                              *
  *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   Use of this source code is governed by an MIT-style                   *
+ *   license that can be found in the LICENSE.txt file or at               *
+ *   https://opensource.org/licenses/MIT.                                  *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -10,13 +14,11 @@
 
 #pragma once
 
-#include "assembler.h"
+#include "Assembler.h"
 #include <vector>
 #include <memory>
 #include "dof.h"
 #include "typedefs.h"
-#include "matrix.h"
-//#include "vector.h"
 
 template <typename T>
 class DOF;
@@ -36,18 +38,18 @@ public:
 		{
 			auto idof = dofs[i]; //get ith degree of freedom from the DOF list
 			ki = idof->get_eqnumber(); //get global equation number for row from the DOF object
-			//std::cout << "ki=" << ki << std::endl;
+			std::cout << "ki=" << ki << std::endl;
 			for (std::size_t j = 0; j < size; j++) //for the current row, loop over the columns of the local stiffness matrix
 			{
 				auto jdof = dofs[j]; //get jth degree of freedom from the DOF list
 				kj = jdof->get_eqnumber();  //get global equation number for the column from the DOF object
-				//std::cout << "kj=" << kj << std::endl;
+				std::cout << "kj=" << kj << std::endl;
 				if (kj >= ki) //check to make sure this term is in the upper triangle
 				{
-					//std::cout << "In upper triangle" << std::endl;
+					std::cout << "In upper triangle" << std::endl;
 					if (jdof->get_status() == DOFStatus::Free && idof->get_status() == DOFStatus::Free) //unconstrained
 					{
-						//std::cout << "Unconstrained. Adding " << k(i, j) << " to K(" << ki << ", " << kj << ") :" << std::endl;
+						std::cout << "Unconstrained. Adding " << k(i, j) << " to K(" << ki << ", " << kj << ") :" << std::endl;
 						this->K->coeffRef(ki, kj) += k(i, j); //add the local stiffness term to the global stiffness matrix
 					}
 					else //if both not free, then one or both are constrained

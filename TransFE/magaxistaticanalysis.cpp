@@ -17,6 +17,8 @@
 #include "ElementTransform2DAxi.h"
 #include "LagrangeElement.h"
 #include "LinTriIntRule.h"
+#include "BilinearFormIntegrator.h"
+#include "LinearFormIntegrator.h"
 
 size_t ndof = 0;
 
@@ -27,98 +29,14 @@ MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 		ndof = 0;
 	}
 	formulation = form;
-	fe_space = std::make_unique<FESpace<double>>(mesh.get(), std::make_unique<LagrangeElement>(), std::make_unique<ElementTransform2D>(), std::make_unique<LinTriIntegrationRule>());
-	bilinear_form = std::make_unique<BilinearForm>(fe_space.get(), &assembler);
-	linear_form = std::make_unique<LinearForm>(fe_space.get(), &assembler);
+	auto fe_space = std::make_unique<FESpace<double>>(mesh.get(), std::make_unique<LagrangeElement>(), std::make_unique<ElementTransform2D>(), std::make_unique<LinTriIntegrationRule>());
+	fe_space_ptr = fe_space.get();
+	auto bilinear = std::make_unique<BilinearForm<double>>(fe_space.get());
+	bilinear->addIntegrator(std::make_unique<BilinearFormIntegrator>(fe_space.get()));
+	auto linear = std::make_unique<LinearForm<double>>(fe_space.get());
+	linear->addIntegrator(std::make_unique<LinearFormIntegrator>(fe_space.get()));
+	DS = std::make_unique<DiscreteSystem<double>>(std::move(fe_space), std::move(bilinear), std::move(linear));
 }
-
-//std::unique_ptr<StiffnessContributor<double>> MagAxiStaticAnalysis::makeStiffContrib(MeshFace& face) {
-//	const auto& nodes = face.getNodes(); // Cache nodes for efficiency
-//	size_t nen = nodes.size();
-//
-//	std::shared_ptr<FiniteElement> fe = nullptr;
-//	if (face.numEdges() == 3) {  //triangle
-//		if (nen == 3) { //1st order triangle
-//			fe = std::make_shared<LinTriFE>();
-//		}
-//		//else if (nen == 6) { //2nd order triangle
-//		//	sf = std::make_shared<QuadTriSF>();
-//		//}
-//		else {
-//			throw std::runtime_error("Unknown element type for triangle!");
-//		}
-//	}
-//	//else if (face.numEdges() == 4) { //quad
-//	//	if (nen == 4) { //1st order quad
-//	//		sf = std::make_shared<LinQuadSF>();
-//	//	}
-//	//	else if (nen == 9) { //2nd order quad
-//	//		sf = std::make_shared<QuadQuadSF>();
-//	//	}
-//	//	else {
-//	//		throw std::runtime_error("Unknown element type for quadrilateral!");
-//	//	}
-//	//}
-//	else { //dunno
-//		throw std::runtime_error("Unknown element type!");
-//	}
-//
-//	if (formulation == 2) {
-//		fe->transform = std::make_unique<ElementTransform2DAxi>();
-//	}
-//	else {
-//		fe->transform = std::make_unique<ElementTransform2D>();
-//	}
-//	
-//	return std::make_unique<MagAxiStaticSC>(fe.get(), field.get(), formulation);
-//};
-//
-//std::unique_ptr<ForceContributor<double>> MagAxiStaticAnalysis::makeForceContrib(MeshFace& face) {
-//	if (face.getClassification()->getAttribute("J") != NO_ATTRIB) {
-//		size_t nen = face.getNodes().size();  //inefficient...
-//		std::shared_ptr<FiniteElement> fe = nullptr;
-//		if (face.numEdges() == 3) {  //triangle
-//			if (nen == 3) { //1st order triangle
-//				fe = std::make_shared<LinTriFE>();
-//			}
-//			//else if (nen == 6) { //2nd order triangle
-//			//	fe = std::make_shared<QuadTriSF>();
-//			//}
-//			else {
-//				std::cerr << "Unknown element type!" << std::endl;
-//			}
-//		}
-//		//else if (face.numEdges() == 4) { //quad
-//		//	if (nen == 4) { //1st order quad
-//		//		sf = std::make_shared<LinQuadSF>();
-//		//	}
-//		//	else if (nen == 9) { //2nd order quad
-//		//		sf = std::make_shared<QuadQuadSF>();
-//		//	}
-//		//	else {
-//		//		std::cerr << "Unknown element type!" << std::endl;
-//		//	}
-//		//}
-//		else { //dunno
-//			std::cerr << "Unknown element type!" << std::endl;
-//			exit(1);
-//		}
-//		std::shared_ptr<ElementTransform> transform;
-//		if (formulation == 2) {
-//			transform = std::make_shared<ElementTransform2DAxi>(&face, fe);
-//		}
-//		else {
-//			transform = std::make_shared<ElementTransform2D>(&face, fe);
-//		}
-//
-//		return std::make_unique<MagAxiStaticFC>(&face, field.get(), transform, fe, formulation);
-//	}
-//	return nullptr;
-//};
-//
-//std::unique_ptr<ForceContributor<double>> MagAxiStaticAnalysis::makeForceContrib(MeshEdge& edge) {
-//	return nullptr;
-//};
 
 std::unique_ptr<Constraint<double>> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge) {
 	auto classification = edge.getClassification();
@@ -128,7 +46,7 @@ std::unique_ptr<Constraint<double>> MagAxiStaticAnalysis::makeConstraint(MeshEdg
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_unique<DisplacementConstraint<double>>(&edge, fe_space.get());
+		return std::make_unique<DisplacementConstraint<double>>(&edge, fe_space_ptr);
 	}
 
 	return nullptr;
@@ -142,15 +60,14 @@ std::unique_ptr<Constraint<double>> MagAxiStaticAnalysis::makeConstraint(MeshVer
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_unique<DisplacementConstraint<double>>(&vertex, fe_space.get());
+		return std::make_unique<DisplacementConstraint<double>>(&vertex, fe_space_ptr);
 	}
 
 	return nullptr;
 };
 
 void MagAxiStaticAnalysis::solve() {
-	//LinearSystemAssembler<double> assembler;
-	AlgebraicSystem<double> AS(&DS, &assembler);
+	AlgebraicSystem<double> AS(DS.get(), &assembler);
 	AS.solve();
 
 	//get vector of nodal displacements from AlgebraicSystem
@@ -158,7 +75,7 @@ void MagAxiStaticAnalysis::solve() {
 
 	//assign nodal displacements to DOF value
 	for (auto node : mesh->getNodes()) {
-		const auto& DOFs = fe_space->getDOFsForNode(*node);
+		const auto& DOFs = fe_space_ptr->getDOFsForNode(*node);
 		for (const auto& dof : DOFs) {
 			if (dof->get_status() == DOFStatus::Free) {
 				if (formulation <= 0) {
@@ -371,7 +288,7 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 		}
 		outFile << "){";
 		for (const auto& vertex : vertexes) {
-			const auto& DOFs = fe_space->getDOFsForNode(*vertex->getNode());
+			const auto& DOFs = fe_space_ptr->getDOFsForNode(*vertex->getNode());
 			outFile << DOFs[0]->get_value();
 			//outFile << DOFs[0]->get_value();
 			if (vertex != vertexes.back()) {

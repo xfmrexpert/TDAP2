@@ -50,7 +50,7 @@ public:
     void setupGlobalDofs() {
         ndof = 0;
         const auto& nodes = mesh->getNodes();
-		int nnd = fe->numLocalDOFs();
+        int nnd = 1; // fe->numLocalDOFs();
         DOFs.resize(nodes.size() * nnd);
         for (size_t i = 0; i < nodes.size(); i++) {
             DOFs[i].resize(nnd);
@@ -62,6 +62,20 @@ public:
             }
         }
     }
+
+    void numberDOFs() {
+        size_t labeldof = 0;
+        const auto& nodes = mesh->getNodes();
+        for (const auto& node : nodes) {
+            const auto& nodeDOFs = DOFs[node->getID()];
+            for (const auto& dof : nodeDOFs) {
+                if (dof->get_status() == DOFStatus::Free) {
+                    dof->set_eqnumber(labeldof);
+                    labeldof++;
+                }
+            }
+        }
+    };
 
     inline std::vector<DOF<T>*> getDOFsForEntity(const MeshEntity& entity) {
         std::vector<DOF<T>*> rtnDOFs;
@@ -81,6 +95,8 @@ public:
         }
         return rtnDOFs;
     }
+
+	const Mesh* getMesh() const { return mesh; }
 
     /// Access to the underlying FE object
     const FiniteElement* getFiniteElement() const { return fe.get(); }

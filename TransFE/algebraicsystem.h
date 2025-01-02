@@ -1,6 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   Copyright (C) 2005-2025 by T. C. Raymond                              *
  *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   Use of this source code is governed by an MIT-style                   *
+ *   license that can be found in the LICENSE.txt file or at               *
+ *   https://opensource.org/licenses/MIT.                                  *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -10,8 +14,8 @@
 
 #pragma once
 
-#include "discretesystem.h"
-#include "assembler.h"
+#include "DiscreteSystem.h"
+#include "Assembler.h"
 #include "typedefs.h"  //Matrix, SparseMatrix, Vector
 #include "MeshDB/mesh.h"
 #include <iostream>
@@ -28,9 +32,11 @@ public:
 	
 	void solve() {
 		DS->initializeSystem();
+		// After this and before formSystem, we need to calculate the dof numbering
 		createGlobalSystem();
+		// The following just passes in the empty stiffness matrix and force vector
 		A->initialize(K.get(), f.get());
-		DS->formSystem(A);
+		DS->formSystem(*A);
 		solveLinearSystem();
 	};
 
@@ -83,7 +89,6 @@ protected:
    DiscreteSystem<T>* DS;
    Assembler<T>* A;
    std::unique_ptr<BigMatrix<T>> K;
-   std::unique_ptr<BigVector<T>> d;  //Save myself some grief and use MTL vectors for now
+   std::unique_ptr<BigVector<T>> d;
    std::unique_ptr<BigVector<T>> f;
-   //Mesh* mesh;
 };
