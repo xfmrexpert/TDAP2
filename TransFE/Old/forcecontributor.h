@@ -11,10 +11,8 @@
 #pragma once
 
 #include "MeshDB/meshentity.h"
-#include "mapping.h"
-#include "shapefunction.h"
 #include "assembler.h"
-#include "field.h"
+//#include "field.h"
 
 template <class T>
 class ForceContributor {

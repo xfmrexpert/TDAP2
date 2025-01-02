@@ -16,7 +16,7 @@ MeshEntity::MeshEntity() {
 	ID = -1;
 }
 
-GeomEntity* MeshEntity::getClassification() {
+GeomEntity* MeshEntity::getClassification() const {
 	return myClassification;
 }
 

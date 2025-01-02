@@ -39,64 +39,19 @@
     <ClInclude Include="feprog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="forcecontributor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lin1dsf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="linearsystemassembler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="linquadsf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lintetsf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lintrisf.h">
+    <ClInclude Include="LinearSystemAssembler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="magaxistaticanalysis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="magaxistaticfc.h">
+    <ClInclude Include="ElementTransform2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="magaxistaticsc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mapping.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mapping1d2d.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mapping2d.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mapping2daxi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mapping3d.h">
+    <ClInclude Include="ElementTransform2DAxi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="quad1dsf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="quadquadsf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="quadtrisf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shapefunction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stiffnesscontributor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="typedefs.h">
@@ -105,13 +60,34 @@
     <ClInclude Include="vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="referencefe.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="field.h">
+    <ClInclude Include="FiniteElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MeshDB\mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IntegrationRule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinTriIntrule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ElementTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LagrangeElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NedelecElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FESpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BilinearForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,43 +95,7 @@
     <ClCompile Include="feprog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lin1dsf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="linquadsf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lintetsf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lintrisf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="magaxistaticanalysis.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="magaxistaticfc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="magaxistaticsc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mapping2d.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mapping2daxi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mapping3d.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="quad1dsf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="quadquadsf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="quadtrisf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MeshDB\geomentity.cpp">
@@ -185,5 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Notes.txt" />
+    <Text Include="LICENSE.txt" />
   </ItemGroup>
 </Project>

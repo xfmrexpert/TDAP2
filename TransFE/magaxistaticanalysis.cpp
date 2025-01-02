@@ -9,23 +9,14 @@
  ***************************************************************************/
 
 #include "magaxistaticanalysis.h"
-#include "mapping2d.h"
-#include "mapping2daxi.h"
-#include "mapping1d2d.h"
-#include "lintrisf.h"
-#include "quadtrisf.h"
-#include "linquadsf.h"
-#include "quadquadsf.h"
-#include "lin1dsf.h"
-#include "quad1dsf.h"
 #include "typedefs.h"
-
- //#include "precisiontimer.h"
 #include <iostream>
-
-using namespace std;
-
-constexpr auto PI = 3.141592653589793238512808959406186204433;
+#include "FESpace.h"
+#include "ElementTransform.h"
+#include "ElementTransform2D.h"
+#include "ElementTransform2DAxi.h"
+#include "LagrangeElement.h"
+#include "LinTriIntRule.h"
 
 size_t ndof = 0;
 
@@ -36,96 +27,98 @@ MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 		ndof = 0;
 	}
 	formulation = form;
-	field = std::make_unique<Field<double>>();
+	fe_space = std::make_unique<FESpace<double>>(mesh.get(), std::make_unique<LagrangeElement>(), std::make_unique<ElementTransform2D>(), std::make_unique<LinTriIntegrationRule>());
+	bilinear_form = std::make_unique<BilinearForm>(fe_space.get(), &assembler);
+	linear_form = std::make_unique<LinearForm>(fe_space.get(), &assembler);
 }
 
-std::unique_ptr<StiffnessContributor<double>> MagAxiStaticAnalysis::makeStiffContrib(MeshFace& face) {
-	const auto& nodes = face.getNodes(); // Cache nodes for efficiency
-	size_t nen = nodes.size();
-
-	std::shared_ptr<ShapeFunction> sf = nullptr;
-	if (face.numEdges() == 3) {  //triangle
-		if (nen == 3) { //1st order triangle
-			sf = std::make_shared<LinTriSF>();
-		}
-		else if (nen == 6) { //2nd order triangle
-			sf = std::make_shared<QuadTriSF>();
-		}
-		else {
-			throw std::runtime_error("Unknown element type for triangle!");
-		}
-	}
-	else if (face.numEdges() == 4) { //quad
-		if (nen == 4) { //1st order quad
-			sf = std::make_shared<LinQuadSF>();
-		}
-		else if (nen == 9) { //2nd order quad
-			sf = std::make_shared<QuadQuadSF>();
-		}
-		else {
-			throw std::runtime_error("Unknown element type for quadrilateral!");
-		}
-	}
-	else { //dunno
-		throw std::runtime_error("Unknown element type!");
-	}
-
-	shared_ptr<Mapping> mapping;
-	if (formulation == 2) {
-		mapping = std::make_shared<Mapping2DAxi>(&face, sf);
-	}
-	else {
-		mapping = std::make_shared<Mapping2D>(&face, sf);
-	}
-	return std::make_unique<MagAxiStaticSC>(&face, field.get(), mapping, sf, formulation);
-};
-
-std::unique_ptr<ForceContributor<double>> MagAxiStaticAnalysis::makeForceContrib(MeshFace& face) {
-	if (face.getClassification()->getAttribute("J") != NO_ATTRIB) {
-		size_t nen = face.getNodes().size();  //inefficient...
-		std::shared_ptr<ShapeFunction> sf = nullptr;
-		if (face.numEdges() == 3) {  //triangle
-			if (nen == 3) { //1st order triangle
-				sf = std::make_shared<LinTriSF>();
-			}
-			else if (nen == 6) { //2nd order triangle
-				sf = std::make_shared<QuadTriSF>();
-			}
-			else {
-				std::cerr << "Unknown element type!" << std::endl;
-			}
-		}
-		else if (face.numEdges() == 4) { //quad
-			if (nen == 4) { //1st order quad
-				sf = std::make_shared<LinQuadSF>();
-			}
-			else if (nen == 9) { //2nd order quad
-				sf = std::make_shared<QuadQuadSF>();
-			}
-			else {
-				std::cerr << "Unknown element type!" << std::endl;
-			}
-		}
-		else { //dunno
-			std::cerr << "Unknown element type!" << std::endl;
-			exit(1);
-		}
-		shared_ptr<Mapping> mapping;
-		if (formulation == 2) {
-			mapping = std::make_shared<Mapping2DAxi>(&face, sf);
-		}
-		else {
-			mapping = std::make_shared<Mapping2D>(&face, sf);
-		}
-
-		return std::make_unique<MagAxiStaticFC>(&face, field.get(), mapping, sf, formulation);
-	}
-	return nullptr;
-};
-
-std::unique_ptr<ForceContributor<double>> MagAxiStaticAnalysis::makeForceContrib(MeshEdge& edge) {
-	return nullptr;
-};
+//std::unique_ptr<StiffnessContributor<double>> MagAxiStaticAnalysis::makeStiffContrib(MeshFace& face) {
+//	const auto& nodes = face.getNodes(); // Cache nodes for efficiency
+//	size_t nen = nodes.size();
+//
+//	std::shared_ptr<FiniteElement> fe = nullptr;
+//	if (face.numEdges() == 3) {  //triangle
+//		if (nen == 3) { //1st order triangle
+//			fe = std::make_shared<LinTriFE>();
+//		}
+//		//else if (nen == 6) { //2nd order triangle
+//		//	sf = std::make_shared<QuadTriSF>();
+//		//}
+//		else {
+//			throw std::runtime_error("Unknown element type for triangle!");
+//		}
+//	}
+//	//else if (face.numEdges() == 4) { //quad
+//	//	if (nen == 4) { //1st order quad
+//	//		sf = std::make_shared<LinQuadSF>();
+//	//	}
+//	//	else if (nen == 9) { //2nd order quad
+//	//		sf = std::make_shared<QuadQuadSF>();
+//	//	}
+//	//	else {
+//	//		throw std::runtime_error("Unknown element type for quadrilateral!");
+//	//	}
+//	//}
+//	else { //dunno
+//		throw std::runtime_error("Unknown element type!");
+//	}
+//
+//	if (formulation == 2) {
+//		fe->transform = std::make_unique<ElementTransform2DAxi>();
+//	}
+//	else {
+//		fe->transform = std::make_unique<ElementTransform2D>();
+//	}
+//	
+//	return std::make_unique<MagAxiStaticSC>(fe.get(), field.get(), formulation);
+//};
+//
+//std::unique_ptr<ForceContributor<double>> MagAxiStaticAnalysis::makeForceContrib(MeshFace& face) {
+//	if (face.getClassification()->getAttribute("J") != NO_ATTRIB) {
+//		size_t nen = face.getNodes().size();  //inefficient...
+//		std::shared_ptr<FiniteElement> fe = nullptr;
+//		if (face.numEdges() == 3) {  //triangle
+//			if (nen == 3) { //1st order triangle
+//				fe = std::make_shared<LinTriFE>();
+//			}
+//			//else if (nen == 6) { //2nd order triangle
+//			//	fe = std::make_shared<QuadTriSF>();
+//			//}
+//			else {
+//				std::cerr << "Unknown element type!" << std::endl;
+//			}
+//		}
+//		//else if (face.numEdges() == 4) { //quad
+//		//	if (nen == 4) { //1st order quad
+//		//		sf = std::make_shared<LinQuadSF>();
+//		//	}
+//		//	else if (nen == 9) { //2nd order quad
+//		//		sf = std::make_shared<QuadQuadSF>();
+//		//	}
+//		//	else {
+//		//		std::cerr << "Unknown element type!" << std::endl;
+//		//	}
+//		//}
+//		else { //dunno
+//			std::cerr << "Unknown element type!" << std::endl;
+//			exit(1);
+//		}
+//		std::shared_ptr<ElementTransform> transform;
+//		if (formulation == 2) {
+//			transform = std::make_shared<ElementTransform2DAxi>(&face, fe);
+//		}
+//		else {
+//			transform = std::make_shared<ElementTransform2D>(&face, fe);
+//		}
+//
+//		return std::make_unique<MagAxiStaticFC>(&face, field.get(), transform, fe, formulation);
+//	}
+//	return nullptr;
+//};
+//
+//std::unique_ptr<ForceContributor<double>> MagAxiStaticAnalysis::makeForceContrib(MeshEdge& edge) {
+//	return nullptr;
+//};
 
 std::unique_ptr<Constraint<double>> MagAxiStaticAnalysis::makeConstraint(MeshEdge& edge) {
 	auto classification = edge.getClassification();
@@ -135,7 +128,7 @@ std::unique_ptr<Constraint<double>> MagAxiStaticAnalysis::makeConstraint(MeshEdg
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_unique<DisplacementConstraint<double>>(&edge, field.get());
+		return std::make_unique<DisplacementConstraint<double>>(&edge, fe_space.get());
 	}
 
 	return nullptr;
@@ -149,23 +142,23 @@ std::unique_ptr<Constraint<double>> MagAxiStaticAnalysis::makeConstraint(MeshVer
 	bool hasYConstraint = classification->getAttribute("y_constraint") != NO_ATTRIB;
 
 	if (hasXConstraint || hasYConstraint) {
-		return std::make_unique<DisplacementConstraint<double>>(&vertex, field.get());
+		return std::make_unique<DisplacementConstraint<double>>(&vertex, fe_space.get());
 	}
 
 	return nullptr;
 };
 
 void MagAxiStaticAnalysis::solve() {
-	LinearSystemAssembler<double> assembler;
-	AlgebraicSystem<double> AS(&DS, &assembler, field.get());
+	//LinearSystemAssembler<double> assembler;
+	AlgebraicSystem<double> AS(&DS, &assembler);
 	AS.solve();
 
 	//get vector of nodal displacements from AlgebraicSystem
 	BigVector<double> d = *AS.get_d();
 
 	//assign nodal displacements to DOF value
-	for (auto node : theMesh->getNodes()) {
-		const auto& DOFs = field->getDOFsForNode(*node);
+	for (auto node : mesh->getNodes()) {
+		const auto& DOFs = fe_space->getDOFsForNode(*node);
 		for (const auto& dof : DOFs) {
 			if (dof->get_status() == DOFStatus::Free) {
 				if (formulation <= 0) {
@@ -327,11 +320,11 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 	std::ofstream outFile;
 
 	//output to file for viewing in gmsh
-	outFile.open(filename + "_fluxdensity.pos", ios::out);
+	outFile.open(filename + "_fluxdensity.pos", std::ios::out);
 
 	outFile << "View \"output\" {" << std::endl;
 
-	for (const auto& face : theMesh->getFaces()) {
+	for (const auto& face : mesh->getFaces()) {
 		auto vertexes = face->getVertices();
 		if (vertexes.size() == 3) {
 			outFile << "VT (";
@@ -352,17 +345,17 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 				outFile << ",";
 			}
 		}
-		outFile << "};" << endl;
+		outFile << "};" << std::endl;
 	}
-	outFile << "};" << endl;
+	outFile << "};" << std::endl;
 	outFile.close();
 
 	//output to file for viewing in gmsh
-	outFile.open(filename + "_mvp.pos", ios::out);
+	outFile.open(filename + "_mvp.pos", std::ios::out);
 
 	outFile << "View \"output\" {" << std::endl;
 	//vector<Node*>::iterator node_iter;
-	for (const auto& face : theMesh->getFaces()) {
+	for (const auto& face : mesh->getFaces()) {
 		const auto& vertexes = face->getVertices();
 		if (vertexes.size() == 3) {
 			outFile << "ST (";
@@ -378,7 +371,7 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 		}
 		outFile << "){";
 		for (const auto& vertex : vertexes) {
-			const auto& DOFs = field->getDOFsForNode(*vertex->getNode());
+			const auto& DOFs = fe_space->getDOFsForNode(*vertex->getNode());
 			outFile << DOFs[0]->get_value();
 			//outFile << DOFs[0]->get_value();
 			if (vertex != vertexes.back()) {

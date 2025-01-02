@@ -13,16 +13,17 @@
  /// This class represents a generic constraint. 
 
 #include "MeshDB/meshentity.h"
-#include "field.h"
+//#include "field.h"
+#include "FESpace.h"
 
 template <class T>
 class Constraint {
 
 public:
 
-	Constraint(MeshEntity* Element_in, Field<T>* Field_in) {
+	Constraint(MeshEntity* Element_in, FESpace<T>* fe_space) {
 		entity = Element_in;
-		field = Field_in;
+		fe_space = fe_space;
 	};
 
 	virtual ~Constraint() = default;
@@ -32,7 +33,7 @@ public:
 protected:
 
 	MeshEntity* entity;
-	Field<T>* field;
+	FESpace<T>* fe_space;
 
 private:
 

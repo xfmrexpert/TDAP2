@@ -10,29 +10,32 @@
 
 #pragma once
 
-#include "stiffnesscontributor.h"
-#include "MeshDB/meshface.h"
-#include "field.h"
-#include "mapping.h"
-#include "shapefunction.h"
-#include "MeshDB/point.h"
-#include <vector>
-#include "dof.h"
+ /// This class represents the shape functions for a first order (linear) triangle. 
+
+#include "finiteelement.h"
 #include "typedefs.h"
+#include "MeshDB/point.h"
+#include "MeshDB/meshface.h"
+#include "elementtransform2d.h"
+#include <vector>
 
-class MagAxiStaticSC : public StiffnessContributor<double> {
+class LinTriFE : public FiniteElement {
+
 public:
-	MagAxiStaticSC(MeshFace* Element, Field<double>* field, std::shared_ptr<Mapping> Map, std::shared_ptr<ShapeFunction> SF, int formul) :StiffnessContributor(Element, field, Map, SF) {
+
+	explicit LinTriFE(MeshFace* entity, IntegrationRule* integration_rule) : FiniteElement(entity, 2, 1, nullptr, integration_rule) {
 		//check the region type of this face and set nnd (and dofs) accordingly
-		nnd = 1; //Only have A component in z-direction
+		int nnd = 3; //Only have A component in z-direction
+		transform = std::make_unique<ElementTransform2D>();
+	}
 
-		formulation = formul;
-	};
+	Vector<double> N(const point& pt) override;
+	Matrix<double> dNds(const point& pt) override;
 
-	//~MagAxiStaticSC(){};
-
-	virtual Matrix<double> evaluatePt(point);
+protected:
 
 private:
-	int formulation;
+
 };
+
+

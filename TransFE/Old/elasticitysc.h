@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005-2023 by T. C. Raymond                              *
- *   tc.raymond@ieee.org                                                   *
+ *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   tcraymond@inductivereasoning.com                                      *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -10,24 +10,26 @@
 
 #pragma once
 
-#include "mapping.h"
-#include "MeshDB/point.h"
+#include "stiffnesscontributor.h"
 #include "MeshDB/meshface.h"
+#include "mapping.h"
 #include "shapefunction.h"
+#include "MeshDB/point.h"
+#include <vector>
+#include "dof.h"
+#include "typedefs.h"
 
-class Mapping2DAxi : public Mapping {
+class ElasticitySC : public StiffnessContributor<double> {
 public:
-	Mapping2DAxi(MeshFace* Element, std::shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
-		nsd = 2;
-		npd = 2;
+	ElasticitySC(FiniteElement* Element, Field<double>* field) : StiffnessContributor<double>(Element, field) {
+		nnd = 2;
 	};
 
-	~Mapping2DAxi() {};
+	~ElasticitySC() {};
 
-	virtual Matrix<double> jacobianInverse(point pt);
+	virtual Matrix<double> evaluatePt(point);
 
-	virtual Matrix<double> dXds(point pt);
-
-	//virtual double detJacobian(point pt);
+private:
 
 };
+

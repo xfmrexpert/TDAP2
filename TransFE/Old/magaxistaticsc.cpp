@@ -44,7 +44,7 @@ Matrix<double> MagAxiStaticSC::evaluatePt(point pt) {
 	//Matrix dsdx = Map->jacobianInverse(pt);
 
 	//Get the interpolated radius of point pt.
-	Vector<double> N = SF->N(pt);
+	Vector<double> N = Element->N(pt);
 	double r = 0;
 	auto nodes = Element->getNodes();
 	for (size_t i = 0; i < nen; i++) {
@@ -53,7 +53,7 @@ Matrix<double> MagAxiStaticSC::evaluatePt(point pt) {
 
 	double s = r * r;
 
-	double mu_r = Element->getClassification()->getAttribute("mu");
+	double mu_r = Element->getAttribute("mu");
 	double mu = mu_r * 4.0 * PI * pow(10., -7);
 
 	// The matrix dNdx contains the derivatives of the shape function

@@ -10,8 +10,8 @@
  
 #pragma once
 
-#include "stiffnesscontributor.h"
-#include "forcecontributor.h"
+//#include "stiffnesscontributor.h"
+//#include "forcecontributor.h"
 #include "constraint.h"
 #include "assembler.h"
 #include <list>
@@ -25,13 +25,13 @@ public:
 	DiscreteSystem() = default;
 	~DiscreteSystem() = default;
 
-   void add(std::unique_ptr<StiffnessContributor<T>> sc) {
+   /*void add(std::unique_ptr<StiffnessContributor<T>> sc) {
        StiffnessContributors.push_back(std::move(sc));
    };
 
    void add(std::unique_ptr<ForceContributor<T>> fc) {
        ForceContributors.push_back(std::move(fc));
-   };
+   };*/
 
    void add(std::unique_ptr<Constraint<T>> c) {
        Constraints.push_back(std::move(c));
@@ -45,21 +45,21 @@ public:
    }
 
    void formSystem(Assembler<T>* assem) {
-       for (const auto& FC : ForceContributors) {
+       /*for (const auto& FC : ForceContributors) {
            FC->evaluate(assem);
        }
 
        for (const auto& SC : StiffnessContributors) {
            SC->evaluate(assem);
-       }
+       }*/
    }
   
 protected:
   
 private:
 
-   std::list<std::unique_ptr<StiffnessContributor<T>>> StiffnessContributors;
-   std::list<std::unique_ptr<ForceContributor<T>>> ForceContributors;
+   /*std::list<std::unique_ptr<StiffnessContributor<T>>> StiffnessContributors;
+   std::list<std::unique_ptr<ForceContributor<T>>> ForceContributors;*/
    std::list<std::unique_ptr<Constraint<T>>> Constraints;
 
 };

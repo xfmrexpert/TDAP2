@@ -19,10 +19,9 @@
 template <typename T>
 class AlgebraicSystem{
 public:
-    AlgebraicSystem(DiscreteSystem<T>* in_DS, Assembler<T>* in_A, Field<T>* in_field){
+    AlgebraicSystem(DiscreteSystem<T>* in_DS, Assembler<T>* in_A){
        DS = in_DS;
        A = in_A;
-       field = in_field;
     };
 
     ~AlgebraicSystem() = default;
@@ -38,7 +37,7 @@ public:
 	void createGlobalSystem() {
 		// TODO: Not sure why this was here.  Maybe reordering should be here?
 		// It might be needed to set the equation number
-		field->reorder2();
+		//field->reorder2();
 		K = std::make_unique<BigMatrix<T>>(ndof, ndof);
 		K->setZero();
 		d = std::make_unique<BigVector<T>>(ndof);
@@ -87,5 +86,4 @@ protected:
    std::unique_ptr<BigVector<T>> d;  //Save myself some grief and use MTL vectors for now
    std::unique_ptr<BigVector<T>> f;
    //Mesh* mesh;
-   Field<T>* field;
 };

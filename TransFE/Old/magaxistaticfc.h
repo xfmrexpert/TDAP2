@@ -10,25 +10,30 @@
 
 #pragma once
 
-#include "mapping.h"
-#include "MeshDB/point.h"
+#include "forcecontributor.h"
 #include "MeshDB/meshface.h"
-#include "shapefunction.h"
+#include "MeshDB/meshedge.h"
+#include "typedefs.h"
+#include "dof.h"
+#include <vector>
 
-class Mapping2D : public Mapping {
+class MagAxiStaticFC : public ForceContributor<double> {
 public:
-	Mapping2D(MeshFace* Element, std::shared_ptr<ShapeFunction> SF) : Mapping(Element, SF) {
-		nsd = 2;
-		npd = 2;
+
+	MagAxiStaticFC(MeshFace* Element_in, Field<double>* Field_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor<double>(Element_in, Field_in, Map_in, SF_in) {
+		nnd = 1;
+		formulation = form;
 	};
 
-	~Mapping2D() {};
+	MagAxiStaticFC(MeshEdge* Element_in, Field<double>* Field_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in, int form) : ForceContributor<double>(Element_in, Field_in, Map_in, SF_in) {
+		nnd = 1;
+		formulation = form;
+	};
 
-	virtual Matrix<double> jacobianInverse(point pt);
+	virtual Vector<double> evaluatePt(point);
 
-	virtual Matrix<double> dXds(point pt);
-
-	//virtual double detJacobian(point pt);
+private:
+	int formulation;
 
 };
 

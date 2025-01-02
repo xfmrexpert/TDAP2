@@ -138,6 +138,17 @@ public:
 		return v;
 	}
 
+	double dot(const Vector& v1) const
+	{
+		assert(mSize == v1.mSize);
+		double sum = 0.0;
+		for (size_t i = 0; i < mSize; i++)
+		{
+			sum += mData[i] * v1.mData[i];
+		}
+		return sum;
+	}
+
    // p-norm method
    //double CalculateNorm(int p=2) const;
 	/*double norm_val, sum = 0.0;

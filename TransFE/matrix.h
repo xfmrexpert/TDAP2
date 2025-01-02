@@ -281,6 +281,17 @@ public:
 	   return sub_matrix;
    }
 
+   Vector<T> GetRow(size_t row) const
+   {
+	   assert(row < mNumRows);
+	   Vector<T> row_vector(mNumCols);
+	   for (size_t i = 0; i < mNumCols; i++)
+	   {
+		   row_vector[i] = mData[row][i];
+	   }
+	   return row_vector;
+   }
+
 
    friend Matrix<T> operator*(const Matrix<T>& A, const Matrix<T>& B)
    {

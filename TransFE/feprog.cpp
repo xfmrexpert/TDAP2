@@ -18,12 +18,9 @@
 #include <iostream>
 #include <cstdlib>
 #include "MeshDB/mesh.h"
-#include "elasticityanalysis.h"
 #include "magaxistaticanalysis.h"
 
 #include "MeshDB/meshface.h"
-#include "lintrisf.h"
-#include "mapping2d.h"
 
 FEProg::FEProg(){
 	theAnalysis = new MagAxiStaticAnalysis(0);

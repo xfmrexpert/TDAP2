@@ -48,7 +48,7 @@ public:
 	}
 
 	/// Returns the GeomEntity that this mesh entity is classified on
-	GeomEntity* getClassification();
+	GeomEntity* getClassification() const;
 
 	/// Sets the GeomEntity that this mesh entity is classified on
 	void setClassification(GeomEntity&);

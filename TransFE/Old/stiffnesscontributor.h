@@ -11,23 +11,20 @@
 #pragma once
 
 #include <vector>
-#include "MeshDB/meshentity.h"
+#include "MeshDB/point.h"
 #include "field.h"
-#include "mapping.h"
-#include "shapefunction.h"
+#include "elementtransform.h"
+#include "finiteelement.h"
 #include "assembler.h"
 #include "typedefs.h" //Matrix, Vector, etc.
-#include "MeshDB/point.h"
 #include <iostream>
 
 template <typename T>
 class StiffnessContributor {
 public:
-	StiffnessContributor(MeshEntity* Element_in, Field<T>* Field_in, std::shared_ptr<Mapping> Map_in, std::shared_ptr<ShapeFunction> SF_in) {
+	StiffnessContributor(FiniteElement* Element_in, Field<T>* Field_in) {
 		Element = Element_in;
 		field = Field_in;	
-		Map = Map_in;
-		SF = SF_in;
 		nen = Element->getNodes().size();
 	};
 
@@ -36,9 +33,9 @@ public:
 	void evaluate(Assembler<T>* assem) {
 		const auto& DOFs = getDOFs();
 		Matrix<double> k(nnd * nen, nnd * nen);
-		std::vector<point> IntPt = SF->IntPts(); // Integration points in reference coordinates
-		Vector<double> Weight = SF->Weights(); // Integration weights
-		int numIntPts = SF->numIntPts(); // Number of integration points
+		std::vector<point> IntPt = Element->integration_rule->IntPts(); // Integration points in reference coordinates
+		Vector<double> Weight = Element->integration_rule->Weights(); // Integration weights
+		int numIntPts = Element->integration_rule->numIntPts(); // Number of integration points
 
 		//Perform integration over element
 		//The majority of the time here is spent in evaluatePt
@@ -46,8 +43,9 @@ public:
 			point pt = IntPt[i];
 			double weight = Weight[i];
 
-			Matrix<double> dNds = SF->dNds(pt); // Gradient of shape functions in reference coordinates
-			Matrix<double> dXds = Map->dXds(pt); // Gradient of mapping
+			Matrix<double> dNds = Element->dNds(pt); // Gradient of shape functions in reference coordinates
+			// TODO: The story with the element transform is all fucked up.  It's a member of element, but then we pass the element in.
+			Matrix<double> dXds = Element->transform->dXds(pt, Element); // Gradient of mapping
 			dsdx = dXds.CalculateInverse();
 			dNdx = dNds * dsdx; // This is used in evaluatePt called below.
 
@@ -63,17 +61,16 @@ public:
 	virtual Matrix<double> evaluatePt(point) = 0;
 
 protected:
-	MeshEntity* Element;
+	FiniteElement* Element;
 	Field<T>* field;
-	std::shared_ptr<Mapping> Map;
-	std::shared_ptr<ShapeFunction> SF;
+	
 	Matrix<double> dsdx; //Overwritten on each call to evaluate
 	Matrix<double> dNdx; //Overwritten on each call to evaluate
 	size_t nnd; // # of DOFs/node - must be set by derived class
 	size_t nen; // # of nodes/element
 
 	std::vector<DOF<T>*> getDOFs() {
-		return field->getDOFsForEntity(*Element);
+		return field->getDOFsForEntity(*Element->entity);
 	}
 
 };

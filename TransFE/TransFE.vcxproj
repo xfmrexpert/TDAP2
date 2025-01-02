@@ -152,50 +152,33 @@
   <ItemGroup>
     <ClInclude Include="algebraicsystem.h" />
     <ClInclude Include="assembler.h" />
+    <ClInclude Include="BilinearForm.h" />
     <ClInclude Include="constraint.h" />
     <ClInclude Include="discretesystem.h" />
     <ClInclude Include="displacementconstraint.h" />
     <ClInclude Include="dof.h" />
+    <ClInclude Include="ElementTransform.h" />
     <ClInclude Include="feanalysis.h" />
     <ClInclude Include="feprog.h" />
-    <ClInclude Include="field.h" />
-    <ClInclude Include="forcecontributor.h" />
-    <ClInclude Include="lin1dsf.h" />
-    <ClInclude Include="linearsystemassembler.h" />
-    <ClInclude Include="linquadsf.h" />
-    <ClInclude Include="lintetsf.h" />
-    <ClInclude Include="lintrisf.h" />
+    <ClInclude Include="FESpace.h" />
+    <ClInclude Include="IntegrationRule.h" />
+    <ClInclude Include="LagrangeElement.h" />
+    <ClInclude Include="LinearForm.h" />
+    <ClInclude Include="LinearSystemAssembler.h" />
+    <ClInclude Include="LinTriIntrule.h" />
     <ClInclude Include="magaxistaticanalysis.h" />
-    <ClInclude Include="magaxistaticfc.h" />
-    <ClInclude Include="magaxistaticsc.h" />
-    <ClInclude Include="mapping.h" />
-    <ClInclude Include="mapping1d2d.h" />
-    <ClInclude Include="mapping2d.h" />
-    <ClInclude Include="mapping2daxi.h" />
-    <ClInclude Include="mapping3d.h" />
+    <ClInclude Include="ElementTransform2D.h" />
+    <ClInclude Include="ElementTransform2DAxi.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="MeshDB\mesh.h" />
-    <ClInclude Include="quad1dsf.h" />
-    <ClInclude Include="quadquadsf.h" />
-    <ClInclude Include="quadtrisf.h" />
-    <ClInclude Include="referencefe.h" />
-    <ClInclude Include="shapefunction.h" />
-    <ClInclude Include="stiffnesscontributor.h" />
+    <ClInclude Include="FiniteElement.h" />
+    <ClInclude Include="NedelecElement.h" />
     <ClInclude Include="typedefs.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="feprog.cpp" />
-    <ClCompile Include="lin1dsf.cpp" />
-    <ClCompile Include="linquadsf.cpp" />
-    <ClCompile Include="lintetsf.cpp" />
-    <ClCompile Include="lintrisf.cpp" />
     <ClCompile Include="magaxistaticanalysis.cpp" />
-    <ClCompile Include="magaxistaticfc.cpp" />
-    <ClCompile Include="magaxistaticsc.cpp" />
-    <ClCompile Include="mapping2d.cpp" />
-    <ClCompile Include="mapping2daxi.cpp" />
-    <ClCompile Include="mapping3d.cpp" />
     <ClCompile Include="MeshDB\geomentity.cpp" />
     <ClCompile Include="MeshDB\mesh.cpp" />
     <ClCompile Include="MeshDB\meshedge.cpp" />
@@ -204,11 +187,9 @@
     <ClCompile Include="MeshDB\meshregion.cpp" />
     <ClCompile Include="MeshDB\meshvertex.cpp" />
     <ClCompile Include="MeshDB\node.cpp" />
-    <ClCompile Include="quad1dsf.cpp" />
-    <ClCompile Include="quadquadsf.cpp" />
-    <ClCompile Include="quadtrisf.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="LICENSE.txt" />
     <Text Include="Notes.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
