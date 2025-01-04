@@ -152,6 +152,8 @@
   <ItemGroup>
     <ClInclude Include="AlgebraicSystem.h" />
     <ClInclude Include="Assembler.h" />
+    <ClInclude Include="AxiMagBilinearIntegrator.h" />
+    <ClInclude Include="AxiMagLinearIntegrator.h" />
     <ClInclude Include="BilinearForm.h" />
     <ClInclude Include="BilinearFormIntegrator.h" />
     <ClInclude Include="Constraint.h" />
@@ -167,13 +169,17 @@
     <ClInclude Include="LinearForm.h" />
     <ClInclude Include="LinearFormIntegrator.h" />
     <ClInclude Include="LinearSystemAssembler.h" />
-    <ClInclude Include="LinTriIntrule.h" />
+    <ClInclude Include="LinTriIntRule.h" />
     <ClInclude Include="magaxistaticanalysis.h" />
     <ClInclude Include="ElementTransform2D.h" />
     <ClInclude Include="ElementTransform2DAxi.h" />
+    <ClInclude Include="MagBilinearIntegrator.h" />
+    <ClInclude Include="MagLinearIntegrator.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="MeshDB\mesh.h" />
     <ClInclude Include="FiniteElement.h" />
+    <ClInclude Include="MeshDB\node.h" />
+    <ClInclude Include="MeshDB\point.h" />
     <ClInclude Include="NedelecElement.h" />
     <ClInclude Include="typedefs.h" />
     <ClInclude Include="vector.h" />

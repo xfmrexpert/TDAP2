@@ -108,6 +108,34 @@ public:
 		return *this;
 	};
 
+	Matrix<T>& operator+=(const Matrix<T>& otherMatrix)
+	{
+		assert(mNumRows == otherMatrix.mNumRows);
+		assert(mNumCols == otherMatrix.mNumCols);
+		for (size_t i = 0; i < mNumRows; i++)
+		{
+			for (size_t j = 0; j < mNumCols; j++)
+			{
+				mData[i][j] += otherMatrix.mData[i][j];
+			}
+		}
+		return *this;
+	};
+
+	// Friend function to multiply a double by a Matrix<T>
+	friend Matrix<T> operator*(double scalar, const Matrix<T>& matrix)
+	{
+		Matrix<T> result(matrix.mNumRows, matrix.mNumCols);
+		for (size_t i = 0; i < matrix.mNumRows; ++i)
+		{
+			for (size_t j = 0; j < matrix.mNumCols; ++j)
+			{
+				result(i, j) = scalar * matrix(i, j);
+			}
+		}
+		return result;
+	}
+
    //unary +
    Matrix operator+() const
    {

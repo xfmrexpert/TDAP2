@@ -19,45 +19,34 @@
 #include "ElementTransform.h"
 #include "IntegrationRule.h"
 #include "Assembler.h"
+#include "LinearFormIntegrator.h"
 
-class LinearFormIntegrator
+class AxiMagLinearIntegrator : public LinearFormIntegrator
 {
 public:
-	LinearFormIntegrator(FESpace<double>* feSpace) : feSpace(feSpace) { };
-	~LinearFormIntegrator() = default;
+    using LinearFormIntegrator::LinearFormIntegrator;
+    ~AxiMagLinearIntegrator() = default;
 
-    virtual Vector<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const = 0;
-	
-    void evaluate(const MeshEntity& entity, Assembler<double>& assem) const
+    Vector<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
-        const auto& fe = feSpace->getFiniteElement();
-        int nDofs = fe->numLocalDOFs();
-
+        int nDofs = fe.numLocalDOFs();
         Vector<double> f = Vector<double>(nDofs);
+        double J = entity.getClassification()->getAttribute("J"); //Constant current density in element
+        if (J == NO_ATTRIB) return f;
 
-        const auto& integration = feSpace->getIntegrationRule();
+        double r_phys = quadData.ptPhys.x;
 
-        const auto& quadPointsRef = integration->IntPts();
-        const auto& quadWeights = integration->Weights();
-
-        const auto& element_data = feSpace->computeElementData(entity);
-
-        // For each quadrature point in the reference domain
-        for (size_t q = 0; q < integration->numIntPts(); q++)
+        double detJ = quadData.detJ;
+        double measure = r_phys * detJ;
+        const auto& phi = fe.N(ptRef); // shape function values
+		//std::cout << "phi: \n" << phi << std::endl;
+        for (int i = 0; i < nDofs; i++)
         {
-            point ptRef = quadPointsRef[q];
-            double wq = quadWeights(q);
-
-            f = f + evaluatePt(ptRef, *fe, entity, element_data.quadData[q]) * wq;
-
+            f(i) += J * phi(i) * measure;
         }
-        //std::cout << "Adding force contributor:\n";
-        //std::cout << f;
-        const auto& DOFs = feSpace->getDOFsForEntity(entity);
-        assem.accept(f, DOFs);
+        return f;
     };
 
-protected:
-    FESpace<double>* feSpace;
+private:
 
 };

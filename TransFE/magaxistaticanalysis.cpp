@@ -17,8 +17,8 @@
 #include "ElementTransform2DAxi.h"
 #include "LagrangeElement.h"
 #include "LinTriIntRule.h"
-#include "BilinearFormIntegrator.h"
-#include "LinearFormIntegrator.h"
+#include "AxiMagBilinearIntegrator.h"
+#include "AxiMagLinearIntegrator.h"
 
 size_t ndof = 0;
 
@@ -32,9 +32,9 @@ MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 	auto fe_space = std::make_unique<FESpace<double>>(mesh.get(), std::make_unique<LagrangeElement>(), std::make_unique<ElementTransform2D>(), std::make_unique<LinTriIntegrationRule>());
 	fe_space_ptr = fe_space.get();
 	auto bilinear = std::make_unique<BilinearForm<double>>(fe_space.get());
-	bilinear->addIntegrator(std::make_unique<BilinearFormIntegrator>(fe_space.get()));
+	bilinear->addIntegrator(std::make_unique<AxiMagBilinearIntegrator>(fe_space.get()));
 	auto linear = std::make_unique<LinearForm<double>>(fe_space.get());
-	linear->addIntegrator(std::make_unique<LinearFormIntegrator>(fe_space.get()));
+	linear->addIntegrator(std::make_unique<AxiMagLinearIntegrator>(fe_space.get()));
 	DS = std::make_unique<DiscreteSystem<double>>(std::move(fe_space), std::move(bilinear), std::move(linear));
 }
 
@@ -78,15 +78,15 @@ void MagAxiStaticAnalysis::solve() {
 		const auto& DOFs = fe_space_ptr->getDOFsForNode(*node);
 		for (const auto& dof : DOFs) {
 			if (dof->get_status() == DOFStatus::Free) {
-				if (formulation <= 0) {
+				//if (formulation <= 0) {
 					dof->set_value(d[dof->get_eqnumber()]);// * 2 * PI * (*node_iter)->x());
-				}
-				else if (formulation == 1) {
-					dof->set_value(d[dof->get_eqnumber()] * sqrt(node->x()));
-				}
-				else {
-					dof->set_value(d[dof->get_eqnumber()] / node->x());
-				}
+				//}
+				//else if (formulation == 1) {
+				//	dof->set_value(d[dof->get_eqnumber()] * sqrt(node->x()));
+				//}
+				//else {
+				//	dof->set_value(d[dof->get_eqnumber()] / node->x());
+				//}
 			}
 		}
 	}

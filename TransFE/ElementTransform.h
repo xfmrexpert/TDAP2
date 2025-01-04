@@ -21,7 +21,7 @@
 class ElementTransform {
 
 public:
-	ElementTransform() {};
+	ElementTransform(uint8_t nsd, uint8_t npd) : nsd(nsd), npd(npd) { };
 	virtual ~ElementTransform() = default;
 	virtual Matrix<double> Jacobian(const point& pt, const MeshEntity& entity, const Matrix<double>& dGds) const = 0;
 

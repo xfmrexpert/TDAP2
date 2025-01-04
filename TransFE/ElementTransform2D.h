@@ -20,26 +20,22 @@
 
 class ElementTransform2D : public ElementTransform {
 public:
-	ElementTransform2D() : ElementTransform() {
-		nsd = 2;
-		npd = 2;
-	};
-
-	~ElementTransform2D() {};
+	ElementTransform2D() : ElementTransform(2, 2) { };
 
 	Matrix<double> Jacobian(const point& pt, const MeshEntity& entity, const Matrix<double>& dGds) const override {
 		// dXds:
-		// [dXdr, dXds]
-		// [dYdr, dYds]
+		// [dX_dxi, dX_deta]
+		// [dY_dxi, dY_deta]
 
+		// Initialize a 2x2 Jacobian matrix with zeros
 		Matrix<double> dXds(nsd, npd);
 
-		auto nodes = entity.getNodes(); //assumes nodes are ordered
-		size_t nen = nodes.size();
+		auto nodes = entity.getNodes(); // Assumes nodes are ordered
+		size_t nen = nodes.size(); // Number of element nodes
 
-		for (size_t i = 0; i < nen; i++) { //loop over shape functions (one per node)
-			for (int j = 0; j < nsd; j++) { //loop over global dimension (X)
-				for (int k = 0; k < npd; k++) { //loop over local (shape) dimension (R)
+		for (size_t i = 0; i < nen; i++) { // Loop over shape functions (one per node)
+			for (int j = 0; j < nsd; j++) { // Loop over global dimension (x, y)
+				for (int k = 0; k < npd; k++) { // Loop over local (shape) dimension (xi, eta)
 					dXds(j, k) += dGds(i, k) * nodes[i]->pt().X(j);
 				}
 			}

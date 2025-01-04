@@ -20,6 +20,7 @@
 
 struct ElementQuadratureData
 {
+	point 	       ptPhys;      // Physical coordinates at this quad point    
     Matrix<double> J;      // Jacobian at this quad point
     Matrix<double> invJ;
     double         detJ;
@@ -107,16 +108,15 @@ public:
     {
         ElementData eData;
 
-        // 1. get element's FiniteElement & the MeshEntity with its node coords
-        const FiniteElement& fe = *this->fe;
-
         // 2. For each quad point in 'rule'
         for (int q = 0; q < int_rule->numIntPts(); q++)
         {
             point ptRef = int_rule->IntPts()[q];
 
+			point ptPhys = transformReferenceToPhysical(ptRef, entity);
+
             // Compute dPhiRef
-            auto dPhiRef = fe.grad_N(ptRef);
+            auto dPhiRef = fe->grad_N(ptRef);
 
             // Build J, detJ, invJ
             auto J = transform->Jacobian(ptRef, entity, dPhiRef);
@@ -128,6 +128,7 @@ public:
 
             // store
             ElementQuadratureData qd;
+            qd.ptPhys = ptPhys;
             qd.J = J;
             qd.invJ = invJ;
             qd.detJ = detJ;
@@ -139,6 +140,18 @@ public:
     }
 
 private:
+	point transformReferenceToPhysical(const point& ptRef, const MeshEntity& entity) const
+	{
+        //Get the interpolated radius of point pt.
+        Vector<double> N = fe->N(ptRef);
+        point pt;
+        auto nodes = entity.getNodes();
+        for (size_t i = 0; i < nodes.size(); i++) {
+            pt += N[i] * nodes[i]->pt();
+        }
+		return pt;
+	}
+
     /// Transform shape-function derivatives from reference to physical coords.
     /// dPhiRef: (nDofs x refDim)
     /// invJ:    (refDim x refDim)

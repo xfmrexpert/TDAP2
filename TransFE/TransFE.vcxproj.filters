@@ -69,7 +69,7 @@
     <ClInclude Include="IntegrationRule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LinTriIntrule.h">
+    <ClInclude Include="LinTriIntRule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ElementTransform.h">
@@ -94,6 +94,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LinearForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AxiMagBilinearIntegrator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MagBilinearIntegrator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDB\point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDB\node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AxiMagLinearIntegrator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MagLinearIntegrator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

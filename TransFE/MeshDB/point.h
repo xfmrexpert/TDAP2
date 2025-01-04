@@ -56,4 +56,16 @@ public:
         os << "(" << pt.x << ", " << pt.y << ", " << pt.z << ")";
         return os;
     }
+
+	friend point& operator+=(point& lhs, const point& rhs) {
+		lhs.x += rhs.x;
+		lhs.y += rhs.y;
+		lhs.z += rhs.z;
+		return lhs;
+	}
+
+    friend point operator*(double lhs, const point& rhs) {
+        return point(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z);
+    }
+
 };

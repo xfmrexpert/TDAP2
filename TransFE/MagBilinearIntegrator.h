@@ -14,51 +14,48 @@
 
 #pragma once
 
-#include <iostream>
 #include "typedefs.h"
 #include "FESpace.h"
 #include "ElementTransform.h"
 #include "IntegrationRule.h"
 #include "Assembler.h"
+#include "BilinearFormIntegrator.h"
 
 template<typename T>
-class BilinearFormIntegrator
+class MagBilinearIntegrator : public BilinearFormIntegrator<double>
 {
 public:
-	BilinearFormIntegrator(FESpace<T>* feSpace) : feSpace(feSpace) { };
+	using BilinearFormIntegrator<double>::BilinearFormIntegrator;
 
-    virtual Matrix<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const = 0;
-
-    void evaluate(const MeshEntity& entity, Assembler<double>& assem)
+    Matrix<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
-        const auto& fe = feSpace->getFiniteElement();
-        int nDofs = fe->numLocalDOFs();
+        int nDofs = fe.numLocalDOFs();
 
         Matrix<double> Ke = Matrix<double>(nDofs, nDofs);
 
-        const auto& integration = feSpace->getIntegrationRule();
+        const double mu_r = entity.getClassification()->getAttribute("mu");
+        const double mu = 4.0 * PI * 1.0e-7 * mu_r;
 
-        const auto& quadPointsRef = integration->IntPts();
-        const auto& quadWeights = integration->Weights();
+        // 1. Evaluate shape function derivatives in reference coords
+            //    => returns an (nDofs x nRefDims) matrix
+        Matrix<double> dPhiRef = fe.grad_N(ptRef);
 
-        const auto& element_data = feSpace->computeElementData(entity);
+        // At each quadrature point, we need dPhiPhys and detJ
+        Matrix<double> dPhiPhys = quadData.dPhiPhys;
+        double detJ = quadData.detJ;
 
-        // For each quadrature point in the reference domain
-        for (size_t q = 0; q < integration->numIntPts(); q++)
+        // for i,j
+        for (int i = 0; i < nDofs; i++)
         {
-            point ptRef = quadPointsRef[q];
-            double wq = quadWeights(q);
-
-            //std::cout << "k (no weight): \n" << evaluatePt(ptRef, *fe, entity, element_data.quadData[q]);
-
-            Ke += wq * evaluatePt(ptRef, *fe, entity, element_data.quadData[q]);
+            for (int j = 0; j < nDofs; j++)
+            {
+                double dotVal = dPhiPhys.GetRow(i).dot(dPhiPhys.GetRow(j));
+                Ke(i, j) += (1 / mu) * dotVal * detJ;
+            }
         }
-
-        const auto& DOFs = feSpace->getDOFsForEntity(entity);
-        assem.accept(Ke, DOFs);
+        return Ke;
     };
 
-protected:
-    FESpace<T>* feSpace;
+private:
 
 };

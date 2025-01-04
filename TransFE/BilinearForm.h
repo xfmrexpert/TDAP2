@@ -24,7 +24,7 @@ public:
 
 	BilinearForm(FESpace<T>* fe_space) : fe_space(fe_space) {}
 
-	void addIntegrator(std::unique_ptr<BilinearFormIntegrator> integrator)
+	void addIntegrator(std::unique_ptr<BilinearFormIntegrator<T>> integrator)
 	{
 		integrators.push_back(std::move(integrator));
 	}
@@ -42,6 +42,6 @@ public:
 
 protected:
 	FESpace<T>* fe_space;
-	std::list<std::unique_ptr<BilinearFormIntegrator>> integrators;
+	std::list<std::unique_ptr<BilinearFormIntegrator<T>>> integrators;
 	
 };
