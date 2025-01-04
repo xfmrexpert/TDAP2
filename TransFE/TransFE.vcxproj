@@ -172,7 +172,6 @@
     <ClInclude Include="LinTriIntRule.h" />
     <ClInclude Include="magaxistaticanalysis.h" />
     <ClInclude Include="ElementTransform2D.h" />
-    <ClInclude Include="ElementTransform2DAxi.h" />
     <ClInclude Include="MagBilinearIntegrator.h" />
     <ClInclude Include="MagLinearIntegrator.h" />
     <ClInclude Include="matrix.h" />
