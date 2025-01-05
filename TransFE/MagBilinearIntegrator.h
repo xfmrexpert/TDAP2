@@ -41,7 +41,7 @@ public:
 
         // At each quadrature point, we need dPhiPhys and detJ
         Matrix<double> dPhiPhys = quadData.sol_dN_dx;
-        double detJ = quadData.sol_detJ;
+        double detJ = quadData.geom_detJ;
 
         // for i,j
         for (int i = 0; i < nDofs; i++)
@@ -52,8 +52,8 @@ public:
                 Ke(i, j) += (1 / mu) * dotVal * detJ;
             }
         }
-        std::cout << "Ke: " << std::endl;
-        std::cout << Ke << std::endl;
+        //std::cout << "Ke: " << std::endl;
+        //std::cout << Ke << std::endl;
         return Ke;
     };
 

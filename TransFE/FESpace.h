@@ -43,45 +43,21 @@ struct ElementData
 template <typename T>
 class FESpaceBase {
 public:
+    FESpaceBase(Mesh* mesh, std::unique_ptr<ElementTransform> transform,
+        std::unique_ptr<IntegrationRule> int_rule) : mesh(mesh), transform(std::move(transform)), int_rule(std::move(int_rule)) {
+        setupGlobalDofs();
+    }
+
     virtual ~FESpaceBase() = default;
 
-    // Pure virtual functions to be implemented by derived classes
-    virtual size_t numGlobalDofs() const = 0;
     virtual ElementData computeElementData(const MeshEntity& entity) const = 0;
 
     // Access to the underlying finite element
     virtual const FiniteElementBase* getFiniteElement() const = 0;
 
-    virtual const IntegrationRule* getIntegrationRule() const = 0;
+    const IntegrationRule* getIntegrationRule() const { return int_rule.get(); }
 
-    virtual std::vector<DOF<T>*> getDOFsForEntity(const MeshEntity& entity) = 0;
-
-    virtual const Mesh* getMesh() const = 0;
-
-    virtual void setupGlobalDofs() = 0;
-
-    virtual std::vector<DOF<T>*> getDOFsForNode(const Node& node) = 0;
-
-    virtual void numberDOFs() = 0;
-
-    // Other common functionalities can be added here
-};
-
- /// FESpace ties a FiniteElement to a Mesh, building a global DOF structure.
-template <typename G, typename F, typename T>
-requires std::derived_from<G, ShapeFunction>&& std::derived_from<F, ShapeFunction>
-class FESpace : public FESpaceBase<T> {
-public:
-    // Constructor now accepts FiniteElement<G, F>
-    FESpace(Mesh* mesh, std::unique_ptr<FiniteElement<G, F>> fe,
-        std::unique_ptr<ElementTransform> transform,
-        std::unique_ptr<IntegrationRule> int_rule)
-        : mesh(mesh), fe(std::move(fe)),
-        transform(std::move(transform)),
-        int_rule(std::move(int_rule))
-    {
-        setupGlobalDofs();
-    }
+    const Mesh* getMesh() const { return mesh; }
 
     /// Number of global DOFs in this FE space.
     size_t numGlobalDofs() const { return ndof; }
@@ -135,12 +111,29 @@ public:
         return rtnDOFs;
     }
 
-	const Mesh* getMesh() const { return mesh; }
+
+protected:
+    Mesh* mesh;
+    std::unique_ptr<ElementTransform> transform;
+    std::unique_ptr<IntegrationRule> int_rule;
+    std::vector<std::vector<std::unique_ptr<DOF<T>>>> DOFs; // Vector of DOFs for each node
+    int ndof = 0;
+};
+
+ /// FESpace ties a FiniteElement to a Mesh, building a global DOF structure.
+template <typename G, typename F, typename T>
+requires std::derived_from<G, ShapeFunction>&& std::derived_from<F, ShapeFunction>
+class FESpace : public FESpaceBase<T> {
+public:
+    // Constructor now accepts FiniteElement<G, F>
+    FESpace(Mesh* mesh, std::unique_ptr<FiniteElement<G, F>> fe, std::unique_ptr<ElementTransform> transform, std::unique_ptr<IntegrationRule> int_rule)
+        : fe(std::move(fe)), FESpaceBase<T>(mesh, std::move(transform), std::move(int_rule))
+    {
+        
+    }
 
     /// Access to the underlying FE object
     const FiniteElement<G, F>* getFiniteElement() const { return fe.get(); }
-
-	const IntegrationRule* getIntegrationRule() const { return int_rule.get(); }
 
     ElementData computeElementData(const MeshEntity& entity) const
     {
@@ -148,16 +141,16 @@ public:
 
         bool isIsoparametric = std::is_same_v<G, F>;
 
-        for (int q = 0; q < int_rule->numIntPts(); q++)
+        for (int q = 0; q < this->int_rule->numIntPts(); q++)
         {
             ElementQuadratureData qd;
 
-            point ptRef = int_rule->IntPts()[q];
-            point ptPhys = transform->transformReferenceToPhysical(ptRef, entity, fe->Geom()->N(ptRef));
+            point ptRef = this->int_rule->IntPts()[q];
+            point ptPhys = this->transform->transformReferenceToPhysical(ptRef, entity, fe->Geom()->N(ptRef));
 
             auto geom_dN_ds = fe->Geom()->grad_N(ptRef);
 
-            auto geom_J = transform->Jacobian(ptRef, entity, geom_dN_ds);
+            auto geom_J = this->transform->Jacobian(ptRef, entity, geom_dN_ds);
             double geom_detJ = geom_J.determinant();
             auto geom_invJ = geom_J.inverse();
 
@@ -166,18 +159,18 @@ public:
 
             if (isIsoparametric)
             {
-                sol_dN_dx = transform->transformReferenceToPhysical(fe->Sol()->grad_N(ptRef), geom_invJ);
+                sol_dN_dx = this->transform->transformReferenceToPhysical(fe->Sol()->grad_N(ptRef), geom_invJ);
                 geom_dN_dx = sol_dN_dx; // Same as solution
             }
             else
             {
                 auto sol_dN_ds = fe->Sol()->grad_N(ptRef);
-                auto sol_J = transform->Jacobian(ptRef, entity, sol_dN_ds);
+                auto sol_J = this->transform->Jacobian(ptRef, entity, sol_dN_ds);
                 double sol_detJ = sol_J.determinant();
                 auto sol_invJ = sol_J.inverse();
 
-                sol_dN_dx = transform->transformReferenceToPhysical(sol_dN_ds, sol_invJ);
-                geom_dN_dx = transform->transformReferenceToPhysical(geom_dN_ds, geom_invJ);
+                sol_dN_dx = this->transform->transformReferenceToPhysical(sol_dN_ds, sol_invJ);
+                geom_dN_dx = this->transform->transformReferenceToPhysical(geom_dN_ds, geom_invJ);
 
                 // Optionally store solution Jacobian details
                 qd.sol_J = sol_J;
@@ -203,13 +196,6 @@ public:
         return eData;
     }
 
-
 private:
-    Mesh* mesh;
     std::unique_ptr<FiniteElement<G, F>> fe; // Now templated on G and F
-    std::unique_ptr<ElementTransform> transform;
-    std::unique_ptr<IntegrationRule> int_rule;
-
-    std::vector<std::vector<std::unique_ptr<DOF<T>>>> DOFs; // Vector of DOFs for each node
-    int ndof = 0;
 };

@@ -32,7 +32,7 @@ public:
 
 	const Vector<double>& Weights() const override {
 		static const Vector<double> weights = []() {
-			Vector<double> w(3);
+			Vector<double> w = Vector<double>::Zero(3);
 			w[0] = 1.0 / 6.0;
 			w[1] = 1.0 / 6.0;
 			w[2] = 1.0 / 6.0;

@@ -33,7 +33,7 @@ MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 	fe_space_ptr = fe_space.get();
 	auto bilinear = std::make_unique<BilinearForm<double>>(fe_space.get());
 	auto linear = std::make_unique<LinearForm<double>>(fe_space.get());
-	bool axi = true;
+	bool axi = false;
 	if (axi)
 	{
 		bilinear->addIntegrator(std::make_unique<AxiMagBilinearIntegrator>(fe_space.get()));

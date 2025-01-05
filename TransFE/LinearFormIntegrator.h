@@ -33,7 +33,7 @@ public:
         const auto& fe = feSpace->getFiniteElement();
         int nDofs = fe->numLocalDOFs();
 
-        Vector<double> f = Vector<double>(nDofs);
+        Vector<double> f = Vector<double>::Zero(nDofs);
 
         const auto& integration = feSpace->getIntegrationRule();
 

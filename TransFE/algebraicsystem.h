@@ -37,8 +37,8 @@ public:
 		// The following just passes in the empty stiffness matrix and force vector
 		A->initialize(K.get(), f.get());
 		DS->formSystem(*A);
-		/*std::ofstream myfile;*/
-		/*myfile.open("K_new.csv");
+		std::ofstream myfile;
+		myfile.open("K_new.csv");
 		for (int i = 0; i < K->rows(); i++) {
 			for (int j = 0; j < K->cols(); j++) {
 				myfile << K->coeff(i, j) << ", ";
@@ -51,14 +51,14 @@ public:
 			myfile << f->coeff(i) << ", ";
 			myfile << std::endl;
 		}
-		myfile.close();*/
+		myfile.close();
 		solveLinearSystem();
-		/*myfile.open("x_new.csv");
+		myfile.open("x_new.csv");
 		for (int i = 0; i < K->rows(); i++) {
 			myfile << f->coeff(i) << ", ";
 			myfile << std::endl;
 		}
-		myfile.close();*/
+		myfile.close();
 	};
 
 	void createGlobalSystem() {

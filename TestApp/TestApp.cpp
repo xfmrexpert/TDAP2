@@ -7,7 +7,7 @@
 int main()
 {
     std::cout << "Hello World!\n";
-    std::string filename = "x64/Debug/test";
+    std::string filename = "x64/Debug/test3";
     FEProg* prog = new FEProg();
     prog->run_FEA(filename, -1);
 }
