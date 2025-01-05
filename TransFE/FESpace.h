@@ -20,12 +20,17 @@
 
 struct ElementQuadratureData
 {
-	point 	       ptPhys;      // Physical coordinates at this quad point    
-    Matrix<double> J;      // Jacobian at this quad point
-    Matrix<double> invJ;
-    double         detJ;
-    Matrix<double> dPhiPhys;  // Physical shape function derivatives
-    // possibly shape values, other PDE-specific data
+    point ptPhys;
+    Matrix<double> geom_J;
+    Matrix<double> geom_invJ;
+    double geom_detJ;
+    Matrix<double> geom_dN_dx;
+
+    // Solution-specific Jacobian details
+    Matrix<double> sol_J;
+    double sol_detJ;
+    Matrix<double> sol_invJ;
+    Matrix<double> sol_dN_dx;
 };
 
 struct ElementData
@@ -35,13 +40,46 @@ struct ElementData
     // Possibly store dof indices, etc.
 };
 
- /// FESpace ties a FiniteElement to a Mesh, building a global DOF structure.
 template <typename T>
-class FESpace
-{
+class FESpaceBase {
 public:
-	FESpace(Mesh* mesh, std::unique_ptr<FiniteElement> fe, std::unique_ptr<ElementTransform> transform, std::unique_ptr<IntegrationRule> int_rule) 
-        : mesh(mesh), fe(std::move(fe)), transform(std::move(transform)), int_rule(std::move(int_rule)) {
+    virtual ~FESpaceBase() = default;
+
+    // Pure virtual functions to be implemented by derived classes
+    virtual size_t numGlobalDofs() const = 0;
+    virtual ElementData computeElementData(const MeshEntity& entity) const = 0;
+
+    // Access to the underlying finite element
+    virtual const FiniteElementBase* getFiniteElement() const = 0;
+
+    virtual const IntegrationRule* getIntegrationRule() const = 0;
+
+    virtual std::vector<DOF<T>*> getDOFsForEntity(const MeshEntity& entity) = 0;
+
+    virtual const Mesh* getMesh() const = 0;
+
+    virtual void setupGlobalDofs() = 0;
+
+    virtual std::vector<DOF<T>*> getDOFsForNode(const Node& node) = 0;
+
+    virtual void numberDOFs() = 0;
+
+    // Other common functionalities can be added here
+};
+
+ /// FESpace ties a FiniteElement to a Mesh, building a global DOF structure.
+template <typename G, typename F, typename T>
+requires std::derived_from<G, ShapeFunction>&& std::derived_from<F, ShapeFunction>
+class FESpace : public FESpaceBase<T> {
+public:
+    // Constructor now accepts FiniteElement<G, F>
+    FESpace(Mesh* mesh, std::unique_ptr<FiniteElement<G, F>> fe,
+        std::unique_ptr<ElementTransform> transform,
+        std::unique_ptr<IntegrationRule> int_rule)
+        : mesh(mesh), fe(std::move(fe)),
+        transform(std::move(transform)),
+        int_rule(std::move(int_rule))
+    {
         setupGlobalDofs();
     }
 
@@ -100,7 +138,7 @@ public:
 	const Mesh* getMesh() const { return mesh; }
 
     /// Access to the underlying FE object
-    const FiniteElement* getFiniteElement() const { return fe.get(); }
+    const FiniteElement<G, F>* getFiniteElement() const { return fe.get(); }
 
 	const IntegrationRule* getIntegrationRule() const { return int_rule.get(); }
 
@@ -108,87 +146,70 @@ public:
     {
         ElementData eData;
 
-        // 2. For each quad point in 'rule'
+        bool isIsoparametric = std::is_same_v<G, F>;
+
         for (int q = 0; q < int_rule->numIntPts(); q++)
         {
-            point ptRef = int_rule->IntPts()[q];
-
-			point ptPhys = transformReferenceToPhysical(ptRef, entity);
-
-            // Compute dPhiRef
-            auto dPhiRef = fe->grad_N(ptRef);
-
-            // Build J, detJ, invJ
-            auto J = transform->Jacobian(ptRef, entity, dPhiRef);
-            double detJ = J.CalculateDeterminant();
-            auto invJ = J.CalculateInverse();
-
-            // Transform dPhiRef => dPhiPhys
-            Matrix<double> dPhiPhys = transformReferenceToPhysical(dPhiRef, invJ);
-
-            // store
             ElementQuadratureData qd;
+
+            point ptRef = int_rule->IntPts()[q];
+            point ptPhys = transform->transformReferenceToPhysical(ptRef, entity, fe->Geom()->N(ptRef));
+
+            auto geom_dN_ds = fe->Geom()->grad_N(ptRef);
+
+            auto geom_J = transform->Jacobian(ptRef, entity, geom_dN_ds);
+            double geom_detJ = geom_J.determinant();
+            auto geom_invJ = geom_J.inverse();
+
+            Matrix<double> sol_dN_dx;
+            Matrix<double> geom_dN_dx;
+
+            if (isIsoparametric)
+            {
+                sol_dN_dx = transform->transformReferenceToPhysical(fe->Sol()->grad_N(ptRef), geom_invJ);
+                geom_dN_dx = sol_dN_dx; // Same as solution
+            }
+            else
+            {
+                auto sol_dN_ds = fe->Sol()->grad_N(ptRef);
+                auto sol_J = transform->Jacobian(ptRef, entity, sol_dN_ds);
+                double sol_detJ = sol_J.determinant();
+                auto sol_invJ = sol_J.inverse();
+
+                sol_dN_dx = transform->transformReferenceToPhysical(sol_dN_ds, sol_invJ);
+                geom_dN_dx = transform->transformReferenceToPhysical(geom_dN_ds, geom_invJ);
+
+                // Optionally store solution Jacobian details
+                qd.sol_J = sol_J;
+                qd.sol_detJ = sol_detJ;
+                qd.sol_invJ = sol_invJ;
+            }
+
+            // Store geometry Jacobian details
+            qd.geom_J = geom_J;
+            qd.geom_invJ = geom_invJ;
+            qd.geom_detJ = geom_detJ;
+            qd.geom_dN_dx = geom_dN_dx;
+
+            // Store transformed solution gradients
+            qd.sol_dN_dx = sol_dN_dx;
+
+            // Store physical point
             qd.ptPhys = ptPhys;
-            qd.J = J;
-            qd.invJ = invJ;
-            qd.detJ = detJ;
-            qd.dPhiPhys = dPhiPhys;
-            eData.quadData.push_back(std::move(qd));
+            
+            eData.quadData.push_back(qd);
         }
 
         return eData;
     }
 
-private:
-	point transformReferenceToPhysical(const point& ptRef, const MeshEntity& entity) const
-	{
-        //Get the interpolated radius of point pt.
-        Vector<double> N = fe->N(ptRef);
-        point pt;
-        auto nodes = entity.getNodes();
-        for (size_t i = 0; i < nodes.size(); i++) {
-            pt += N[i] * nodes[i]->pt();
-        }
-		return pt;
-	}
-
-    /// Transform shape-function derivatives from reference to physical coords.
-    /// dPhiRef: (nDofs x refDim)
-    /// invJ:    (refDim x refDim)
-    /// returns: (nDofs x refDim)
-    Matrix<double> transformReferenceToPhysical(const Matrix<double>& dPhiRef, const Matrix<double>& invJ) const
-    {
-        size_t nDofs = dPhiRef.GetNumberOfRows();     // e.g. number of shape functions
-        size_t refDim = dPhiRef.GetNumberOfColumns();     // 2 in 2D, or 3 in 3D
-
-        // We'll create an output matrix of the same shape
-        Matrix<double> dPhiPhys = Matrix<double>(nDofs, refDim);
-
-        // Multiply each row of dPhiRef by invJ
-        // (row-vector) x (refDim x refDim) => (row-vector)
-        for (size_t i = 0; i < nDofs; i++)
-        {
-            for (size_t c = 0; c < refDim; c++)
-            {
-                // compute dPhiPhys(i, c) by dot product of dPhiRef row i with invJ column c
-                double sum = 0.0;
-                for (size_t k = 0; k < refDim; k++)
-                {
-                    sum += dPhiRef(i, k) * invJ(k, c);
-                }
-                dPhiPhys(i, c) = sum;
-            }
-        }
-
-        return dPhiPhys;
-    }
 
 private:
     Mesh* mesh;
-    std::unique_ptr<FiniteElement> fe;
+    std::unique_ptr<FiniteElement<G, F>> fe; // Now templated on G and F
     std::unique_ptr<ElementTransform> transform;
-	std::unique_ptr<IntegrationRule> int_rule;
+    std::unique_ptr<IntegrationRule> int_rule;
 
-	std::vector<std::vector<std::unique_ptr<DOF<T>>>> DOFs; // Vector of DOFs for each node
+    std::vector<std::vector<std::unique_ptr<DOF<T>>>> DOFs; // Vector of DOFs for each node
     int ndof = 0;
 };

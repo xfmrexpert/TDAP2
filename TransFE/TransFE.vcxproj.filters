@@ -45,9 +45,6 @@
     <ClInclude Include="magaxistaticanalysis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ElementTransform2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>

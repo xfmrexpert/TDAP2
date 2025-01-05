@@ -27,7 +27,7 @@ public:
     using LinearFormIntegrator::LinearFormIntegrator;
     ~AxiMagLinearIntegrator() = default;
 
-    Vector<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
+    Vector<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
         int nDofs = fe.numLocalDOFs();
         Vector<double> f = Vector<double>(nDofs);
@@ -36,9 +36,9 @@ public:
 
         double r_phys = quadData.ptPhys.x;
 
-        double detJ = quadData.detJ;
+        double detJ = quadData.sol_detJ;
         double measure = r_phys * detJ;
-        const auto& phi = fe.N(ptRef); // shape function values
+        const auto& phi = fe.Sol()->N(ptRef); // shape function values
 		//std::cout << "phi: \n" << phi << std::endl;
         for (int i = 0; i < nDofs; i++)
         {

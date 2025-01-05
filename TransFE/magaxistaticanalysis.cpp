@@ -13,9 +13,10 @@
 #include <iostream>
 #include "FESpace.h"
 #include "ElementTransform.h"
-#include "ElementTransform2D.h"
 #include "LagrangeElement.h"
 #include "LinTriIntRule.h"
+#include "MagBilinearIntegrator.h"
+#include "MagLinearIntegrator.h"
 #include "AxiMagBilinearIntegrator.h"
 #include "AxiMagLinearIntegrator.h"
 
@@ -28,12 +29,21 @@ MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 		ndof = 0;
 	}
 	formulation = form;
-	auto fe_space = std::make_unique<FESpace<double>>(mesh.get(), std::make_unique<LagrangeElement>(), std::make_unique<ElementTransform2D>(), std::make_unique<LinTriIntegrationRule>());
+	auto fe_space = std::make_unique<FESpace<LagrangeShapeFunction, LagrangeShapeFunction, double>>(mesh.get(), std::make_unique<LagrangeElement>(2), std::make_unique<ElementTransform2D>(), std::make_unique<LinTriIntegrationRule>());
 	fe_space_ptr = fe_space.get();
 	auto bilinear = std::make_unique<BilinearForm<double>>(fe_space.get());
-	bilinear->addIntegrator(std::make_unique<AxiMagBilinearIntegrator>(fe_space.get()));
 	auto linear = std::make_unique<LinearForm<double>>(fe_space.get());
-	linear->addIntegrator(std::make_unique<AxiMagLinearIntegrator>(fe_space.get()));
+	bool axi = true;
+	if (axi)
+	{
+		bilinear->addIntegrator(std::make_unique<AxiMagBilinearIntegrator>(fe_space.get()));
+		linear->addIntegrator(std::make_unique<AxiMagLinearIntegrator>(fe_space.get()));
+	}
+	else
+	{
+		bilinear->addIntegrator(std::make_unique<MagBilinearIntegrator>(fe_space.get()));
+		linear->addIntegrator(std::make_unique<MagLinearIntegrator>(fe_space.get()));
+	}
 	DS = std::make_unique<DiscreteSystem<double>>(std::move(fe_space), std::move(bilinear), std::move(linear));
 }
 

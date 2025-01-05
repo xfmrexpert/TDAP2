@@ -25,16 +25,16 @@ template<typename T>
 class BilinearFormIntegrator
 {
 public:
-	BilinearFormIntegrator(FESpace<T>* feSpace) : feSpace(feSpace) { };
+	BilinearFormIntegrator(FESpaceBase<T>* feSpace) : feSpace(feSpace) { };
 
-    virtual Matrix<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const = 0;
+    virtual Matrix<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const = 0;
 
     void evaluate(const MeshEntity& entity, Assembler<double>& assem)
     {
         const auto& fe = feSpace->getFiniteElement();
         int nDofs = fe->numLocalDOFs();
 
-        Matrix<double> Ke = Matrix<double>(nDofs, nDofs);
+        Matrix<double> Ke = Matrix<double>::Zero(nDofs, nDofs);
 
         const auto& integration = feSpace->getIntegrationRule();
 
@@ -59,6 +59,6 @@ public:
     };
 
 protected:
-    FESpace<T>* feSpace;
+    FESpaceBase<T>* feSpace;
 
 };

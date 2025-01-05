@@ -24,7 +24,7 @@ class DisplacementConstraint : public Constraint<T> {
 
 public:
 
-	DisplacementConstraint(MeshEntity* Element_in, FESpace<T>* fe_space) : Constraint<T>(Element_in, fe_space) {};
+	DisplacementConstraint(MeshEntity* Element_in, FESpaceBase<T>* fe_space) : Constraint<T>(Element_in, fe_space) {};
 
 	~DisplacementConstraint() = default;
 

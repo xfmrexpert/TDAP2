@@ -21,11 +21,11 @@ class AxiMagBilinearIntegrator : public BilinearFormIntegrator<double>
 public:
 	using BilinearFormIntegrator<double>::BilinearFormIntegrator;
 
-    Matrix<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
+    Matrix<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
         int nDofs = fe.numLocalDOFs();
 
-        Matrix<double> Ke = Matrix<double>(nDofs, nDofs);
+        Matrix<double> Ke = Matrix<double>::Zero(nDofs, nDofs);
 
         const double mu_r = entity.getClassification()->getAttribute("mu");
         const double mu = 4.0 * PI * 1.0e-7 * mu_r;
@@ -35,30 +35,30 @@ public:
         double r_phys = quadData.ptPhys.x;
 
         // At each quadrature point, we need dPhiPhys and detJ
-        Matrix<double> dPhi_dx = quadData.dPhiPhys;
+        Matrix<double> dN_dx = quadData.sol_dN_dx;
 
-		//std::cout << "dPhiPhys: \n" << dPhiPhys << std::endl;
+		//std::cout << "dN_dx: \n" << dN_dx << std::endl;
 
-        double detJ = quadData.detJ;
+        double detJ = quadData.geom_detJ;
 
         // The measure factor for axisymmetric integrals: r * detJ * wq
         double measure = r_phys * detJ;
 
-        const auto& Phi = fe.N(ptRef); // shape function values
+        const auto& N = fe.Sol()->N(ptRef); // shape function values
 
         for (int i = 0; i < nDofs; i++)
         {
             // partial derivatives wrt r,z
-            double dAr_i = dPhi_dx(i, 0); // partial wrt r
-            double dAz_i = dPhi_dx(i, 1); // partial wrt z
+            double dAr_i = dN_dx(i, 0); // partial wrt r
+            double dAz_i = dN_dx(i, 1); // partial wrt z
 
-            double val_i = Phi(i); // shape function value for A_phi
+            double val_i = N(i); // shape function value for A_phi
 
             for (int j = 0; j < nDofs; j++)
             {
-                double dAr_j = dPhi_dx(j, 0);
-                double dAz_j = dPhi_dx(j, 1);
-                double val_j = Phi(j);
+                double dAr_j = dN_dx(j, 0);
+                double dAz_j = dN_dx(j, 1);
+                double val_j = N(j);
 
                 // 1) Grad dot grad part: mu^-1 * (dr_i * dr_j + dz_i * dz_j)
                 double gradTerm = (1 / mu) * (dAr_i * dAr_j + dAz_i * dAz_j);
@@ -67,24 +67,26 @@ public:
 				auto N = phi;
                 double gradTerm = (1 / mu) * (dNdx(i, 0) * dNdx(j, 0) + dNdx(i, 1) * dNdx(j, 1));
                 gradTerm = gradTerm / r_phys;*/
-
+                //gradTerm = (1 / mu) * (dN_dx(i, 0) * dN_dx(j, 0) + dN_dx(i, 1) * dN_dx(j, 1));
+                gradTerm = gradTerm / r_phys;
                 // 2) The "1/r^2" term => - mu^-1 * A_phi * w / r^2
-                double r2Term = -(1 / mu) * (val_i * val_j) / (r_phys * r_phys);
+                double r2Term = 0;// -(1 / mu) * (val_i * val_j) / (r_phys * r_phys);
 
                 // 3) The conduction / eddy current term => - j * omega * sigma * A_phi * w
                 // i.e.  - j * omega * sigma * (val_i * val_j)
                 std::complex<double> cplxTerm(0.0, -m_omega * sigma * val_i * val_j);
 
-				//std::cout << "DOF: " << i << ", " << j << " k: " << gradTerm * r_phys << std::endl;
+				//std::cout << "DOF: " << i << ", " << j << " k: " << gradTerm << std::endl;
 				//std::cout << "r2Term: " << r2Term << std::endl;
 
                 // Combine the real contributions for the local stiffness
                 double realContrib = (gradTerm + r2Term) * measure;
-				Ke(i, j) += ((1 / mu) * (dPhi_dx(i, 0) * dPhi_dx(j, 0) + dPhi_dx(i, 1) * dPhi_dx(j, 1)) - (1 / mu) * Phi(i) * Phi(j) / (r_phys * r_phys)) * measure;
+                Ke(i, j) += realContrib; // ((1 / mu) * (dPhi_dx(i, 0) * dPhi_dx(j, 0) + dPhi_dx(i, 1) * dPhi_dx(j, 1)) - (1 / mu) * Phi(i) * Phi(j) / (r_phys * r_phys))* measure;
 
             }
         }
-
+        //std::cout << "Ke: " << std::endl;
+        //std::cout << Ke << std::endl;
 		return Ke;
     };
 

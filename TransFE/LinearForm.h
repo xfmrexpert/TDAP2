@@ -22,7 +22,7 @@ class LinearForm
 {
 public:
 
-	LinearForm(FESpace<T>* fe_space) : fe_space(fe_space) { };
+	LinearForm(FESpaceBase<T>* fe_space) : fe_space(fe_space) { };
 
 	void addIntegrator(std::unique_ptr<LinearFormIntegrator> integrator)
 	{
@@ -41,7 +41,7 @@ public:
 	}
 
 protected:
-	FESpace<T>* fe_space;
+	FESpaceBase<T>* fe_space;
 	std::list<std::unique_ptr<LinearFormIntegrator>> integrators;
 
 };

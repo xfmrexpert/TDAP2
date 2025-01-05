@@ -18,8 +18,8 @@
 #include "./Eigen/Dense"
 #include "./Eigen/Sparse"
 #include "./Eigen/IterativeLinearSolvers"
-#include "vector.h"
-#include "matrix.h"
+//#include "vector.h"
+//#include "matrix.h"
 
 template <typename T>
 using BigMatrix =  Eigen::SparseMatrix<T>;
@@ -29,5 +29,8 @@ using BigVector = Eigen::VectorX<T>;
 
 constexpr double PI = 3.141592653589793238512808959406186204433;
 
-//template <typename T>
-//using Vector = Eigen::VectorX<T>;
+template <typename T>
+using Vector = Eigen::VectorX<T>;
+
+template <typename T>
+using Matrix = Eigen::MatrixX<T>;

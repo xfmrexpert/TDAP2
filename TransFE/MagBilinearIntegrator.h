@@ -21,38 +21,39 @@
 #include "Assembler.h"
 #include "BilinearFormIntegrator.h"
 
-template<typename T>
 class MagBilinearIntegrator : public BilinearFormIntegrator<double>
 {
 public:
 	using BilinearFormIntegrator<double>::BilinearFormIntegrator;
 
-    Matrix<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
+    Matrix<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
         int nDofs = fe.numLocalDOFs();
 
-        Matrix<double> Ke = Matrix<double>(nDofs, nDofs);
+        Matrix<double> Ke = Matrix<double>::Zero(nDofs, nDofs);
 
         const double mu_r = entity.getClassification()->getAttribute("mu");
         const double mu = 4.0 * PI * 1.0e-7 * mu_r;
 
         // 1. Evaluate shape function derivatives in reference coords
             //    => returns an (nDofs x nRefDims) matrix
-        Matrix<double> dPhiRef = fe.grad_N(ptRef);
+        Matrix<double> dPhiRef = fe.Sol()->grad_N(ptRef);
 
         // At each quadrature point, we need dPhiPhys and detJ
-        Matrix<double> dPhiPhys = quadData.dPhiPhys;
-        double detJ = quadData.detJ;
+        Matrix<double> dPhiPhys = quadData.sol_dN_dx;
+        double detJ = quadData.sol_detJ;
 
         // for i,j
         for (int i = 0; i < nDofs; i++)
         {
             for (int j = 0; j < nDofs; j++)
             {
-                double dotVal = dPhiPhys.GetRow(i).dot(dPhiPhys.GetRow(j));
+                double dotVal = dPhiPhys.row(i).dot(dPhiPhys.row(j));
                 Ke(i, j) += (1 / mu) * dotVal * detJ;
             }
         }
+        std::cout << "Ke: " << std::endl;
+        std::cout << Ke << std::endl;
         return Ke;
     };
 

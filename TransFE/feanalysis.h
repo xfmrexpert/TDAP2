@@ -59,6 +59,15 @@ public:
 			   DS->add(std::move(c)); //if so, add the vertex to the list of constraints
 		   }
 	   }
+
+	   for (size_t i = 0; i < mesh->numEdges(); i++) { //process all mesh edges
+		   auto& e = mesh->getEdge(i); //get vertex object
+		   //cout << "Processing vertex #" << i << "(" << v->ID << ")" << endl;
+		   auto c = makeConstraint(e); //create a constraint for the vertex
+		   if (c != nullptr) { //check if the vertex is contrained
+			   DS->add(std::move(c)); //if so, add the vertex to the list of constraints
+		   }
+	   }
    };
    
    /// Returns a pointer to the mesh
@@ -89,7 +98,7 @@ public:
    std::stringstream outStream;
    
 protected:
-   FESpace<T>* fe_space_ptr;
+   FESpaceBase<T>* fe_space_ptr;
    std::unique_ptr<DiscreteSystem<T>> DS;
    std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
 

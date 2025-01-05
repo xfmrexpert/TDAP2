@@ -21,22 +21,22 @@
 #include "Assembler.h"
 #include "LinearFormIntegrator.h"
 
-class MagLinearIntegrator : LinearFormIntegrator
+class MagLinearIntegrator : public LinearFormIntegrator
 {
 public:
 	using LinearFormIntegrator::LinearFormIntegrator;
     ~MagLinearIntegrator() = default;
 
-    Vector<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
+    Vector<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
         int nDofs = fe.numLocalDOFs();
         Vector<double> f = Vector<double>(nDofs);
 
         double J = entity.getClassification()->getAttribute("J"); //Constant current density in element
 
-        double measure = quadData.detJ;
+        double measure = quadData.sol_detJ;
 
-        const auto& phi = fe.N(ptRef); // shape function values
+        const auto& phi = fe.Sol()->N(ptRef); // shape function values
 
         for (int i = 0; i < nDofs; i++)
         {

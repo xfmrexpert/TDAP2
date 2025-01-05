@@ -23,10 +23,10 @@
 class LinearFormIntegrator
 {
 public:
-	LinearFormIntegrator(FESpace<double>* feSpace) : feSpace(feSpace) { };
+	LinearFormIntegrator(FESpaceBase<double>* feSpace) : feSpace(feSpace) { };
 	~LinearFormIntegrator() = default;
 
-    virtual Vector<double> evaluatePt(point ptRef, const FiniteElement& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const = 0;
+    virtual Vector<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const = 0;
 	
     void evaluate(const MeshEntity& entity, Assembler<double>& assem) const
     {
@@ -58,6 +58,6 @@ public:
     };
 
 protected:
-    FESpace<double>* feSpace;
+    FESpaceBase<double>* feSpace;
 
 };

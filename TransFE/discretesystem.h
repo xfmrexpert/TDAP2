@@ -22,7 +22,7 @@ class DiscreteSystem {
 
 public:
 
-    DiscreteSystem(std::unique_ptr<FESpace<T>> fe_space, std::unique_ptr<BilinearForm<T>> bilinear, std::unique_ptr<LinearForm<T>> linear) 
+    DiscreteSystem(std::unique_ptr<FESpaceBase<T>> fe_space, std::unique_ptr<BilinearForm<T>> bilinear, std::unique_ptr<LinearForm<T>> linear) 
         : fe_space(std::move(fe_space)), bilinearForm(std::move(bilinear)), linearForm(std::move(linear)) { };
 	~DiscreteSystem() = default;
 
@@ -47,7 +47,7 @@ public:
 protected:
   
 private:
-   std::unique_ptr<FESpace<T>> fe_space;
+   std::unique_ptr<FESpaceBase<T>> fe_space;
    std::unique_ptr<BilinearForm<T>> bilinearForm;
    std::unique_ptr<LinearForm<T>> linearForm;
    std::list<std::unique_ptr<Constraint<T>>> constraints;
