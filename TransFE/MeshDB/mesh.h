@@ -73,6 +73,8 @@ public:
 
 	std::vector<MeshFace*> getFaces() const;
 
+	std::vector<MeshEdge*> getEdges() const;
+
 	std::vector<Node*> getNodes() const;
 
 	size_t numRegions() const;

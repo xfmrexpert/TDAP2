@@ -26,7 +26,7 @@ class MagBilinearIntegrator : public BilinearFormIntegrator<double>
 public:
 	using BilinearFormIntegrator<double>::BilinearFormIntegrator;
 
-    Matrix<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
+    Matrix<double> evaluatePt(point ptRef, const FiniteElementBase& fe, MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
         int nDofs = fe.numLocalDOFs();
 
@@ -37,11 +37,17 @@ public:
 
         // 1. Evaluate shape function derivatives in reference coords
             //    => returns an (nDofs x nRefDims) matrix
-        Matrix<double> dPhiRef = fe.Sol()->grad_N(ptRef);
+        // Attempt to cast to a scalar shape function 
+        auto scalar_sf = dynamic_cast<const ScalarShapeFunction*>(fe.ShapeFunction());
+        if (!scalar_sf) {
+            throw std::runtime_error("MagBilinearIntegrator: The provided FE is not scalar (H1).");
+        }
+
+        Matrix<double> dPhiRef = scalar_sf->grad_N(ptRef);
 
         // At each quadrature point, we need dPhiPhys and detJ
-        Matrix<double> dPhiPhys = quadData.sol_dN_dx;
-        double detJ = quadData.geom_detJ;
+        Matrix<double> dPhiPhys = quadData.dN_dx;
+        double detJ = quadData.detJ;
 
         // for i,j
         for (int i = 0; i < nDofs; i++)

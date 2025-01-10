@@ -18,7 +18,7 @@
 #include "FESpace.h"
 #include "ElementTransform.h"
 #include "IntegrationRule.h"
-#include "Assembler.h"
+#include "assembler.h"
 #include "LinearFormIntegrator.h"
 
 class MagLinearIntegrator : public LinearFormIntegrator
@@ -34,9 +34,15 @@ public:
 
         double J = entity.getClassification()->getAttribute("J"); //Constant current density in element
 
-        double measure = quadData.geom_detJ;
+        double measure = quadData.detJ;
 
-        const auto& phi = fe.Sol()->N(ptRef); // shape function values
+        // Attempt to cast to a scalar shape function 
+        auto scalar_sf = dynamic_cast<const ScalarShapeFunction*>(fe.ShapeFunction());
+        if (!scalar_sf) {
+            throw std::runtime_error("MagLinearIntegrator: The provided FE is not scalar (H1).");
+        }
+
+        const auto& phi = scalar_sf->N(ptRef); // shape function values
 
         for (int i = 0; i < nDofs; i++)
         {

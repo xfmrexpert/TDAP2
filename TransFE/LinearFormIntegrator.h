@@ -28,7 +28,7 @@ public:
 
     virtual Vector<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const = 0;
 	
-    void evaluate(const MeshEntity& entity, Assembler<double>& assem) const
+    void evaluate(MeshEntity& entity, Assembler<double>& assem) const
     {
         const auto& fe = feSpace->getFiniteElement();
         int nDofs = fe->numLocalDOFs();

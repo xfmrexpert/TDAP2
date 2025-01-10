@@ -11,7 +11,7 @@
 #include "magaxistaticanalysis.h"
 #include "typedefs.h"
 #include <iostream>
-#include "FESpace.h"
+#include "FESpaceH1.h"
 #include "ElementTransform.h"
 #include "LagrangeElement.h"
 #include "LinTriIntRule.h"
@@ -19,6 +19,7 @@
 #include "MagLinearIntegrator.h"
 #include "AxiMagBilinearIntegrator.h"
 #include "AxiMagLinearIntegrator.h"
+#include "AxiElementTransform.h"
 
 size_t ndof = 0;
 
@@ -29,18 +30,27 @@ MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 		ndof = 0;
 	}
 	formulation = form;
-	auto fe_space = std::make_unique<FESpace<LagrangeShapeFunction, LagrangeShapeFunction, double>>(mesh.get(), std::make_unique<LagrangeElement>(2), std::make_unique<ElementTransform2D>(), std::make_unique<LinTriIntegrationRule>());
-	fe_space_ptr = fe_space.get();
-	auto bilinear = std::make_unique<BilinearForm<double>>(fe_space.get());
-	auto linear = std::make_unique<LinearForm<double>>(fe_space.get());
-	bool axi = false;
+	
+	std::unique_ptr<FESpaceH1<double>> fe_space;
+	std::unique_ptr<BilinearForm<double>> bilinear;
+	std::unique_ptr<LinearForm<double>> linear;
+
+	bool axi = true;
 	if (axi)
 	{
+		fe_space = std::make_unique<FESpaceH1<double>>(mesh.get(), std::make_unique<AxiLagrangeElement>(), std::make_unique<LinTriIntegrationRule>());
+		fe_space_ptr = fe_space.get();
+		bilinear = std::make_unique<BilinearForm<double>>(fe_space.get());
+		linear = std::make_unique<LinearForm<double>>(fe_space.get());
 		bilinear->addIntegrator(std::make_unique<AxiMagBilinearIntegrator>(fe_space.get()));
 		linear->addIntegrator(std::make_unique<AxiMagLinearIntegrator>(fe_space.get()));
 	}
 	else
 	{
+		auto fe_space = std::make_unique<FESpaceH1<double>>(mesh.get(), std::make_unique<LagrangeElement>(2), std::make_unique<LinTriIntegrationRule>());
+		fe_space_ptr = fe_space.get();
+		bilinear = std::make_unique<BilinearForm<double>>(fe_space.get());
+		linear = std::make_unique<LinearForm<double>>(fe_space.get());
 		bilinear->addIntegrator(std::make_unique<MagBilinearIntegrator>(fe_space.get()));
 		linear->addIntegrator(std::make_unique<MagLinearIntegrator>(fe_space.get()));
 	}
@@ -84,17 +94,20 @@ void MagAxiStaticAnalysis::solve() {
 
 	//assign nodal displacements to DOF value
 	for (auto node : mesh->getNodes()) {
-		const auto& DOFs = fe_space_ptr->getDOFsForNode(*node);
+		const auto& DOFs = fe_space_ptr->getDOFsForEntity(*node->getParent());
 		for (const auto& dof : DOFs) {
 			if (dof->get_status() == DOFStatus::Free) {
 				//if (formulation <= 0) {
-					dof->set_value(d[dof->get_eqnumber()]);// * 2 * PI * (*node_iter)->x());
+					//dof->set_value(d[dof->get_eqnumber()]);// * 2 * PI * (*node_iter)->x());
 				//}
 				//else if (formulation == 1) {
 				//	dof->set_value(d[dof->get_eqnumber()] * sqrt(node->x()));
 				//}
 				//else {
-				//	dof->set_value(d[dof->get_eqnumber()] / node->x());
+				if (node->pt().x>0.1)
+				{
+					dof->set_value(d[dof->get_eqnumber()] / (node->pt().x + 1e-8));
+				}
 				//}
 			}
 		}
@@ -297,7 +310,7 @@ void MagAxiStaticAnalysis::saveOut(const std::string& filename) {
 		}
 		outFile << "){";
 		for (const auto& vertex : vertexes) {
-			const auto& DOFs = fe_space_ptr->getDOFsForNode(*vertex->getNode());
+			const auto& DOFs = fe_space_ptr->getDOFsForEntity(*vertex);
 			outFile << DOFs[0]->get_value();
 			//outFile << DOFs[0]->get_value();
 			if (vertex != vertexes.back()) {

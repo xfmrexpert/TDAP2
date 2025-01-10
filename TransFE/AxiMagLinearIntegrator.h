@@ -34,15 +34,19 @@ public:
         double J = entity.getClassification()->getAttribute("J"); //Constant current density in element
         if (J == NO_ATTRIB) return f;
 
-        double r_phys = quadData.ptPhys.x;
+        double s_phys = quadData.ptPhys.x;
+        double detJ = quadData.detJ;
 
-        double detJ = quadData.geom_detJ;
-        double measure = r_phys * detJ;
-        const auto& phi = fe.Sol()->N(ptRef); // shape function values
-		//std::cout << "phi: \n" << phi << std::endl;
+        // Attempt to cast to a scalar shape function 
+        auto scalar_sf = dynamic_cast<const ScalarShapeFunction*>(fe.ShapeFunction());
+        if (!scalar_sf) {
+            throw std::runtime_error("AxiMagLinearIntegrator: The provided FE is not scalar (H1).");
+        }
+
+        const auto& N = scalar_sf->N(ptRef); // shape function values
         for (int i = 0; i < nDofs; i++)
         {
-            f(i) += J * phi(i) * measure;
+            f(i) += sqrt(s_phys) * J * N(i) * detJ;
         }
         return f;
     };

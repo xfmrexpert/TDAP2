@@ -1,6 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   Copyright (C) 2005-2025 by T. C. Raymond                              *
  *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   Use of this source code is governed by an MIT-style                   *
+ *   license that can be found in the LICENSE.txt file or at               *
+ *   https://opensource.org/licenses/MIT.                                  *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -64,16 +68,10 @@ public:
 	}
 
 	/// The equals operator is overridden in attempt to provide a meaningful definition
-	friend bool operator== (const Node&, const Node&);
+	friend inline bool operator== (const Node&, const Node&);
 
 	/// Returns ordering based upon the x-dimension
-	friend bool operator< (const Node&, const Node&);
-
-	/// Return a vector with pointers to the nodal DOFs
-	//std::vector<DOF<T>*> getDOFs() const;
-
-	/// Create a new DOF for this node
-	//DOF<T>* newDOF();
+	friend inline bool operator< (const Node&, const Node&);
 
 	MeshEntity* getParent() const {
 		return parent;
@@ -89,10 +87,6 @@ private:
 	/// An optional integer ID
 	size_t ID = -9999;
 
-	/// A vector with pointers to all of the nodal DOFs
-	/// This vector owns the DOFs for this node
-	//std::vector<std::unique_ptr<DOF<T>>> DOFs;
-	
 	/// A point for the spatial coordinates of this node
 	point m_pt;
 
@@ -100,3 +94,22 @@ private:
 
 };
 
+inline bool operator== (const Node& lhs, const Node& rhs) {
+	if (lhs.x() == rhs.x()) {
+		if (lhs.y() == rhs.y()) {
+			if (lhs.z() == rhs.z()) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+inline bool operator< (const Node& lhs, const Node& rhs) {
+	if (lhs.x() < rhs.x()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}

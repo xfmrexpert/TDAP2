@@ -153,3 +153,263 @@ DOF* Node::newDOF() {
 	return DOFs.back().get();;
 }
 
+// Function to validate node ordering for any polygon type
+    void ValidateNodeOrdering(MeshEntity& element) {
+        // Global map to hold element type information based on number of nodes
+        std::map<size_t, ElementTypeInfo> elementTypeMap = {
+            {3, {3, 3, {}}}, // Linear Triangle
+            {6, {6, 3, { {0,1}, {1,2}, {2,0} }}}, // Quadratic Triangle
+            {4, {4, 4, {}}}, // Linear Quadrilateral
+            {8, {8, 4, { {0,1}, {1,2}, {2,3}, {3,0} }}}, // Quadratic Quadrilateral
+            {9, {9, 4, { {0,1}, {1,2}, {2,3}, {3,0} }}} // Biquadratic Quadrilateral (with internal node)
+            // Add more element types as needed
+        };
+
+        size_t nen = element.getNodes().size();
+
+        // Check if element type is supported
+        if (elementTypeMap.find(nen) == elementTypeMap.end()) {
+            throw std::invalid_argument("ElementTransformGeneral::ValidateNodeOrdering - Unsupported element type.");
+        }
+
+        ElementTypeInfo info = elementTypeMap[nen];
+        size_t numCornerNodes = info.numCornerNodes;
+        auto nodes = element.getNodes();
+        // Extract corner nodes
+        std::vector<Node*> cornerNodes(nodes.begin(), nodes.begin() + numCornerNodes);
+
+        // Calculate signed area to determine orientation
+        double signedArea = CalculateSignedArea(cornerNodes);
+
+        // If orientation is clockwise (signedArea < 0), reorder to counterclockwise
+        if (signedArea < 0) {
+            // Sort corner nodes based on angles from centroid
+            SortCornerNodesCCW(element, info);
+
+            // Reorder mid-side nodes accordingly
+            ReorderMidSideNodes(element, info);
+        }
+
+        // Verify mid-side nodes lie on edges
+        VerifyMidSideNodes(element, info);
+    }
+
+    // Function to calculate signed area for orientation check (only for convex polygons)
+    double CalculateSignedArea(const std::vector<Node*>& cornerNodes) const {
+        size_t n = cornerNodes.size();
+        double area = 0.0;
+        for (size_t i = 0; i < n; ++i) {
+            size_t j = (i + 1) % n;
+            area += (cornerNodes[i]->pt().x * cornerNodes[j]->pt().y) - (cornerNodes[j]->pt().x * cornerNodes[i]->pt().y);
+        }
+        area *= 0.5;
+        return area;
+    }
+
+    // Function to sort corner nodes in CCW order based on centroid
+    void SortCornerNodesCCW(MeshEntity& element, const ElementTypeInfo& info) {
+        size_t nen = element.getNodes().size();
+        size_t numCornerNodes = info.numCornerNodes;
+
+        // Compute centroid
+        double centroid_r = 0.0;
+        double centroid_z = 0.0;
+        for (size_t i = 0; i < numCornerNodes; ++i) {
+            centroid_r += element.getNodes()[i]->x();
+            centroid_z += element.getNodes()[i]->y();
+        }
+        centroid_r /= numCornerNodes;
+        centroid_z /= numCornerNodes;
+
+        // Create a vector of indices
+        std::vector<size_t> indices(numCornerNodes);
+        for (size_t i = 0; i < numCornerNodes; ++i) {
+            indices[i] = i;
+        }
+
+        // Sort indices based on angle from centroid
+        std::sort(indices.begin(), indices.end(), [&](size_t a, size_t b) -> bool {
+            double angle_a = std::atan2(element.getNodes()[a]->y() - centroid_z, element.getNodes()[a]->x() - centroid_r);
+            double angle_b = std::atan2(element.getNodes()[b]->y() - centroid_z, element.getNodes()[b]->x() - centroid_r);
+            return angle_a < angle_b;
+            });
+
+        // Create a temporary vector to hold sorted corner nodes
+        std::vector<Node*> sortedCornerNodes(numCornerNodes);
+        for (size_t i = 0; i < numCornerNodes; ++i) {
+            sortedCornerNodes[i] = element.getNodes()[indices[i]];
+        }
+
+        // Assign sorted corner nodes back to the element
+        for (size_t i = 0; i < numCornerNodes; ++i) {
+            element.getNodes()[i] = sortedCornerNodes[i];
+        }
+    }
+
+    // Function to reorder mid-side nodes based on corner node reordering
+    void ReorderMidSideNodes(MeshEntity& element, const ElementTypeInfo& info) {
+        size_t nen = element.getNodes().size();
+        size_t numMidSideNodes = nen - info.numCornerNodes;
+
+        if (numMidSideNodes == 0) {
+            // No mid-side nodes to reorder
+            return;
+        }
+
+        // For each mid-side node, determine its correct position based on corner node pairs
+        for (size_t i = 0; i < numMidSideNodes; ++i) {
+            size_t expectedCorner1 = info.midSideNodePairs[i].first;
+            size_t expectedCorner2 = info.midSideNodePairs[i].second;
+
+            // Find the mid-side node that lies between expectedCorner1 and expectedCorner2
+            size_t currentMidSideIndex = info.numCornerNodes + i;
+            point expectedMid = ComputeMidpoint(element.getNodes()[expectedCorner1]->pt(), element.getNodes()[expectedCorner2]->pt());
+
+            // Search for the node that matches expectedMid within a tolerance
+            size_t correctNodeIndex = nen; // Initialize with invalid index
+            double tolerance = 1e-6;
+            for (size_t j = info.numCornerNodes; j < nen; ++j) {
+                double dr = std::abs(element.getNodes()[j]->x() - expectedMid.x);
+                double dz = std::abs(element.getNodes()[j]->y() - expectedMid.y);
+                if (dr <= tolerance && dz <= tolerance) {
+                    correctNodeIndex = j;
+                    break;
+                }
+            }
+
+            if (correctNodeIndex == nen) {
+                throw std::runtime_error("ElementTransformGeneral::ReorderMidSideNodes - Unable to find correctly positioned mid-side node.");
+            }
+
+            // Swap nodes if the correct node is not already in the expected position
+            if (correctNodeIndex != currentMidSideIndex) {
+                std::swap(element.getNodes()[correctNodeIndex], element.getNodes()[currentMidSideIndex]);
+            }
+        }
+    }
+
+    // Function to verify mid-side nodes lie on edges within a tolerance
+    void VerifyMidSideNodes(const MeshEntity& element, const ElementTypeInfo& info) const {
+        size_t nen = element.getNodes().size();
+        size_t numMidSideNodes = nen - info.numCornerNodes;
+
+        if (numMidSideNodes == 0) {
+            // No mid-side nodes to verify
+            return;
+        }
+
+        double tolerance = 1e-6;
+
+        // Function to compute midpoint
+        auto ComputeMidpoint = [&](const point& p1, const point& p2) -> point {
+            return point((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0);
+            };
+
+        // Loop over each mid-side node and verify
+        for (size_t i = 0; i < numMidSideNodes; ++i) {
+            size_t midSideIndex = info.numCornerNodes + i;
+            size_t corner1 = info.midSideNodePairs[i].first;
+            size_t corner2 = info.midSideNodePairs[i].second;
+
+            point expected = ComputeMidpoint(element.getNodes()[corner1]->pt(), element.getNodes()[corner2]->pt());
+            point actual = element.getNodes()[midSideIndex]->pt();
+
+            double dr = std::abs(expected.x - actual.x);
+            double dz = std::abs(expected.y - actual.y);
+
+            if (dr > tolerance || dz > tolerance) {
+                throw std::runtime_error("ElementTransformGeneral::VerifyMidSideNodes - Mid-side node is not correctly positioned on its edge.");
+            }
+        }
+    }
+
+    // Helper function to compute midpoint between two points
+    point ComputeMidpoint(const point& p1, const point& p2) const {
+        return point((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0);
+    }
+
+    // Structure to hold element type information
+struct ElementTypeInfo {
+    size_t nen; // Number of nodes
+    size_t numCornerNodes;
+    // Vector of pairs indicating which corners each mid-side node connects
+    std::vector<std::pair<size_t, size_t>> midSideNodePairs;
+};
+
+class AxisymmetricTransform : public ElementTransform {
+public:
+    // Override the transformation from reference to physical coordinates
+    point mapReferencePointToPhysical(const point& ptRef, const MeshEntity& entity, const Vector<double>& N_ref) const override {
+        // Assuming ptRef.x = xi, ptRef.y = eta in the reference element
+
+        // Compute physical coordinates using shape functions
+        point ptPhys;
+        ptPhys.x = 0.0; // Will store s = r^2
+        ptPhys.y = 0.0; // Will store z
+
+        auto nodes = entity.getNodes();
+        for (size_t i = 0; i < nodes.size(); i++) {
+            ptPhys += N_ref(i) * nodes[i]->pt();
+        }
+
+        // Apply the transformation s = r^2
+        double r = ptPhys.x;
+        double s = r * r;
+        ptPhys.x = s; // Now ptPhys.x represents s = r^2
+        // ptPhys.y remains as z
+
+        return ptPhys;
+    }
+
+    // Override Jacobian computation to include the transformation
+    Matrix<double> Jacobian(const point& pt_ref, const MeshEntity& entity, const Matrix<double>& dG_ds) override {
+        // Compute the Jacobian matrix for the transformation s = r^2
+        // Assuming 2D (s, z) coordinates
+
+        // Partial derivatives
+        // ds/dr = 2r, dz/dr = 0
+        // ds/ds = 0, dz/ds = 1
+        // Note: This depends on your exact mapping strategy
+
+        // Example: Compute the full Jacobian matrix
+        Matrix<double> J = Matrix<double>::Zero(2, 2);
+
+        // Derivatives with respect to s
+        for (size_t i = 0; i < dG_ds.size(); ++i) {
+            // ds/ds = 2 * ptRef.x (since s = r^2, ds/dr = 2r)
+            // dz/ds = d z / ds = dz/dr * dr/ds = dz/dr * (1 / (2r))
+            // If dr/ds = 1 / (2r), then dr/ds = 1 / (2 * sqrt(s))
+            double dr_ds = 1.0 / (2.0 * sqrt(pt_ref.x));
+            double dz_ds = 0.0; // Assuming z does not depend on s
+
+            J(0,0) += dG_ds(i,0) * 2.0 * pt_ref.x; // ds/dr * dr/ds
+            J(0,1) += dG_ds(i,1) * dz_ds; // dz/dr * dr/ds
+            J(1,0) += dG_ds(i,0) * 0.0; // ds/ds = 0 for z
+            J(1,1) += dG_ds(i,1) * 1.0; // dz/ds = 1
+        }
+
+        return J;
+    }
+
+    // Override gradient transformation
+    Matrix<double> transformShapeFunctionGradientsToPhysical(const Matrix<double>& dN_ds, const Matrix<double>& invJ) const override{
+        // Apply the inverse Jacobian to the shape function gradients
+        // This needs to be consistent with the axisymmetric transformation
+
+        // Example implementation assuming 2D
+        size_t rows = invJ.size();
+        size_t cols = dN_ds.row(0).size();
+        size_t common = invJ.row(0).size();
+        Matrix<double> dN_dx = Matrix<double>::Zero(rows, cols);
+
+        for (size_t i = 0; i < rows; ++i) {
+            for (size_t j = 0; j < cols; ++j) {
+                for (size_t k = 0; k < common; ++k) {
+                    dN_dx(i,j) += invJ(i,k) * dN_ds(k,j);
+                }
+            }
+        }
+
+        return dN_dx;
+    }
+};

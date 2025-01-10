@@ -1,6 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2005-2024 by T. C. Raymond                              *
+ *   Copyright (C) 2005-2025 by T. C. Raymond                              *
  *   tcraymond@inductivereasoning.com                                      *
+ *                                                                         *
+ *   Use of this source code is governed by an MIT-style                   *
+ *   license that can be found in the LICENSE.txt file or at               *
+ *   https://opensource.org/licenses/MIT.                                  *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -18,6 +22,7 @@
 #include "geomentity.h"
 
 class Node;
+class MeshEdge;
 
  /// This is the class that all mesh entity classes (Regions, Faces, etc.) inherit from.
  /// This class contains basic functions for getting and setting classifications, setting an
@@ -31,7 +36,10 @@ class MeshEntity {
 public:
 
 	/// Default constructor.  Currently empty. Not anymore...
-	MeshEntity();
+	MeshEntity() {
+		node = nullptr;
+		ID = -1;
+	}
 
 	virtual ~MeshEntity() = default;
 
@@ -48,15 +56,26 @@ public:
 	}
 
 	/// Returns the GeomEntity that this mesh entity is classified on
-	GeomEntity* getClassification() const;
+	GeomEntity* getClassification() const {
+		return myClassification;
+	}
 
 	/// Sets the GeomEntity that this mesh entity is classified on
-	void setClassification(GeomEntity&);
+	void setClassification(GeomEntity& new_class) {
+		myClassification = &new_class;
+	}
 
-	int getClassificationID() const;
+	int getClassificationID() const {
+		if (myClassification) {
+			return myClassification->ID;
+		}
+		return -1;
+	}
 
 	/// Returns an ordered list of nodes for the mesh entity
 	virtual std::vector<Node*> getNodes() const = 0;
+
+	virtual std::vector<MeshEdge*> getEdges() = 0;
 
 	size_t getID() const {
 		return ID;

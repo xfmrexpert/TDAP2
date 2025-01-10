@@ -30,16 +30,24 @@ public:
 	~MeshVertex() = default;
 
 	/// Returns an const reference to the vector of edges
-	const std::vector<MeshEdge*>& Edges() const;
+	const std::vector<MeshEdge*>& Edges() const {
+		return MeshEdges;
+	}
 
 	/// Returns the n-th edge
-	MeshEdge* getEdge(int n) const;
+	MeshEdge* getEdge(int n) const {
+		return MeshEdges[n];
+	}
 
 	/// Adds an edge to the list of adjacent edges
-	void addEdge(MeshEdge&);
+	void addEdge(MeshEdge& edge) {
+		MeshEdges.push_back(&edge); //should be ordered CCW
+	}
 
 	/// Returns the number of adjacent edges
-	size_t numEdges() const;
+	size_t numEdges() const {
+		return MeshEdges.size();
+	}
 
 	int get_dimensions() const override {
 		return 0;
@@ -47,7 +55,16 @@ public:
 
 	/// Returns an ordered list of nodes for this vertex
 	/// Not much to do here since there is only one node per vertex
-	std::vector<Node*> getNodes() const override;
+	std::vector<Node*> getNodes() const override {
+		std::vector<Node*> nodes;
+		nodes.push_back(node);
+		return nodes;
+	}
+
+	std::vector<MeshEdge*> getEdges() override {
+		std::vector<MeshEdge*> edges;
+		return edges;
+	}
 
 protected:
 

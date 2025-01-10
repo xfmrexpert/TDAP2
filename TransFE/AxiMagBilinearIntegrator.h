@@ -21,7 +21,7 @@ class AxiMagBilinearIntegrator : public BilinearFormIntegrator<double>
 public:
 	using BilinearFormIntegrator<double>::BilinearFormIntegrator;
 
-    Matrix<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
+    Matrix<double> evaluatePt(point ptRef, const FiniteElementBase& fe, MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
         int nDofs = fe.numLocalDOFs();
 
@@ -32,56 +32,35 @@ public:
 
         const double sigma = entity.getClassification()->getAttribute("sigma");
 
-        double r_phys = quadData.ptPhys.x;
+        double s_phys = quadData.ptPhys.x;
 
         // At each quadrature point, we need dPhiPhys and detJ
-        Matrix<double> dN_dx = quadData.sol_dN_dx;
+        Matrix<double> dN_dx = quadData.dN_dx;
 
 		//std::cout << "dN_dx: \n" << dN_dx << std::endl;
 
-        double detJ = quadData.geom_detJ;
+        double detJ = quadData.detJ;
 
-        // The measure factor for axisymmetric integrals: r * detJ * wq
-        double measure = r_phys * detJ;
+        // Attempt to cast to a scalar shape function 
+        auto scalar_sf = dynamic_cast<const ScalarShapeFunction*>(fe.ShapeFunction());
+        if (!scalar_sf) {
+            throw std::runtime_error("AxiMagBilinearIntegrator: The provided FE is not scalar (H1).");
+        }
 
-        const auto& N = fe.Sol()->N(ptRef); // shape function values
+        const auto& N = scalar_sf->N(ptRef); // shape function values
 
         for (int i = 0; i < nDofs; i++)
         {
-            // partial derivatives wrt r,z
-            double dAr_i = dN_dx(i, 0); // partial wrt r
-            double dAz_i = dN_dx(i, 1); // partial wrt z
-
-            double val_i = N(i); // shape function value for A_phi
+            // partial derivatives wrt s,z
+            double dWs_i = dN_dx(i, 0); // partial wrt s
+            double dWz_i = dN_dx(i, 1); // partial wrt z
 
             for (int j = 0; j < nDofs; j++)
             {
-                double dAr_j = dN_dx(j, 0);
-                double dAz_j = dN_dx(j, 1);
-                double val_j = N(j);
-
-                // 1) Grad dot grad part: mu^-1 * (dr_i * dr_j + dz_i * dz_j)
-                double gradTerm = (1 / mu) * (dAr_i * dAr_j + dAz_i * dAz_j);
-				//double gradTerm = (1 / mu) * ( (dAr_i * dAr_j + dAz_i * dAz_j) + (val_i * dAr_j + val_j * dAr_i) / r_phys + val_i * val_j / (r_phys * r_phys) );
-                /*auto dNdx = dPhiPhys;
-				auto N = phi;
-                double gradTerm = (1 / mu) * (dNdx(i, 0) * dNdx(j, 0) + dNdx(i, 1) * dNdx(j, 1));
-                gradTerm = gradTerm / r_phys;*/
-                //gradTerm = (1 / mu) * (dN_dx(i, 0) * dN_dx(j, 0) + dN_dx(i, 1) * dN_dx(j, 1));
-                gradTerm = gradTerm / r_phys;
-                // 2) The "1/r^2" term => - mu^-1 * A_phi * w / r^2
-                double r2Term = 0;// -(1 / mu) * (val_i * val_j) / (r_phys * r_phys);
-
-                // 3) The conduction / eddy current term => - j * omega * sigma * A_phi * w
-                // i.e.  - j * omega * sigma * (val_i * val_j)
-                std::complex<double> cplxTerm(0.0, -m_omega * sigma * val_i * val_j);
-
-				//std::cout << "DOF: " << i << ", " << j << " k: " << gradTerm << std::endl;
-				//std::cout << "r2Term: " << r2Term << std::endl;
-
-                // Combine the real contributions for the local stiffness
-                double realContrib = (gradTerm + r2Term) * measure;
-                Ke(i, j) += realContrib; // ((1 / mu) * (dPhi_dx(i, 0) * dPhi_dx(j, 0) + dPhi_dx(i, 1) * dPhi_dx(j, 1)) - (1 / mu) * Phi(i) * Phi(j) / (r_phys * r_phys))* measure;
+                double dWs_j = dN_dx(j, 0);
+                double dWz_j = dN_dx(j, 1);
+                
+                Ke(i, j) += (1 / mu) * (4 * s_phys * dWs_i * dWs_j + dWz_i * dWz_j) * detJ;
 
             }
         }

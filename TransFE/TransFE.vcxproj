@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="AlgebraicSystem.h" />
     <ClInclude Include="Assembler.h" />
+    <ClInclude Include="AxiElementTransform.h" />
     <ClInclude Include="AxiMagBilinearIntegrator.h" />
     <ClInclude Include="AxiMagLinearIntegrator.h" />
     <ClInclude Include="BilinearForm.h" />
@@ -164,8 +165,12 @@
     <ClInclude Include="FEAnalysis.h" />
     <ClInclude Include="feprog.h" />
     <ClInclude Include="FESpace.h" />
+    <ClInclude Include="FESpaceH1.h" />
+    <ClInclude Include="FESpaceHCurl.h" />
+    <ClInclude Include="GeometryLagrangeShapeFunction.h" />
     <ClInclude Include="IntegrationRule.h" />
     <ClInclude Include="LagrangeElement.h" />
+    <ClInclude Include="LagrangePolynomialBasis.h" />
     <ClInclude Include="LinearForm.h" />
     <ClInclude Include="LinearFormIntegrator.h" />
     <ClInclude Include="LinearSystemAssembler.h" />
@@ -176,9 +181,16 @@
     <ClInclude Include="matrix.h" />
     <ClInclude Include="MeshDB\mesh.h" />
     <ClInclude Include="FiniteElement.h" />
+    <ClInclude Include="MeshDB\meshedge.h" />
+    <ClInclude Include="MeshDB\meshentity.h" />
+    <ClInclude Include="MeshDB\meshface.h" />
+    <ClInclude Include="MeshDB\meshregion.h" />
+    <ClInclude Include="MeshDB\meshvertex.h" />
     <ClInclude Include="MeshDB\node.h" />
     <ClInclude Include="MeshDB\point.h" />
     <ClInclude Include="NedelecElement.h" />
+    <ClInclude Include="PiolaTransform.h" />
+    <ClInclude Include="ShapeFunction.h" />
     <ClInclude Include="typedefs.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
@@ -187,12 +199,7 @@
     <ClCompile Include="magaxistaticanalysis.cpp" />
     <ClCompile Include="MeshDB\geomentity.cpp" />
     <ClCompile Include="MeshDB\mesh.cpp" />
-    <ClCompile Include="MeshDB\meshedge.cpp" />
-    <ClCompile Include="MeshDB\meshentity.cpp" />
-    <ClCompile Include="MeshDB\meshface.cpp" />
     <ClCompile Include="MeshDB\meshregion.cpp" />
-    <ClCompile Include="MeshDB\meshvertex.cpp" />
-    <ClCompile Include="MeshDB\node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="LICENSE.txt" />

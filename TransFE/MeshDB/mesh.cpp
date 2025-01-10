@@ -146,6 +146,14 @@ std::vector<MeshFace*> Mesh::getFaces() const {
 	return faces;
 }
 
+std::vector<MeshEdge*> Mesh::getEdges() const {
+	std::vector<MeshEdge*> edges;
+	for (const auto& edge : MeshEdges) {
+		edges.push_back(edge.get());
+	}
+	return edges;
+}
+
 std::vector<Node*> Mesh::getNodes() const {
 	std::vector<Node*> nodes;
 	for (const auto& node : Nodes) {
