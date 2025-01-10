@@ -61,16 +61,16 @@ public:
 			}
 		}
 		if (this->entity->getClassification()->getAttribute("z_constraint") != NO_ATTRIB) { //z component is constrained
-			T y_constraint = this->entity->getClassification()->getAttribute("z_constraint");
+			T z_constraint = this->entity->getClassification()->getAttribute("z_constraint");
 
 			const auto& DOFs = this->fe_space->getDOFsForEntity(*this->entity);
-			if (y_constraint == 0) {  //zero essential BC
+			if (z_constraint == 0) {  //zero essential BC
 				DOFs[2]->set_status(DOFStatus::Zero);
 				DOFs[2]->set_value(0);
 			}
 			else {  //non-zero essential BC
 				DOFs[2]->set_status(DOFStatus::Fixed);
-				DOFs[2]->set_value(y_constraint);
+				DOFs[2]->set_value(z_constraint);
 			}
 		}
 	};

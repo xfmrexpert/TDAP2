@@ -54,12 +54,25 @@ public:
 
     const Mesh* getMesh() const { return mesh; }
 
+    // Method to assign equation numbers
+    void assignEquationNumbers() {
+        ndof = 0;
+        for (auto& entityDOFs : DOFs) {
+            for (auto& dof : entityDOFs) {
+                if (dof->get_status() == DOFStatus::Free) {
+                    dof->set_eqnumber(ndof++);
+                }
+                else {
+                    dof->set_eqnumber(0); // Or another sentinel value
+                }
+            }
+        }
+    }
+
     /// Number of global DOFs in this FE space.
-    size_t numGlobalDofs() const { return ndof; }
+    size_t numGlobalDOFs() const { return ndof; }
 
-    virtual void setupGlobalDofs() = 0;
-
-    virtual void numberDOFs() = 0;
+    virtual void setupGlobalDOFs() = 0;
 
     virtual inline std::vector<DOF<T>*> getDOFsForEntity(const MeshEntity& entity) = 0;
 

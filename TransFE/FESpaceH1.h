@@ -24,10 +24,10 @@ public:
     FESpaceH1(Mesh* mesh, std::unique_ptr<FiniteElementBase> fe, std::unique_ptr<IntegrationRule> int_rule)
         : fe(std::move(fe)), FESpaceBase<T>(mesh, std::move(int_rule))
     {
-        setupGlobalDofs();
+        setupGlobalDOFs();
     }
 
-    void setupGlobalDofs() override {
+    void setupGlobalDOFs() override {
         ndof = 0;
         const auto& nodes = this->mesh->getNodes();
         int nnd = 1; // fe->numLocalDOFs();
@@ -42,20 +42,6 @@ public:
             }
         }
     }
-
-    void numberDOFs() override {
-        size_t labeldof = 0;
-        const auto& nodes = this->mesh->getNodes();
-        for (const auto& node : nodes) {
-            const auto& nodeDOFs = this->DOFs[node->getID()];
-            for (const auto& dof : nodeDOFs) {
-                if (dof->get_status() == DOFStatus::Free) {
-                    dof->set_eqnumber(labeldof);
-                    labeldof++;
-                }
-            }
-        }
-    };
 
     inline std::vector<DOF<T>*> getDOFsForEntity(const MeshEntity& entity) override {
         std::vector<DOF<T>*> rtnDOFs;
@@ -88,15 +74,11 @@ public:
             ElementQuadratureData qd;
 
             point ptRef = this->int_rule->IntPts()[q];
-            //const auto& geomShapeFunctions = fe->Transform()->N(ptRef);
 
             point ptPhys = fe->Transform()->mapReferencePointToPhysical(ptRef, entity);
             qd.ptPhys = ptPhys;
 
-            // Compute gradients in reference space
-            //auto geom_dN_ds = fe->Transform()->grad_N(ptRef);
-
-            // Compute Jacobian for geometry using the specialized transform
+            // Compute Jacobian for geometry
             Matrix<double> J = fe->Transform()->Jacobian(ptRef, entity);
             double detJ = J.determinant();
             auto invJ = J.inverse();
@@ -127,5 +109,6 @@ public:
     }
 
 private:
+    int ndof = 0;
     std::unique_ptr<FiniteElementBase> fe;
 };

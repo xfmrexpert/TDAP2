@@ -35,13 +35,19 @@ public:
            constraint->apply(); //each essential boundary condition will eliminate possible dof from the global system
            //in the case of non-zero essential boundary conditions must also get the non-zero value
        }
+       // DOFs need to be re-numbering before we leave here, but after applying constraints
+       fe_space->assignEquationNumbers();
    }
 
    void formSystem(Assembler<T>& assem) {
-       fe_space->numberDOFs();
-       // DOFs need to be re-numbering before we hit here.  At present, DiscreteSystem doesn't have a pointer to the FESpace.
+       
 	   bilinearForm->Assemble(assem);
 	   linearForm->Assemble(assem);
+   }
+
+   size_t getNumDOFs()
+   {
+       return fe_space->numGlobalDOFs();
    }
   
 protected:

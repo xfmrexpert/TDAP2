@@ -20,8 +20,6 @@ enum class DOFStatus {
 	Fixed = 3
 };
 
-extern size_t ndof;
-
 /// This class represents a Degree of Freedom (DOF). 
 template <class T>
 class DOF {
@@ -32,14 +30,9 @@ public:
 	DOF() {
 		status = DOFStatus::Free;
 		eq_number = 0;
-		ndof++;
 	}
 
-	~DOF() {
-		if (status == DOFStatus::Free) {
-			ndof--;
-		}
-	}
+	~DOF() = default;
 
 	void set_value(T dof_value)
 	{
@@ -51,10 +44,6 @@ public:
 	}
 
 	void set_status(DOFStatus dof_status) {
-
-		if (status == DOFStatus::Free && dof_status != DOFStatus::Free) {
-			ndof = ndof - 1;
-		}
 		status = dof_status;
 	}
 

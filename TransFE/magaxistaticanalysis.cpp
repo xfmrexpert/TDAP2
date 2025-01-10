@@ -21,14 +21,8 @@
 #include "AxiMagLinearIntegrator.h"
 #include "AxiElementTransform.h"
 
-size_t ndof = 0;
-
 MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 {
-	if (ndof != 0) {
-		//WARNING: Indicates previous calculation was not properly destroyed!
-		ndof = 0;
-	}
 	formulation = form;
 	
 	std::unique_ptr<FESpaceH1<double>> fe_space;
@@ -98,16 +92,16 @@ void MagAxiStaticAnalysis::solve() {
 		for (const auto& dof : DOFs) {
 			if (dof->get_status() == DOFStatus::Free) {
 				//if (formulation <= 0) {
-					//dof->set_value(d[dof->get_eqnumber()]);// * 2 * PI * (*node_iter)->x());
+					dof->set_value(d[dof->get_eqnumber()]);// * 2 * PI * (*node_iter)->x());
 				//}
 				//else if (formulation == 1) {
 				//	dof->set_value(d[dof->get_eqnumber()] * sqrt(node->x()));
 				//}
 				//else {
-				if (node->pt().x>0.1)
+				/*if (node->pt().x>0.1)
 				{
 					dof->set_value(d[dof->get_eqnumber()] / (node->pt().x + 1e-8));
-				}
+				}*/
 				//}
 			}
 		}

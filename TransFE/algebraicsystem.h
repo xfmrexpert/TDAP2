@@ -62,9 +62,7 @@ public:
 	};
 
 	void createGlobalSystem() {
-		// TODO: Not sure why this was here.  Maybe reordering should be here?
-		// It might be needed to set the equation number
-		//field->reorder2();
+		size_t ndof = DS->getNumDOFs();
 		K = std::make_unique<BigMatrix<T>>(ndof, ndof);
 		K->setZero();
 		d = std::make_unique<BigVector<T>>(ndof);

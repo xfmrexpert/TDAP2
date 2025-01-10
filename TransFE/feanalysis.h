@@ -49,7 +49,7 @@ public:
    /// Determines which finite element entities are contributors and creates
    /// instances of the appropriate classes
    void setup() {
-	   fe_space_ptr->setupGlobalDofs();
+	   fe_space_ptr->setupGlobalDOFs();
 
 	   for (size_t i = 0; i < mesh->numVertexes(); i++) { //process all mesh vertexes
 		   auto& v = mesh->getVertex(i); //get vertex object
