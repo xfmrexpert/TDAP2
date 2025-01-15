@@ -23,11 +23,11 @@
 #include "MeshDB/meshface.h"
 
 FEProg::FEProg(){
-	theAnalysis = new MagAxiStaticAnalysis(0);
+	theAnalysis = std::make_unique<MagAxiStaticAnalysis>(0);
 }
 
 FEProg::~FEProg(){
-	delete theAnalysis;
+	
 }
 
 #include <chrono>
@@ -38,13 +38,9 @@ std::shared_ptr<Mesh> FEProg::run_FEA(const std::string& filename, int formulati
 {  
     auto start = high_resolution_clock::now();
 
-    if(theAnalysis!=nullptr){
-        delete theAnalysis;
-    }
-
     auto delete_analysis_end = high_resolution_clock::now();
 
-    theAnalysis = new MagAxiStaticAnalysis(formulation);
+    theAnalysis = std::make_unique<MagAxiStaticAnalysis>(formulation);
     auto new_analysis_end = high_resolution_clock::now();
 
     theAnalysis->getMesh()->readAttributes(filename + ".att");

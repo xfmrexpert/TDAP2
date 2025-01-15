@@ -28,7 +28,7 @@ public:
 
     virtual ~LagrangeElement() = default;
 
-    int numLocalDOFs() const override {
+    size_t numLocalDOFs() const override {
         return this->shape_function.N(point()).size();
     }
 
@@ -47,7 +47,7 @@ public:
 
     virtual ~AxiLagrangeElement() = default;
 
-    int numLocalDOFs() const override {
+    size_t numLocalDOFs() const override {
         return this->shape_function.N(point()).size();
     }
 

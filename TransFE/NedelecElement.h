@@ -16,23 +16,23 @@
 #include "FiniteElement.h"
 
  /// Nédélec finite element (vector, H(curl) conforming).
-class NedelecElement : public FiniteElement
+class NedelecElement : public FiniteElement<NedelecShapeFunction, ElementTransform>
 {
 public:
     NedelecElement(int order, int dim)
-        : m_order(order), m_dim(dim)
+        : m_order(order), m_dim(dim), FiniteElement(dim, dim, order)
     {
     }
 
     virtual ~NedelecElement() = default;
 
-    int referenceDimension() const override { return m_dim; }
-    int spatialDimension() const override { return m_dim; }
+    //int referenceDimension() const override { return m_dim; }
+    //int spatialDimension() const override { return m_dim; }
 
-    int numLocalDOFs() const override {
-        // depends on dimension and polynomial order, etc.
-        return 3;
-    }
+    //int numLocalDOFs() const override {
+    //    // depends on dimension and polynomial order, etc.
+    //    return 3;
+    //}
 
 private:
     int m_order;

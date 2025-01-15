@@ -22,13 +22,14 @@ class FESpaceH1 : public FESpaceBase<T> {
 public:
     // Constructor now accepts FiniteElement<G, F>
     FESpaceH1(Mesh* mesh, std::unique_ptr<FiniteElementBase> fe, std::unique_ptr<IntegrationRule> int_rule)
-        : fe(std::move(fe)), FESpaceBase<T>(mesh, std::move(int_rule))
+        : FESpaceBase<T>(mesh, std::move(fe), std::move(int_rule))
     {
-        setupGlobalDOFs();
+        // Call a non-virtual method to setup DOFs
+        initializeDOFs();
     }
 
     void setupGlobalDOFs() override {
-        ndof = 0;
+        this->ndof = 0;
         const auto& nodes = this->mesh->getNodes();
         int nnd = 1; // fe->numLocalDOFs();
         this->DOFs.resize(nodes.size() * nnd);
@@ -37,8 +38,8 @@ public:
             nodes[i]->setID(i);
             for (size_t j = 0; j < nnd; j++) {
                 this->DOFs[i][j] = std::make_unique<DOF<T>>();
-                this->DOFs[i][j]->set_eqnumber(ndof);
-                ndof++;
+                this->DOFs[i][j]->set_eqnumber(this->ndof);
+                this->ndof++;
             }
         }
     }
@@ -63,9 +64,9 @@ public:
     }
 
     /// Access to the underlying FE object
-    const FiniteElementBase* getFiniteElement() const override { return fe.get(); }
+    const FiniteElementBase* getFiniteElement() const override { return this->fe.get(); }
 
-    ElementData computeElementData(MeshEntity& entity) const
+    ElementData computeElementData(MeshEntity& entity) const override
     {
         ElementData eData;
 
@@ -74,12 +75,11 @@ public:
             ElementQuadratureData qd;
 
             point ptRef = this->int_rule->IntPts()[q];
-
-            point ptPhys = fe->Transform()->mapReferencePointToPhysical(ptRef, entity);
+            point ptPhys = this->fe->Transform()->mapReferencePointToPhysical(ptRef, entity);
             qd.ptPhys = ptPhys;
 
             // Compute Jacobian for geometry
-            Matrix<double> J = fe->Transform()->Jacobian(ptRef, entity);
+            Matrix<double> J = this->fe->Transform()->Jacobian(ptRef, entity);
             double detJ = J.determinant();
             auto invJ = J.inverse();
 
@@ -95,7 +95,7 @@ public:
 
             // Transform gradients to physical space
             // Attempt to cast to a scalar shape function 
-            auto scalar_sf = dynamic_cast<const ScalarShapeFunction*>(fe->ShapeFunction());
+            auto scalar_sf = dynamic_cast<const ScalarShapeFunction*>(this->fe->ShapeFunction());
             if (!scalar_sf) {
                 throw std::runtime_error("FESpaceH1: The provided FE is not scalar (H1).");
             }
@@ -109,6 +109,8 @@ public:
     }
 
 private:
-    int ndof = 0;
-    std::unique_ptr<FiniteElementBase> fe;
+    // Non-virtual method to setup DOFs
+    void initializeDOFs() {
+        setupGlobalDOFs();
+    }
 };

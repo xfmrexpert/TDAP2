@@ -287,12 +287,12 @@ void Mesh::readMesh(const std::string& filename)
 			//located on what gmsh calls "physical entities".
 			size_t numElements;
 			meshFile >> numElements;
-			
+
 			for (size_t i = 0; i < numElements; ++i) {
 				size_t id, numTags;
 				int type;
 				meshFile >> id >> type >> numTags;
-				
+
 				// Read element tags
 				int physical = 1, elementary = 1, partition = 1;
 				for (size_t j = 0; j < numTags; j++) {
@@ -303,7 +303,7 @@ void Mesh::readMesh(const std::string& filename)
 					else if (j == 2) partition = tag;
 					// ignore any other tags for now
 				}
-				
+
 				size_t numNodes = getNumNodes(type);
 				size_t numEdges = getNumEdges(type);
 
@@ -357,7 +357,7 @@ void Mesh::readMesh(const std::string& filename)
 		}
 	}
 	meshFile.close();
-	
+
 }
 
 MeshVertex* Mesh::getOrCreateVertex(size_t nodeID) {
@@ -389,7 +389,7 @@ MeshEdge* Mesh::getOrCreateEdge(MeshVertex* v1, MeshVertex* v2) {
 
 	// If not found, create a new edge
 	auto& newEdge = this->newEdge();
-	
+
 	newEdge.addVertex(*v1, 0);
 	newEdge.addVertex(*v2, 1);
 	v1->addEdge(newEdge);
@@ -412,7 +412,7 @@ MeshFace* Mesh::getOrCreateFace(MeshVertex* v1, MeshVertex* v2, MeshVertex* v3) 
 
 	// If not found, create a new face
 	auto& newFace = this->newFace();
-	
+
 	// Connect edges to the face
 	auto edge1 = getOrCreateEdge(v1, v2);
 	auto edge2 = getOrCreateEdge(v2, v3);
@@ -472,7 +472,7 @@ void Mesh::handleFaceElement(std::ifstream& meshFile, size_t id, int type, size_
 		for (size_t n = 0; n < edgeNodeCount; ++n) {
 			size_t edgeNodeID;
 			meshFile >> edgeNodeID;
-			auto edge = face.getEdge(n);
+			auto edge = face.getEdgeUse(n)->edge;
 			if (edge) {
 				edge->setNode(*findNodebyID(edgeNodeID));
 			}
@@ -505,7 +505,7 @@ void Mesh::handleTetrahedronElement(std::ifstream& meshFile, int physical) {
 
 	// Create a new region
 	auto& region = newRegion();
-	
+
 	region.addFace(face1);
 	region.addFace(face2);
 	region.addFace(face3);
@@ -552,7 +552,7 @@ MeshEdge* Mesh::findEdgebyVertexes(MeshVertex& vertex1, MeshVertex& vertex2) {
 std::pair<MeshFace*, bool> Mesh::findFacebyEdge(MeshEdge& edge1, MeshEdge& edge2, MeshEdge& edge3) {
 	//FIXME this only works for triangles!
 	for (const auto& face : edge1.Faces()) {
-		if (face->getEdge(1) == &edge2 || face->getEdge(2) == &edge2) {
+		if (face->getEdgeUse(1)->edge == &edge2 || face->getEdgeUse(2)->edge == &edge2) {
 			std::pair<MeshFace*, bool> f(face, true);  //face already added, so this region uses face in opposite direction
 			return f;
 		}
@@ -613,10 +613,10 @@ void Mesh::readAttributes(const std::string& attribfile) {
 };
 
 GeomEntity* Mesh::getGeomEntity(int idx) const {
-    auto it = GeomEntities.find(idx);
-    if (it != GeomEntities.end()) {
-        return it->second.get();
-    }
+	auto it = GeomEntities.find(idx);
+	if (it != GeomEntities.end()) {
+		return it->second.get();
+	}
 	return nullptr;
 }
 
@@ -726,139 +726,3 @@ void Mesh::writeMesh(const std::string& filename) const {
 
 	file.close();
 }
-
-
-//void Mesh::writeMesh(const std::string& filename) const {
-//	std::ofstream file(filename);
-//	if (!file.is_open()) {
-//		throw std::runtime_error("Failed to open file: " + filename);
-//	}
-//
-//	// Write the mesh format section
-//	file << "$MeshFormat\n";
-//	file << "2.2 0 8\n"; // GMSH format version 2.2, ASCII, double precision
-//	file << "$EndMeshFormat\n";
-//
-//	// Write the nodes section
-//	file << "$Nodes\n";
-//	file << Nodes.size() << "\n"; // Number of nodes
-//	for (const auto& nodePtr : Nodes) {
-//		const Node& node = *nodePtr;
-//		file << node.ID << " "
-//			<< std::fixed << std::setprecision(6)
-//			<< node.x() << " "
-//			<< node.y() << " "
-//			<< node.z() << "\n";
-//	}
-//	file << "$EndNodes\n";
-//
-//	// Write the elements section
-//	file << "$Elements\n";
-//	size_t totalElements = MeshFaces.size() + MeshEdges.size() + MeshRegions.size();
-//	file << totalElements << "\n";
-//
-//	// Write faces
-//	for (const auto& facePtr : MeshFaces) {
-//		const MeshFace& face = *facePtr;
-//		file << face.ID << " "        // Element ID
-//			<< 2 << " " // GMSH element type (e.g., triangle)
-//			<< "0 ";                     // No physical or geometrical tags
-//		for (const auto& vertex : face.getVertices()) {
-//			file << vertex->ID << " ";
-//		}
-//		file << "\n";
-//	}
-//
-//	// Write edges
-//	for (const auto& edgePtr : MeshEdges) {
-//		const MeshEdge& edge = *edgePtr;
-//		file << edge.ID << " "       // Element ID
-//			<< 1 << " " // GMSH element type (e.g., line)
-//			<< "0 ";                     // No physical or geometrical tags
-//		for (const auto& vertex : edge.getVertices()) {
-//			file << vertex->ID << " ";
-//		}
-//		file << "\n";
-//	}
-//
-//	// Write regions
-//	//for (const auto& regionPtr : MeshRegions) {
-//	//	const MeshRegion& region = *regionPtr;
-//	//	file << region.ID << " "        // Element ID
-//	//		<< region.getGMSHType() << " " // GMSH element type (e.g., tetrahedron)
-//	//		<< "0 ";                       // No physical or geometrical tags
-//	//	for (const auto& vertex : region.getVertices()) {
-//	//		file << vertex->ID << " ";
-//	//	}
-//	//	file << "\n";
-//	//}
-//
-//	file << "$EndElements\n";
-//
-//	file.close();
-//}
-
-//void Mesh::writeMesh(const std::string& filename) const {
-//	std::ofstream meshFile(filename);
-//	if (!meshFile.is_open()) {
-//		std::cerr << "Unable to open file: " << filename << std::endl;
-//		return;
-//	}
-//
-//	// Write the mesh format
-//	meshFile << "$MeshFormat\n";
-//	meshFile << "2.2 0 8\n";
-//	meshFile << "$EndMeshFormat\n";
-//
-//	// Write the nodes
-//	meshFile << "$Nodes\n";
-//	meshFile << Nodes.size() << "\n";
-//	for (const auto& node : Nodes) {
-//		meshFile << node->ID << " " << node->pt().x << " " << node->pt().y << " " << node->pt().z << "\n";
-//	}
-//	meshFile << "$EndNodes\n";
-//
-//	// Write the elements
-//	meshFile << "$Elements\n";
-//	size_t numElements = MeshVertexes.size() + MeshEdges.size() + MeshFaces.size() + MeshRegions.size();
-//	meshFile << numElements << "\n";
-//
-//	// Write vertices
-//	for (const auto& vertex : MeshVertexes) {
-//		meshFile << vertex->ID << " 15 2 " << vertex->getClassificationID() << " " << vertex->ID << " " << vertex->node->ID << "\n";
-//	}
-//
-//	// Write edges
-//	for (const auto& edge : MeshEdges) {
-//		meshFile << edge->ID << " 1 2 " << edge->getClassificationID() << " " << edge->ID << " " << edge->getVertex(0)->node->ID << " " << edge->getVertex(1)->node->ID << "\n";
-//	}
-//
-//	// Write faces
-//	for (const auto& face : MeshFaces) {
-//		meshFile << face->ID << " 2 2 " << face->getClassificationID() << " " << face->ID;
-//		for (const auto& edge : face->MeshEdges) {
-//			meshFile << " " << edge->getVertex(0)->node->ID << " " << edge->getVertex(1)->ID;
-//		}
-//		meshFile << "\n";
-//	}
-//
-//	// Write regions
-//	/*for (const auto& region : MeshRegions) {
-//		meshFile << region->ID << " 4 2 " << region->getClassification().lock()->AttribID << " " << region->ID;
-//		for (const auto& face : region->Faces) {
-//			if (auto locked_face = face.lock()) {
-//				for (const auto& edge : locked_face->MeshEdges) {
-//					if (auto locked_edge = edge.lock()) {
-//						meshFile << " " << locked_edge->getVertex(0).lock()->node.lock()->ID << " " << locked_edge->getVertex(1).lock()->ID;
-//					}
-//				}
-//			}
-//		}
-//		meshFile << "\n";
-//	}*/
-//
-//	meshFile << "$EndElements\n";
-//	meshFile.close();
-//}
-
-

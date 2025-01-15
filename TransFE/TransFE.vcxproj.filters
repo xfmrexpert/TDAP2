@@ -144,6 +144,21 @@
     <ClInclude Include="PiolaTransform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HCurlBilinearIntegrator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReferenceGeometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleReferenceGeometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDB\geomentity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDB\EdgeUse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="feprog.cpp">
@@ -159,6 +174,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MeshDB\meshregion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleReferenceGeometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

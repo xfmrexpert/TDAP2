@@ -28,7 +28,7 @@ public:
     // Pure virtual functions to be implemented by derived classes
     virtual int referenceDimensions() const = 0;
     virtual int spatialDimensions() const = 0;
-    virtual int numLocalDOFs() const = 0;
+    virtual size_t numLocalDOFs() const = 0;
 
     // Access to shape functions via base class pointers
     virtual const ElementTransform* Transform() const = 0;
@@ -54,8 +54,8 @@ public:
         return transform->spatialDimensions();
     }
 
-    int numLocalDOFs() const override {
-        return shape_function.N(point()).size(); // Placeholder
+    size_t numLocalDOFs() const override {
+        return shape_function.numShapeFunctions();
     }
 
     const ET* Transform() const override {

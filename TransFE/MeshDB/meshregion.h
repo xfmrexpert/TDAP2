@@ -38,7 +38,7 @@ public:
 
 	std::vector<Node*> getNodes() const override;
 
-	std::vector<MeshEdge*> getEdges() override {
+	std::vector<MeshEdge*> getEdges() const override {
 		std::vector<MeshEdge*> edges;
 		return edges;
 	}

@@ -11,11 +11,11 @@
 #pragma once
 
 #include "meshentity.h"
+#include "meshvertex.h"
 #include <vector>
 #include <array>
 #include <algorithm>
 
-class MeshVertex;
 class MeshFace;
 
 /// This class represents a mesh edge. A mesh edge is a 1D object bounded by two
@@ -111,9 +111,9 @@ public:
         return nodes;
     }
 
-    std::vector<MeshEdge*> getEdges() override {
+    std::vector<MeshEdge*> getEdges() const override {
         std::vector<MeshEdge*> edges;
-        edges.push_back(this);
+        edges.push_back(const_cast<MeshEdge*>(this));
         return edges;
     }
 

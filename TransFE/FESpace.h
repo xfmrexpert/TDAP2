@@ -38,8 +38,8 @@ struct ElementData
 template <typename T>
 class FESpaceBase {
 public:
-    FESpaceBase(Mesh* mesh, std::unique_ptr<IntegrationRule> int_rule) 
-        : mesh(mesh), int_rule(std::move(int_rule)) {
+    FESpaceBase(Mesh* mesh, std::unique_ptr<FiniteElementBase> fe, std::unique_ptr<IntegrationRule> int_rule) 
+        : mesh(mesh), fe(std::move(fe)), int_rule(std::move(int_rule)) {
         
     }
 
@@ -77,6 +77,7 @@ public:
     virtual inline std::vector<DOF<T>*> getDOFsForEntity(const MeshEntity& entity) = 0;
 
 protected:
+    std::unique_ptr<FiniteElementBase> fe;
     Mesh* mesh;
     std::unique_ptr<IntegrationRule> int_rule;
     std::vector<std::vector<std::unique_ptr<DOF<T>>>> DOFs; // Vector of DOFs for each node

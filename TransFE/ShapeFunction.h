@@ -22,7 +22,7 @@ class ShapeFunction {
 public:
     virtual ~ShapeFunction() = default;
     virtual FEFamily family() const = 0;
-    //virtual size_t numShapeFunctions() const = 0;
+    virtual size_t numShapeFunctions() const = 0;
 };
 
 class ScalarShapeFunction : public ShapeFunction
@@ -74,6 +74,8 @@ public:
         return dN;
     }
 
+    size_t numShapeFunctions() const override { return 3; }
+
 private:
     int polynomial_order; // 1 for linear, 2 for quadratic, etc.
 };
@@ -90,8 +92,8 @@ public:
 
 class NedelecShapeFunction : public VectorShapeFunction {
 public:
-    NedelecShapeFunction()
-        : order(1) // We can extend later for higher order
+    NedelecShapeFunction(size_t ref_dim, int order = 1)
+        : order(order) // We can extend later for higher order
     {
         
     }
@@ -170,6 +172,8 @@ public:
 
         return curlVals;
     }
+
+    size_t numShapeFunctions() const override { return 3; }
 
 private:
     int order;

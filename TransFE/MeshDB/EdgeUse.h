@@ -14,18 +14,12 @@
 
 #pragma once
 
-#include "MeshDB/mesh.h"
-#include "magaxistaticanalysis.h"
-#include <sstream>
+#include "meshedge.h"
 
-class FEProg {
+struct EdgeUse {
+	MeshEdge* edge;
+	int orientation;
 
-public:
-	std::unique_ptr<MagAxiStaticAnalysis> theAnalysis;
-	FEProg();
-	~FEProg();
-	std::shared_ptr<Mesh> run_FEA(const std::string& filename, int formulation);
-	/*ostringstream outStream;*/
+	EdgeUse(MeshEdge* edge, int orientation) : edge(edge), orientation(orientation) {};
 
 };
-	

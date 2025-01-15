@@ -35,8 +35,8 @@ public:
         const double mu_r = entity.getClassification()->getAttribute("mu");
         const double mu = 4.0 * PI * 1.0e-7 * mu_r;
 
-        // 1. Evaluate shape function derivatives in reference coords
-            //    => returns an (nDofs x nRefDims) matrix
+        // Evaluate shape function derivatives in reference coords
+        //    => returns an (nDofs x nRefDims) matrix
         // Attempt to cast to a scalar shape function 
         auto scalar_sf = dynamic_cast<const ScalarShapeFunction*>(fe.ShapeFunction());
         if (!scalar_sf) {

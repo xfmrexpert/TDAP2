@@ -23,13 +23,13 @@ class FESpaceHCurl : public FESpaceBase<T> {
 public:
     // Constructor now accepts FiniteElement<G, F>
     FESpaceHCurl(Mesh* mesh, std::unique_ptr<FiniteElementBase> fe, std::unique_ptr<IntegrationRule> int_rule)
-        : fe(std::move(fe)), FESpaceBase<T>(mesh, std::move(int_rule))
+        : FESpaceBase<T>(mesh, std::move(fe), std::move(int_rule))
     {
-        setupGlobalDofs();
+        setupGlobalDOFs();
     }
 
-    void setupGlobalDofs() override {
-        ndof = 0;
+    void setupGlobalDOFs() override {
+        this->ndof = 0;
         const auto& edges = this->mesh->getEdges();
         int nnd = 1; // fe->numLocalDOFs();
         this->DOFs.resize(edges.size() * nnd);
@@ -38,13 +38,13 @@ public:
             edges[i]->setID(i);
             for (size_t j = 0; j < nnd; j++) {
                 this->DOFs[i][j] = std::make_unique<DOF<T>>();
-                this->DOFs[i][j]->set_eqnumber(ndof);
-                ndof++;
+                this->DOFs[i][j]->set_eqnumber(this->ndof);
+                this->ndof++;
             }
         }
     }
 
-    void numberDOFs() override {
+    /*void numberDOFs() override {
         size_t labeldof = 0;
         const auto& edges = this->mesh->getEdges();
         for (const auto& edge : edges) {
@@ -56,7 +56,7 @@ public:
                 }
             }
         }
-    };
+    };*/
 
     inline std::vector<DOF<T>*> getDOFsForEntity(const MeshEntity& entity) override {
         std::vector<DOF<T>*> rtnDOFs;
@@ -70,10 +70,12 @@ public:
     }
 
     /// Access to the underlying FE object
-    const FiniteElementBase* getFiniteElement() const { return fe.get(); }
+    const FiniteElementBase* getFiniteElement() const { return this->fe.get(); }
 
     ElementData computeElementData(MeshEntity& entity) const
     {
+        // TODO: This needs to be written for HCurl elements
+
         ElementData eData;
 
         for (int q = 0; q < this->int_rule->numIntPts(); q++)
@@ -81,16 +83,12 @@ public:
             ElementQuadratureData qd;
 
             point ptRef = this->int_rule->IntPts()[q];
-            //const auto& geomShapeFunctions = fe->Transform()->N(ptRef);
 
-            point ptPhys = fe->Transform()->mapReferencePointToPhysical(ptRef, entity);
+            point ptPhys = this->fe->Transform()->mapReferencePointToPhysical(ptRef, entity);
             qd.ptPhys = ptPhys;
 
-            // Compute gradients in reference space
-            //auto geom_dN_ds = fe->Transform()->grad_N(ptRef);
-
             // Compute Jacobian for geometry using the specialized transform
-            Matrix<double> J = fe->Transform()->Jacobian(ptRef, entity);
+            Matrix<double> J = this->fe->Transform()->Jacobian(ptRef, entity);
             double detJ = J.determinant();
             auto invJ = J.inverse();
 
@@ -104,8 +102,8 @@ public:
             qd.detJ = detJ;
             qd.invJ = invJ;
 
-            // Transform gradients to physical space
-            qd.dN_dx = fe->ShapeFunction()->grad_N(ptRef) * invJ;
+            // Transform curls to physical space
+            // Use PiolaTransform?
 
             // Store everything into ElementQuadratureData
             eData.quadData.push_back(std::move(qd));
@@ -115,6 +113,6 @@ public:
     }
 
 private:
-    std::unique_ptr<FiniteElementBase> fe;
+    
 };
 

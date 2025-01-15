@@ -20,17 +20,29 @@
 #include "AxiMagBilinearIntegrator.h"
 #include "AxiMagLinearIntegrator.h"
 #include "AxiElementTransform.h"
+#include "FESpaceHCurl.h"
+#include "NedelecElement.h"
+#include "HCurlBilinearIntegrator.h"
 
 MagAxiStaticAnalysis::MagAxiStaticAnalysis(int form)
 {
 	formulation = form;
 	
-	std::unique_ptr<FESpaceH1<double>> fe_space;
+	std::unique_ptr<FESpaceBase<double>> fe_space;
 	std::unique_ptr<BilinearForm<double>> bilinear;
 	std::unique_ptr<LinearForm<double>> linear;
 
 	bool axi = true;
-	if (axi)
+	bool hcurl = true;
+	if (hcurl)
+	{
+		fe_space = std::make_unique<FESpaceHCurl<double>>(mesh.get(), std::make_unique<NedelecElement>(1, 2), std::make_unique<LinTriIntegrationRule>());
+		fe_space_ptr = fe_space.get();
+		bilinear = std::make_unique<BilinearForm<double>>(fe_space.get());
+		linear = std::make_unique<LinearForm<double>>(fe_space.get());
+		bilinear->addIntegrator(std::make_unique<HCurlBilinearIntegrator>(fe_space.get()));
+	}
+	else if (axi)
 	{
 		fe_space = std::make_unique<FESpaceH1<double>>(mesh.get(), std::make_unique<AxiLagrangeElement>(), std::make_unique<LinTriIntegrationRule>());
 		fe_space_ptr = fe_space.get();

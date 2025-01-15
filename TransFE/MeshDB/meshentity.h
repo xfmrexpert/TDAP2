@@ -75,7 +75,7 @@ public:
 	/// Returns an ordered list of nodes for the mesh entity
 	virtual std::vector<Node*> getNodes() const = 0;
 
-	virtual std::vector<MeshEdge*> getEdges() = 0;
+	virtual std::vector<MeshEdge*> getEdges() const = 0;
 
 	size_t getID() const {
 		return ID;

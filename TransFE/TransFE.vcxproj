@@ -168,6 +168,7 @@
     <ClInclude Include="FESpaceH1.h" />
     <ClInclude Include="FESpaceHCurl.h" />
     <ClInclude Include="GeometryLagrangeShapeFunction.h" />
+    <ClInclude Include="HCurlBilinearIntegrator.h" />
     <ClInclude Include="IntegrationRule.h" />
     <ClInclude Include="LagrangeElement.h" />
     <ClInclude Include="LagrangePolynomialBasis.h" />
@@ -179,6 +180,8 @@
     <ClInclude Include="MagBilinearIntegrator.h" />
     <ClInclude Include="MagLinearIntegrator.h" />
     <ClInclude Include="matrix.h" />
+    <ClInclude Include="MeshDB\EdgeUse.h" />
+    <ClInclude Include="MeshDB\geomentity.h" />
     <ClInclude Include="MeshDB\mesh.h" />
     <ClInclude Include="FiniteElement.h" />
     <ClInclude Include="MeshDB\meshedge.h" />
@@ -190,7 +193,9 @@
     <ClInclude Include="MeshDB\point.h" />
     <ClInclude Include="NedelecElement.h" />
     <ClInclude Include="PiolaTransform.h" />
+    <ClInclude Include="ReferenceGeometry.h" />
     <ClInclude Include="ShapeFunction.h" />
+    <ClInclude Include="TriangleReferenceGeometry.h" />
     <ClInclude Include="typedefs.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
@@ -200,6 +205,7 @@
     <ClCompile Include="MeshDB\geomentity.cpp" />
     <ClCompile Include="MeshDB\mesh.cpp" />
     <ClCompile Include="MeshDB\meshregion.cpp" />
+    <ClCompile Include="TriangleReferenceGeometry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="LICENSE.txt" />
