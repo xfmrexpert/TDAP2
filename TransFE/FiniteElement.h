@@ -26,8 +26,8 @@ public:
     virtual ~FiniteElementBase() = default;
 
     // Pure virtual functions to be implemented by derived classes
-    virtual int referenceDimensions() const = 0;
-    virtual int spatialDimensions() const = 0;
+    virtual size_t referenceDimensions() const = 0;
+    virtual size_t spatialDimensions() const = 0;
     virtual size_t numLocalDOFs() const = 0;
 
     // Access to shape functions via base class pointers
@@ -46,11 +46,11 @@ public:
 
     virtual ~FiniteElement() = default;
 
-    int referenceDimensions() const override {
+    size_t referenceDimensions() const override {
         return transform->referenceDimensions();
     }
 
-    int spatialDimensions() const override {
+    size_t spatialDimensions() const override {
         return transform->spatialDimensions();
     }
 

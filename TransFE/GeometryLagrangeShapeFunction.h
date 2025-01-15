@@ -19,7 +19,7 @@
 
 class GeometryLagrangeShapeFunction {
 public:
-    GeometryLagrangeShapeFunction(int dimension, int order)
+    GeometryLagrangeShapeFunction(size_t dimension, size_t order)
         : dim(dimension), basis(dimension, order)
     {
     }

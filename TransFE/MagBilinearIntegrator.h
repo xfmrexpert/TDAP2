@@ -28,7 +28,7 @@ public:
 
     Matrix<double> evaluatePt(point ptRef, const FiniteElementBase& fe, MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
-        int nDofs = fe.numLocalDOFs();
+        size_t nDofs = fe.numLocalDOFs();
 
         Matrix<double> Ke = Matrix<double>::Zero(nDofs, nDofs);
 

@@ -50,6 +50,7 @@ public:
 
 	/// Adds an edge to the list of adjacent edges
     void addEdge(MeshEdge& new_edge) {
+        throw std::logic_error("This hasn't been completed and shit is going to go up in flames.");
         int orientation = 0;
         for (const auto& edge_use : MeshEdgeUses) {
             if (edge_use.edge == &new_edge) return;

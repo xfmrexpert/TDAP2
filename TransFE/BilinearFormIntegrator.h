@@ -32,7 +32,7 @@ public:
     void evaluate(MeshEntity& entity, Assembler<double>& assem)
     {
         const auto& fe = feSpace->getFiniteElement();
-        int nDofs = fe->numLocalDOFs();
+        size_t nDofs = fe->numLocalDOFs();
 
         Matrix<double> Ke = Matrix<double>::Zero(nDofs, nDofs);
 

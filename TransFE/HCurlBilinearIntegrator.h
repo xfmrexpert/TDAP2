@@ -29,7 +29,7 @@ public:
     Matrix<double> evaluatePt(point ptRef, const FiniteElementBase& fe, MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
         // 1) The # of local DOFs for a Nedelec element (vector field).
-        int nDofs = fe.numLocalDOFs();
+        size_t nDofs = fe.numLocalDOFs();
 
         // 2) Build an nDofs x nDofs local stiffness contribution.
         Matrix<double> Ke = Matrix<double>::Zero(nDofs, nDofs);

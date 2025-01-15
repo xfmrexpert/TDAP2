@@ -31,7 +31,7 @@ public:
     void evaluate(MeshEntity& entity, Assembler<double>& assem) const
     {
         const auto& fe = feSpace->getFiniteElement();
-        int nDofs = fe->numLocalDOFs();
+        size_t nDofs = fe->numLocalDOFs();
 
         Vector<double> f = Vector<double>::Zero(nDofs);
 

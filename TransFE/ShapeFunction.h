@@ -41,12 +41,12 @@ public:
 class LagrangeShapeFunction : public ScalarShapeFunction
 {
 public:
-    LagrangeShapeFunction(size_t ref_dim, int order = 1)
+    LagrangeShapeFunction(size_t ref_dim, size_t order = 1)
         : ScalarShapeFunction(ref_dim), polynomial_order(order)
     {
     };
 
-    int getOrder() const { return polynomial_order; }
+    size_t getOrder() const { return polynomial_order; }
 
     Vector<double> N(const point& pt) const override
     {
@@ -77,7 +77,7 @@ public:
     size_t numShapeFunctions() const override { return 3; }
 
 private:
-    int polynomial_order; // 1 for linear, 2 for quadratic, etc.
+    size_t polynomial_order; // 1 for linear, 2 for quadratic, etc.
 };
 
 class VectorShapeFunction : public ShapeFunction {
@@ -92,7 +92,7 @@ public:
 
 class NedelecShapeFunction : public VectorShapeFunction {
 public:
-    NedelecShapeFunction(size_t ref_dim, int order = 1)
+    NedelecShapeFunction(size_t ref_dim, size_t order = 1)
         : order(order) // We can extend later for higher order
     {
         
@@ -176,6 +176,6 @@ public:
     size_t numShapeFunctions() const override { return 3; }
 
 private:
-    int order;
+    size_t order;
     /*ElementType elementType;*/
 };

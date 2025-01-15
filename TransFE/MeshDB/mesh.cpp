@@ -435,7 +435,8 @@ void Mesh::handleFaceElement(std::ifstream& meshFile, size_t id, int type, size_
 
 	meshFile >> firstNode;
 	node2 = firstNode;
-
+	// TODO: If we can rework this to be node-based (ie. create all nodes first) we can pass in an ordered set of edges to
+	// MeshFace, thereby easing the creation of EdgeUses.  Maybe?
 	for (size_t j = 0; j < numEdges; ++j) {
 		node1 = node2;
 		if (j < (numEdges - 1)) {

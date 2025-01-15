@@ -16,9 +16,9 @@
 #include "typedefs.h"
 #include "MeshDB/point.h"
 
-inline double factorial(int n) {
+inline double factorial(size_t n) {
     double result = 1.0;
-    for (int i = 1; i <= n; ++i) {
+    for (size_t i = 1; i <= n; ++i) {
         result *= i;
     }
     return result;
@@ -26,7 +26,7 @@ inline double factorial(int n) {
 
 class LagrangePolynomialBasis {
 public:
-    LagrangePolynomialBasis(int dimension, int order)
+    LagrangePolynomialBasis(size_t dimension, size_t order)
         : dim(dimension), polyOrder(order)
     {
         if (dim != 2) {
@@ -50,11 +50,11 @@ public:
     }
 
     // Evaluate the shape function i at the reference point
-    double evaluate(int iBF, const point& ptRef) const {
+    double evaluate(size_t iBF, const point& ptRef) const {
         // 1) Identify (i, j) from our nodeData
-        int i = nodeData[iBF].i;
-        int j = nodeData[iBF].j;
-        int k = polyOrder - i - j;
+        size_t i = nodeData[iBF].i;
+        size_t j = nodeData[iBF].j;
+        size_t k = polyOrder - i - j;
 
         double r = ptRef.x;
         double s = ptRef.y;
@@ -72,9 +72,9 @@ public:
     }
 
     // Evaluate gradient, etc.
-    Vector<double> evaluateGradient(int iBF, const point& ptRef) const {
-        int i = nodeData[iBF].i;
-        int j = nodeData[iBF].j;
+    Vector<double> evaluateGradient(size_t iBF, const point& ptRef) const {
+        size_t i = nodeData[iBF].i;
+        size_t j = nodeData[iBF].j;
         int k = polyOrder - i - j;
 
         double r = ptRef.x;
@@ -122,28 +122,28 @@ public:
     }
 
     // Possibly return # of basis functions, etc.
-    int numBasisFunctions() const {
+    size_t numBasisFunctions() const {
         return (polyOrder + 1) * (polyOrder + 2) / 2;
     }
 
 private:
-    int dim;
-    int polyOrder;
+    size_t dim;
+    size_t polyOrder;
 
     // factorial cache for efficiency
     std::vector<double> factCache;
 
     struct NodeIJ {
-        int i;
-        int j;
+        size_t i;
+        size_t j;
     };
     std::vector<NodeIJ> nodeData;
 
     /// Build node layout for a triangle of order p:
     /// i, j >= 0, i+j <= p
     void buildNodeLayout() {
-        for (int i = 0; i <= polyOrder; i++) {
-            for (int j = 0; j <= polyOrder - i; j++) {
+        for (size_t i = 0; i <= polyOrder; i++) {
+            for (size_t j = 0; j <= polyOrder - i; j++) {
                 NodeIJ n;
                 n.i = i;
                 n.j = j;

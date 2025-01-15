@@ -29,11 +29,11 @@ public:
 
 	virtual ~ElementTransform() = default;
 
-    int referenceDimensions() const {
+    size_t referenceDimensions() const {
         return numParametricDims;
     };
 
-    int spatialDimensions() const {
+    size_t spatialDimensions() const {
         return numSpatialDims;
     };
 

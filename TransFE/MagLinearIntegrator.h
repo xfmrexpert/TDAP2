@@ -29,7 +29,7 @@ public:
 
     Vector<double> evaluatePt(point ptRef, const FiniteElementBase& fe, const MeshEntity& entity, const ElementQuadratureData& quadData) const override
     {
-        int nDofs = fe.numLocalDOFs();
+        size_t nDofs = fe.numLocalDOFs();
         Vector<double> f = Vector<double>::Zero(nDofs);
 
         double J = entity.getClassification()->getAttribute("J"); //Constant current density in element
